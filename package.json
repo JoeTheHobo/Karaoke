@@ -1,0 +1,23 @@
+{
+  "name": "kareoke",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.12",
+    "axios": "^1.12.2",
+    "express": "^5.1.0",
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.3",
+    "nanospinner": "^1.2.2",
+    "piper-mgr": "^0.1.0",
+    "socket.io": "^4.8.1"
+  }
+}

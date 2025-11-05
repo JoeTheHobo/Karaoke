@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kareoke</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="scene" id="scene_screen">
+        <div class="column column_1">
+            <img class="karaokeBanner" src="img/logo.png" alt="">
+            <div class="solidLine"></div>
+            <div class="title">Add Song!</div>
+            <div class="qrCodeHolder">
+                <img class="qrCodeImg" src="img/qr.png" alt="">
+            </div>
+            <div class="solidLine currentSongElem"></div>
+            <div class="title currentSongElem">Current Song</div>
+            <div class="currentSong queueSong currentSongElem">
+                <div class="elTopRow2">
+                    <div class="ebrLeft2 currentSongSinger"></div>
+                </div>
+                <div class="elBottomRow2">
+                    <div class="etrLeft currentSongSong"></div>
+                    <div class="etrRight currentSongArtist"></div>
+                </div>
+            </div>
+            <div class="solidLine"></div>
+            <div class="title queueElem">Next In Queue</div>
+            <div class="queueList queueElem"></div>
+
+            <div class="title noQueueElem">No Songs In Queue</div>
+        </div>
+        <div class="displayingPort">
+            <div class="appearingText"></div>
+            <video class="displayingVideo"></video>
+            <div class="durrationBar"></div>
+        </div>
+    </div>
+    
+    
+    <div class="scene" id="scene_createuser">
+        <img class="karaokeBanner" src="img/logo.png" alt="">
+        <div class="solidLine"></div>
+        <div class="title">Choose Your Name!</div>
+        <div class="warningText" id="nameWarningText"></div>
+        <input class="usernameInput" maxlength="20" type="text" placeholder="Any Name...">
+        <button class="submitName">Start Singing!</button>
+
+    </div> 
+    <div class="scene" id="scene_user">
+        <img class="karaokeBanner" src="img/logo.png" alt="">
+        <div class="solidLine"></div>
+        <div class="title">Sign in Or Create Unique Pin</div>
+        <div class="pinSigning">
+            <div class="numberInput"></div>
+            <div class="pinNumbers">
+                <div class="inputRow">
+                    <div class="inputSelect">1</div>
+                    <div class="inputSelect">2</div>
+                    <div class="inputSelect">3</div>
+                </div>
+                <div class="inputRow">
+                    <div class="inputSelect">4</div>
+                    <div class="inputSelect">5</div>
+                    <div class="inputSelect">6</div>
+                </div>
+                <div class="inputRow">
+                    <div class="inputSelect">7</div>
+                    <div class="inputSelect">8</div>
+                    <div class="inputSelect">9</div>
+                </div>
+                <div class="inputRow">
+                    <div class="inputInvis"></div>
+                    <div class="inputSelect">0</div>
+                    <div class="inputDelete"><</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scene" id="scene_usersigned">
+        <div id="singerName" class="subtitle"></div>
+        <img class="karaokeBanner" src="img/logo.png" alt="">
+        <div class="solidLine"></div>
+        <div class="tabList">
+            <div class="tab" id="tab_queue">Queue</div>
+            <div class="tab" id="tab_addsong">Add Song</div>
+            <div class="tab adminOnly" id="tab_adminControls">Admin</div>
+        </div>
+        <div class="tabScene">
+
+        </div>
+    </div>
+
+    <div class="popup">
+        <div class="popup_title">Add 'We Three Kings' To Queue?</div>
+        <div class="popup_bottomRow">
+            <button class="popup_button popup_cancel">Cancel</button>
+            <button class="popup_button popup_affirm">Add To Queue!</button>
+        </div>
+    </div>
+    <div class="queuePopup">
+        <div class="qpSetting" id="qpExit">Exit</div>
+        <div class="qpSetting qpAdmin" id="qpMoveTop">Move Top</div>
+        <div class="qpSetting qpAdmin" id="qpMoveUp">Move Up</div>
+        <div class="qpSetting" id="qpMoveDown">Move Down</div>
+        <div class="qpSetting" id="qpMoveBottom">Move Bottom</div>
+        <div class="qpSetting" id="qpChangeSong">Change Song</div>
+        <div class="qpSetting" id="qpEmpty"></div>
+        <div class="qpSetting qpRed" id="qpRemove">Remove</div>
+    </div>
+
+
+    <script src="io.js"></script>
+    <script src="library_simple_v16.js"></script>
+    <script src="server.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
