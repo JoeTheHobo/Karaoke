@@ -1,4 +1,4 @@
-/*
+ /*
     Download:
     npm init -y
     npm install express socket.io
@@ -12,19 +12,25 @@
 
     Nodemon Usage:
     nodemon app.js
-*/
-let max_distance = 5;
-let users = [];
-let queue = [];
 
-const { exec } = require("child_process");
+    ngrok http 3000
+*/
+
+let max_distance = 5;
+let adminID = false;
+let queue = [];
+let setting_queueType = "Advanced"; //"Basic" "Advanced"
+let setting_iteration = "QR Wait";//"QR" "Instant" "QR Wait"
+let sessionCode = Math.floor(Math.random() * 99999);
+let users = [];
+
 const path = require("path");
 
 const fs = require("fs");
-const ytdl = require("@distube/ytdl-core");
-const { createSpinner } = require("nanospinner");
+const ytdlp = require("yt-dlp-exec"); // directly the function
 
 const simple = require("./server_simple.js");
+const QRCode = require("qrcode");
 
 const express = require("express");
 const http = require("http");
@@ -34,14 +40,10 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const { spawn } = require("child_process");
-
 app.use(express.static("public"));
 const axios = require("axios");
 
-const piperPath = "C:\\piper\\piper.exe";
-const modelPath = "C:\\piper\\models\\en_US-amy-medium.onnx";
-const configPath = "C:\\piper\\models\\en_US-amy-medium.onnx.json";
+let waitingOnQR = false;
 
 app.get("/api/search", async (req, res) => {
   const query = req.query.q;
@@ -98,83 +100,68 @@ app.get(/.*/, (req, res) => {
 // Handle connections
 io.on("connection", (socket) => {
   console.log("Station connected:", socket.id);
-    io.to(socket.id).emit("setSocket",socket.id);
     gatherAllowedChannels();
+    socket.uid = false;
 
-    
-    socket.on("addAllowedChannel", (channelName, formatArray) => {
-      fs.readFile("./allowedChannels.json", "utf8", (err, data) => {
-        if (err) {
-          console.error("Error reading allowedChannels.json:", err);
-          return;
-        }
+    socket.on("checkIfQR",(ssCode,uid) => {
+      if (ssCode !== sessionCode) return;
+      if (!waitingOnQR) return;
+      if (waitingOnQR.id !== uid) return;
 
-        let allowedChannels;
-        try {
-          allowedChannels = JSON.parse(data);
-        } catch (parseErr) {
-          console.error("Error parsing allowedChannels.json:", parseErr);
-          return;
-        }
-
-        const exists = allowedChannels.YTChannels.some(
-          ch => ch.name.toLowerCase() === channelName.toLowerCase()
-        );
-
-        if (!exists) {
-          allowedChannels.YTChannels.push({
-            name: channelName,
-            format: formatArray
-          });
-
-          fs.writeFile(
-            "./allowedChannels.json",
-            JSON.stringify(allowedChannels, null, 2),
-            writeErr => {
-              if (writeErr) {
-                console.error("Error writing allowedChannels.json:", writeErr);
-                return;
-              }
-              console.log(`Added new channel: ${channelName}`);
-              gatherAllowedChannels();
-            }
-          );
-        } else {
-          console.log(`Channel already exists: ${channelName}`);
-          gatherAllowedChannels();
-        }
-      });
-    });
-    socket.on("checkCode",(accountID,code) => {
-        for (let i = 0; i < users.length; i++) {
-            if (users[i].code === code) {
-                io.to(accountID).emit("returnCheckCode",users[i]);
-                return;
-            }
-        }
-        let admin = users.length == 0;
-        io.to(accountID).emit("returnCheckCode",false,code,admin);
+      socket.emit("promptQR");
     })
+    socket.on("userJoined", (ssCode,uCode) => {
+
+      let foundUser = false;
+      for (let i = 0; i < users.length; i++) {
+        let user = users[i];
+        if (user.uid === uCode) foundUser = user; 
+      }
+      if (foundUser && ssCode === sessionCode) {
+        socket.user = foundUser;
+      } else {
+        let uid = Math.floor(Math.random() * 99999);
+        let obj = {
+          uid: uid,
+          admin: adminID == false,
+        }
+        users.push(obj)
+        socket.user = obj;
+      }
+
+      adminID = true;
+      socket.emit("setSocket",setting_queueType,setting_iteration,sessionCode,socket.user);
+
+    }) 
+    socket.on("screenJoined", (ssCode,uCode) => {
+      socket.emit("setSocket",setting_queueType,setting_iteration);
+    })
+    socket.on("PromptOk",(id) => {
+      if (!waitingOnQR) return;
+      if (waitingOnQR.id !== id) return;
+      io.emit("playVideo",waitingOnQR.videoID,false,true);
+      waitingOnQR = false;
+    })
+    socket.on("request_qr", async (url) => {
+      try {
+        // Generate QR *in memory*
+        const pngBuffer = await QRCode.toBuffer(url);
+
+        // Send the QR image as base64 (or raw buffer)
+        socket.emit("qr_result", {
+          base64: pngBuffer.toString("base64")
+        });
+
+      } catch (err) {
+        console.error(err);
+        socket.emit("qr_error", "QR generation failed");
+      }
+    });
     socket.on("updateQueue",function() {
         io.emit("updatedQueue",queue);
     })
-    socket.on("getUsersList",() => {
-      io.to(socket.id).emit("returnedUsersList",users);
-    })
     socket.on("adminControls",(control) => {
       io.emit("screenMusicControl",control);
-    })
-    socket.on("createUser",(accountID,name,code) => {
-        let admin = users.length === 0;
-        let user = {
-            name: name,
-            code: code,
-            id: Date.now() + simple.rnd(9999),
-            admin: admin,
-        }
-        users.push(user);
-        io.to(accountID).emit("returnCheckCode",user);
-        io.emit("updatedQueue",queue);
     })
     socket.on("videoEnded",()=> {
       finishedSong();
@@ -188,6 +175,15 @@ io.on("connection", (socket) => {
           alterQueue("Change Song",obj.changingSong,obj);
           return;
         }
+
+        if (setting_queueType.toLowerCase() === "basic") {
+          queue.push(obj);
+          readySong(queue[queue.length-1])
+          io.emit("updatedQueue",queue);
+          return;
+        }
+
+
         let singerList = [];
         let allowedInsert = undefined;
         findingSpot: for (let i = 0; i < queue.length; i++) {
@@ -236,7 +232,6 @@ io.on("connection", (socket) => {
 function readySong(q) {
   if (!q.queueID) q.queueID = simple.rnd(9999999);
   downloadVideo(q.videoId);
-  gatherVoices(q);
   queueHandler();
 }
 
@@ -265,12 +260,10 @@ function queueHandler() {
   playSong();
 }
 function playSong() {
-  //Security
   if (!queue.length) {
     console.log("No songs in queue");
     queueWorking = false;
-    io.emit("speech",emptyQueueTexts.shift());
-    if (emptyQueueTexts.length === 0) generateEmptyQueueText();
+    io.emit("updatedQueue",queue)
     return;
   }
   /* song = 
@@ -286,34 +279,48 @@ function playSong() {
   if (!songIsReady) {
     if (!queue[0].statedNotReady) {
       queue[0].statedNotReady = true;
-      io.emit("speech",waitingTexts.shift())
-      if (waitingTexts.length === 0) generateWaitingTexts();
     } 
-    setTimeout(playSong,10000);
+    setTimeout(playSong,2000);
     return;
   }
 
-  let song = queue.shift();
-
-  if (queue.length > 0) song.introSpeech += `/delay/${queue[0].singer} is in the hold.`;
-  if (queue.length > 1) song.introSpeech += `/delay/${queue[1].singer} is on deck.`;
-  else song.introSpeech += QRReminders.shift();
-  if (QRReminders.length === 0) generateQRReminders();
+  let song = queue[0];
+  queue[0].playing = true;
 
   io.emit("updatedQueue",queue)
   io.emit("settingSong",song)
-  setTimeout(function() {
-    io.emit("playVideo", song.videoId);
-  },15000);
+  if (setting_iteration === "Instant") {
+    setTimeout(function() {
+      io.emit("playVideo", song.videoId);
+    },15000);
+  }
+  if (["QR","QR Wait"].includes(setting_iteration)) {
+      waitingOnQR = {
+        id: song.singerID,
+        time: Date.now(),
+        accepted: false,
+        videoID: song.videoId,
+      }
+      io.emit("playVideo", song.videoId,song.singerID);
+      if (setting_iteration === "QR") {
+        setTimeout(function() {
+          if (waitingOnQR.accepted) {
+            waitingOnQR = false;
+            return;
+          }
+          waitingOnQR = false;
+          playSong();
+        },30000);
+      }
+  }
 }
 function checkSongReadiness(q) {
-  if (!q.introSpeech) return false;
-  if (!q.outroSpeech) return false;
   let downloaded =  checkIfSongIsDownloaded(q.videoId);
   if (!downloaded) return false;
   return true;
 }
 function finishedSong() {
+  queue.shift();
   playSong();
 }
 function checkIfSongIsDownloaded(videoId) {
@@ -326,11 +333,11 @@ function checkIfSongIsDownloaded(videoId) {
 
 
 let downloadList = [];
-let downloadFailedList = [];
 let downloaderWorking = false;
 function downloadVideo(videoId) {
   let downloaded = checkIfSongIsDownloaded(videoId);
   if (downloaded) return;
+  if (downloadList.includes(videoId)) return;
 
   downloadList.push(videoId);
 
@@ -339,62 +346,40 @@ function downloadVideo(videoId) {
     downloadVideo_helper(downloadList[0],true); 
   }
 }
-function downloadVideo_helper(videoId,condition, retries = 10) {
+
+function downloadVideo_helper(videoId) {
   const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
-
-  // Folder to save downloads
   const downloadFolder = path.join(__dirname, "public/Song Downloads");
-
-  console.log("⠋ Downloading video...");
-
   const ffmpegPath = "C:\\ffmpeg-8.0-essentials_build\\bin\\ffmpeg.exe";
 
   // Save file as Song Downloads\<videoId>.mp4
   const outputPath = path.join(downloadFolder, `${videoId}.%(ext)s`);
-  
 
-  const cmd = `python -m yt_dlp -f "bestvideo[ext=mp4][height<=1080]+bestaudio[ext=m4a]/best[ext=mp4][height<=1080]" --ffmpeg-location "${ffmpegPath}" -o "${outputPath}" "${videoURL}"`;
+  console.log("⠋ Downloading video...");
 
-
-  const downloader = exec(cmd);
-
-  downloader.stdout.on("data", (data) => {
-    process.stdout.write(data); // Shows progress in real-time
-  });
-
-  downloader.stderr.on("data", (data) => {
-    process.stderr.write(data);
-  });
-
-  downloader.on("close", (code) => {
-    if (code === 0) {
+  ytdlp(videoURL, {
+    output: outputPath,
+    ffmpegLocation: ffmpegPath,
+    format:
+      'bestvideo[ext=mp4][height<=1080]+bestaudio[ext=m4a]/best[ext=mp4][height<=1080]',
+  })
+    .then(() => {
       console.log("✅ Download complete!");
-      if (condition) {
-        downloadList.shift();
-      } else {
-        downloadFailedList.shift();
-      }
+      downloadList.shift();
       downloadFinished();
-    } else if (retries > 0) {
-      console.warn(`⚠️ Download failed, retrying (${retries} left)...`);
-      setTimeout(() => downloadVideo_helper(videoId,condition, retries - 1), 5000);
-    } else {
-      console.error(`❌ yt-dlp exited with code ${code}`);
-      downloadFailedList.push(videoId);
+    })
+    .catch((err) => {
+      console.error("⚠️ Download failed:", err.message || err);
+      //Emit To Socket It Failed
+      downloadList.shift();
       downloadFinished();
-      
-    }
-  });
+    });
 }
 function downloadFinished() {
   if (downloadList.length > 0) {
-    downloadVideo_helper(downloadList[0],true);
+    downloadVideo_helper(downloadList[0]);
   } else {
-    if (downloadFailedList.length > 0) {
-      downloadVideo_helper(downloadFailedList[0],false);
-    } else {
-      downloaderWorking = false;
-    }
+    downloaderWorking = false;
   }
 }
 function alterQueue(code,queueID,obj) {
@@ -430,150 +415,9 @@ function alterQueue(code,queueID,obj) {
     queue[index].artist = obj.artist;
     queue[index].url = obj.url;
     queue[index].videoId = obj.videoId;
-    queue[index].introSpeech = false;
-    queue[index].outroSpeech = false;
     readySong(queue[index]);
   }
 
 
   io.emit("updatedQueue",queue);
 }
-
-
-
-let waitingTexts = [];
-let emptyQueueTexts = [];
-let QRReminders = [];
-async function generateWaitingTexts() {
-  for (let i = 0; i < 5; i++) {
-    let text = await announcer("waiting");
-    waitingTexts.push(text);
-  }
-}
-async function generateEmptyQueueText() {
-  for (let i = 0; i < 5; i++) {
-    let text = await announcer("emptyQueue");
-    emptyQueueTexts.push(text);
-  }
-}
-async function generateQRReminders() {
-  for (let i = 0; i < 5; i++) {
-    let text = await announcer("qr");
-    QRReminders.push(text);
-  }
-}
-
-async function gatherVoices(q) {
-  if (!q.introSpeech) q.introSpeech = await announcer("upNext",q);
-  if (!q.outroSpeech) q.outroSpeech = await announcer("songEnd",q);
-
-
-}
-
-let allKJS = `Keep everything to one short sentance.`;
-let typesOfKjs = [
-  "",
-];
-let kjOfTheNight = simple.rnd(typesOfKjs) + ". " + allKJS;
-
-function generateLine(prompt) {
-  return new Promise((resolve, reject) => {
-    prompt = kjOfTheNight + " " + prompt + "  Keep it to one short sentence. Don't say anything else. Don't use too many adjectives.";
-    const ollamaPath = "C:\\Users\\John\\AppData\\Local\\Programs\\Ollama\\ollama.exe";
-    const ollama = spawn(ollamaPath, ["run", "mistral"]);
-
-    let output = "";
-    ollama.stdout.on("data", (data) => (output += data.toString()));
-    ollama.stderr.on("data", (data) => {
-      const text = data.toString().trim();
-      //if (text) console.error("OLLAMA STDERR:", text);
-    });
-    ollama.on("close", () => resolve(output.trim()));
-
-    ollama.stdin.write(prompt);
-    ollama.stdin.end();
-  });
-}
-
-
-async function announcer(stage,song) {
-  let text = "";
-
-  switch(stage) {
-    case "upNext":
-      text = await generateLine(`Create a short announcement introducing ${song.singer} who is singing ${song.song} by ${song.artist}.`);
-      break;
-    case "songEnd":
-      text = await generateLine(`Create a short announcement to make some noise for ${song.singer}`)
-      break;
-    case "waiting":
-      text = await generateLine(`Create a short announcement to let people know the song is still loading and it'll only be a second.`)
-      break;
-    case "emptyQueue":
-      text = await generateLine(`Create a short announcement that there are no more songs in queue, people can add a song by using the QR Code of screen.`)
-      break;
-    case "qr":
-      text = await generateLine(`Create a reminder encouraging people to scan the QR code on Screen to join the song queue.`);
-      break;
-  }
-
-  return text;
-}
-
-
-function speak(text, fileName = "output") {
-  return new Promise((resolve, reject) => {
-    // Join your folder path safely
-    const outputPath = path.join(__dirname, "public", "Voice Downloads", fileName + ".wav");
-
-    const piper = spawn(piperPath, [
-      "--model", modelPath,
-      "--config", configPath,
-      "--output_file", outputPath,
-      "--quiet"
-    ], { cwd: "C:\\piper" }); // important to run in Piper folder
-
-    let stderr = "";
-    piper.stderr.on("data", (data) => { stderr += data.toString(); });
-
-    piper.on("close", (code) => {
-      if (code === 0) resolve(outputPath);
-      else reject(new Error(stderr || `Piper exited with code ${code}`));
-    });
-
-    piper.stdin.write(text);
-    piper.stdin.end();
-  });
-}
-function clearVoiceDownloads() {
-  const dir = path.join(__dirname, "public", "Voice Downloads");
-
-  if (!fs.existsSync(dir)) return; // Folder doesn't exist, nothing to do
-
-  const files = fs.readdirSync(dir);
-
-  for (const file of files) {
-    const filePath = path.join(dir, file);
-    try {
-      if (fs.lstatSync(filePath).isFile()) {
-        fs.unlinkSync(filePath); // delete file
-      }
-    } catch (err) {
-    }
-  }
-
-}
-
-clearVoiceDownloads();
-generateEmptyQueueText();
-generateWaitingTexts();
-generateQRReminders();
-
-
-/*
-(async () => {
-  console.log("Generating speech...");
-  const file = await speak("Next up, John is singing Car Radio by Twenty One Pilots!",223);
-  console.log("✅ Done! Saved as", file);
-})();
-*/

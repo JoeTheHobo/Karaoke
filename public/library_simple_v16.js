@@ -18,6 +18,16 @@ function pluginsIncludes(name,version) {
 Array.prototype.insert = function ( index, ...items ) {
     this.splice( index, 0, ...items );
 };
+Array.prototype.html = function(html) {
+    for (let i = 0; i < this.length; i++) {
+        this[i].html(html);
+    }
+    return this;
+} 
+Element.prototype.html = function(html) {
+    this.innerHTML = html;
+    return this;
+}
 Object.prototype.classRemove = function(classes) {
     if (this.length == undefined) {
         [this].classRemove(classes);
@@ -407,6 +417,12 @@ function rnd(num,to,exp) {
 */
 function create(ele,x = null) {
     return document.body.create(ele,x);
+}
+Array.prototype.create = function(elem,x = null) {
+    for (let i = 0; i < this.length; i++) {
+        this[i].create(elem,x);
+    }
+    return this;
 }
 Object.prototype.create = function(elem,x = null) {
     let all = [];

@@ -1,12 +1,12 @@
 body,html {
-    background: #FFD1DC;
+    background-color: #F7A9D6;
     width: 100%;
     height: 100%;
     margin: 0;
     overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
     transition: background .2s ease-in-out;
     user-select: none;
+  font-family: "Inter", sans-serif;
 }
 
 .scene {
@@ -17,16 +17,25 @@ body,html {
 }
 .qrCodeHolder {
     width: 80%;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 .qrCodeImg {
     width: 100%;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .column_1 {
+    padding: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 20%;
-    background: #d1798e;
+    background-color: #ffffff27;
+background-image: linear-gradient(319deg, #6a5acd 0%, #c54b8c 37%, #b284be 100%);
+  backdrop-filter: blur(6px); /* Adjust the pixel value for desired blur intensity */
+  box-shadow: 0px 0 10px rgba(0, 0, 0, 0.5); /* 5px right offset, 0 vertical offset, 10px blur, black with 50% opacity */
+
     height: 100%;
 }
 .displayingPort {
@@ -45,10 +54,10 @@ body,html {
     position: relative;
     width: 90%;
     height: 50px;
-    background: rgb(238, 238, 238);
+    background: rgba(0, 0, 0, 0.322);
     border-radius: 10px;
     margin-bottom: 15px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     padding: 10px;
     flex-direction: column;
 }
@@ -80,15 +89,16 @@ body,html {
     text-align: center;
     width: 100%;
     color: rgb(255, 255, 255);
-    text-shadow: -3px 2px 2px #000000;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.322);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .currentSongElem,.queueElem {
-    display: none;
 }
 .ebrLeft2 {
     font-size: 22px;
     font-weight: bold;
-    color: black;
+    color: white;
     padding-left: 5px;
   white-space: nowrap;       /* don't wrap to new line */
   overflow: hidden;          /* hide overflowing text */
@@ -97,24 +107,23 @@ body,html {
 
 
 .subtitle {
-    color: white;
+    color: #f3f3f3;
     font-size: 20px;
     font-weight: bold;
-    margin: 5px;
+    opacity: 0.9;
+    margin-bottom: 3px;
 }
 .title {
-    color: #523425;
-    font-size: 25px;
+    color: #ffffff;
+    font-size: 30px;
     font-weight: bold;
     margin: 5px;
 }
-
 
 #scene_user,#scene_createuser {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 25px; 
 }
 .pinSigning {
     display: flex;
@@ -132,19 +141,22 @@ body,html {
     margin-bottom: 10px;
 
 }
-.numberInput {
-    width: 100px;
-    height: 35px;
-    line-height: 35px;
-    text-align: center;
-    font-size: 30px;
-    color: #c85738;
+.numberInputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.inputNumber {
+    border-radius: 3px;
     background-color: white;
-    user-select: none;
-    border-radius: 5px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-
+    width: 55px;
+    aspect-ratio: 1/1;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
 }
 .pinNumbers {
     display: flex;
@@ -175,20 +187,23 @@ body,html {
     background: white;
     display: flex;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     justify-content: center;
-    font-size: 25px;
+    font-size: 35px;
     margin: 3px;
     border-radius: 5px;
-    transition: all .2s ease-in-out;
+    transition: all .2s ease-out;
     user-select: none;
+    outline: none;
+    border: none;
+}
+.inputSelect:active,.inputDelete:active {
+    font-size: 23px;
 }
 .clicking { 
     background: pink;
 }
 
-#scene_user,#scene_createuser {
-    justify-content: start !important;
-}
 
 #scene_usersigned {
     flex-direction: column;
@@ -197,32 +212,51 @@ body,html {
 .karaokeBanner {
     width: 100%;
 }
+.karaokeBanner2 {
+    position: absolute;
+    right: -30px;
+    bottom: -30px;
+    width: 150px;
+}
 
 .tabList { 
+
   display: flex;
-  width: 95%;
+  width: 100%;
+  height: 65px;
+  background: rgba(0, 0, 0, 0.644);
   color: white;
   text-align: center;
+  flex-direction: row;
+  align-items: center;
 }
 .tab {
-  flex: 1;
-  cursor: pointer;
-  height: 35px;
-  line-height: 35px;
+    flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   user-select: none;
   transition: all 0.2s ease-in-out;
-  border-radius: 20px;
-  font-size: 20px;
   -webkit-tap-highlight-color: transparent; /* remove blue flash on mobile */
   outline: none; /* prevent focus outline */
+  opacity: 0.5;
+}
+.tabText {
+    font-size: 12px;
+    margin-top: 3px;
 }
 .tabSelected {
-    background: #533524;
-    color: white;
+    opacity: 1;
+}
+.tabIcon {
+    height: 60%;
+    aspect-ratio: 1/1;
 }
 .warningText {
     display: none;
-    color: red;
+    color: rgba(255, 255, 255, 0.527);
     font-weight: bold;
 
 }
@@ -232,19 +266,22 @@ body,html {
   overflow: auto;
   width: 90%;
   flex-direction: column;
-  height: 60vh;
+  flex: 1;
 }
 .addSongTopRow {
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 35px;
+    width: 100%;
     flex-shrink: 0;
     justify-content: space-evenly;
+    margin-top: 5px;
 
 }
 .usernameInput {
     height: 30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     border: none;
     outline: none;
     border-radius: 5px;
@@ -252,29 +289,15 @@ body,html {
     padding-left: 15px;
     margin-top: 10px;
 } 
-.songTitle {
-    height: 90%;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    width: 65%;
-    padding-left: 15px;
-}
-.findSongButton {
-    height: 90%;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    font-weight: bold;
-}
 .submitName {
     height: 40px;
     border: none;
     outline: none;
     border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     font-weight: bold;
     font-size: 20px;
-    background: #ff7f7f;
+    background: rgb(255, 255, 255);
     margin-top: 15px;
 
 }
@@ -284,8 +307,11 @@ body,html {
     outline: none;
     border-radius: 5px;
     font-weight: bold;
-    background: #c95839;
+    background: #ffffff;
     width: 120px;
+    font-size: 15px;
+    margin-right: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .songResultsList {
     width: 100%;
@@ -293,66 +319,32 @@ body,html {
     overflow-y: auto; /* adds scroll bar if content too tall */
 }
 
-.songListing {
-    width: 100%;
-    background: white;
-    opacity: 0.7;
-    line-height: 50px;
-    padding-left: 5px;
-    border-radius: 5px;
-
-}
-.elTopRow {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.etrLeft {
-    font-size: 15px;
-    color: #503324;
-    font-weight: bold;
-    padding-left: 10px;
-  white-space: nowrap;       /* don't wrap to new line */
-  overflow: hidden;          /* hide overflowing text */
-  text-overflow: ellipsis;   /* add "..." at the end */
-}
-.etrRight {
-    font-size: 12px;
-    font-weight: bold;
-    color: black;
-    padding-right: 10px;
-}
-.ebrLeft {
-    font-size: 12px;
-    color: black;
-    padding-left: 5px;
-  white-space: nowrap;       /* don't wrap to new line */
-  overflow: hidden;          /* hide overflowing text */
-  text-overflow: ellipsis;   /* add "..." at the end */
-}
-.addQueue {
-    font-size: 15px;
-    margin-right: 20px;
-
-}
-.elBottomRow {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
 .showRow {
   max-height: 100px !important; /* adjust depending on your layout */
   opacity: 1 !important;
 }
 
 
-.popup {
+.blurredBackground {
+    filter: blur(5px);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.541);
+}
+.popup,.promptQR {
     display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+
+}
+.popupBody {
     position: absolute;
     left: 0;
     right: 0;
@@ -360,26 +352,39 @@ body,html {
     bottom: 0;
     margin: auto;
     z-index: 1000;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     border-radius: 5px;
     background: white;
     width: 90%;
+    display: flex;
     flex-direction: column;
     align-items: center;
     height: max-content;
 }
-.popup_title {
+.popup_title,.popup_title2 {
     margin-top: 20px;
     color: black;
     font-size: 18px;
+    text-align: center;
     font-weight: bold;
 
 
+}
+.promptOK {
+    background-color: #6a5acd;
+    background-image: linear-gradient(319deg, #6a5acd 0%, #c54b8c 37%, #b284be 100%);
+    margin-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    color: white;
+    margin-top: 5px;
 }
 .popup_bottomRow {
     margin-top: 15px;
     align-items: center;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
 
 }
 .popup_button {
@@ -392,15 +397,25 @@ body,html {
     font-weight: bold;
 }
 .popup_cancel {
-    background: rgb(255, 80, 80);
-
+    background: rgb(135 135 135);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    color: white;
+    transition: all .2s ease-in-out;
 
 }
+.popup_cancel:active {
+    background: rgb(252, 113, 113);
+}
 .popup_affirm {
-    background: rgb(95, 255, 80);
+    background-color: #6a5acd;
+background-image: linear-gradient(319deg, #6a5acd 0%, #c54b8c 37%, #b284be 100%);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    color: white;
 }
 .displayingVideo {
     width: 100%;
+    
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
 }
 .adminOnly {
@@ -512,4 +527,466 @@ body,html {
     font-size: 20px;
     margin-top: 5px;
     
+}
+input, select {
+  font-size: 16px !important;
+}
+
+
+.singMode {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    opacity: 0.5;
+    color: white;
+}
+.active {
+    opacity: 1;
+}
+
+.inputSearchContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 3px;
+    background-color: white;
+    height: 40px;
+    width: 90%;
+    margin-top: 10px;
+    border: 2px solid rgb(207, 207, 207);
+    transition: all .1s ease-in-out;
+}
+.inputSelected {
+    border: 2px solid rgb(207, 30, 154);
+}
+.songTitle {
+    height: 90%;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    flex: 1;
+}
+.findSongButton {
+    height: 70%;
+    aspect-ratio: 1/1;
+    padding-right: 5px;
+    padding-left: 5px;
+
+}
+
+
+
+.signed_header {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #EF79BD;
+}
+.sideRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    height: 35px;
+}
+.adminControlsHolder {
+    height: 30px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    z-index: 500;
+}
+.adminControlsIcon {
+    width: 95%;
+    aspect-ratio: 1/1;
+    z-index: 500;
+}
+
+.logo {
+    width: 100%;
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+.logo > img {
+    height: 100%;
+}
+.logoText  {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 1px;
+}
+.logoBrownText {
+    color: #543727;
+}
+.logoRedText {
+    background-image: linear-gradient(
+        90deg,
+        #925dee,
+        #bc54f0,
+        #e032db
+    );
+    background-size: 300% 300%;
+    animation: gradientShift 3s ease-in-out infinite;
+    color: transparent;
+    background-clip: text;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+.songResultsDiv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: scroll;
+    align-items: center;
+}
+#currentSong {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 73px;
+    color: white;
+    
+}
+.songListing {
+    width: 95%;
+    background: rgba(0, 0, 0, 0.322);
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 73px;
+    color: white;
+
+}
+.section1,.section3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    height: 100%;
+}
+.s1IconHolder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    width: 50%;
+}
+.s1IconAddSong {
+    width: 100%;
+    height: 100%;
+}
+.section3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: max-content;
+    height: 100%;
+    padding-right: 10px;
+}
+.s3IconHolder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30%;
+    aspect-ratio: 1/1;
+
+}
+.s3IconFavorite {
+    width: 100%;
+    height: 100%;
+}
+.section2 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+
+}
+.s2Div {
+    width: 100%;
+}
+.s2TextLight{
+    opacity: 0.5;
+    font-size: 13px;
+}
+.s2TextBold{
+    font-size: 16px;
+}
+.s2TextCenter {
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+}
+
+
+.showNameInput {
+    outline: none;
+    border-radius: 2px;
+    background-color: white;
+    height: 40px;
+    width: 90%;
+    margin-top: 10px;
+    border: 2px solid rgb(207, 207, 207);
+    transition: all .1s ease-in-out;
+}
+.inputSelected {
+    border: 2px solid rgb(207, 30, 154);
+
+}
+
+
+.playingLines {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+    width: 65%;
+    height: 50%;
+}
+.playingLine {
+    width: 3px;
+    background: white;
+}
+.animation0 {
+    animation: bounceRandom0 2.5s infinite linear;
+}
+.animation1 {
+    animation: bounceRandom3 3s infinite linear;
+}
+.animation2 {
+    animation: bounceRandom4 3.5s infinite linear;
+}
+.animation3 {
+    animation: bounceRandom2 3.4s infinite linear;
+}
+.animation4 {
+    animation: bounceRandom1 3.4s infinite linear;
+}
+@keyframes bounceRandom0 {
+    0%   { height: 10%; }
+    15%  { height: 75%; }
+    30%  { height: 25%; }
+    50%  { height: 90%; }
+    65%  { height: 40%; }
+    80%  { height: 60%; }
+    100% { height: 10%; }
+}
+@keyframes bounceRandom1 {
+    0%   { height: 15%; }
+    10%  { height: 85%; }
+    20%  { height: 30%; }
+    30%  { height: 95%; }
+    40%  { height: 50%; }
+    50%  { height: 75%; }
+    60%  { height: 20%; }
+    70%  { height: 65%; }
+    80%  { height: 35%; }
+    90%  { height: 100%; }
+    100% { height: 15%; }
+}
+@keyframes bounceRandom2 {
+    0%   { height: 10%; }
+    5%   { height: 82%; }
+    10%  { height: 33%; }
+    15%  { height: 97%; }
+    20%  { height: 40%; }
+    25%  { height: 73%; }
+    30%  { height: 18%; }
+    35%  { height: 67%; }
+    40%  { height: 28%; }
+    45%  { height: 89%; }
+    50%  { height: 35%; }
+    55%  { height: 92%; }
+    60%  { height: 22%; }
+    65%  { height: 79%; }
+    70%  { height: 30%; }
+    75%  { height: 96%; }
+    80%  { height: 45%; }
+    85%  { height: 60%; }
+    90%  { height: 20%; }
+    95%  { height: 75%; }
+    100% { height: 10%; }
+}
+@keyframes bounceRandom3 {
+  0%   { height: 0%; }
+  12%  { height: 38%; }
+  27%  { height: 12%; }
+  43%  { height: 62%; }
+  59%  { height: 28%; }
+  74%  { height: 80%; }
+  86%  { height: 45%; }
+  100% { height: 0%; }
+}
+@keyframes bounceRandom4 {
+  0%   { height: 0%; }
+  18%  { height: 55%; }
+  33%  { height: 22%; }
+  48%  { height: 70%; }
+  63%  { height: 35%; }
+  79%  { height: 90%; }
+  91%  { height: 48%; }
+  100% { height: 0%; }
+}
+
+
+
+
+#queueSheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80px; /* closed height */
+background-image: linear-gradient(319deg, #6a5acd 0%, #c54b8c 37%, #b284be 100%);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow: hidden;
+  z-index: 501;
+}
+
+#queueSheet.open {
+  height: 90vh; /* fullscreen height */
+}
+#collapseBtn {
+    width: 25px;
+    transition: all .5s ease-in-out;
+    margin-right: 15px;
+}
+.collapseBtnReversed {
+    transform: rotate(180deg);
+}
+#dragHandle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+  cursor: grab;
+  user-select: none;
+}
+
+#queueContent {
+  padding: 16px;
+  color: white;
+}
+
+.queueTitle {
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
+    color: white;
+}
+.clearSearch {
+    height: 70%;
+    margin-right: 5px;
+}
+
+.emptyName {
+    background: rgb(255, 160, 160);
+}
+
+.displayDiv {
+    width: 100%;
+    height: 100vh;
+    background: rgb(255, 160, 223);
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 501;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    transition: opacity .2s ease-in-out;
+    pointer-events: none;
+}
+.header {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    box-sizing: border-box;
+
+}
+.displayTitle {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+.displayExit {
+    filter: invert(1);
+    width: 25px;
+}
+.displayBody {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+}
+.userStatSongs {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-top: 10px;
+    width: 100%;
+    justify-content: center;
+}
+.userStatDiv {
+    border-radius: 5px;
+    background: #93ffaab2;
+    width: 90px;
+    height: 90px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 3px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    
+}
+
+.statSongDiv {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+}
+.historyMarker {
+    width: 100%;
+    text-align: left;
+    color: white;
+    padding-left: 20px;
 }
