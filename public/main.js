@@ -556,3 +556,18 @@ $("userStat_History").on("click touch",function() {
     $(".displayBody").innerHTML = "";
     displaySongs($(".displayBody"),[...account.history].reverse(),"history")
 })
+
+let lastScrollY = 0;
+document.addEventListener("focusin", (e) => {
+    if (e.target.tagName === "INPUT") {
+        lastScrollY = window.scrollY;
+        document.body.style.top = `-${lastScrollY}px`;
+    }
+});
+
+document.addEventListener("focusout", (e) => {
+    if (e.target.tagName === "INPUT") {
+        document.body.style.top = "";
+        window.scrollTo(0, lastScrollY);
+    }
+});
