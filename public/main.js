@@ -17,10 +17,13 @@ if (path === "/user") {
     userType = "user";
     socket.emit("userJoined",sessionCode,userCode);
 } else if (path === "/" || path === "/screen") {
-    setScene("screen");
-    userType = "screen";
-    socket.emit("request_qr",qrURL);
-    socket.emit("screenJoined",sessionCode,userCode);
+    popup("Just Click OK",() => {
+        setScene("screen");
+        userType = "screen";
+        videoChecker();
+        socket.emit("request_qr",qrURL);
+        socket.emit("screenJoined",sessionCode,userCode);
+    },"OK",true)
 } else {
     setScene("unknown");
 }
@@ -180,13 +183,18 @@ function fixTitle(title,index) {
   }
 }
 
-function popup(text,func,affirmText = "Continue",obj = {}) {
+function popup(text,func,affirmText = "Continue",allowAny = false) {
     $(".popup_title").innerHTML = text;
     $(".popup_affirm").innerHTML = affirmText;
     $(".showNameInput").value = user.showName ? user.showName : "";
     $(".showNameInput").classRemove("emptyName");
     $(".popup").show("flex");
     $(".popup_affirm").onclick = function() {
+        if (allowAny) {
+            $(".popup").hide();
+            func();
+            return;
+        }
         if ($(".showNameInput").value === "") {
             $(".showNameInput").classAdd("emptyName");
             return;
@@ -400,6 +408,7 @@ function displaySongs(div,list,type) {
             container.on("click",function() {
                 if (adminAccount) $(".qpAdmin").show();
                 else $(".qpAdmin").hide();
+                console.log(l);
                 $(".queuePopup").show();
                 selectedSong = i;
             })

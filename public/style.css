@@ -954,6 +954,8 @@ background-image: linear-gradient(319deg, #6a5acd 0%, #c54b8c 37%, #b284be 100%)
     flex-direction: column;
     align-items: center;
     padding-top: 10px;
+    overflow-y: auto;
+    padding-bottom: 100px
 }
 .userStatSongs {
     flex: 1;
@@ -989,4 +991,5 @@ background-image: linear-gradient(319deg, #6a5acd 0%, #c54b8c 37%, #b284be 100%)
     text-align: left;
     color: white;
     padding-left: 20px;
+    margin-top: 10px;
 }

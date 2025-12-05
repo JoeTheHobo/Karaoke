@@ -31,6 +31,10 @@ const ytdlp = require("yt-dlp-exec"); // directly the function
 
 const simple = require("./server_simple.js");
 const QRCode = require("qrcode");
+const ffmpeg = require('fluent-ffmpeg');
+const ffprobe = require('ffprobe-static');
+
+ffmpeg.setFfprobePath(ffprobe.path);
 
 const express = require("express");
 const http = require("http");
@@ -130,17 +134,18 @@ io.on("connection", (socket) => {
       }
 
       adminID = true;
-      socket.emit("setSocket",setting_queueType,setting_iteration,sessionCode,socket.user);
+      socket.emit("setSocket",setting_queueType,setting_iteration,sessionCode,socket.user,videoInfo);
 
     }) 
     socket.on("screenJoined", (ssCode,uCode) => {
+      socket.join("screen");
       socket.emit("setSocket",setting_queueType,setting_iteration);
     })
     socket.on("PromptOk",(id) => {
-      if (!waitingOnQR) return;
+      if (waitingOnQR.accepted) return;
       if (waitingOnQR.id !== id) return;
-      io.emit("playVideo",waitingOnQR.videoID,false,true);
-      waitingOnQR = false;
+      playVideo();
+      waitingOnQR.accepted = true;
     })
     socket.on("request_qr", async (url) => {
       try {
@@ -161,10 +166,23 @@ io.on("connection", (socket) => {
         io.emit("updatedQueue",queue);
     })
     socket.on("adminControls",(control) => {
-      io.emit("screenMusicControl",control);
-    })
-    socket.on("videoEnded",()=> {
-      finishedSong();
+      if (!videoInfo.startTime) return;
+      if (control === "Pause Song") {
+      }
+      if (control === "Play Song") {
+      }
+      if (control === "Restart Song") {
+          videoInfo.startTime = Date.now();
+      }
+      if (control === "Skip Song") {
+          videoInfo.startTime -= videoInfo.duration;
+      }
+      if (control === "-10 Seconds") {
+          videoInfo.startTime += (10*1000);
+      }
+      if (control === "+10 Seconds") {
+          videoInfo.startTime -= (10*1000);
+      }
     })
     socket.on("alterQueue",(code,queueID) => {
       alterQueue(code,queueID);
@@ -289,39 +307,58 @@ function playSong() {
 
   io.emit("updatedQueue",queue)
   io.emit("settingSong",song)
-  if (setting_iteration === "Instant") {
-    setTimeout(function() {
-      io.emit("playVideo", song.videoId);
-    },15000);
+  waitingOnQR = {
+    id: song.singerID,
+    time: Date.now(),
+    accepted: false,
+    videoID: song.videoId,
+    singer: song.singer,
   }
-  if (["QR","QR Wait"].includes(setting_iteration)) {
-      waitingOnQR = {
-        id: song.singerID,
-        time: Date.now(),
-        accepted: false,
-        videoID: song.videoId,
-      }
-      io.emit("playVideo", song.videoId,song.singerID);
-      if (setting_iteration === "QR") {
-        setTimeout(function() {
-          if (waitingOnQR.accepted) {
-            waitingOnQR = false;
-            return;
-          }
-          waitingOnQR = false;
-          playSong();
-        },30000);
-      }
-  }
+  /*song.videoId,*/ 
+  io.emit("setUserPrompt", song.singerID);
+  setTimeout(function() {
+    if (waitingOnQR.accepted) {
+      return;
+    }
+    waitingOnQR.accepted = true;
+    playVideo();
+  },30000);
 }
+let videoInfo = {};
+function playVideo() {
+    // Example:
+    (async () => {
+        const duration = await getVideoDuration(`./public/Song Downloads/${waitingOnQR.videoID}.mp4`);
+        console.log('Duration:', duration); // e.g. 184.523
+        videoInfo = {
+          startTime: Date.now() + 3000,
+          duration: duration * 1000,
+          videoId: waitingOnQR.videoID,
+          singer: waitingOnQR.singer,
+          adjustTime: 0,
+        }
+    })();
+}
+function videoChecker() {
+  if (videoInfo.startTime) {
+    let now = Date.now();
+    if (now >= (videoInfo.startTime) + videoInfo.duration) {
+      videoInfo.startTime = false;
+      //Handle Video Finished;
+      setTimeout(() => {
+        queue.shift();
+        playSong();
+      },3000);
+    }
+  }
+  io.to("screen").emit("screenVideoUpdate",videoInfo);
+  setTimeout(videoChecker,200);
+}
+videoChecker();
 function checkSongReadiness(q) {
   let downloaded =  checkIfSongIsDownloaded(q.videoId);
   if (!downloaded) return false;
   return true;
-}
-function finishedSong() {
-  queue.shift();
-  playSong();
 }
 function checkIfSongIsDownloaded(videoId) {
   //Check If Song 
@@ -350,7 +387,7 @@ function downloadVideo(videoId) {
 function downloadVideo_helper(videoId) {
   const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
   const downloadFolder = path.join(__dirname, "public/Song Downloads");
-  const ffmpegPath = "C:\\ffmpeg-8.0-essentials_build\\bin\\ffmpeg.exe";
+  const ffmpegPath = "C:\\ffmpeg\\ffmpeg-2025-12-04-git-d6458f6a8b-essentials_build\\bin\\ffmpeg.exe";
 
   // Save file as Song Downloads\<videoId>.mp4
   const outputPath = path.join(downloadFolder, `${videoId}.%(ext)s`);
@@ -420,4 +457,12 @@ function alterQueue(code,queueID,obj) {
 
 
   io.emit("updatedQueue",queue);
+}
+function getVideoDuration(path) {
+    return new Promise((resolve, reject) => {
+        ffmpeg.ffprobe(path, (err, data) => {
+            if (err) return reject(err);
+            resolve(data.format.duration);
+        });
+    });
 }

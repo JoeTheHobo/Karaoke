@@ -20,6 +20,7 @@ let setting_iteration;
 let songSearchExtension = "Karaoke";
 let songEndText;
 let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
+let videoInfo = {};
 
 
 let user = {
@@ -38,17 +39,22 @@ socket.on("connect", () => {
     },50);
 });
 
-socket.on("setSocket",(queueType,iteration,sscode,user) => {
+socket.on("setSocket",(queueType,iteration,sscode,user,videoStats) => {
     account.user = user;
     setting_queueType = queueType;
     setting_iteration = iteration;
 
     sessionCode = sscode;
     ls.save("sessionCode",sscode);
-    ls.save("userCode",user?.uid)
+    ls.save("userCode",user?.uid);
+    videoInfo = videoStats;
 
     if (user?.admin) $(".adminControlsHolder").show("flex");
     else $(".adminControlsHolder").hide();
+
+    if (userType !== "screen") {
+        socket.emit("checkIfQR",sessionCode,account?.user?.uid);
+    }
 })
 socket.on("updatedQueue",(q) => {
     if (!q) q = [];
@@ -62,11 +68,10 @@ socket.on("settingSong",(obj) => {
     $(".appearingText").innerHTML = `${obj.singer} Is Up Next <br> ${obj.song} by ${obj.artist}`;
     $(".appearingText").show("block");
     currentSong = obj;
-    songEndText = `Give a round of an applause to ${obj.singer}`;
 })
 
 let videoPlaying = false;
-socket.on("playVideo", (fileName,userID,force = false) => {
+socket.on("setUserPrompt", (userID) => {
     if (account?.user?.uid === userID) {
         let obj = structuredClone(queue[0]);
         obj.date = Date.now();
@@ -74,15 +79,53 @@ socket.on("playVideo", (fileName,userID,force = false) => {
         obj.playing = false;
         account.history.push(obj);
         ls.save("history",account.history)
-    }
-
-    if (["Instant","AI Voice","Voice"].includes(setting_iteration) || force) playVideo(fileName);
-    if (["QR","QR Wait"].includes(setting_iteration)) {
-        if (account?.user?.uid === userID) {
-            promptQR();
-        }
+        promptQR();
     }
 });
+socket.on("screenVideoUpdate",(videoStats) => {
+    if (userType !== "screen") return;
+    videoInfo = videoStats;
+})
+
+let videoObj = {
+    playing: false,
+};
+function videoChecker() {
+    let now = Date.now();
+    let videoEl = $(".displayingVideo");
+
+    if (videoInfo?.startTime && !videoObj.playing) {
+        if (now > videoInfo.startTime) {
+            playVideo(videoInfo.videoId);
+            videoObj.playing = true;
+        }
+    }
+
+    if (videoObj.playing) {
+        let currentDur = videoEl.currentTime * 1000;
+        let realDuration = now - videoInfo.startTime;
+        if (Math.abs(currentDur - realDuration) > 300) {
+            //Fix Duration if delay is greater than 200ms
+            videoEl.currentTime = (realDuration)/1000;
+        }
+        if (now >= videoInfo.startTime + videoInfo.duration) {
+            //Video Ended
+            videoObj.playing = false;
+            videoPlaying = false;
+            if (queue.length == 0)
+                $(".currentSongElem").hide();
+            videoEl.hide();
+            setTimeout(function() {
+                $(".appearingText").show();
+                $(".appearingText").innerHTML = "Scan QR To Add Songs";
+            },3000);
+
+        }
+    }
+
+
+    requestAnimationFrame(videoChecker);
+}
 
 socket.on("promptQR",promptQR);
 function playVideo(fileName) {
@@ -92,52 +135,13 @@ function playVideo(fileName) {
     videoEl.show();
     videoEl.muted = true;
     $(".appearingText").hide();
+    console.log(fileName)
     videoEl.play().then(() => {
         videoPlaying = true;
         videoEl.muted = false;
     }).catch(err => console.error("Autoplay blocked:", err));
-
-     // Triggered once the video finishes
-    videoEl.onended = () => {
-        videoPlaying = false;
-        if (queue.length == 0)
-            $(".currentSongElem").hide();
-        $(".appearingText").show();
-        $(".appearingText").innerHTML = songEndText;
-        setTimeout(function() {
-            socket.emit("videoEnded");
-            videoEl.hide();
-            $(".appearingText").innerHTML = "Scan QR To Add Songs";
-        },3000);
-    };
 }
 
-socket.on("screenMusicControl",(control) => {
-    if (userType !== "screen") return;
-    let videoEl = $(".displayingVideo");
-    if (!videoEl) return;
-    if (!videoPlaying) return;
-
-    if (control === "Pause Song") {
-        videoEl.pause();
-    }
-    if (control === "Play Song") {
-        videoEl.play();
-    }
-    if (control === "Restart Song") {
-        videoEl.currentTime = 0;
-        videoEl.play();
-    }
-    if (control === "Skip Song") {
-        videoEl.currentTime = Math.max(0, videoEl.duration - 1);
-    }
-    if (control === "-10 Seconds") {
-        videoEl.currentTime = Math.max(0, videoEl.currentTime - 10);
-    }
-    if (control === "+10 Seconds") {
-        videoEl.currentTime = Math.min(videoEl.duration, videoEl.currentTime + 10);
-    }
-})
 socket.on("returningAllowedChannels",(data) => {
     YTChannels = data.YTChannels;
 })
