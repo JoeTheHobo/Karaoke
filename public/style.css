@@ -967,26 +967,45 @@ background-image: linear-gradient(319deg, #6a5acd 0%, #c54b8c 37%, #b284be 100%)
     padding-bottom: 100px
 }
 .userStatSongs {
-    flex: 1;
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    gap: 5px;
-    padding-top: 10px;
-    width: 100%;
-    justify-content: center;
+    padding: 10px;
+    width: 98%;
+    justify-content: left;
 }
 .userStatDiv {
     border-radius: 5px;
-    background: #93ffaab2;
-    width: 90px;
-    height: 90px;
+    width: 48%;
+    margin: 1%;
+    box-sizing: border-box;
+    height: 60px;
     color: white;
     font-weight: bold;
     font-size: 20px;
     padding: 3px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    position: relative;
+    overflow: hidden;
     
+}
+#userStat_mostPlayed {
+    background: #9ea1fd;
+
+}
+#userStat_Favorites {
+    background: #e48292;
+
+}
+#userStat_History {
+    background: #8ddb7d;
+
+}
+.userStatImg {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 70px;
+    aspect-ratio: 1/1;
 }
 
 .statSongDiv {
