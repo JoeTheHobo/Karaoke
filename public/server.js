@@ -18,7 +18,7 @@ let setting_queueType;
 let setting_iteration;
 let songSearchExtension = "Karaoke";
 let songEndText;
-let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
+let qrURL = "https://karaoke-woods.onrender.com/user";
 let videoInfo = {};
 let server_popularSongs = [];
 
