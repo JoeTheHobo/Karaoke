@@ -3,52 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kareoke</title>
+    <meta name="theme-color" content="#4ade80">
+
+    <title>Kareoke Woods</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="splash">
+        <div class="logo">
+            <div class="logoText logoRedText">KARAOKE</div>
+            <div class="logoText logoBrownText">WOODS</div>
+        </div>
+    </div>
 
     <div class="scene" id="scene_screen">
-        <div class="column column_1">
-            <div class="qrCodeHolder">
-                <img class="qrCodeImg" alt="">
-            </div>
-            <div class="subtitle">Scan To Add Songs</div>
-            <div class="queueList queueElem"></div>
+        <div class="logo screenLogo"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
+        <div class="qrCodeHolder">
+
+            <img class="qrCodeImg" alt="">
         </div>
         <div class="displayingPort">
-            <div class="appearingText">Scan QR To Add Songs</div>
+            <div class="appearingText">
+                <div class="appearingTextLarge" id="appearingText1">Scan QR To Add Songs</div>
+                <div class="appearingTextSmall" id="appearingText2"></div>
+                <div class="appearingTextLarge" id="appearingText3"></div>
+            </div>
             <video class="displayingVideo"></video>
             <div class="durrationBar"></div>
         </div>
+        <div class="queueList queueElem column1Fill"></div>
     </div>
     
     
     <div class="scene" id="scene_usersigned">
         <div class="signed_header">
             <div class="sideRow">
-                <div class="logo"><div class="logoText logoBrownText">PAWS</div><div class="logoText logoRedText">KARAOKE</div></div>
+                <div class="logo"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
                 <div class="adminControlsHolder"><img src="img/moveIcon.png" class="adminControlsIcon" alt=""></div>
             </div>
             <div class="inputSearchContainer">
-                <img src="img/search.png" class="findSongButton" alt="">
+                <img src="img/search.png" class="findSongButton searchSmall" alt="">
                 <input type="text" class="songTitle" placeholder="Search songs or artists...">
                 <img class="clearSearch" src="img/deleteIcon.png" alt="">
             </div>
-            <div class="addSongTopRow">
-                <div class="singMode active"><div class="singAlone">Sing Alone</div></div>
-                <div class="singMode"><div class="singAlong">Sing Along</div></div>
-            </div>
+        </div>
+        <div class="addSongTopRow">
+            <div class="singMode active"><div class="singAlone">Karaoke</div></div>
+            <div class="singMode"><div class="singAlong">With Vocals</div></div>
         </div>
         <div class="userStatSongs">
-            <div class="userStatDiv" id="userStat_mostPlayed"><div class="userStatTitle">Most Played</div><img class="userStatImg" src="img/fire.png" alt=""></div>
-            <div class="userStatDiv" id="userStat_Favorites"><div class="userStatTitle">Favorites</div><img class="userStatImg" src="img/star.png" alt=""></div>
-            <div class="userStatDiv" id="userStat_History"><div class="userStatTitle">History</div><img class="userStatImg" src="img/history.png" alt=""></div>
+            <div class="groupChoices">
+                <div class="userStatDiv" id="userStat_mostPlayed"><div class="userStatTitle">Your Most<br>Played</div><img class="userStatImg" src="img/mostPlayed.png" alt=""></div>
+                <div class="userStatDiv" id="userStat_Favorites"><div class="userStatTitle">Favorites</div><img class="userStatImg" src="img/star.png" alt=""></div>
+                <div class="userStatDiv" id="userStat_History"><div class="userStatTitle">History</div><img class="userStatImg" src="img/history.png" alt=""></div>
+                <div class="userStatDiv" id="globalStat_popular"><div class="userStatTitle">Popular</div><img class="userStatImg" src="img/fire.png" alt=""></div>
+            </div>
         </div>
         <div class="songResultsDiv"></div>
+        <div class="songResultsGradient"></div>
         <div id="queueSheet">
             <div id="dragHandle">
                 <div id="currentSong">

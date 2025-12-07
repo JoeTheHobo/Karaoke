@@ -1,4 +1,4 @@
-ls.setID("Karaoke");
+ls.setID("Karaokev3");
 let sessionCode = ls.get("sessionCode",false);
 let userCode = ls.get("userCode",false);
 let YTChannels;
@@ -8,7 +8,6 @@ let account = {
     history: ls.get("history",[]),
     favorites: ls.get("favorites",[]),
 }
-let adminAccount = false;
 let userType;
 let onQueueScreen = false;
 let queue = [];
@@ -21,6 +20,7 @@ let songSearchExtension = "Karaoke";
 let songEndText;
 let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
 let videoInfo = {};
+let server_popularSongs = [];
 
 
 let user = {
@@ -39,7 +39,7 @@ socket.on("connect", () => {
     },50);
 });
 
-socket.on("setSocket",(queueType,iteration,sscode,user,videoStats) => {
+socket.on("setSocket",(queueType,iteration,sscode,user,videoStats,global_popularSongs) => {
     account.user = user;
     setting_queueType = queueType;
     setting_iteration = iteration;
@@ -48,6 +48,7 @@ socket.on("setSocket",(queueType,iteration,sscode,user,videoStats) => {
     ls.save("sessionCode",sscode);
     ls.save("userCode",user?.uid);
     videoInfo = videoStats;
+    server_popularSongs = global_popularSongs;
 
     if (user?.admin) $(".adminControlsHolder").show("flex");
     else $(".adminControlsHolder").hide();
@@ -55,6 +56,10 @@ socket.on("setSocket",(queueType,iteration,sscode,user,videoStats) => {
     if (userType !== "screen") {
         socket.emit("checkIfQR",sessionCode,account?.user?.uid);
     }
+    socket.emit("updateQueue");
+})
+socket.on("global_popularSongs",(global_popularSongs) => {
+    server_popularSongs = global_popularSongs;
 })
 socket.on("updatedQueue",(q) => {
     if (!q) q = [];
@@ -65,8 +70,7 @@ socket.on("updatedQueue",(q) => {
 
 socket.on("settingSong",(obj) => {
     if (userType !== "screen") return;
-    $(".appearingText").innerHTML = `${obj.singer} Is Up Next <br> ${obj.song} by ${obj.artist}`;
-    $(".appearingText").show("block");
+    setAppearingText(obj.song,"Sung by",obj.singer);
     currentSong = obj;
 })
 
@@ -112,19 +116,18 @@ function videoChecker() {
             //Video Ended
             videoObj.playing = false;
             videoPlaying = false;
-            if (queue.length == 0)
-                $(".currentSongElem").hide();
             videoEl.hide();
-            setTimeout(function() {
-                $(".appearingText").show();
-                $(".appearingText").innerHTML = "Scan QR To Add Songs";
-            },3000);
-
         }
     }
 
 
     requestAnimationFrame(videoChecker);
+}
+function setAppearingText(first = "",second = "",third = "") {
+    $("appearingText1").innerHTML = first;
+    $("appearingText2").innerHTML = second;
+    $("appearingText3").innerHTML = third;
+    $(".appearingText").show();
 }
 
 socket.on("promptQR",promptQR);
@@ -135,7 +138,6 @@ function playVideo(fileName) {
     videoEl.show();
     videoEl.muted = true;
     $(".appearingText").hide();
-    console.log(fileName)
     videoEl.play().then(() => {
         videoPlaying = true;
         videoEl.muted = false;

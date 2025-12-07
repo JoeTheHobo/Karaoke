@@ -19,7 +19,7 @@
 let max_distance = 5;
 let adminID = false;
 let queue = [];
-let setting_queueType = "Advanced"; //"Basic" "Advanced"
+let setting_queueType = "Basic"; //"Basic" "Advanced"
 let setting_iteration = "QR Wait";//"QR" "Instant" "QR Wait"
 let sessionCode = Math.floor(Math.random() * 99999);
 let users = [];
@@ -46,6 +46,11 @@ const io = new Server(server);
 
 app.use(express.static("public"));
 const axios = require("axios");
+
+const { loadStats, saveStats, addPlay, sortStatsByPopular } = require('./songStats');
+const { channel } = require("diagnostics_channel");
+let global_songStats = loadStats();
+let global_popularSongs = sortStatsByPopular(global_songStats);
 
 let waitingOnQR = false;
 
@@ -109,7 +114,7 @@ io.on("connection", (socket) => {
 
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;
-      if (!waitingOnQR) return;
+      if (waitingOnQR.accepted) return;
       if (waitingOnQR.id !== uid) return;
 
       socket.emit("promptQR");
@@ -134,7 +139,7 @@ io.on("connection", (socket) => {
       }
 
       adminID = true;
-      socket.emit("setSocket",setting_queueType,setting_iteration,sessionCode,socket.user,videoInfo);
+      socket.emit("setSocket",setting_queueType,setting_iteration,sessionCode,socket.user,videoInfo,global_popularSongs);
 
     }) 
     socket.on("screenJoined", (ssCode,uCode) => {
@@ -291,6 +296,7 @@ function playSong() {
     url: v.url,
     singerID: account.user.id,
     videoId: v.videoId,
+    channel: v.channel,
   */
 
   let songIsReady = checkSongReadiness(queue[0]);
@@ -313,6 +319,8 @@ function playSong() {
     accepted: false,
     videoID: song.videoId,
     singer: song.singer,
+    videoInfo: song,
+    channel: song.channel,
   }
   /*song.videoId,*/ 
   io.emit("setUserPrompt", song.singerID);
@@ -329,7 +337,6 @@ function playVideo() {
     // Example:
     (async () => {
         const duration = await getVideoDuration(`./public/Song Downloads/${waitingOnQR.videoID}.mp4`);
-        console.log('Duration:', duration); // e.g. 184.523
         videoInfo = {
           startTime: Date.now() + 3000,
           duration: duration * 1000,
@@ -337,6 +344,10 @@ function playVideo() {
           singer: waitingOnQR.singer,
           adjustTime: 0,
         }
+        
+        addPlay(global_songStats, waitingOnQR.videoInfo);
+        saveStats(global_songStats);
+        sortGlobalStats();
     })();
 }
 function videoChecker() {
@@ -387,7 +398,7 @@ function downloadVideo(videoId) {
 function downloadVideo_helper(videoId) {
   const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
   const downloadFolder = path.join(__dirname, "public/Song Downloads");
-  const ffmpegPath = "C:\\ffmpeg\\ffmpeg-2025-12-04-git-d6458f6a8b-essentials_build\\bin\\ffmpeg.exe";
+  const ffmpegPath = "C:\\ffmpeg-8.0-essentials_build\\bin\\ffmpeg.exe";
 
   // Save file as Song Downloads\<videoId>.mp4
   const outputPath = path.join(downloadFolder, `${videoId}.%(ext)s`);
@@ -427,13 +438,12 @@ function alterQueue(code,queueID,obj) {
 
   if (code == "Move Top") {
     queue.splice(index, 1);
-    queue.unshift(item);
+    queue.splice(1, 0, item);
   }
   if (code == "Move Up") {
-    if (index > 0) {
-      [queue[index - 1], queue[index]] = [queue[index], queue[index - 1]];
+    if (index > 1) {
+        [queue[index - 1], queue[index]] = [queue[index], queue[index - 1]];
     }
-
   }
   if (code == "Move Down") {
     if (index < queue.length - 1) {
@@ -465,4 +475,11 @@ function getVideoDuration(path) {
             resolve(data.format.duration);
         });
     });
+}
+
+function sortGlobalStats() {
+  global_popularSongs = sortStatsByPopular(global_songStats);
+  // only send first 20
+  const top20 = global_popularSongs.slice(0, 20);
+  io.emit("global_popularSongs", top20);
 }

@@ -1,13 +1,6 @@
-/*
-    Updates Needed
-    Play Now Button Not Working If Already On Page
-    Add Explanation Text Between Songs
-    Play Music Between Songs
-*/
 let searching = false;
 function setScene(scene) {
     $(".scene").hide();
-
     $("scene_" + scene).show("flex");
 }
 // detect URL path
@@ -25,7 +18,7 @@ if (path === "/user") {
         socket.emit("screenJoined",sessionCode,userCode);
     },"OK",true)
 } else {
-    setScene("unknown");
+    setScene("unknown"); //Need To Add
 }
 socket.on("qr_result", data => {
     $(".qrCodeImg").src = "data:image/png;base64," + data.base64;
@@ -85,7 +78,7 @@ $(".singAlone").on("click touch",function() {
     $(".singMode").classRemove("active");
     this.$P().classAdd("active");
     songSearchExtension = "Karaoke";
-
+    $(".songResultsDiv").innerHTML = "";
     searchSong($(".songTitle").value);
 
 })
@@ -93,6 +86,7 @@ $(".singAlong").on("click touch",function() {
     $(".singMode").classRemove("active");
     this.$P().classAdd("active");
     songSearchExtension = "Lyrics";
+    $(".songResultsDiv").innerHTML = "";
     searchSong($(".songTitle").value);
 })
 $(".songTitle").on("keydown",function(e) {
@@ -121,7 +115,9 @@ async function searchSong(q) {
     const videos = await res.json();
 
     const resultsDiv = $(".songResultsDiv");
+    $(".songResultsGradient").style.opacity = 1;
     $(".userStatSongs").hide();
+    $(".addSongTopRow").show("flex");
     resultsDiv.innerHTML = "";
 
     let vid_index = -1;
@@ -189,6 +185,8 @@ function popup(text,func,affirmText = "Continue",allowAny = false) {
     $(".showNameInput").value = user.showName ? user.showName : "";
     $(".showNameInput").classRemove("emptyName");
     $(".popup").show("flex");
+    if (allowAny) $(".showNameInput").hide();
+    else $(".showNameInput").show();
     $(".popup_affirm").onclick = function() {
         if (allowAny) {
             $(".popup").hide();
@@ -211,6 +209,9 @@ $(".popup_cancel").on("click",function() {
 function clearSearch() {
     $(".songTitle").value = "";
     $(".songResultsDiv").innerHTML = "";
+    $(".addSongTopRow").hide();
+    
+    $(".songResultsGradient").style.opacity = 0;
     searching = false;
     
     $(".userStatSongs").show("flex");
@@ -286,6 +287,17 @@ function setPlayingSong(l) {
         artistTitle.classAdd("s2TextLight");
         songTitle.classAdd("s2TextBold");
 
+    
+    if (isClipped(songTitle)) {
+        smoothAutoScroll(songTitle);
+    }
+    if (isClipped(artistTitle)) {
+        smoothAutoScroll(artistTitle);
+    }
+    if (isClipped(singerTitle)) {
+        smoothAutoScroll(singerTitle);
+    }
+
 }
 function displaySongs(div,list,type) {
     if (div.length) {
@@ -296,7 +308,7 @@ function displaySongs(div,list,type) {
     }
     div.innerHTML = "";
 
-    if (type == "queue") {
+    if (type == "queue" && !div.classList.contains("column1Fill")) {
         let title = div.create("div.queueTitle>Queue List")
         if (list.length === 0) $("queueSheet").hide();
         else $("queueSheet").show()
@@ -306,6 +318,7 @@ function displaySongs(div,list,type) {
 
     for (let i = 0; i < list.length; i++) {
         let l = list[i];
+        if (div.classList.contains("column1Fill") && i > 4) continue;
         if (type === "history") {
             let date = new _time(new Date(l.date)).format("mm/dd/yy");
             if (currentDate !== date) {
@@ -320,6 +333,7 @@ function displaySongs(div,list,type) {
 
         }
         let container = div.create("div.songListing");
+        if (div.classList.contains("column1Fill")) container.classAdd("screenQueueObject");
         let section1 = container.create("div.section1");
             if (l.playing && type !== "history") {
                 let linesHolder = section1.create("div.playingLines");
@@ -336,6 +350,8 @@ function displaySongs(div,list,type) {
                 let addToQueueText = changingSong ? "Change Song!" : "Add To Queue!";
                 s1IconHolder.on("click touch",function() {
                     popup(addSongToQueueText,function() {
+                        $(".displayDiv").style.opacity = 0;
+                        $(".displayDiv").style.pointerEvents = "none";
                         addQueue({
                             song: l.song,
                             artist: l.artist,
@@ -344,21 +360,24 @@ function displaySongs(div,list,type) {
                             singerID: account.user.uid, //Remove
                             videoId: l.videoId,
                             changingSong: changingSong,
+                            channel: l.channel,
                         })
                     },addToQueueText)
 
                 })
             }
         let section2 = container.create("div.section2");
+        let singerTitle;
             if (l.type === "queue") {
-                let singerTitle = section2.create("div.s2Div>" + l.singer);
+                singerTitle = section2.create("div.s2Div>" + l.singer);
                 singerTitle.classAdd("s2TextCenter");
 
             }
             let songTitle = section2.create("div.s2Div>" + l.song);
             let artistTitle = section2.create("div.s2Div>" + l.artist);
-            if (l.channel) {
-                let channelTitle = section2.create("div.s2Div>" + l.channel);
+            let channelTitle;
+            if (l.channel && l.type !== "queue") {
+                channelTitle = section2.create("div.s2Div>" + l.channel);
                 channelTitle.classAdd("s2TextLight");
                 artistTitle.classAdd("s2TextLight");
                 songTitle.classAdd("s2TextBold");
@@ -395,29 +414,61 @@ function displaySongs(div,list,type) {
                     ls.save("favorites",account.favorites);
                 })
             }
-            if (l.type === "queue" && adminAccount) {
-                iconHolder = section3.create("div.s3IconHolder");
-                let move = iconHolder.create("img.s3IconFavorite");
-                move.src = "img/moveIcon.png";
+        
+        if (isClipped(songTitle)) {
+            smoothAutoScroll(songTitle);
+        }
+        if (isClipped(artistTitle)) {
+            smoothAutoScroll(artistTitle);
+        }
+        if (isClipped(singerTitle)) {
+            smoothAutoScroll(singerTitle);
+        }
+        if (isClipped(channelTitle)) {
+            smoothAutoScroll(channelTitle);
+        }
+        if (l.singerID === account?.user?.uid || userType == "screen") {
+            container.classAdd("usersSong")
+        }
 
-                //Do Move Stuff
-
-            }
-
-        if (l.type === "queue" && type !== "history") {
-            container.on("click",function() {
-                if (adminAccount) $(".qpAdmin").show();
+        if (l.type === "queue" && type !== "history" && userType !== "screen") {
+            addLongPress(container,function(e) {
+                if (account.user.admin) $(".qpAdmin").show();
                 else $(".qpAdmin").hide();
-                console.log(l);
-                $(".queuePopup").show();
-                selectedSong = i;
-            })
+                if (account.user.admin || l.singerID === account.user.uid) {
+                    $(".queuePopup").show();
+                    selectedSong = i;
+
+                }
+            });
 
         }
     }
 }
 
+function addLongPress(element, callback, duration = 500) {
+    let timer;
 
+    const start = (e) => {
+        if (e.target.classList.contains("s3IconFavorite")) return;
+        e.preventDefault();
+        timer = setTimeout(() => {
+            callback(e);
+        }, duration);
+    };
+
+    const cancel = () => {
+        clearTimeout(timer);
+    };
+
+    element.addEventListener("mousedown", start);
+    element.addEventListener("touchstart", start);
+
+    element.addEventListener("mouseup", cancel);
+    element.addEventListener("mouseleave", cancel);
+    element.addEventListener("touchend", cancel);
+    element.addEventListener("touchcancel", cancel);
+}
 
 
 
@@ -536,26 +587,24 @@ function findMostPlayed(songs) {
     return(returnSongs.sort((a, b) => b.count - a.count));
 }
 $("userStat_mostPlayed").on("click touch",function() {
-    $(".displayTitle").innerHTML = "Most Played";
-    $(".displayDiv").style.opacity = 1;
-    $(".displayDiv").style.pointerEvents = "all";
-    $(".displayBody").innerHTML = "";
-    displaySongs($(".displayBody"),findMostPlayed(account.history),"search")
+    setSongDisplay("Most Played",findMostPlayed(account.history),"search");
 })
 $("userStat_Favorites").on("click touch",function() {
-    $(".displayTitle").innerHTML = "Favorites";
-    $(".displayDiv").style.opacity = 1;
-    $(".displayDiv").style.pointerEvents = "all";
-    $(".displayBody").innerHTML = "";
-    displaySongs($(".displayBody"),account.favorites,"search")
+    setSongDisplay("Favorites",account.favorites,"search");
 })
 $("userStat_History").on("click touch",function() {
-    $(".displayTitle").innerHTML = "History";
+    setSongDisplay("History",[...account.history].reverse(),"history");
+})
+$("globalStat_popular").on("click touch",function() {
+    setSongDisplay("Popular",server_popularSongs,"search");
+})
+function setSongDisplay(title,songs,type) {
+    $(".displayTitle").innerHTML = title;
     $(".displayDiv").style.opacity = 1;
     $(".displayDiv").style.pointerEvents = "all";
     $(".displayBody").innerHTML = "";
-    displaySongs($(".displayBody"),[...account.history].reverse(),"history")
-})
+    displaySongs($(".displayBody"),songs,type)
+}
 
 let lastScrollY = 0;
 document.addEventListener("focusin", (e) => {
@@ -571,3 +620,41 @@ document.addEventListener("focusout", (e) => {
         window.scrollTo(0, lastScrollY);
     }
 });
+function isClipped(el) {
+    if (!el) return false;
+    return el.scrollWidth > el.clientWidth;
+}
+function smoothAutoScroll(div, speed = 60, pause = 1000) {
+    if (!div) return;
+
+    const maxScroll = div.scrollWidth - div.clientWidth;
+
+    function scrollForward() {
+        let raf;
+
+        function step() {
+            div.scrollLeft += speed * (1/60); // speed pixels per second
+            if (div.scrollLeft < maxScroll) {
+                raf = requestAnimationFrame(step);
+            } else {
+                cancelAnimationFrame(raf);
+                setTimeout(resetScroll, pause);
+            }
+        }
+
+        step();
+    }
+
+    function resetScroll() {
+        // Smooth reset
+
+        div.scrollTo({ left: 0, behavior: "smooth" });
+        setTimeout(scrollForward, pause);
+    }
+
+    // start cycle
+    setTimeout(scrollForward, pause);
+}
+setTimeout(function() {
+    $("splash").style.opacity = 0;
+},1000)
