@@ -1,7 +1,11 @@
+
+let adminCode = ls.get("adminCode",[]);
 let searching = false;
 function setScene(scene) {
     $(".scene").hide();
     $("scene_" + scene).show("flex");
+
+    if (scene === "adminSignin") resetAdminPinPad();
 }
 // detect URL path
 const path = window.location.pathname;
@@ -25,11 +29,16 @@ socket.on("qr_result", data => {
 })
 
 $(".adminControlsHolder").on("click touch",() => {
-    $(".displayTitle").innerHTML = "Admin Controls";
-    $(".displayDiv").style.opacity = 1;
-    $(".displayDiv").style.pointerEvents = "all";
+    if (account.user.admin) {
+        $(".displayTitle").innerHTML = "Admin Controls";
+        $(".displayDiv").style.opacity = 1;
+        $(".displayDiv").style.pointerEvents = "all";
 
-    setTabAdminControls($(".displayBody"));
+        setTabAdminControls($(".displayBody"));
+
+    } else {
+        setScene("adminSignin");
+    }
 
 })
 $(".displayExit").on("click touch",() => {
@@ -61,6 +70,12 @@ function setTabAdminControls(holder) {
         option.innerHTML = text;
         option.className = "musicControls";
         option.on("click",() => {
+            if (text === "Sign Out Of Admin") {
+                account.user.admin = false;
+                $(".displayDiv").style.opacity = 0;
+                $(".displayDiv").style.pointerEvents = "none";
+                ls.save("adminCode",[]);
+            }
             socket.emit("adminControls",text)
         });
     }
@@ -71,6 +86,8 @@ function setTabAdminControls(holder) {
     createOption("Skip Song")
     createOption("-10 Seconds")
     createOption("+10 Seconds")
+
+    createOption("Sign Out Of Admin")
 }
 
 
@@ -341,28 +358,18 @@ function displaySongs(div,list,type) {
                     let line = linesHolder.create("div.playingLine");
                     line.classAdd("animation" + j);
                 }
-            }
-            if (l.type == "addable" || type == "history") {
+            } else {
                 let s1IconHolder = section1.create("div.s1IconHolder");
                 let addSong = s1IconHolder.create("img.s1IconAddSong");
-                addSong.src = "img/addIcon.png";
-                let addSongToQueueText = changingSong ? `Change Song to '${l.song}'` : `Add '${l.song}' To Queue?`;
-                let addToQueueText = changingSong ? "Change Song!" : "Add To Queue!";
-                s1IconHolder.on("click touch",function() {
-                    popup(addSongToQueueText,function() {
-                        $(".displayDiv").style.opacity = 0;
-                        $(".displayDiv").style.pointerEvents = "none";
-                        addQueue({
-                            song: l.song,
-                            artist: l.artist,
-                            singer: user.showName,
-                            url: l.url,
-                            singerID: account.user.uid, //Remove
-                            videoId: l.videoId,
-                            changingSong: changingSong,
-                            channel: l.channel,
-                        })
-                    },addToQueueText)
+
+                if (l.type == "addable" || type == "history") {
+                    addSong.src = "img/addIcon.png";
+                }
+
+                checkImageExists(l.videoId).then(photo => {
+                    if (!photo) return;
+                    addSong.src = photo.src;
+                    s1IconHolder.classAdd("songCover");
 
                 })
             }
@@ -442,10 +449,40 @@ function displaySongs(div,list,type) {
                 }
             });
 
+        } else {
+            let addSongToQueueText = changingSong ? `Change Song to '${l.song}'` : `Add '${l.song}' To Queue?`;
+            let addToQueueText = changingSong ? "Change Song!" : "Add To Queue!";
+            container.on("click touch",function(e) {
+                if (e.target.classList.contains("s3IconFavorite")) return;
+
+                popup(addSongToQueueText,function() {
+                    $(".displayDiv").style.opacity = 0;
+                    $(".displayDiv").style.pointerEvents = "none";
+                    addQueue({
+                        song: l.song,
+                        artist: l.artist,
+                        singer: user.showName,
+                        url: l.url,
+                        singerID: account.user.uid, //Remove
+                        videoId: l.videoId,
+                        changingSong: changingSong,
+                        channel: l.channel,
+                    })
+                },addToQueueText)
+                
+            })
         }
     }
 }
-
+function checkImageExists(videoID) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = `/songPhotos/${videoID}.jpg`;
+    
+    img.onload = () => resolve(img);  // image exists
+    img.onerror = () => resolve(false); // image does not exist
+  });
+}
 function addLongPress(element, callback, duration = 500) {
     let timer;
 
@@ -587,7 +624,7 @@ function findMostPlayed(songs) {
     return(returnSongs.sort((a, b) => b.count - a.count));
 }
 $("userStat_mostPlayed").on("click touch",function() {
-    setSongDisplay("Most Played",findMostPlayed(account.history),"search");
+    setSongDisplay("Your Most Played",findMostPlayed(account.history),"search");
 })
 $("userStat_Favorites").on("click touch",function() {
     setSongDisplay("Favorites",account.favorites,"search");
@@ -658,3 +695,50 @@ function smoothAutoScroll(div, speed = 60, pause = 1000) {
 setTimeout(function() {
     $("splash").style.opacity = 0;
 },1000)
+
+
+
+function resetAdminPinPad() {
+    adminCode = [];
+    setAdminInputs();
+}
+function setAdminInputs() {
+    for (let i = 0; i < 4; i++) {
+        if (adminCode[i]) {
+            $(".as_input")[i].innerHTML = adminCode[i];
+            $(".as_input")[i].classRemove("as_input_empty");
+        } else {
+            $(".as_input")[i].innerHTML = "x";
+            if (!$(".as_input")[i].classList.contains("as_input_empty"))
+                $(".as_input")[i].classAdd("as_input_empty");
+        }
+    }
+}
+$(".pinpad_option").on("touchstart",function() {
+    navigator.vibrate(30); // vibrate for 30ms
+    if ("0123456789".includes(this.innerHTML)) {
+        if (adminCode.length > 4) return;
+        adminCode.push(this.innerHTML);
+        if (adminCode.length === 4) {
+            setTimeout(function() {
+                socket.emit("checkAdminCode",adminCode.join(""))
+            },50);
+        }
+        setAdminInputs();
+    }
+    if (this.innerHTML == "❮") {
+        adminCode.pop();
+        setAdminInputs();
+    }
+    if (this.innerHTML == "Exit") {
+        setScene("usersigned");
+    }
+})
+socket.on("allowAdmin",() => {
+    account.user.admin = true;
+    ls.save("adminCode",adminCode)
+    setScene("usersigned")
+})
+if (adminCode.length === 4) {
+    socket.emit("checkAdminCode",adminCode.join(""))
+}

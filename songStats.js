@@ -2,9 +2,9 @@
 const { channel } = require('diagnostics_channel');
 const fs = require('fs');
 const path = require('path');
-const STATS_PATH = path.join(__dirname, 'songStats.json');
 
-function loadStats() {
+function loadStats(jsonFile) {
+    const STATS_PATH = path.join(__dirname, jsonFile);
     try {
         if (!fs.existsSync(STATS_PATH)) {
             fs.writeFileSync(STATS_PATH, JSON.stringify({}, null, 2));
@@ -18,7 +18,8 @@ function loadStats() {
     }
 }
 
-function saveStats(stats) {
+function saveStats(jsonFile,stats) {
+    const STATS_PATH = path.join(__dirname, jsonFile);
     try {
         fs.writeFileSync(STATS_PATH, JSON.stringify(stats, null, 2));
     } catch (err) {

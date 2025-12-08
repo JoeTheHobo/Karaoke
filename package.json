@@ -20,6 +20,7 @@
     "nanospinner": "^1.2.2",
     "piper-mgr": "^0.1.0",
     "qrcode": "^1.5.4",
+    "serpapi": "^2.2.1",
     "socket.io": "^4.8.1",
     "yt-dlp-exec": "^1.0.2"
   }

@@ -18,7 +18,7 @@ let setting_queueType;
 let setting_iteration;
 let songSearchExtension = "Karaoke";
 let songEndText;
-let qrURL = "https://karaoke-woods.onrender.com/user";
+let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
 let videoInfo = {};
 let server_popularSongs = [];
 
@@ -49,9 +49,6 @@ socket.on("setSocket",(queueType,iteration,sscode,user,videoStats,global_popular
     ls.save("userCode",user?.uid);
     videoInfo = videoStats;
     server_popularSongs = global_popularSongs;
-
-    if (user?.admin) $(".adminControlsHolder").show("flex");
-    else $(".adminControlsHolder").hide();
 
     if (userType !== "screen") {
         socket.emit("checkIfQR",sessionCode,account?.user?.uid);

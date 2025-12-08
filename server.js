@@ -17,12 +17,12 @@
 */
 
 let max_distance = 5;
-let adminID = false;
 let queue = [];
 let setting_queueType = "Basic"; //"Basic" "Advanced"
 let setting_iteration = "QR Wait";//"QR" "Instant" "QR Wait"
 let sessionCode = Math.floor(Math.random() * 99999);
 let users = [];
+const adminCode = "5646";
 
 const path = require("path");
 
@@ -49,8 +49,12 @@ const axios = require("axios");
 
 const { loadStats, saveStats, addPlay, sortStatsByPopular } = require('./songStats');
 const { channel } = require("diagnostics_channel");
-let global_songStats = loadStats();
+let global_songStats = loadStats("downloadedData.json");
 let global_popularSongs = sortStatsByPopular(global_songStats);
+
+const { fixDownloads, findAndDownloadImage } = require("./fixDownloads.js");
+
+//fixDownloads("./public/Song Downloads","./downloadedData.json");
 
 let waitingOnQR = false;
 
@@ -112,6 +116,11 @@ io.on("connection", (socket) => {
     gatherAllowedChannels();
     socket.uid = false;
 
+    socket.on("checkAdminCode",(code) => {
+      if (code !== adminCode) return;
+      socket.admin = true;
+      socket.emit("allowAdmin")
+    })
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;
       if (waitingOnQR.accepted) return;
@@ -132,14 +141,13 @@ io.on("connection", (socket) => {
         let uid = Math.floor(Math.random() * 99999);
         let obj = {
           uid: uid,
-          admin: adminID == false,
+          admin: false,
         }
         users.push(obj)
         socket.user = obj;
       }
 
-      adminID = true;
-      socket.emit("setSocket",setting_queueType,setting_iteration,sessionCode,socket.user,videoInfo,global_popularSongs);
+      socket.emit("setSocket",setting_queueType,setting_iteration,sessionCode,socket.user,videoInfo,global_popularSongs.slice(0,20));
 
     }) 
     socket.on("screenJoined", (ssCode,uCode) => {
@@ -171,6 +179,10 @@ io.on("connection", (socket) => {
         io.emit("updatedQueue",queue);
     })
     socket.on("adminControls",(control) => {
+      if (!socket.admin) return;
+      if (control === "Sign Out Of Admin") {
+        socket.admin = false;
+      }
       if (!videoInfo.startTime) return;
       if (control === "Pause Song") {
       }
@@ -346,7 +358,7 @@ function playVideo() {
         }
         
         addPlay(global_songStats, waitingOnQR.videoInfo);
-        saveStats(global_songStats);
+        saveStats("downloadedData.json",global_songStats);
         sortGlobalStats();
     })();
 }
@@ -368,6 +380,10 @@ function videoChecker() {
 videoChecker();
 function checkSongReadiness(q) {
   let downloaded =  checkIfSongIsDownloaded(q.videoId);
+  let hasPhoto = checkIfSongHasPhoto(q.videoId)
+  if (!hasPhoto) {
+    findAndDownloadImage(q);
+  }
   if (!downloaded) return false;
   return true;
 }
@@ -375,6 +391,12 @@ function checkIfSongIsDownloaded(videoId) {
   //Check If Song 
   const filePath = path.join(__dirname, "public/Song Downloads", `${videoId}.mp4`);
   return fs.existsSync(filePath);
+}
+
+function checkIfSongHasPhoto(videoId) {
+  const filePath = path.join(__dirname, "public/songPhotos", `${videoId}.jpg`);
+  return fs.existsSync(filePath);
+
 }
 
 
