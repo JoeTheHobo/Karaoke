@@ -18,7 +18,7 @@
 
 let max_distance = 5;
 let queue = [];
-let setting_queueType = "Basic"; //"Basic" "Advanced"
+let setting_queueType = "Auto"; //"Basic" "Auto"
 let setting_iteration = "QR Wait";//"QR" "Instant" "QR Wait"
 let sessionCode = Math.floor(Math.random() * 99999);
 let users = [];
@@ -53,6 +53,7 @@ let global_songStats = loadStats("downloadedData.json");
 let global_popularSongs = sortStatsByPopular(global_songStats);
 
 const { fixDownloads, findAndDownloadImage } = require("./fixDownloads.js");
+const e = require("express");
 
 //fixDownloads("./public/Song Downloads","./downloadedData.json");
 
@@ -213,49 +214,33 @@ io.on("connection", (socket) => {
 
         if (setting_queueType.toLowerCase() === "basic") {
           queue.push(obj);
-          readySong(queue[queue.length-1])
+          readySong(queue[queue.length-1]);
           io.emit("updatedQueue",queue);
           return;
         }
 
-
-        let singerList = [];
         let allowedInsert = undefined;
+        let pastSingers = {};
         findingSpot: for (let i = 0; i < queue.length; i++) {
             let q = queue[i];
-            let singerFound = false;
-            for (let j = 0; j < singerList.length; j++) {
-                if (singerList[j].singerID === q.singerID) {
-                    singerFound = true;
-                    if (obj.singerID !== q.singerID) {
-                        allowedInsert = i;
-                        break findingSpot;
-                    }
-                }
-            }
-            if (!singerFound) {
-                singerList.push({
-                    singerID: q.singerID,
-                    count: 0,
-                })
-            }
 
-            //Add 1 to every singers count
-            let newList = [];
-            for (let j = 0; j < singerList.length; j++) {
-                singerList[j].count++;
-                if (singerList[j].count < max_distance) {
-                    newList.push(singerList[j])
-                }
+            if (pastSingers[q.singerID]) {
+              if ( ( i - pastSingers[q.singerID] ) > max_distance) {
+                allowedInsert = i;
+                break findingSpot;
+              }
+              pastSingers[q.singerID] = i;
+            } else {
+              pastSingers[q.singerID] = i;
             }
-            singerList = newList;
         }
-        if (queue.length === 0 || allowedInsert == undefined) {
-            queue.push(obj);
-            readySong(queue[queue.length-1]);
-        } else if (allowedInsert) {
+        
+        if (allowedInsert) {
             queue.splice(allowedInsert,0,obj);
             readySong(queue[allowedInsert]);
+        } else {
+            queue.push(obj);
+            readySong(queue[queue.length-1]);
         }
 
         io.emit("updatedQueue",queue);

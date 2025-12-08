@@ -1212,3 +1212,11 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 .songCover > * {
     border-radius: 10px;
 }
+.errorText {
+    color: white;
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 18px;
+}

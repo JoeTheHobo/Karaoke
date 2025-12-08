@@ -161,10 +161,15 @@ async function searchSong(q) {
             type: "addable",
             url: v.url,
             videoId: v.videoId,
-
         })
     });
     displaySongs($(".songResultsDiv"),list,"search")
+
+
+    if (videos.length === 0) {
+        $(".songResultsDiv").innerHTML = "";
+        let errorText = $(".songResultsDiv").create("div.errorText>No Results Found");
+    }
 }
 
 function fixTitle(title,index) {
