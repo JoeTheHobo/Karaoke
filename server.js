@@ -16,13 +16,18 @@
     ngrok http 3000
 */
 
-let max_distance = 5;
-let queue = [];
-let setting_queueType = "Auto"; //"Basic" "Auto"
-let setting_iteration = "QR Wait";//"QR" "Instant" "QR Wait"
-let sessionCode = Math.floor(Math.random() * 99999);
-let users = [];
 const adminCode = "5646";
+let sessionCode = Math.floor(Math.random() * 99999);
+let settings = {
+  testing_mode: true,
+  max_distance: 4,
+  queue_type: "auto" //basic or auto
+}
+let state = {
+  users: [],
+  queue: [],
+
+}
 
 const path = require("path");
 
@@ -132,8 +137,8 @@ io.on("connection", (socket) => {
     socket.on("userJoined", (ssCode,uCode) => {
 
       let foundUser = false;
-      for (let i = 0; i < users.length; i++) {
-        let user = users[i];
+      for (let i = 0; i < state.users.length; i++) {
+        let user = state.users[i];
         if (user.uid === uCode) foundUser = user; 
       }
       if (foundUser && ssCode === sessionCode) {
@@ -144,16 +149,16 @@ io.on("connection", (socket) => {
           uid: uid,
           admin: false,
         }
-        users.push(obj)
+        state.users.push(obj)
         socket.user = obj;
       }
 
-      socket.emit("setSocket",setting_queueType,setting_iteration,sessionCode,socket.user,videoInfo,global_popularSongs.slice(0,20));
+      socket.emit("setSocket",settings.setting_queueType,sessionCode,socket.user,videoInfo,global_popularSongs.slice(0,20));
 
     }) 
-    socket.on("screenJoined", (ssCode,uCode) => {
+    socket.on("screenJoined", () => {
       socket.join("screen");
-      socket.emit("setSocket",setting_queueType,setting_iteration);
+      socket.emit("setSocket",settings.setting_queueType);
     })
     socket.on("PromptOk",(id) => {
       if (waitingOnQR.accepted) return;
@@ -177,7 +182,7 @@ io.on("connection", (socket) => {
       }
     });
     socket.on("updateQueue",function() {
-        io.emit("updatedQueue",queue);
+        io.emit("updatedQueue",state.queue);
     })
     socket.on("adminControls",(control) => {
       if (!socket.admin) return;
@@ -212,20 +217,20 @@ io.on("connection", (socket) => {
           return;
         }
 
-        if (setting_queueType.toLowerCase() === "basic") {
-          queue.push(obj);
-          readySong(queue[queue.length-1]);
-          io.emit("updatedQueue",queue);
+        if (settings.setting_queueType.toLowerCase() === "basic") {
+          state.queue.push(obj);
+          readySong(state.queue[state.queue.length-1]);
+          io.emit("updatedQueue",state.queue);
           return;
         }
 
         let allowedInsert = undefined;
         let pastSingers = {};
-        findingSpot: for (let i = 0; i < queue.length; i++) {
-            let q = queue[i];
+        findingSpot: for (let i = 0; i < state.queue.length; i++) {
+            let q = state.queue[i];
 
             if (pastSingers[q.singerID]) {
-              if ( ( i - pastSingers[q.singerID] ) > max_distance) {
+              if ( ( i - pastSingers[q.singerID] ) > settings.max_distance) {
                 allowedInsert = i;
                 break findingSpot;
               }
@@ -234,16 +239,16 @@ io.on("connection", (socket) => {
               pastSingers[q.singerID] = i;
             }
         }
-        
+
         if (allowedInsert) {
-            queue.splice(allowedInsert,0,obj);
-            readySong(queue[allowedInsert]);
+            state.queue.splice(allowedInsert,0,obj);
+            readySong(state.queue[allowedInsert]);
         } else {
-            queue.push(obj);
-            readySong(queue[queue.length-1]);
+            state.queue.push(obj);
+            readySong(state.queue[state.queue.length-1]);
         }
 
-        io.emit("updatedQueue",queue);
+        io.emit("updatedQueue",state.queue);
     })
   socket.on("disconnect", () => {
     console.log("Station disconnected:", socket.id);
@@ -280,10 +285,10 @@ function queueHandler() {
   playSong();
 }
 function playSong() {
-  if (!queue.length) {
+  if (!state.queue.length) {
     console.log("No songs in queue");
     queueWorking = false;
-    io.emit("updatedQueue",queue)
+    io.emit("updatedQueue",state.queue)
     return;
   }
   /* song = 
@@ -296,19 +301,19 @@ function playSong() {
     channel: v.channel,
   */
 
-  let songIsReady = checkSongReadiness(queue[0]);
+  let songIsReady = checkSongReadiness(state.queue[0]);
   if (!songIsReady) {
-    if (!queue[0].statedNotReady) {
-      queue[0].statedNotReady = true;
+    if (!state.queue[0].statedNotReady) {
+      state.queue[0].statedNotReady = true;
     } 
     setTimeout(playSong,2000);
     return;
   }
 
-  let song = queue[0];
-  queue[0].playing = true;
+  let song = state.queue[0];
+  state.queue[0].playing = true;
 
-  io.emit("updatedQueue",queue)
+  io.emit("updatedQueue",state.queue)
   io.emit("settingSong",song)
   waitingOnQR = {
     id: song.singerID,
@@ -342,7 +347,7 @@ function playVideo() {
           adjustTime: 0,
         }
         
-        addPlay(global_songStats, waitingOnQR.videoInfo);
+        if (!settings.testing_mode) addPlay(global_songStats, waitingOnQR.videoInfo);
         saveStats("downloadedData.json",global_songStats);
         sortGlobalStats();
     })();
@@ -354,7 +359,7 @@ function videoChecker() {
       videoInfo.startTime = false;
       //Handle Video Finished;
       setTimeout(() => {
-        queue.shift();
+        state.queue.shift();
         playSong();
       },3000);
     }
@@ -438,42 +443,42 @@ function downloadFinished() {
   }
 }
 function alterQueue(code,queueID,obj) {
-  let index = queue.findIndex(item => item.queueID === queueID);
+  let index = state.queue.findIndex(item => item.queueID === queueID);
   if (index === -1) return; // not found
 
-  const item = queue[index];
+  const item = state.queue[index];
 
   if (code == "Move Top") {
-    queue.splice(index, 1);
-    queue.splice(1, 0, item);
+    state.queue.splice(index, 1);
+    state.queue.splice(1, 0, item);
   }
   if (code == "Move Up") {
     if (index > 1) {
-        [queue[index - 1], queue[index]] = [queue[index], queue[index - 1]];
+        [state.queue[index - 1], state.queue[index]] = [state.queue[index], state.queue[index - 1]];
     }
   }
   if (code == "Move Down") {
-    if (index < queue.length - 1) {
-      [queue[index + 1], queue[index]] = [queue[index], queue[index + 1]];
+    if (index < state.queue.length - 1) {
+      [state.queue[index + 1], state.queue[index]] = [state.queue[index], state.queue[index + 1]];
     }
   }
   if (code == "Move Bottom") {
-    queue.splice(index, 1);
-    queue.push(item);
+    state.queue.splice(index, 1);
+    state.queue.push(item);
   }
   if (code == "Remove") {
-    queue.splice(index, 1);
+    state.queue.splice(index, 1);
   }
   if (code == "Change Song") {
-    queue[index].song = obj.song;
-    queue[index].artist = obj.artist;
-    queue[index].url = obj.url;
-    queue[index].videoId = obj.videoId;
-    readySong(queue[index]);
+    state.queue[index].song = obj.song;
+    state.queue[index].artist = obj.artist;
+    state.queue[index].url = obj.url;
+    state.queue[index].videoId = obj.videoId;
+    readySong(state.queue[index]);
   }
 
 
-  io.emit("updatedQueue",queue);
+  io.emit("updatedQueue",state.queue);
 }
 function getVideoDuration(path) {
     return new Promise((resolve, reject) => {

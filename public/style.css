@@ -993,12 +993,12 @@ input, select {
     box-sizing: border-box;
 
 }
-.displayTitle {
+.displayTitle,.adminHeaderTitle {
     color: white;
     font-size: 20px;
     font-weight: bold;
 }
-.displayExit {
+.displayExit,.admin_exit {
     filter: invert(1);
     width: 25px;
 }
@@ -1133,7 +1133,7 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 }
 
 
-#scene_adminSignin {
+#scene_adminSignin,#scene_admin {
     flex-direction: column;
     align-items: center;
     width: 100%;
@@ -1219,4 +1219,181 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     margin-top: 5px;
     font-weight: bold;
     font-size: 18px;
+}
+
+
+
+.adminBody {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1;
+    align-items: center;
+}
+.adminGroup {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.adminTitle {
+    font-size: 24px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    color: white;
+    margin-top: 3px;
+}
+.adminTimer {
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    margin-top: 3px;
+}
+.adminTimerScroll {
+    -webkit-appearance: none !important;
+    width: 85%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    height: 6px;
+    background: white; /* track color */
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Thumb */
+.adminTimerScroll::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 20px;
+    height: 20px;
+    background: white;  /* thumb color */
+    border-radius: 50%;
+    border: 2px solid #ccc; /* optional so you can see it */
+    cursor: pointer;
+}
+.adminTimerRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 60px;
+}
+.adminMusic {
+    border-radius: 10px;
+    background: rgb(20, 20, 20);
+    width: 95% !important;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.adminMusicSetting {
+    height: 40%;
+    aspect-ratio: 1/1;
+}
+.adminMusicPlay{
+    height: 70%;
+    aspect-ratio: 1/1;
+}
+.adminSettingRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+}
+.adminLabel {
+    width: 50%;
+    text-align: right;
+    padding-right: 3px;
+    color: white;
+    font-size: 20px;
+}
+.adminInputAll {
+    border-radius: 5px;
+    font-size: 23px !important;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    text-align: center;
+    height: 90%;
+    outline: none;
+    border: none;
+}
+.admin_input_number {
+    width: 20%;
+}
+.admin_input_select {
+    width: 45%;
+    margin-left: 3px;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background: white;
+    color: black;
+
+    padding: 10px;
+    height: 50px;
+    font-size: 16px;
+    cursor: pointer;
+
+    /* remove blue highlight ring */
+    outline: none;
+}
+
+
+/* OPTIONS MENU */
+.admin_input_select option {
+    background: white;
+    color: black;
+    border: none;
+}
+.admin_input_checkbox {
+    appearance: none;          /* remove default */
+    -webkit-appearance: none;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    background: white;
+    display: inline-block;
+    position: relative;
+}
+
+/* checkmark */
+.admin_input_checkbox:checked::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    /* simple black checkmark */
+    background: black;
+    mask: url("data:image/svg+xml;utf8,<svg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path d='M5 10l4 4 6-8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/70% no-repeat;
+
+    /* fallback if mask unsupported: solid fill */
+    /* background: black; border-radius optional */
+}
+
+
+
+
+
+.admin_signout_holder {
+    height: 75px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin_signout {
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+    background: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    width: 80%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

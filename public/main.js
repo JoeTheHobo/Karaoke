@@ -30,12 +30,7 @@ socket.on("qr_result", data => {
 
 $(".adminControlsHolder").on("click touch",() => {
     if (account.user.admin) {
-        $(".displayTitle").innerHTML = "Admin Controls";
-        $(".displayDiv").style.opacity = 1;
-        $(".displayDiv").style.pointerEvents = "all";
-
-        setTabAdminControls($(".displayBody"));
-
+        setScene("admin");
     } else {
         setScene("adminSignin");
     }
@@ -47,6 +42,17 @@ $(".displayExit").on("click touch",() => {
     clearSearch();
 
 })
+
+
+$(".admin_exit").on("click touch",() => {
+    setScene("usersigned")
+})
+$(".admin_signout").on("click touch",() => {
+    account.user.admin = false;
+    setScene("usersigned")
+    socket.emit("adminControls","Sign Out Of Admin");
+})
+
 function setTabAdminControls(holder) {
     holder.innerHTML = "";
 
@@ -59,7 +65,6 @@ function setTabAdminControls(holder) {
         5. Go Forward 10 Seconds
 
     */
-
 
     let div_musicControls = holder.create("div");
     div_musicControls.className = "adminControlObject";

@@ -15,7 +15,6 @@ let currentSong;
 let selectedSong;
 let changingSong = undefined;
 let setting_queueType;
-let setting_iteration;
 let songSearchExtension = "Karaoke";
 let songEndText;
 let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
@@ -39,10 +38,9 @@ socket.on("connect", () => {
     },50);
 });
 
-socket.on("setSocket",(queueType,iteration,sscode,user,videoStats,global_popularSongs) => {
+socket.on("setSocket",(queueType,sscode,user,videoStats,global_popularSongs) => {
     account.user = user;
     setting_queueType = queueType;
-    setting_iteration = iteration;
 
     sessionCode = sscode;
     ls.save("sessionCode",sscode);

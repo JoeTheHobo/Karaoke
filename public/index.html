@@ -111,6 +111,53 @@
         </div>
     </div>
 
+    <div class="scene" id="scene_admin">
+        <div class="header">
+            <div class="adminHeaderTitle">Admin</div>
+            <img class="admin_exit" src="img/deleteIcon.png" alt="">
+        </div>
+        <div class="adminBody">
+            <div class="adminGroup adminMusic">
+                <div class="adminTitle">Music Control</div>
+                <div class="adminTimer">2:13/3:42</div>
+                <input type="range" class="adminTimerScroll">
+                <div class="adminTimerRow">
+                    <img src="img/music_restart.png" class="adminMusicSetting" id="music_restart" alt="">
+                    <img src="img/music_minus_10.png" class="adminMusicSetting" id="music_minus_10" alt="">
+                    <img src="img/music_play.png" class="adminMusicPlay" id="music_play" alt="">
+                    <img src="img/music_plus_10.png" class="adminMusicSetting" id="music_plus_10" alt="">
+                    <img src="img/music_skip.png" class="adminMusicSetting" id="music_skip" alt="">
+                </div>
+            </div>
+            <div class="adminGroup">
+                <div class="adminTitle">General Settings</div>
+                <div class="adminSettingRow">
+                    <div class="adminLabel">Queue Distance</div>
+                    <input type="number" class="adminInputAll admin_input_number" id="admin_input_queue_distance">
+                </div>
+                <div class="adminSettingRow">
+                    <div class="adminLabel">Queue Type</div>
+                    <select class="admin_input_select adminInputAll" value="Auto" id="admin_input_queue_type">
+                        <option value="Auto">Auto</option>
+                        <option value="Basic">Basic</option>
+                    </select>
+                </div>
+                <div class="adminSettingRow">
+                    <div class="adminLabel">Testing Mode</div>
+                    <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_testing">
+                </div>
+            </div>
+
+            <div class="adminGroup">
+                <div class="adminTitle">User Settings</div>
+
+            </div>
+        </div>
+        <div class="admin_signout_holder">
+            <div class="admin_signout">Sign Out</div>
+        </div>
+    </div>
+
     <div class="displayDiv">
         <div class="header">
             <div class="displayTitle"></div>
