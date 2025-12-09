@@ -52,49 +52,28 @@ $(".admin_signout").on("click touch",() => {
     setScene("usersigned")
     socket.emit("adminControls","Sign Out Of Admin");
 })
-
-function setTabAdminControls(holder) {
-    holder.innerHTML = "";
-
-    /*
-        Admin Controls:
-        1. Pause/Play Song
-        2. Restart Song
-        3. Skip Song
-        4. Go Back 10 Seconds
-        5. Go Forward 10 Seconds
-
-    */
-
-    let div_musicControls = holder.create("div");
-    div_musicControls.className = "adminControlObject";
-
-    function createOption(text) {
-        let option;
-        option = div_musicControls.create("div");
-        option.innerHTML = text;
-        option.className = "musicControls";
-        option.on("click",() => {
-            if (text === "Sign Out Of Admin") {
-                account.user.admin = false;
-                $(".displayDiv").style.opacity = 0;
-                $(".displayDiv").style.pointerEvents = "none";
-                ls.save("adminCode",[]);
-            }
-            socket.emit("adminControls",text)
-        });
+$("music_restart").on("click touch",() => {
+    socket.emit("adminControls","Restart Song");
+})
+$("music_minus_10").on("click touch",() => {
+    socket.emit("adminControls","-10 Seconds");
+    
+})
+$("music_plus_10").on("click touch",() => {
+    socket.emit("adminControls","+10 Seconds");
+    
+})
+$("music_skip").on("click touch",() => {
+    socket.emit("adminControls","Skip Song");
+    
+})
+$("music_play").on("click touch",() => {
+    if ($("music_play").src == "img/music_pause.png") {
+        socket.emit("adminControls","Pause Song"); //Pause Song
+    } else {
+        socket.emit("adminControls","Play Song"); //Pause Song
     }
-
-    createOption("Pause Song")
-    createOption("Play Song")
-    createOption("Restart Song")
-    createOption("Skip Song")
-    createOption("-10 Seconds")
-    createOption("+10 Seconds")
-
-    createOption("Sign Out Of Admin")
-}
-
+})
 
 $(".singAlone").on("click touch",function() {
     $(".singMode").classRemove("active");
@@ -745,6 +724,7 @@ $(".pinpad_option").on("touchstart",function() {
     }
 })
 socket.on("allowAdmin",() => {
+    if (!account?.user) return;
     account.user.admin = true;
     ls.save("adminCode",adminCode)
     setScene("usersigned")

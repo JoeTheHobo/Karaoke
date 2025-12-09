@@ -82,8 +82,17 @@ socket.on("setUserPrompt", (userID) => {
     }
 });
 socket.on("screenVideoUpdate",(videoStats) => {
-    if (userType !== "screen") return;
     videoInfo = videoStats;
+    
+    if (account?.user?.admin) {
+        if (videoInfo.playing) {
+            if ($("music_play").src !== "img/music_pause.png")
+                $("music_play").src = "img/music_pause.png";
+        } else {
+            if ($("music_play").src !== "img/music_play.png")
+                $("music_play").src = "img/music_play.png";
+        }
+    }
 })
 
 let videoObj = {
@@ -92,6 +101,20 @@ let videoObj = {
 function videoChecker() {
     let now = Date.now();
     let videoEl = $(".displayingVideo");
+
+    if (!videoInfo) {
+        requestAnimationFrame(videoChecker);
+        return;
+    }
+
+    if (!videoInfo.playing) {
+        if (videoObj.playing) {
+            videoEl.pause();
+            videoEl.currentTime = state.music.pausedAt / 1000;
+        }
+        requestAnimationFrame(videoChecker);
+        return;
+    }
 
     if (videoInfo?.startTime && !videoObj.playing) {
         if (now > videoInfo.startTime) {

@@ -26,7 +26,10 @@ let settings = {
 let state = {
   users: [],
   queue: [],
-
+  music: {
+    
+  },
+  waitingOnQR: false,
 }
 
 const path = require("path");
@@ -62,7 +65,6 @@ const e = require("express");
 
 //fixDownloads("./public/Song Downloads","./downloadedData.json");
 
-let waitingOnQR = false;
 
 app.get("/api/search", async (req, res) => {
   const query = req.query.q;
@@ -125,12 +127,13 @@ io.on("connection", (socket) => {
     socket.on("checkAdminCode",(code) => {
       if (code !== adminCode) return;
       socket.admin = true;
+      socket.join("music");
       socket.emit("allowAdmin")
     })
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;
-      if (waitingOnQR.accepted) return;
-      if (waitingOnQR.id !== uid) return;
+      if (state.waitingOnQR.accepted) return;
+      if (state.waitingOnQR.id !== uid) return;
 
       socket.emit("promptQR");
     })
@@ -153,18 +156,19 @@ io.on("connection", (socket) => {
         socket.user = obj;
       }
 
-      socket.emit("setSocket",settings.setting_queueType,sessionCode,socket.user,videoInfo,global_popularSongs.slice(0,20));
+      socket.emit("setSocket",settings.queue_type,sessionCode,socket.user,state.music,global_popularSongs.slice(0,20));
 
     }) 
     socket.on("screenJoined", () => {
       socket.join("screen");
-      socket.emit("setSocket",settings.setting_queueType);
+      socket.join("music");
+      socket.emit("setSocket",settings.queue_type);
     })
     socket.on("PromptOk",(id) => {
-      if (waitingOnQR.accepted) return;
-      if (waitingOnQR.id !== id) return;
+      if (state.waitingOnQR.accepted) return;
+      if (state.waitingOnQR.id !== id) return;
       playVideo();
-      waitingOnQR.accepted = true;
+      state.waitingOnQR.accepted = true;
     })
     socket.on("request_qr", async (url) => {
       try {
@@ -188,24 +192,31 @@ io.on("connection", (socket) => {
       if (!socket.admin) return;
       if (control === "Sign Out Of Admin") {
         socket.admin = false;
+        socket.leave("music");
       }
-      if (!videoInfo.startTime) return;
+      if (!state.music.startTime) return;
       if (control === "Pause Song") {
+        state.music.pausedAt = Date.now() - state.music.startTime;
+        state.music.playing = false;
       }
       if (control === "Play Song") {
+        state.music.startTime = Date.now() - state.music.pausedAt;
+        state.music.playing = true;
+        state.music.pausedAt = null;
       }
       if (control === "Restart Song") {
-          videoInfo.startTime = Date.now();
+          state.music.startTime = Date.now();
       }
       if (control === "Skip Song") {
-          videoInfo.startTime -= videoInfo.duration;
+          state.music.startTime -= state.music.duration;
       }
       if (control === "-10 Seconds") {
-          videoInfo.startTime += (10*1000);
+          state.music.startTime += (10*1000);
       }
       if (control === "+10 Seconds") {
-          videoInfo.startTime -= (10*1000);
+          state.music.startTime -= (10*1000);
       }
+      io.to("music").emit("screenVideoUpdate",state.music);
     })
     socket.on("alterQueue",(code,queueID) => {
       alterQueue(code,queueID);
@@ -217,7 +228,7 @@ io.on("connection", (socket) => {
           return;
         }
 
-        if (settings.setting_queueType.toLowerCase() === "basic") {
+        if (settings.queue_type.toLowerCase() === "basic") {
           state.queue.push(obj);
           readySong(state.queue[state.queue.length-1]);
           io.emit("updatedQueue",state.queue);
@@ -315,7 +326,7 @@ function playSong() {
 
   io.emit("updatedQueue",state.queue)
   io.emit("settingSong",song)
-  waitingOnQR = {
+  state.waitingOnQR = {
     id: song.singerID,
     time: Date.now(),
     accepted: false,
@@ -327,36 +338,43 @@ function playSong() {
   /*song.videoId,*/ 
   io.emit("setUserPrompt", song.singerID);
   setTimeout(function() {
-    if (waitingOnQR.accepted) {
+    if (state.waitingOnQR.accepted) {
       return;
     }
-    waitingOnQR.accepted = true;
+    state.waitingOnQR.accepted = true;
     playVideo();
   },30000);
 }
-let videoInfo = {};
 function playVideo() {
     // Example:
     (async () => {
-        const duration = await getVideoDuration(`./public/Song Downloads/${waitingOnQR.videoID}.mp4`);
-        videoInfo = {
+        const duration = await getVideoDuration(`./public/Song Downloads/${state.waitingOnQR.videoID}.mp4`);
+        state.music = {
           startTime: Date.now() + 3000,
           duration: duration * 1000,
-          videoId: waitingOnQR.videoID,
-          singer: waitingOnQR.singer,
+          videoId: state.waitingOnQR.videoID,
+          singer: state.waitingOnQR.singer,
           adjustTime: 0,
+          playing: false,
+          pausedAt: false,
         }
         
-        if (!settings.testing_mode) addPlay(global_songStats, waitingOnQR.videoInfo);
+        if (!settings.testing_mode) addPlay(global_songStats, state.waitingOnQR.videoInfo);
         saveStats("downloadedData.json",global_songStats);
         sortGlobalStats();
     })();
 }
 function videoChecker() {
-  if (videoInfo.startTime) {
+  if (state.music.startTime) {
+    if (!state.music.pausedAt && !state.music.playing) state.music.playing = true;
+    if (state.music.pausedAt) {
+        io.to("music").emit("screenVideoUpdate",state.music);
+        setTimeout(videoChecker,200);
+      return;
+    }
     let now = Date.now();
-    if (now >= (videoInfo.startTime) + videoInfo.duration) {
-      videoInfo.startTime = false;
+    if (now >= (state.music.startTime) + state.music.duration) {
+      state.music.startTime = false;
       //Handle Video Finished;
       setTimeout(() => {
         state.queue.shift();
@@ -364,7 +382,7 @@ function videoChecker() {
       },3000);
     }
   }
-  io.to("screen").emit("screenVideoUpdate",videoInfo);
+  io.to("music").emit("screenVideoUpdate",state.music);
   setTimeout(videoChecker,200);
 }
 videoChecker();
