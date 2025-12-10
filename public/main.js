@@ -1,6 +1,6 @@
-
-let adminCode = ls.get("adminCode",[]);
-let searching = false;
+setTimeout(function() {
+    $("splash").style.opacity = 0;
+},1000)
 function setScene(scene) {
     $(".scene").hide();
     $("scene_" + scene).show("flex");
@@ -11,105 +11,19 @@ function setScene(scene) {
 const path = window.location.pathname;
 if (path === "/user") {
     setScene("usersigned");
-    userType = "user";
-    socket.emit("userJoined",sessionCode,userCode);
+    user.type = "user";
+    socket.emit("userJoined",sessionCode,user.code);
 } else if (path === "/" || path === "/screen") {
-    userType = "screen";
+    user.type = "screen";
     setScene("screenSelection")
 } else {
-    setScene("unknown"); //Need To Add
+    //Redirect to User
+    setScene("usersigned");
+    user.type = "user";
+    socket.emit("userJoined",sessionCode,user.code);
 }
-socket.on("qr_result", data => {
-    $(".qrCodeImg").src = "data:image/png;base64," + data.base64;
-})
 
-$(".adminControlsHolder").on("click touch",() => {
-    if (account.user.admin) {
-        setScene("admin");
-    } else {
-        setScene("adminSignin");
-    }
-
-})
-$(".displayExit").on("click touch",() => {
-    $(".displayDiv").style.opacity = 0;
-    $(".displayDiv").style.pointerEvents = "none";
-    clearSearch();
-
-})
-
-
-$(".admin_exit").on("click touch",() => {
-    setScene("usersigned")
-})
-$(".admin_signout").on("click touch",() => {
-    account.user.admin = false;
-    ls.save("adminCode",[])
-    setScene("usersigned")
-    socket.emit("adminControls","Sign Out Of Admin");
-})
-$("music_restart").on("click touch",() => {
-    socket.emit("adminControls","Restart Song");
-})
-$("music_minus_10").on("click touch",() => {
-    socket.emit("adminControls","-10 Seconds");
-    
-})
-$("music_plus_10").on("click touch",() => {
-    socket.emit("adminControls","+10 Seconds");
-    
-})
-$("music_skip").on("click touch",() => {
-    socket.emit("adminControls","Skip Song");
-    
-})
-$("music_play").on("click touch",() => {
-    if ($("music_play").src.includes("pause")) {
-        socket.emit("adminControls","Pause Song"); //Pause Song
-    } else {
-        socket.emit("adminControls","Play Song"); //Pause Song
-    }
-})
-
-$(".singAlone").on("click touch",function() {
-    $(".singMode").classRemove("active");
-    this.$P().classAdd("active");
-    songSearchExtension = "Karaoke";
-    $(".songResultsDiv").innerHTML = "";
-    searchSong($(".songTitle").value);
-
-})
-$(".singAlong").on("click touch",function() {
-    $(".singMode").classRemove("active");
-    this.$P().classAdd("active");
-    songSearchExtension = "Lyrics";
-    $(".songResultsDiv").innerHTML = "";
-    searchSong($(".songTitle").value);
-})
-$(".songTitle").on("keydown",function(e) {
-    if (e.key == "Enter") searchSong(this.value);
-})
-$("<input").on("focus",function() {
-    if (this.classList.contains("songTitle")) {
-        $(".inputSearchContainer").classAdd("inputSelected");
-    } else
-        this.classAdd("inputSelected");
-})
-$("<input").on("blur",function() {
-    if (this.classList.contains("songTitle")) {
-        $(".inputSearchContainer").classRemove("inputSelected");
-    } else
-        this.classRemove("inputSelected");
-})
-$(".clearSearch").on("click touch",function() {
-    clearSearch();
-    this.$P().$(".songTitle").focus();
-})
-$(".findSongButton").on("click touch",function() {
-    searchSong($(".songTitle").value);
-})
 async function searchSong(q) {
-    searching = true;
     $(".songTitle").simpleBlur();
     if (!q) return;
     q = q + " " + songSearchExtension;
@@ -213,24 +127,20 @@ function popup(text,func,affirmText = "Continue",allowAny = false) {
         func($(".popup").sendValue);
     };
 }
-$(".popup_cancel").on("click",function() {
-    $(".popup").hide();
-})
 function clearSearch() {
     $(".songTitle").value = "";
     $(".songResultsDiv").innerHTML = "";
     $(".addSongTopRow").hide();
     
     $(".songResultsGradient").css("opacity",0)
-    searching = false;
     
     $(".userStatSongs").show("flex");
 
-    if (account.favorites.length === 0) $("userStat_Favorites").hide();
+    if (user.favorites.length === 0) $("userStat_Favorites").hide();
     else $("userStat_Favorites").show();
-    if (account.history.length === 0) $("userStat_History").hide();
+    if (user.history.length === 0) $("userStat_History").hide();
     else $("userStat_History").show();
-    if (account.history.length === 0) $("userStat_mostPlayed").hide();
+    if (user.history.length === 0) $("userStat_mostPlayed").hide();
     else $("userStat_mostPlayed").show();
 }
 clearSearch();
@@ -238,11 +148,6 @@ function addQueue(obj) {
     socket.emit("addQueue",obj);
     clearSearch();
 }
-document.body.on("click touch",(e) => {
-    if (!e.target.classList.contains("queuePopup2")) {
-        closeQueueEditor();
-    }
-})
 function updateQueue() {
     let holder = $(".queueList"); 
     holder.html("");
@@ -255,32 +160,6 @@ function updateQueue() {
     displaySongs(holder,queue,"queue");
 }
 
-$("qpMoveTop").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Move Top",queue[selectedSong].queueID);
-})
-$("qpMoveUp").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Move Up",queue[selectedSong].queueID);
-})
-$("qpMoveDown").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Move Down",queue[selectedSong].queueID);
-})
-$("qpMoveBottom").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Move Bottom",queue[selectedSong].queueID);
-})
-$("qpRemove").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Remove",queue[selectedSong].queueID);
-})
-$("qpChangeSong").on("click",function() {
-    closeQueueEditor();
-    changingSong = queue[selectedSong].queueID;
-    setScene("changeSong");
-
-})
 
 function openQueueEditor(container) {
     let rect = container.getBoundingClientRect();
@@ -297,7 +176,6 @@ function closeQueueEditor() {
 }
 
 
-let playingSong = false;
 function setPlayingSong(l) {
     if (playingSong === l) return;
     playingSong = l;
@@ -370,7 +248,7 @@ function displaySongs(div,list,type,showExtension = true) {
         }
         if (l.playing && type !== "history") {
             setPlayingSong(l);
-            if (userType !== "screen") continue;
+            if (user.type !== "screen") continue;
 
         }
         let container = div.create("div.songListing");
@@ -428,28 +306,28 @@ function displaySongs(div,list,type,showExtension = true) {
             
         let section3 = container.create("div.section3");
             let iconHolder;
-            if (userType !== "screen") {
+            if (user.type !== "screen") {
                 iconHolder = section3.create("div.s3IconHolder");
                 let star = iconHolder.create("img.s3IconFavorite");
                 star.src = "img/star.png"; 
-                for (let i = 0; i < account.favorites.length; i++) {
-                    if (account.favorites[i].videoId === l.videoId) star.src = "img/gold_star.png";
+                for (let i = 0; i < user.favorites.length; i++) {
+                    if (user.favorites[i].videoId === l.videoId) star.src = "img/gold_star.png";
                 }
 
                 star.on("click",function() {
                     let foundFavorite = false;
-                    for (let i = 0; i < account.favorites.length; i++) {
-                        if (account.favorites[i].videoId === l.videoId) {
+                    for (let i = 0; i < user.favorites.length; i++) {
+                        if (user.favorites[i].videoId === l.videoId) {
                             foundFavorite = true;
                             star.src = "img/star.png";
-                            account.favorites.splice(i,1);
+                            user.favorites.splice(i,1);
                         }
                     }
                     if (!foundFavorite) {
-                        account.favorites.push(l);
+                        user.favorites.push(l);
                         star.src = "img/gold_star.png"
                     }
-                    ls.save("favorites",account.favorites);
+                    ls.save("favorites",user.favorites);
                 })
             }
         
@@ -465,16 +343,16 @@ function displaySongs(div,list,type,showExtension = true) {
         if (isClipped(channelTitle)) {
             smoothAutoScroll(channelTitle);
         }
-        if ((l.singerID === account?.user?.uid && type == "queue") || userType == "screen") {
+        if ((l.singerID === user.uid && type == "queue") || user.type == "screen") {
             container.classAdd("usersSong")
         }
 
-        if (l.type === "queue" && type !== "history" && userType !== "screen") {
+        if (l.type === "queue" && type !== "history" && user.type !== "screen") {
             addLongPress(container,function(e) {
                 navigator.vibrate(30); // vibrate for 30ms
-                if (account.user.admin) $(".qpAdmin").show("flex");
+                if (user.admin) $(".qpAdmin").show("flex");
                 else $(".qpAdmin").hide();
-                if (account.user.admin || l.singerID === account.user.uid) {
+                if (user.admin || l.singerID === user.uid) {
                     openQueueEditor(container);
                     $("qpChangeSong").songNumber = i;
                     selectedSong = i;
@@ -495,7 +373,7 @@ function displaySongs(div,list,type,showExtension = true) {
                         artist: l.artist,
                         singer: user.showName,
                         url: l.url,
-                        singerID: account.user.uid,
+                        singerID: user.uid,
                         videoId: l.videoId,
                         changingSong: changingSong,
                         channel: l.channel,
@@ -661,18 +539,6 @@ function findMostPlayed(songs) {
     }
     return(returnSongs.sort((a, b) => b.count - a.count));
 }
-$("userStat_mostPlayed").on("click touch",function() {
-    setSongDisplay("Your Most Played",findMostPlayed(account.history),"search");
-})
-$("userStat_Favorites").on("click touch",function() {
-    setSongDisplay("Favorites",account.favorites,"search");
-})
-$("userStat_History").on("click touch",function() {
-    setSongDisplay("History",[...account.history].reverse(),"history");
-})
-$("globalStat_popular").on("click touch",function() {
-    setSongDisplay("Popular",server_popularSongs,"search",false);
-})
 function setSongDisplay(title,songs,type,showExtension = true) {
     $(".displayTitle").innerHTML = title;
     $(".displayDiv").style.opacity = 1;
@@ -681,20 +547,7 @@ function setSongDisplay(title,songs,type,showExtension = true) {
     displaySongs($(".displayBody"),songs,type,showExtension)
 }
 
-let lastScrollY = 0;
-document.addEventListener("focusin", (e) => {
-    if (e.target.tagName === "INPUT") {
-        lastScrollY = window.scrollY;
-        document.body.style.top = `-${lastScrollY}px`;
-    }
-});
 
-document.addEventListener("focusout", (e) => {
-    if (e.target.tagName === "INPUT") {
-        document.body.style.top = "";
-        window.scrollTo(0, lastScrollY);
-    }
-});
 function isClipped(el) {
     if (!el) return false;
     return el.scrollWidth > el.clientWidth;
@@ -730,9 +583,6 @@ function smoothAutoScroll(div, speed = 60, pause = 1000) {
     // start cycle
     setTimeout(scrollForward, pause);
 }
-setTimeout(function() {
-    $("splash").style.opacity = 0;
-},1000)
 
 
 
@@ -752,74 +602,142 @@ function setAdminInputs() {
         }
     }
 }
-$(".pinpad_option").on("touchstart",function() {
-    navigator.vibrate(30); // vibrate for 30ms
-    if ("0123456789".includes(this.innerHTML)) {
-        if (adminCode.length > 4) return;
-        adminCode.push(this.innerHTML);
-        if (adminCode.length === 4) {
-            setTimeout(function() {
-                socket.emit("checkAdminCode",adminCode.join(""))
-            },50);
+
+
+
+
+function promptQR() {
+ $(".promptQR").show("flex");   
+}
+
+
+function playVideo(fileName) {
+    if (user.type !== "screen") return;
+    let videoEl = $(".displayingVideo");
+    videoEl.src = `/Song Downloads/${fileName}.mp4`;
+    videoEl.show();
+    videoEl.muted = true;
+    $(".appearingText").hide();
+    videoEl.play().then(() => {
+        videoEl.muted = false;
+    }).catch(err => console.error("Autoplay blocked:", err));
+}
+
+function setAppearingText(first = "",second = "",third = "") {
+    $("appearingText1").innerHTML = first;
+    $("appearingText2").innerHTML = second;
+    $("appearingText3").innerHTML = third;
+    $(".appearingText").show();
+}
+
+videoChecker();
+function videoChecker() {
+    if (user.type !== "screen" && !user.admin) {
+        requestAnimationFrame(videoChecker);
+        return;
+    } 
+
+    if (user.admin) updateAdminMusicControls();
+
+    if (!videoInfo) {
+        requestAnimationFrame(videoChecker);
+        return;
+    }
+
+    let videoEl = $(".displayingVideo");
+    videoEl.volume = globalMute ? 0 : settings.volume/100;
+
+
+    if (videoInfo.pausedAt) {
+        if (videoObj.playing) {
+            videoEl.pause();
+            videoEl.currentTime = videoInfo.pausedAt / 1000;
+            videoObj.playing = false;
         }
-        setAdminInputs();
+        requestAnimationFrame(videoChecker);
+        return;
     }
-    if (this.innerHTML == "❮") {
-        adminCode.pop();
-        setAdminInputs();
+
+    let now = Date.now();
+
+    if (videoInfo.startTime && !videoObj.playing) {
+        if (now > videoInfo.startTime) {
+            playVideo(videoInfo.videoId);
+            videoObj.playing = true;
+            videoInfo.playing = true;
+        }
     }
-    if (this.innerHTML == "Exit") {
-        setScene("usersigned");
+
+    if (videoObj.playing) {
+        let currentDur = videoEl.currentTime * 1000;
+        let realDuration = now - videoInfo.startTime;
+        let delay = Math.abs(currentDur - realDuration);
+        $(".videoDelayTracker").innerHTML = Math.round(delay); 
+        if (delay > 200) {
+            //Fix Duration if delay is greater than 200ms
+            videoEl.currentTime = (realDuration)/1000;
+        }
+        if (now >= videoInfo.startTime + videoInfo.duration) {
+            //Video Ended
+            videoObj.playing = false;
+            videoInfo = {
+                startTime: false,
+                playing: false,
+                pausedAt: false,
+            }
+            videoEl.pause();
+            videoEl.hide();
+        }
     }
-})
-socket.on("allowAdmin",(adminSettings) => {
-    if (userType === "screen") return;
-    account.user.admin = true;
-    ls.save("adminCode",adminCode)
-    setScene("usersigned")
-    updateAdminSettings(adminSettings);
-})
+
+
+    requestAnimationFrame(videoChecker);
+}
+
+function updateAdminMusicControls() {
+    if (!user.admin) return;
+
+
+    if (videoInfo?.startTime) {
+        if ($(".adminMusic").style.display !== "flex")
+            $(".adminMusic").show("flex");
+    } else {
+        if ($(".adminMusic").style.display !== "none")
+            $(".adminMusic").hide();
+        
+        return;
+    }
+    let totalTime = new _time(videoInfo.duration,"duration").format("MM:SS");
+    let currentTime;
+    if (videoInfo.pausedAt) {
+        if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = videoInfo.pausedAt;
+    } else {
+        if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = Date.now() - videoInfo.startTime;
+    }
+    currentTime = new _time($(".adminTimerScroll").value,"duration").format("MM:SS");
+    $(".adminTimer").innerHTML = currentTime + "/" + totalTime;
+    $(".adminTimerScroll").max = videoInfo.duration; 
+    
+
+
+    if (videoInfo?.playing) {
+        if ($("music_play").src !== "img/music_pause.png")
+            $("music_play").src = "img/music_pause.png";
+    } else {
+        if ($("music_play").src !== "img/music_play.png")
+            $("music_play").src = "img/music_play.png";
+    }
+}
+
+function updateAdminSettings(settings) {
+    if (!user.admin) return;
+    $("admin_input_queue_distance").value = settings.max_distance;
+    $("admin_input_queue_type").value = settings.queue_type.format("A");
+    $("admin_input_testing").checked = settings.testing_mode;
+    $(".adminVolumeScroll").value = settings.volume;
+    
+}
+
 if (adminCode.length === 4) {
     socket.emit("checkAdminCode",adminCode.join(""))
 }
-
-$(".adminTimerScroll").scrolling = false;
-$(".adminTimerScroll").on("touchstart",function() {
-    this.scrolling = true;
-})
-$(".adminTimerScroll").on("touchend",function() {
-    this.scrolling = false;
-    let difference = this.value - (Date.now() - videoInfo.startTime);
-    videoInfo.startTime -= difference;
-    socket.emit("adminControls","setTime",this.value);
-})
-
-$(".adminVolumeScroll").on("change",function() {
-    socket.emit("adminControls","setVolume",this.value);
-})
-
-
-$(".scren_finish").on("click",() => {
-    if ($("screen_input_qr").checked) $(".qrCodeHolder").show("flex"); 
-    else $(".qrCodeHolder").hide();
-    if ($("screen_input_queue").checked) $(".screenQueue").show("flex"); 
-    else $(".screenQueue").hide();
-    if ($("screen_input_logo").checked) $(".screenLogo2").show("flex"); 
-    else $(".screenLogo2").hide();
-    if ($("screen_input_screenText").checked) $(".appearingText").show("flex"); 
-    else $(".appearingText").hide();
-    if ($("screen_input_muted").checked) globalMute = true;
-    else globalMute = false;
-
-    if (globalMute) settings.volume = 0;
-
-    setScene("screen");
-    userType = "screen";
-    socket.emit("request_qr",qrURL);
-    socket.emit("screenJoined",sessionCode,userCode);
-})
-
-$(".leaveChangeSong").on("click touch",() => {
-    setScene("usersigned");
-    changingSong = false;
-})
