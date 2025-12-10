@@ -103,7 +103,7 @@ $("<input").on("blur",function() {
 })
 $(".clearSearch").on("click touch",function() {
     clearSearch();
-    $(".songTitle").focus();
+    this.$P().$(".songTitle").focus();
 })
 $(".findSongButton").on("click touch",function() {
     searchSong($(".songTitle").value);
