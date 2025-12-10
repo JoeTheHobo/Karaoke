@@ -939,8 +939,16 @@ window.ls = {
 pluginsIncludes("ls",3.1);
 
 
-
-
+Array.prototype.simpleBlur = function() {
+    for (let i = 0; i < this.length; i++) {
+        this[i].blur();
+    }
+    return this;
+}
+Element.prototype.simpleBlur = function() {
+    this.blur();
+    return this;
+}
 
 /*
 

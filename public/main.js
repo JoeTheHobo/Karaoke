@@ -44,6 +44,7 @@ $(".admin_exit").on("click touch",() => {
 })
 $(".admin_signout").on("click touch",() => {
     account.user.admin = false;
+    ls.save("adminCode",[])
     setScene("usersigned")
     socket.emit("adminControls","Sign Out Of Admin");
 })
@@ -109,7 +110,7 @@ $(".findSongButton").on("click touch",function() {
 })
 async function searchSong(q) {
     searching = true;
-    $(".songTitle").blur();
+    $(".songTitle").simpleBlur();
     if (!q) return;
     q = q + " " + songSearchExtension;
 
@@ -117,7 +118,7 @@ async function searchSong(q) {
     const videos = await res.json();
 
     const resultsDiv = $(".songResultsDiv");
-    $(".songResultsGradient").style.opacity = 1;
+    $(".songResultsGradient").css("opacity",1);
     $(".userStatSongs").hide();
     $(".addSongTopRow").show("flex");
     resultsDiv.innerHTML = "";
@@ -220,7 +221,7 @@ function clearSearch() {
     $(".songResultsDiv").innerHTML = "";
     $(".addSongTopRow").hide();
     
-    $(".songResultsGradient").style.opacity = 0;
+    $(".songResultsGradient").css("opacity",0)
     searching = false;
     
     $(".userStatSongs").show("flex");
@@ -237,9 +238,15 @@ function addQueue(obj) {
     socket.emit("addQueue",obj);
     clearSearch();
 }
+document.body.on("click touch",(e) => {
+    if (!e.target.classList.contains("queuePopup2")) {
+        closeQueueEditor();
+    }
+})
 function updateQueue() {
     let holder = $(".queueList"); 
     holder.html("");
+    closeQueueEditor();
 
     for (let i = 0; i < queue.length; i++) {
         let q = queue[i];
@@ -248,30 +255,46 @@ function updateQueue() {
     displaySongs(holder,queue,"queue");
 }
 
-
-$("qpExit").on("click",function() {
-    $(".queuePopup").hide();
-})
 $("qpMoveTop").on("click",function() {
-    $(".queuePopup").hide();
+    closeQueueEditor();
     socket.emit("alterQueue","Move Top",queue[selectedSong].queueID);
 })
 $("qpMoveUp").on("click",function() {
-    $(".queuePopup").hide();
+    closeQueueEditor();
     socket.emit("alterQueue","Move Up",queue[selectedSong].queueID);
 })
 $("qpMoveDown").on("click",function() {
-    $(".queuePopup").hide();
+    closeQueueEditor();
     socket.emit("alterQueue","Move Down",queue[selectedSong].queueID);
 })
 $("qpMoveBottom").on("click",function() {
-    $(".queuePopup").hide();
+    closeQueueEditor();
     socket.emit("alterQueue","Move Bottom",queue[selectedSong].queueID);
 })
 $("qpRemove").on("click",function() {
-    $(".queuePopup").hide();
+    closeQueueEditor();
     socket.emit("alterQueue","Remove",queue[selectedSong].queueID);
 })
+$("qpChangeSong").on("click",function() {
+    closeQueueEditor();
+    changingSong = queue[selectedSong].queueID;
+    setScene("changeSong");
+
+})
+
+function openQueueEditor(container) {
+    let rect = container.getBoundingClientRect();
+    $(".queuePopup2").css({
+        left: rect.left + "px",
+        top: (rect.top - 50) + "px",
+    })
+    $(".queuePopup2").style.opacity = 1;
+    $(".queuePopup2").style.pointerEvents = "all";
+}
+function closeQueueEditor() {
+    $(".queuePopup2").style.opacity = 0;
+    $(".queuePopup2").style.pointerEvents = "none";
+}
 
 
 let playingSong = false;
@@ -319,6 +342,12 @@ function displaySongs(div,list,type,showExtension = true) {
 
     if (type == "queue" && !div.classList.contains("column1Fill")) {
         let title = div.create("div.queueTitle>Queue List")
+        if (list.length > 1) {
+            div.create("div.queueSmallText>Hold down on your songs for more options.")
+        }
+        if (list.length === 1) {
+            div.create("div.queueSmallText>No song in queue.")
+        }
         if (list.length === 0) $("queueSheet").hide();
         else $("queueSheet").show()
     }
@@ -378,6 +407,7 @@ function displaySongs(div,list,type,showExtension = true) {
             let songType = l.extension;
             if (!songType) songType = "";
             if (!showExtension) songType = "";
+            if (type == "queue") songType = "";
 
             let songTitleRow = section2.create("div.s2DivRow");
             let songTitle = songTitleRow.create("div.s2Div2>" + l.song);
@@ -441,18 +471,20 @@ function displaySongs(div,list,type,showExtension = true) {
 
         if (l.type === "queue" && type !== "history" && userType !== "screen") {
             addLongPress(container,function(e) {
-                if (account.user.admin) $(".qpAdmin").show();
+                navigator.vibrate(30); // vibrate for 30ms
+                if (account.user.admin) $(".qpAdmin").show("flex");
                 else $(".qpAdmin").hide();
                 if (account.user.admin || l.singerID === account.user.uid) {
-                    $(".queuePopup").show();
+                    openQueueEditor(container);
+                    $("qpChangeSong").songNumber = i;
                     selectedSong = i;
 
                 }
             });
 
         } else {
-            let addSongToQueueText = changingSong ? `Change Song to '${l.song}'` : `Add '${l.song}' To Queue?`;
-            let addToQueueText = changingSong ? "Change Song!" : "Add To Queue!";
+            let addSongToQueueText = changingSong ? `Change Song To '${l.song}'` : `Add '${l.song}' To Queue?`;
+            let addToQueueText = changingSong ? `Change Song!` : "Add To Queue!";
             container.on("click touch",function(e) {
                 if (e.target.classList.contains("s3IconFavorite")) return;
                 popup(addSongToQueueText,function() {
@@ -463,12 +495,16 @@ function displaySongs(div,list,type,showExtension = true) {
                         artist: l.artist,
                         singer: user.showName,
                         url: l.url,
-                        singerID: account.user.uid, //Remove
+                        singerID: account.user.uid,
                         videoId: l.videoId,
                         changingSong: changingSong,
                         channel: l.channel,
                         extension: l.extension,
                     })
+                    if (changingSong) {
+                        changingSong = false;
+                        setScene("usersigned");
+                    }
                 },addToQueueText)
                 
             })
@@ -484,7 +520,7 @@ function checkImageExists(videoID) {
     img.onerror = () => resolve(false); // image does not exist
   });
 }
-function addLongPress(element, callback, duration = 500) {
+function addLongPress(element, callback, duration = 400) {
     let timer;
 
     const start = (e) => {
@@ -519,7 +555,7 @@ let startHeight = 0;
 let isDragging = false;
 
 const MIN_HEIGHT = 80;
-const MAX_HEIGHT = window.innerHeight * 0.9;
+const MAX_HEIGHT = window.innerHeight * 1;
 const THRESHOLD = window.innerHeight * 0.10; // 10%
 
 handle.addEventListener("mousedown", startDrag);
@@ -597,8 +633,9 @@ function openSheet() {
 }
 
 function closeSheet() {
-  sheet.classList.remove("open");
-  $("collapseBtn").classRemove("collapseBtnReversed");
+    closeQueueEditor();
+    sheet.classList.remove("open");
+    $("collapseBtn").classRemove("collapseBtnReversed");
 }
 
 // Collapse button
@@ -780,4 +817,9 @@ $(".scren_finish").on("click",() => {
     userType = "screen";
     socket.emit("request_qr",qrURL);
     socket.emit("screenJoined",sessionCode,userCode);
+})
+
+$(".leaveChangeSong").on("click touch",() => {
+    setScene("usersigned");
+    changingSong = false;
 })

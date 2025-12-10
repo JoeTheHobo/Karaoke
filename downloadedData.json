@@ -10,7 +10,7 @@
   },
   "0yYbzWRroKo": {
     "videoId": "0yYbzWRroKo",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=0yYbzWRroKo",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -190,7 +190,7 @@
   },
   "bOcCjuQuDno": {
     "videoId": "bOcCjuQuDno",
-    "plays": 0,
+    "plays": 2,
     "url": "https://www.youtube.com/watch?v=bOcCjuQuDno",
     "channel": "Josiah Winslow",
     "song": "Coffin ",
@@ -271,7 +271,7 @@
   },
   "F-p2BQ4H1nA": {
     "videoId": "F-p2BQ4H1nA",
-    "plays": 0,
+    "plays": 9,
     "url": "https://www.youtube.com/watch?v=F-p2BQ4H1nA",
     "channel": "Musisi Karaoke",
     "song": "Lose Yourself",
@@ -352,7 +352,7 @@
   },
   "gx6J54BIsn0": {
     "videoId": "gx6J54BIsn0",
-    "plays": 1,
+    "plays": 2,
     "url": "https://www.youtube.com/watch?v=gx6J54BIsn0",
     "channel": "Captain Awesome Karaoke",
     "song": "Lucky You",
@@ -756,7 +756,7 @@
     "extension": "Karaoke"
   },
   "ypZTfLupGqE": {
-    "plays": 1,
+    "plays": 11,
     "song": "luther ",
     "artist": "Kendrick Lamar",
     "url": "https://www.youtube.com/watch?v=ypZTfLupGqE",
@@ -765,12 +765,21 @@
     "extension": "Karaoke"
   },
   "anUz77ElBK4": {
-    "plays": 2,
+    "plays": 3,
     "song": "Not Afraid ",
     "artist": "Eminem",
     "url": "https://www.youtube.com/watch?v=anUz77ElBK4",
     "videoId": "anUz77ElBK4",
     "channel": "Rap City",
     "extension": "Lyrics"
+  },
+  "0w7-fpMIC5k": {
+    "plays": 2,
+    "song": "Do Re Mi ",
+    "artist": "Blackbear",
+    "url": "https://www.youtube.com/watch?v=0w7-fpMIC5k",
+    "videoId": "0w7-fpMIC5k",
+    "channel": "Captain Awesome Karaoke",
+    "extension": "Karaoke"
   }
 }

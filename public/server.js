@@ -8,12 +8,12 @@ let account = {
     history: ls.get("history",[]),
     favorites: ls.get("favorites",[]),
 }
+let changingSong = false;
 let userType;
 let onQueueScreen = false;
 let queue = [];
 let currentSong;
 let selectedSong;
-let changingSong = undefined;
 let songSearchExtension = "Karaoke";
 let songEndText;
 let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
@@ -62,6 +62,19 @@ socket.on("updatedQueue",(q) => {
     if (!q) q = [];
     queue = q;
     updateQueue();
+
+    if (changingSong) {
+        if (queue.length == 0) {
+            changingSong = false;
+            setScene("usersigned");
+            return;
+        }
+        if (queue[0].queueID === changingSong) {
+            changingSong = false;
+            setScene("usersigned");
+            return;
+        }
+    }
 })
 
 
@@ -84,6 +97,7 @@ socket.on("setUserPrompt", (userID) => {
 });
 socket.on("screenVideoUpdate",(videoStats) => {
     videoInfo = videoStats;
+    
 })
 socket.on("updateAdminSettings",(adminSettings) => {
     settings = adminSettings;

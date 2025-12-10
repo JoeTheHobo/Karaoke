@@ -192,15 +192,33 @@
             </div>
         </div>
     </div>
-    <div class="queuePopup">
-        <div class="qpSetting" id="qpExit">Exit</div>
-        <div class="qpSetting qpAdmin" id="qpMoveTop">Move Top</div>
-        <div class="qpSetting qpAdmin" id="qpMoveUp">Move Up</div>
-        <div class="qpSetting" id="qpMoveDown">Move Down</div>
-        <div class="qpSetting" id="qpMoveBottom">Move Bottom</div>
-        <div class="qpSetting" id="qpChangeSong">Change Song</div>
-        <div class="qpSetting" id="qpEmpty"></div>
-        <div class="qpSetting qpRed" id="qpRemove">Remove</div>
+    <div class="queuePopup2">
+        <div class="qp_icon_holder"><img src="img/changeSong.png" id="qpChangeSong" alt=""></div>
+        <div class="qp_icon_holder qpAdmin"><img src="img/movetop.webp" id="qpMoveTop" alt=""></div>
+        <div class="qp_icon_holder qpAdmin"><img src="img/moveUp.png" id="qpMoveUp" alt=""></div>
+        <div class="qp_icon_holder"><img src="img/moveDown.png" id="qpMoveDown" alt=""></div>
+        <div class="qp_icon_holder"><img src="img/moveBottom.png" id="qpMoveBottom" alt=""></div>
+        <div class="qp_icon_holder"><img src="img/delete.png" id="qpRemove" alt=""></div>
+    </div>
+    <div class="scene" id="scene_changeSong">
+        <div class="signed_header">
+            <div class="sideRow">
+                <div class="changeSongTitle">Change Song</div>
+                <div class="leaveChangeHolder"><img src="img/deleteIcon.png" class="leaveChangeSong" alt=""></div>
+            </div>
+            <div class="inputSearchContainer">
+                <img src="img/search.png" class="findSongButton searchSmall" alt="">
+                <input type="text" class="songTitle" placeholder="Search songs or artists...">
+                <img class="clearSearch" src="img/deleteIcon.png" alt="">
+            </div>
+        </div>
+        <div class="addSongTopRow">
+            <div class="singMode active"><div class="singAlone">Karaoke</div></div>
+            <div class="singMode"><div class="singAlong">With Vocals</div></div>
+        </div>
+        <div class="songResultsDiv changeSongList"></div>
+        <div class="songResultsGradient"></div>
+
     </div>
 
     <div class="scene" id="scene_screenSelection">

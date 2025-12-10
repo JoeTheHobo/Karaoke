@@ -254,7 +254,7 @@ io.on("connection", (socket) => {
 
     })
     socket.on("addQueue",(obj) => {
-        if (obj.changingSong !== undefined) {
+        if (obj.changingSong !== false) {
           alterQueue("Change Song",obj.changingSong,obj);
           return;
         }
