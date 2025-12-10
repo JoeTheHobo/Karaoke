@@ -5,13 +5,15 @@
     "url": "https://www.youtube.com/watch?v=-3Psw4ZGMIg",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "Woah ",
-    "artist": "Lil Baby"
+    "artist": "Lil Baby",
+    "extension": "Karaoke"
   },
   "0yYbzWRroKo": {
     "videoId": "0yYbzWRroKo",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=0yYbzWRroKo",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "drunk text ",
     "artist": "Henry Moodie"
   },
@@ -20,6 +22,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=1CRDnXlieP0",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "The Real Slim Shady ",
     "artist": "Eminem"
   },
@@ -29,13 +32,15 @@
     "url": "https://www.youtube.com/watch?v=3BDn16q_pvM",
     "channel": "KaraFun Karaoke",
     "song": "Ben",
-    "artist": "Michael Jackson "
+    "artist": "Michael Jackson ",
+    "extension": "Karaoke"
   },
   "3Cz__Yiutq0": {
     "videoId": "3Cz__Yiutq0",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=3Cz__Yiutq0",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Recess ",
     "artist": "Melanie Martinez"
   },
@@ -44,6 +49,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=4hwpLK7CWVM",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "A Whole New World ",
     "artist": "Mena Massoud, Naomi Scott "
   },
@@ -53,15 +59,17 @@
     "url": "https://www.youtube.com/watch?v=4RiRGBsdx3E",
     "channel": "Musisi Karaoke",
     "song": "The Fate of Ophelia",
-    "artist": "Taylor Swift "
+    "artist": "Taylor Swift ",
+    "extension": "Karaoke"
   },
   "4_50Ujala1o": {
     "videoId": "4_50Ujala1o",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=4_50Ujala1o",
     "channel": "Nightmare 297",
-    "song": "Seven Nation Army (The Voice Performance) Karaoke",
-    "artist": "Melanie Martinez"
+    "song": "Seven Nation Army",
+    "artist": "Melanie Martinez",
+    "extension": "Karaoke"
   },
   "5bzd2Pv01Rs": {
     "videoId": "5bzd2Pv01Rs",
@@ -69,13 +77,15 @@
     "url": "https://www.youtube.com/watch?v=5bzd2Pv01Rs",
     "channel": "MrEntertainerKaraoke",
     "song": "Somebody Save Me",
-    "artist": "Eminem ft Jelly Roll "
+    "artist": "Eminem ft Jelly Roll ",
+    "extension": "Karaoke"
   },
   "68HfJMN5YUQ": {
     "videoId": "68HfJMN5YUQ",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=68HfJMN5YUQ",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Drops Of Jupiter ",
     "artist": "Train"
   },
@@ -84,6 +94,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=6VoT-KrseHA",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "All Of Me ",
     "artist": "John Legend"
   },
@@ -93,13 +104,15 @@
     "url": "https://www.youtube.com/watch?v=7PUcCHCZzME",
     "channel": "Mi Balmz Karaoke Tracks",
     "song": "Testing",
-    "artist": "Skusta Clee "
+    "artist": "Skusta Clee ",
+    "extension": "Karaoke"
   },
   "8-XsZ78KvoI": {
     "videoId": "8-XsZ78KvoI",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=8-XsZ78KvoI",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Paper Planes ",
     "artist": "M.I.A."
   },
@@ -109,13 +122,15 @@
     "url": "https://www.youtube.com/watch?v=82gSasm1CQ0",
     "channel": "KaraFun Karaoke",
     "song": "The Emptiness Machine",
-    "artist": "Linkin Park "
+    "artist": "Linkin Park ",
+    "extension": "Karaoke"
   },
   "9Lxm0iSnKNc": {
     "videoId": "9Lxm0iSnKNc",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=9Lxm0iSnKNc",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Bohemian Rhapsody ",
     "artist": "Queen"
   },
@@ -125,15 +140,17 @@
     "url": "https://www.youtube.com/watch?v=9RHrBN61r6I",
     "channel": "Cassiopeia",
     "song": "Swimming Pools ",
-    "artist": "Kendrick Lamar"
+    "artist": "Kendrick Lamar",
+    "extension": "Lyrics"
   },
   "a0GBFPj7LKQ": {
     "videoId": "a0GBFPj7LKQ",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=a0GBFPj7LKQ",
     "channel": "Musisi Karaoke",
-    "song": "We Don't Talk About Bruno From \"Encanto\" (Karaoke Songs With Lyrics",
-    "artist": "Original Key)"
+    "song": "We Don't Talk About Bruno",
+    "artist": "Encanto",
+    "extension": "Karaoke"
   },
   "AdVabRWFRZM": {
     "videoId": "AdVabRWFRZM",
@@ -141,7 +158,8 @@
     "url": "https://www.youtube.com/watch?v=AdVabRWFRZM",
     "channel": "MrEntertainerKaraoke",
     "song": "Lemon",
-    "artist": "N E R D & Rihanna "
+    "artist": "N E R D & Rihanna ",
+    "extension": "Karaoke"
   },
   "AjCmq54NPZo": {
     "videoId": "AjCmq54NPZo",
@@ -149,13 +167,15 @@
     "url": "https://www.youtube.com/watch?v=AjCmq54NPZo",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "Rabbit ",
-    "artist": "Chas & Dave"
+    "artist": "Chas & Dave",
+    "extension": "Karaoke"
   },
   "ANXnoJStI-g": {
     "videoId": "ANXnoJStI-g",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=ANXnoJStI-g",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Abracadabra ",
     "artist": "Lady Gaga"
   },
@@ -164,6 +184,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=bhGqtMsp0-w",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Stay ft. Mikky Ekko ",
     "artist": "Rihanna"
   },
@@ -173,7 +194,8 @@
     "url": "https://www.youtube.com/watch?v=bOcCjuQuDno",
     "channel": "Josiah Winslow",
     "song": "Coffin ",
-    "artist": "Jessie Reyez & Eminem"
+    "artist": "Jessie Reyez & Eminem",
+    "extension": "Karaoke"
   },
   "br_luVN2zGA": {
     "videoId": "br_luVN2zGA",
@@ -181,7 +203,8 @@
     "url": "https://www.youtube.com/watch?v=br_luVN2zGA",
     "channel": "Musisi Karaoke",
     "song": "Free",
-    "artist": "Kpop Demon Hunters "
+    "artist": "Kpop Demon Hunters ",
+    "extension": "Karaoke"
   },
   "CoP-UU5DNz0": {
     "videoId": "CoP-UU5DNz0",
@@ -189,13 +212,15 @@
     "url": "https://www.youtube.com/watch?v=CoP-UU5DNz0",
     "channel": "MrEntertainerKaraoke",
     "song": "Woah",
-    "artist": "Krypto9095 ft D3MStreet "
+    "artist": "Krypto9095 ft D3MStreet ",
+    "extension": "Karaoke"
   },
   "Cro88cWAcqk": {
     "videoId": "Cro88cWAcqk",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=Cro88cWAcqk",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Rahasia Hati ",
     "artist": "Element"
   },
@@ -204,6 +229,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=DocjNb_mg-o",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Hotel Room Service ",
     "artist": "Pitbull"
   },
@@ -212,6 +238,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=DqqsTljY3PA",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "All I Want ",
     "artist": "Olivia Rodrigo"
   },
@@ -221,13 +248,15 @@
     "url": "https://www.youtube.com/watch?v=DZlMF2WrZx8",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "As ",
-    "artist": "Stevie Wonder"
+    "artist": "Stevie Wonder",
+    "extension": "Karaoke"
   },
   "EkJ2NL6xpcc": {
     "videoId": "EkJ2NL6xpcc",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=EkJ2NL6xpcc",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Welcome To The Black Parade ",
     "artist": "My Chemical Romance"
   },
@@ -236,6 +265,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=EOAILMpVCxk",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Manchild ",
     "artist": "Sabrina Carpenter"
   },
@@ -245,7 +275,8 @@
     "url": "https://www.youtube.com/watch?v=F-p2BQ4H1nA",
     "channel": "Musisi Karaoke",
     "song": "Lose Yourself",
-    "artist": "Eminem "
+    "artist": "Eminem ",
+    "extension": "Karaoke"
   },
   "F0y7myKDKyA": {
     "videoId": "F0y7myKDKyA",
@@ -253,13 +284,15 @@
     "url": "https://www.youtube.com/watch?v=F0y7myKDKyA",
     "channel": "EasyKaraoke",
     "song": "Sing For The Moment",
-    "artist": "Eminem "
+    "artist": "Eminem ",
+    "extension": "Karaoke"
   },
   "FbKx9g6oyvw": {
     "videoId": "FbKx9g6oyvw",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=FbKx9g6oyvw",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Now ",
     "artist": "Paramore"
   },
@@ -269,7 +302,8 @@
     "url": "https://www.youtube.com/watch?v=fGI2vCk6ykY",
     "channel": "KaraFun Karaoke",
     "song": "Your Song",
-    "artist": "Elton John "
+    "artist": "Elton John ",
+    "extension": "Karaoke"
   },
   "fKg4HFQ1YHE": {
     "videoId": "fKg4HFQ1YHE",
@@ -277,7 +311,8 @@
     "url": "https://www.youtube.com/watch?v=fKg4HFQ1YHE",
     "channel": "Musisi Karaoke",
     "song": "Blank Space",
-    "artist": "Taylor Swift "
+    "artist": "Taylor Swift ",
+    "extension": "Karaoke"
   },
   "fQ7Bt10jUfM": {
     "videoId": "fQ7Bt10jUfM",
@@ -285,7 +320,8 @@
     "url": "https://www.youtube.com/watch?v=fQ7Bt10jUfM",
     "channel": "Musisi Karaoke",
     "song": "Golden",
-    "artist": "Kpop Demon Hunters "
+    "artist": "Kpop Demon Hunters ",
+    "extension": "Karaoke"
   },
   "GDC2p7S6-jY": {
     "videoId": "GDC2p7S6-jY",
@@ -293,7 +329,8 @@
     "url": "https://www.youtube.com/watch?v=GDC2p7S6-jY",
     "channel": "Musisi Karaoke",
     "song": "Not Afraid",
-    "artist": "Eminem "
+    "artist": "Eminem ",
+    "extension": "Karaoke"
   },
   "GkLl9su45BU": {
     "videoId": "GkLl9su45BU",
@@ -301,7 +338,8 @@
     "url": "https://www.youtube.com/watch?v=GkLl9su45BU",
     "channel": "KaraFun Karaoke",
     "song": "Sloop John B",
-    "artist": "The Beach Boys "
+    "artist": "The Beach Boys ",
+    "extension": "Karaoke"
   },
   "gMzYLXXEbuw": {
     "videoId": "gMzYLXXEbuw",
@@ -309,21 +347,24 @@
     "url": "https://www.youtube.com/watch?v=gMzYLXXEbuw",
     "channel": "The Vibe Guide",
     "song": "TROLLS",
-    "artist": "Watch Me Work (Lyrics)"
+    "artist": "Watch Me Work (Lyrics)",
+    "extension": "Lyrics"
   },
   "gx6J54BIsn0": {
     "videoId": "gx6J54BIsn0",
-    "plays": 2,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=gx6J54BIsn0",
     "channel": "Captain Awesome Karaoke",
     "song": "Lucky You",
-    "artist": "Eminem ft. Joyner Lucas "
+    "artist": "Eminem ft. Joyner Lucas ",
+    "extension": "Karaoke"
   },
   "H0JJoxdfnBY": {
     "videoId": "H0JJoxdfnBY",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=H0JJoxdfnBY",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "That's Why You Go Away ",
     "artist": "Michael Learns To Rock"
   },
@@ -332,6 +373,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=HAYuls3af5s",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Mockingbird ",
     "artist": "Eminem"
   },
@@ -341,13 +383,15 @@
     "url": "https://www.youtube.com/watch?v=Hqh5Kwf_YEg",
     "channel": "MrEntertainerKaraoke",
     "song": "You Probably Couldn't See The Lights But You Were Staring Straight At Me",
-    "artist": "Arctic Monkeys "
+    "artist": "Arctic Monkeys ",
+    "extension": "Karaoke"
   },
   "I93Xg1aZFEQ": {
     "videoId": "I93Xg1aZFEQ",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=I93Xg1aZFEQ",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Ordinary People ",
     "artist": "John Legend"
   },
@@ -357,13 +401,15 @@
     "url": "https://www.youtube.com/watch?v=ikSCFZTlyuU",
     "channel": "KaraFun Karaoke",
     "song": "Scar",
-    "artist": "Missy Higgins "
+    "artist": "Missy Higgins ",
+    "extension": "Karaoke"
   },
   "INgrgvaLTbw": {
     "videoId": "INgrgvaLTbw",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=INgrgvaLTbw",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Apple ",
     "artist": "Charli xcx"
   },
@@ -373,7 +419,8 @@
     "url": "https://www.youtube.com/watch?v=ISOCazd8Itw",
     "channel": "KaraFun Karaoke",
     "song": "Mmm, Mmm, Mmm, Mmm",
-    "artist": "Crash Test Dummies "
+    "artist": "Crash Test Dummies ",
+    "extension": "Karaoke"
   },
   "J5N_ybjNN8Y": {
     "videoId": "J5N_ybjNN8Y",
@@ -381,13 +428,15 @@
     "url": "https://www.youtube.com/watch?v=J5N_ybjNN8Y",
     "channel": "Mi Balmz Karaoke Tracks",
     "song": "Cardigan",
-    "artist": "Taylor Swift "
+    "artist": "Taylor Swift ",
+    "extension": "Karaoke"
   },
   "jb2T4ZXL6R4": {
     "videoId": "jb2T4ZXL6R4",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=jb2T4ZXL6R4",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Say You Won't Let Go ",
     "artist": "James Arthur"
   },
@@ -396,6 +445,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=JO9dHGu-ayA",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Taste ",
     "artist": "Sabrina Carpenter"
   },
@@ -405,7 +455,8 @@
     "url": "https://www.youtube.com/watch?v=joJgqYOziYw",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "867-5309/Jenny ",
-    "artist": "Tommy Tutone"
+    "artist": "Tommy Tutone",
+    "extension": "Karaoke"
   },
   "k5edzkufIfo": {
     "videoId": "k5edzkufIfo",
@@ -413,13 +464,15 @@
     "url": "https://www.youtube.com/watch?v=k5edzkufIfo",
     "channel": "KaraFun Karaoke",
     "song": "Juicy",
-    "artist": "The Notorious B.I.G. "
+    "artist": "The Notorious B.I.G. ",
+    "extension": "Karaoke"
   },
   "kn8YiDSYcq4": {
     "videoId": "kn8YiDSYcq4",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=kn8YiDSYcq4",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "I'm Yours ",
     "artist": "Jason Mraz"
   },
@@ -428,6 +481,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=mawPX4US1l4",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Like I'm Gonna Lose You ",
     "artist": "Meghan Trainor ft. John Legend"
   },
@@ -436,6 +490,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=MmKRqsrWZ5o",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "FIGURES ",
     "artist": "Jessie Reyez"
   },
@@ -444,6 +499,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=muSbrUYiqrI",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Ride ",
     "artist": "twenty one pilots"
   },
@@ -452,6 +508,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=myisMOpHKso",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Ho Hey ",
     "artist": "The Lumineers"
   },
@@ -461,13 +518,15 @@
     "url": "https://www.youtube.com/watch?v=n2zESHJAbiY",
     "channel": "KaraokeOnVEVO",
     "song": "Kick My Ass ",
-    "artist": "Big & Rich"
+    "artist": "Big & Rich",
+    "extension": "Karaoke"
   },
   "n6lpeCuGWPs": {
     "videoId": "n6lpeCuGWPs",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=n6lpeCuGWPs",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Tightrope ",
     "artist": "The Greatest Showman"
   },
@@ -477,7 +536,8 @@
     "url": "https://www.youtube.com/watch?v=nghbiIm6ZdU",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "Then ",
-    "artist": "Brad Paisley"
+    "artist": "Brad Paisley",
+    "extension": "Karaoke"
   },
   "OPkHoBulh_s": {
     "videoId": "OPkHoBulh_s",
@@ -485,13 +545,15 @@
     "url": "https://www.youtube.com/watch?v=OPkHoBulh_s",
     "channel": "MrEntertainerKaraoke",
     "song": "Majesty",
-    "artist": "Nicki Minaj ft Eminem & Labrinth "
+    "artist": "Nicki Minaj ft Eminem & Labrinth ",
+    "extension": "Karaoke"
   },
   "pLfq4A6YxYo": {
     "videoId": "pLfq4A6YxYo",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=pLfq4A6YxYo",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Beggin' ",
     "artist": "Måneskin"
   },
@@ -500,6 +562,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=Qcc9zdXowPQ",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "NO ",
     "artist": "Meghan Trainor"
   },
@@ -508,6 +571,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=QNVtVvAJhDI",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Stressed Out ",
     "artist": "twenty one pilots"
   },
@@ -517,13 +581,15 @@
     "url": "https://www.youtube.com/watch?v=s7U6QFn9rZE",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "Babydoll ",
-    "artist": "Dominic Fike"
+    "artist": "Dominic Fike",
+    "extension": "Karaoke"
   },
   "sPMA1tqWuf4": {
     "videoId": "sPMA1tqWuf4",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=sPMA1tqWuf4",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Perfect ",
     "artist": "Ed Sheeran"
   },
@@ -533,7 +599,8 @@
     "url": "https://www.youtube.com/watch?v=TIkL-tBNQjg",
     "channel": "Lost Panda",
     "song": "Peekaboo ",
-    "artist": "Kendrick Lamar"
+    "artist": "Kendrick Lamar",
+    "extension": "Lyrics"
   },
   "tR1ECf4sEpw": {
     "videoId": "tR1ECf4sEpw",
@@ -541,7 +608,8 @@
     "url": "https://www.youtube.com/watch?v=tR1ECf4sEpw",
     "channel": "7clouds",
     "song": "Lose Yourself ",
-    "artist": "Eminem"
+    "artist": "Eminem",
+    "extension": "Lyrics"
   },
   "TtwPMytKLDc": {
     "videoId": "TtwPMytKLDc",
@@ -549,13 +617,15 @@
     "url": "https://www.youtube.com/watch?v=TtwPMytKLDc",
     "channel": "KaraFun Karaoke",
     "song": "White Rabbit",
-    "artist": "Jefferson Airplane "
+    "artist": "Jefferson Airplane ",
+    "extension": "Karaoke"
   },
   "u7b3v7055gU": {
     "videoId": "u7b3v7055gU",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=u7b3v7055gU",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Another One Bites The Dust ",
     "artist": "Queen"
   },
@@ -564,6 +634,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=U9AV8FR4Ogk",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "The Door ",
     "artist": "Teddy Swims"
   },
@@ -572,6 +643,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=U_4Mk42QSlU",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "The Ballad of Lucy Gray Baird ",
     "artist": "Rachel Zegler"
   },
@@ -581,7 +653,8 @@
     "url": "https://www.youtube.com/watch?v=vwsuG_WPULY",
     "channel": "Captain Awesome Karaoke",
     "song": "The Way I Am",
-    "artist": "Eminem "
+    "artist": "Eminem ",
+    "extension": "Karaoke"
   },
   "w15XJwqVFwQ": {
     "videoId": "w15XJwqVFwQ",
@@ -589,7 +662,8 @@
     "url": "https://www.youtube.com/watch?v=w15XJwqVFwQ",
     "channel": "Rap City",
     "song": "Fuel ",
-    "artist": "Eminem"
+    "artist": "Eminem",
+    "extension": "Karaoke"
   },
   "xs-hqTHMjJY": {
     "videoId": "xs-hqTHMjJY",
@@ -597,13 +671,15 @@
     "url": "https://www.youtube.com/watch?v=xs-hqTHMjJY",
     "channel": "Musisi Karaoke",
     "song": "Halo",
-    "artist": "Beyoncé "
+    "artist": "Beyoncé ",
+    "extension": "Karaoke"
   },
   "XtmJTgtCoP8": {
     "videoId": "XtmJTgtCoP8",
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=XtmJTgtCoP8",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Houdini ",
     "artist": "Eminem"
   },
@@ -612,6 +688,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=xXbk3InFCxY",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Me, Myself & I ",
     "artist": "G-Eazy x Bebe Rexha"
   },
@@ -620,6 +697,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=y5p1hMXN5UI",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Fame ",
     "artist": "Irene Cara"
   },
@@ -628,6 +706,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=zAbT9dr1R30.f140",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Alone ",
     "artist": "Heart"
   },
@@ -636,6 +715,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=zAbT9dr1R30.f399",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Alone ",
     "artist": "Heart"
   },
@@ -644,6 +724,7 @@
     "plays": 0,
     "url": "https://www.youtube.com/watch?v=zSnv3nZBcoc",
     "channel": "Sing King",
+    "extension": "Karaoke",
     "song": "Something in the Orange ",
     "artist": "Zach Bryan"
   },
@@ -653,7 +734,8 @@
     "url": "https://www.youtube.com/watch?v=_xaZFiUCa2Q",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "Double Life ",
-    "artist": "Pharrell Williams from 'Despicable Me 4'"
+    "artist": "Pharrell Williams from 'Despicable Me 4'",
+    "extension": "Karaoke"
   },
   "rVgSSje7oC4": {
     "plays": 0,
@@ -661,7 +743,8 @@
     "artist": "Eminem &amp; Nate Ruess ",
     "url": "https://www.youtube.com/watch?v=rVgSSje7oC4",
     "videoId": "rVgSSje7oC4",
-    "channel": "MrEntertainerKaraoke"
+    "channel": "MrEntertainerKaraoke",
+    "extension": "Karaoke"
   },
   "8iBJPvRXqgQ": {
     "plays": 0,
@@ -669,6 +752,25 @@
     "artist": "Olivia Rodrigo",
     "url": "https://www.youtube.com/watch?v=8iBJPvRXqgQ",
     "videoId": "8iBJPvRXqgQ",
-    "channel": "Sing King"
+    "channel": "Sing King",
+    "extension": "Karaoke"
+  },
+  "ypZTfLupGqE": {
+    "plays": 1,
+    "song": "luther ",
+    "artist": "Kendrick Lamar",
+    "url": "https://www.youtube.com/watch?v=ypZTfLupGqE",
+    "videoId": "ypZTfLupGqE",
+    "channel": "Sing King",
+    "extension": "Karaoke"
+  },
+  "anUz77ElBK4": {
+    "plays": 2,
+    "song": "Not Afraid ",
+    "artist": "Eminem",
+    "url": "https://www.youtube.com/watch?v=anUz77ElBK4",
+    "videoId": "anUz77ElBK4",
+    "channel": "Rap City",
+    "extension": "Lyrics"
   }
 }

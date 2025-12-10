@@ -1,4 +1,4 @@
-ls.setID("Karaokev3");
+ls.setID("Karaokev4");
 let sessionCode = ls.get("sessionCode",false);
 let userCode = ls.get("userCode",false);
 let YTChannels;
@@ -22,6 +22,7 @@ let server_popularSongs = [];
 let settings = {
     volume: 75,
 }
+let globalMute = false;
 
 
 let user = {
@@ -159,7 +160,7 @@ function videoChecker() {
     }
 
     let videoEl = $(".displayingVideo");
-    videoEl.volume = settings.volume/100;
+    videoEl.volume = globalMute ? 0 : settings.volume/100;
 
 
     if (videoInfo.pausedAt) {

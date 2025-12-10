@@ -19,7 +19,7 @@
 const adminCode = "5646";
 let sessionCode = Math.floor(Math.random() * 99999);
 let settings = {
-  testing_mode: true,
+  testing_mode: false,
   max_distance: 4,
   queue_type: "auto", //basic or auto
   volume: 75,
@@ -365,6 +365,7 @@ function playSong() {
     singer: song.singer,
     videoInfo: song,
     channel: song.channel,
+    extension: song.extension,
   }
   /*song.videoId,*/ 
   io.emit("setUserPrompt", song.singerID);

@@ -14,12 +14,8 @@ if (path === "/user") {
     userType = "user";
     socket.emit("userJoined",sessionCode,userCode);
 } else if (path === "/" || path === "/screen") {
-    popup("Just Click OK",() => {
-        setScene("screen");
-        userType = "screen";
-        socket.emit("request_qr",qrURL);
-        socket.emit("screenJoined",sessionCode,userCode);
-    },"OK",true)
+    userType = "screen";
+    setScene("screenSelection")
 } else {
     setScene("unknown"); //Need To Add
 }
@@ -135,6 +131,7 @@ async function searchSong(q) {
         let index;
         checkingAproved: for (let i = 0; i < YTChannels.length; i++) {
             if (YTChannels[i].name == v.channel) {
+                if (YTChannels[i].type !== songSearchExtension.toLowerCase()) continue;
                 approved = true;
                 index = i;
                 break checkingAproved;
@@ -150,6 +147,7 @@ async function searchSong(q) {
             type: "addable",
             url: v.url,
             videoId: v.videoId,
+            extension: songSearchExtension,
         })
     });
     displaySongs($(".songResultsDiv"),list,"search")
@@ -310,7 +308,7 @@ function setPlayingSong(l) {
     }
 
 }
-function displaySongs(div,list,type) {
+function displaySongs(div,list,type,showExtension = true) {
     if (div.length) {
         for (let i = 0; i < div.length; i++) {
             displaySongs(div[i],list,type);
@@ -329,6 +327,9 @@ function displaySongs(div,list,type) {
 
     for (let i = 0; i < list.length; i++) {
         let l = list[i];
+        
+        songCheck(l);
+
         if (div.classList.contains("column1Fill") && i > 4) continue;
         if (type === "history") {
             let date = new _time(new Date(l.date)).format("mm/dd/yy");
@@ -374,7 +375,13 @@ function displaySongs(div,list,type) {
                 singerTitle.classAdd("s2TextCenter");
 
             }
-            let songTitle = section2.create("div.s2Div>" + l.song);
+            let songType = l.extension;
+            if (!songType) songType = "";
+            if (!showExtension) songType = "";
+
+            let songTitleRow = section2.create("div.s2DivRow");
+            let songTitle = songTitleRow.create("div.s2Div2>" + l.song);
+            let singTypeDiv = songTitleRow.create("div.s2DivMini>" + songType);
             let artistTitle = section2.create("div.s2Div>" + l.artist);
             let channelTitle;
             if (l.channel && l.type !== "queue") {
@@ -448,7 +455,6 @@ function displaySongs(div,list,type) {
             let addToQueueText = changingSong ? "Change Song!" : "Add To Queue!";
             container.on("click touch",function(e) {
                 if (e.target.classList.contains("s3IconFavorite")) return;
-
                 popup(addSongToQueueText,function() {
                     $(".displayDiv").style.opacity = 0;
                     $(".displayDiv").style.pointerEvents = "none";
@@ -461,6 +467,7 @@ function displaySongs(div,list,type) {
                         videoId: l.videoId,
                         changingSong: changingSong,
                         channel: l.channel,
+                        extension: l.extension,
                     })
                 },addToQueueText)
                 
@@ -627,14 +634,14 @@ $("userStat_History").on("click touch",function() {
     setSongDisplay("History",[...account.history].reverse(),"history");
 })
 $("globalStat_popular").on("click touch",function() {
-    setSongDisplay("Popular",server_popularSongs,"search");
+    setSongDisplay("Popular",server_popularSongs,"search",false);
 })
-function setSongDisplay(title,songs,type) {
+function setSongDisplay(title,songs,type,showExtension = true) {
     $(".displayTitle").innerHTML = title;
     $(".displayDiv").style.opacity = 1;
     $(".displayDiv").style.pointerEvents = "all";
     $(".displayBody").innerHTML = "";
-    displaySongs($(".displayBody"),songs,type)
+    displaySongs($(".displayBody"),songs,type,showExtension)
 }
 
 let lastScrollY = 0;
@@ -729,7 +736,7 @@ $(".pinpad_option").on("touchstart",function() {
     }
 })
 socket.on("allowAdmin",(adminSettings) => {
-    if (!account?.user) return;
+    if (userType === "screen") return;
     account.user.admin = true;
     ls.save("adminCode",adminCode)
     setScene("usersigned")
@@ -752,4 +759,25 @@ $(".adminTimerScroll").on("touchend",function() {
 
 $(".adminVolumeScroll").on("change",function() {
     socket.emit("adminControls","setVolume",this.value);
+})
+
+
+$(".scren_finish").on("click",() => {
+    if ($("screen_input_qr").checked) $(".qrCodeHolder").show("flex"); 
+    else $(".qrCodeHolder").hide();
+    if ($("screen_input_queue").checked) $(".screenQueue").show("flex"); 
+    else $(".screenQueue").hide();
+    if ($("screen_input_logo").checked) $(".screenLogo2").show("flex"); 
+    else $(".screenLogo2").hide();
+    if ($("screen_input_screenText").checked) $(".appearingText").show("flex"); 
+    else $(".appearingText").hide();
+    if ($("screen_input_muted").checked) globalMute = true;
+    else globalMute = false;
+
+    if (globalMute) settings.volume = 0;
+
+    setScene("screen");
+    userType = "screen";
+    socket.emit("request_qr",qrURL);
+    socket.emit("screenJoined",sessionCode,userCode);
 })

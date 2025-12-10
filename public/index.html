@@ -53,7 +53,7 @@
     </div>
 
     <div class="scene" id="scene_screen">
-        <div class="logo screenLogo"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
+        <div class="logo screenLogo screenLogo2"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
         <div class="qrCodeHolder">
 
             <img class="qrCodeImg" alt="">
@@ -67,7 +67,7 @@
             <video class="displayingVideo"></video>
             <div class="durrationBar"></div>
         </div>
-        <div class="queueList queueElem column1Fill"></div>
+        <div class="queueList queueElem column1Fill screenQueue"></div>
 
         <div class="videoDelayTracker"></div>
     </div>
@@ -203,10 +203,41 @@
         <div class="qpSetting qpRed" id="qpRemove">Remove</div>
     </div>
 
+    <div class="scene" id="scene_screenSelection">
+        <div class="logo screenLogo"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
+        <div class="menu">
+            <div class="title">Selection Screen</div>
+            <div class="adminSettingRow">
+                <div class="adminLabel">QR Code</div>
+                <input type="checkbox" checked="true" class="adminInputAll admin_input_checkbox" id="screen_input_qr">
+            </div>
+            <div class="adminSettingRow">
+                <div class="adminLabel">Queue</div>
+                <input type="checkbox" checked="true" class="adminInputAll admin_input_checkbox" id="screen_input_queue">
+            </div>
+            <div class="adminSettingRow">
+                <div class="adminLabel">Logo</div>
+                <input type="checkbox" checked="true" class="adminInputAll admin_input_checkbox" id="screen_input_logo">
+            </div>
+            <div class="adminSettingRow">
+                <div class="adminLabel">Screen Text</div>
+                <input type="checkbox" checked="true" class="adminInputAll admin_input_checkbox" id="screen_input_screenText">
+            </div>
+            <div class="adminSettingRow">
+                <div class="adminLabel">Muted</div>
+                <input type="checkbox" class="adminInputAll admin_input_checkbox" id="screen_input_muted">
+            </div>
+            <div class="admin_signout_holder">
+                <div class="scren_finish">Finish</div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="io.js"></script>
     <script src="library_simple_v16.js"></script>
     <script src="server.js"></script>
+    <script src="songCheck.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

@@ -36,6 +36,7 @@ function addPlay(stats, videoInfo) {
             url: videoInfo.url,
             videoId: videoInfo.videoId,
             channel: videoInfo.channel,
+            extension: videoInfo.extension
          };
     }
     stats[videoInfo.videoId].plays += 1;
@@ -50,8 +51,9 @@ function sortStatsByPopular(stats) {
         url: data.url,
         channel: data.channel,
         type: "addable",
+        extension: data.extension,
 
-    }));
+    })).filter(item => item.extension == "Karaoke");
 
     // Sort by highest play count
     arr.sort((a, b) => b.count - a.count);
