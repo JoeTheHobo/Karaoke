@@ -17,7 +17,6 @@ if (path === "/user") {
     popup("Just Click OK",() => {
         setScene("screen");
         userType = "screen";
-        videoChecker();
         socket.emit("request_qr",qrURL);
         socket.emit("screenJoined",sessionCode,userCode);
     },"OK",true)
@@ -68,7 +67,7 @@ $("music_skip").on("click touch",() => {
     
 })
 $("music_play").on("click touch",() => {
-    if ($("music_play").src == "img/music_pause.png") {
+    if ($("music_play").src.includes("pause")) {
         socket.emit("adminControls","Pause Song"); //Pause Song
     } else {
         socket.emit("adminControls","Play Song"); //Pause Song
@@ -93,11 +92,17 @@ $(".singAlong").on("click touch",function() {
 $(".songTitle").on("keydown",function(e) {
     if (e.key == "Enter") searchSong(this.value);
 })
-$(".songTitle").on("focus",() => {
-    $(".inputSearchContainer").classAdd("inputSelected");
+$("<input").on("focus",function() {
+    if (this.classList.contains("songTitle")) {
+        $(".inputSearchContainer").classAdd("inputSelected");
+    } else
+        this.classAdd("inputSelected");
 })
-$(".songTitle").on("blur",() => {
-    $(".inputSearchContainer").classRemove("inputSelected");
+$("<input").on("blur",function() {
+    if (this.classList.contains("songTitle")) {
+        $(".inputSearchContainer").classRemove("inputSelected");
+    } else
+        this.classRemove("inputSelected");
 })
 $(".clearSearch").on("click touch",function() {
     clearSearch();
@@ -423,7 +428,7 @@ function displaySongs(div,list,type) {
         if (isClipped(channelTitle)) {
             smoothAutoScroll(channelTitle);
         }
-        if (l.singerID === account?.user?.uid || userType == "screen") {
+        if ((l.singerID === account?.user?.uid && type == "queue") || userType == "screen") {
             container.classAdd("usersSong")
         }
 
@@ -723,12 +728,28 @@ $(".pinpad_option").on("touchstart",function() {
         setScene("usersigned");
     }
 })
-socket.on("allowAdmin",() => {
+socket.on("allowAdmin",(adminSettings) => {
     if (!account?.user) return;
     account.user.admin = true;
     ls.save("adminCode",adminCode)
     setScene("usersigned")
+    updateAdminSettings(adminSettings);
 })
 if (adminCode.length === 4) {
     socket.emit("checkAdminCode",adminCode.join(""))
 }
+
+$(".adminTimerScroll").scrolling = false;
+$(".adminTimerScroll").on("touchstart",function() {
+    this.scrolling = true;
+})
+$(".adminTimerScroll").on("touchend",function() {
+    this.scrolling = false;
+    let difference = this.value - (Date.now() - videoInfo.startTime);
+    videoInfo.startTime -= difference;
+    socket.emit("adminControls","setTime",this.value);
+})
+
+$(".adminVolumeScroll").on("change",function() {
+    socket.emit("adminControls","setVolume",this.value);
+})

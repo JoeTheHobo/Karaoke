@@ -21,7 +21,8 @@ let sessionCode = Math.floor(Math.random() * 99999);
 let settings = {
   testing_mode: true,
   max_distance: 4,
-  queue_type: "auto" //basic or auto
+  queue_type: "auto", //basic or auto
+  volume: 75,
 }
 let state = {
   users: [],
@@ -128,7 +129,8 @@ io.on("connection", (socket) => {
       if (code !== adminCode) return;
       socket.admin = true;
       socket.join("music");
-      socket.emit("allowAdmin")
+      socket.join("admin");
+      socket.emit("allowAdmin",settings)
     })
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;
@@ -156,13 +158,14 @@ io.on("connection", (socket) => {
         socket.user = obj;
       }
 
-      socket.emit("setSocket",settings.queue_type,sessionCode,socket.user,state.music,global_popularSongs.slice(0,20));
+      socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,20));
 
     }) 
     socket.on("screenJoined", () => {
       socket.join("screen");
       socket.join("music");
-      socket.emit("setSocket",settings.queue_type);
+      socket.emit("setSocket",sessionCode,false,state.music);
+      socket.emit("updateAdminSettings",settings);
     })
     socket.on("PromptOk",(id) => {
       if (state.waitingOnQR.accepted) return;
@@ -179,7 +182,6 @@ io.on("connection", (socket) => {
         socket.emit("qr_result", {
           base64: pngBuffer.toString("base64")
         });
-
       } catch (err) {
         console.error(err);
         socket.emit("qr_error", "QR generation failed");
@@ -188,13 +190,42 @@ io.on("connection", (socket) => {
     socket.on("updateQueue",function() {
         io.emit("updatedQueue",state.queue);
     })
-    socket.on("adminControls",(control) => {
+    socket.on("updateAdminSettings",(setting,value) => {
+      if (!socket.admin) return;
+      
+      if (setting === "testing_mode") {
+        settings.testing_mode = value === true ? true : false;
+      }
+      if (setting === "queue_type") {
+        settings.queue_type = value.toLowerCase() === "auto" ? "auto" : "basic";
+      }
+      if (setting === "queue_distance") {
+        settings.max_distance = Number(value);
+      }
+
+      io.to("admin").emit("updateAdminSettings",settings)
+    })
+    socket.on("adminControls",(control,value) => {
       if (!socket.admin) return;
       if (control === "Sign Out Of Admin") {
         socket.admin = false;
+        socket.leave("admin");
         socket.leave("music");
+        return;
       }
+      if (control === "setVolume") {
+        settings.volume = Number(value);
+        if (settings.volume < 0) settings.volume = 0;
+        if (settings.volume > 100) settings.volume = 100;
+        io.to("music").emit("updateAdminSettings",settings)
+        return;
+      }
+
       if (!state.music.startTime) return;
+      if (control == "setTime") {
+        let difference = value - (Date.now() - state.music.startTime);
+        state.music.startTime -= difference;
+      }
       if (control === "Pause Song") {
         state.music.pausedAt = Date.now() - state.music.startTime;
         state.music.playing = false;
@@ -345,44 +376,41 @@ function playSong() {
     playVideo();
   },30000);
 }
-function playVideo() {
-    // Example:
-    (async () => {
-        const duration = await getVideoDuration(`./public/Song Downloads/${state.waitingOnQR.videoID}.mp4`);
-        state.music = {
-          startTime: Date.now() + 3000,
-          duration: duration * 1000,
-          videoId: state.waitingOnQR.videoID,
-          singer: state.waitingOnQR.singer,
-          adjustTime: 0,
-          playing: false,
-          pausedAt: false,
-        }
-        
-        if (!settings.testing_mode) addPlay(global_songStats, state.waitingOnQR.videoInfo);
-        saveStats("downloadedData.json",global_songStats);
-        sortGlobalStats();
-    })();
+async function playVideo() {
+  const duration = await getVideoDuration(`./public/Song Downloads/${state.waitingOnQR.videoID}.mp4`);
+  state.music = {
+    startTime: Date.now() + 3000,
+    duration: duration * 1000,
+    videoId: state.waitingOnQR.videoID,
+    /*singer: state.waitingOnQR.singer,*///I think I can remove that no problem
+    playing: false,
+    pausedAt: false,
+  }
+  io.to("music").emit("screenVideoUpdate",state.music);
+  
+  if (!settings.testing_mode) addPlay(global_songStats, state.waitingOnQR.videoInfo);
+  saveStats("downloadedData.json",global_songStats);
+  sortGlobalStats();
 }
 function videoChecker() {
-  if (state.music.startTime) {
-    if (!state.music.pausedAt && !state.music.playing) state.music.playing = true;
-    if (state.music.pausedAt) {
-        io.to("music").emit("screenVideoUpdate",state.music);
-        setTimeout(videoChecker,200);
-      return;
-    }
+  if (state.music.playing) {
     let now = Date.now();
-    if (now >= (state.music.startTime) + state.music.duration) {
+    if (now >= state.music.startTime + state.music.duration) {
       state.music.startTime = false;
-      //Handle Video Finished;
+      state.music.playing = false;
       setTimeout(() => {
         state.queue.shift();
         playSong();
       },3000);
     }
+  } else {
+    if (state.music.startTime && !state.music.pausedAt) {
+      let now = Date.now();
+      if (now >= state.music.startTime) {
+        state.music.playing = true;
+      }
+    }
   }
-  io.to("music").emit("screenVideoUpdate",state.music);
   setTimeout(videoChecker,200);
 }
 videoChecker();

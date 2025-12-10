@@ -68,6 +68,8 @@
             <div class="durrationBar"></div>
         </div>
         <div class="queueList queueElem column1Fill"></div>
+
+        <div class="videoDelayTracker"></div>
     </div>
     
     
@@ -118,9 +120,9 @@
         </div>
         <div class="adminBody">
             <div class="adminGroup adminMusic">
-                <div class="adminTitle">Music Control</div>
+                <div class="adminTitle">Video Control</div>
                 <div class="adminTimer">2:13/3:42</div>
-                <input type="range" class="adminTimerScroll">
+                <input type="range" min="0" class="adminTimerScroll">
                 <div class="adminTimerRow">
                     <img src="img/music_restart.png" class="adminMusicSetting" id="music_restart" alt="">
                     <img src="img/music_minus_10.png" class="adminMusicSetting" id="music_minus_10" alt="">
@@ -129,7 +131,11 @@
                     <img src="img/music_skip.png" class="adminMusicSetting" id="music_skip" alt="">
                 </div>
             </div>
-            <div class="adminGroup">
+            <div class="adminGroup adminVolume">
+                <div class="adminTitle">Music Control</div>
+                <input type="range" min="0" max="100" class="adminVolumeScroll">
+            </div>
+            <div class="adminGroup adminGeneral">
                 <div class="adminTitle">General Settings</div>
                 <div class="adminSettingRow">
                     <div class="adminLabel">Queue Distance</div>
@@ -148,7 +154,7 @@
                 </div>
             </div>
 
-            <div class="adminGroup">
+            <div class="adminGroup adminUsers">
                 <div class="adminTitle">User Settings</div>
 
             </div>
