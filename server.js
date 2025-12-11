@@ -158,7 +158,7 @@ io.on("connection", (socket) => {
         socket.user = obj;
       }
 
-      socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,20));
+      socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50));
 
     }) 
     socket.on("screenJoined", () => {
@@ -538,7 +538,6 @@ function getVideoDuration(path) {
 
 function sortGlobalStats() {
   global_popularSongs = sortStatsByPopular(global_songStats);
-  // only send first 20
-  const top20 = global_popularSongs.slice(0, 20);
-  io.emit("global_popularSongs", top20);
+  const topSongs = global_popularSongs.slice(0, 50);
+  io.emit("global_popularSongs", topSongs);
 }
