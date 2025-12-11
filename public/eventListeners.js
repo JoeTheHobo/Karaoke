@@ -34,7 +34,7 @@ $("userStat_History").on("click touch",function() {
     setSongDisplay("History",[...user.history].reverse(),"history");
 })
 $("globalStat_popular").on("click touch",function() {
-    setSongDisplay("Popular",server_popularSongs,"search",false);
+    setSongDisplay("Popular",data.popularSongs,"search",false);
 })
 //Exit To Main Menu
 $(".displayExit").on("click touch",() => {
@@ -51,33 +51,33 @@ $(".displayExit").on("click touch",() => {
 ///////////////////////////////
 $("qpMoveTop").on("click",function() {
     closeQueueEditor();
-    socket.emit("alterQueue","Move Top",queue[selectedSong].queueID);
+    socket.emit("alterQueue","Move Top",data.queue[data.selectedSong].queueID);
 })
 $("qpMoveUp").on("click",function() {
     closeQueueEditor();
-    socket.emit("alterQueue","Move Up",queue[selectedSong].queueID);
+    socket.emit("alterQueue","Move Up",data.queue[data.selectedSong].queueID);
 })
 $("qpMoveDown").on("click",function() {
     closeQueueEditor();
-    socket.emit("alterQueue","Move Down",queue[selectedSong].queueID);
+    socket.emit("alterQueue","Move Down",data.queue[data.selectedSong].queueID);
 })
 $("qpMoveBottom").on("click",function() {
     closeQueueEditor();
-    socket.emit("alterQueue","Move Bottom",queue[selectedSong].queueID);
+    socket.emit("alterQueue","Move Bottom",data.queue[data.selectedSong].queueID);
 })
 $("qpRemove").on("click",function() {
     closeQueueEditor();
-    socket.emit("alterQueue","Remove",queue[selectedSong].queueID);
+    socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
 })
 $("qpChangeSong").on("click",function() {
     closeQueueEditor();
-    changingSong = queue[selectedSong].queueID;
+    data.changingSong = data.queue[data.selectedSong].queueID;
     setScene("changeSong");
 })
 //Leave Change Song Screen
 $(".leaveChangeSong").on("click touch",() => {
     setScene("usersigned");
-    changingSong = false;
+    data.changingSong = false;
 })
 
 
@@ -130,8 +130,8 @@ $(".adminTimerScroll").on("touchstart",function() {
 })
 $(".adminTimerScroll").on("touchend",function() {
     this.scrolling = false;
-    let difference = this.value - (Date.now() - videoInfo.startTime);
-    videoInfo.startTime -= difference;
+    let difference = this.value - (Date.now() - data.videoInfo.startTime);
+    data.videoInfo.startTime -= difference;
     socket.emit("adminControls","setTime",this.value);
 })
 $(".adminVolumeScroll").on("change",function() {

@@ -1,19 +1,22 @@
 ls.setID("Karaokev4");
+const socket = io({transports: ["websocket"],reconnection: true});
 let sessionCode = ls.get("sessionCode",false);
-let YTChannels;
-let changingSong = false;
-let queue = [];
-let selectedSong;
 let songSearchExtension = "Karaoke";
 let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
-let videoInfo = {};
-let server_popularSongs = [];
 let settings = {
     volume: 75,
     testing_mode: false,
 }
 let globalMute = false;
-
+let data = {
+    allowedChannels: undefined,
+    selectedSong: undefined,
+    videoInfo: {},
+    popularSongs: [],
+    playingSong: false,
+    changingSong: false,
+    queue: [],
+}
 let user = {
     type: undefined,
     history: ls.get("history",[]),
@@ -23,11 +26,8 @@ let user = {
     code: ls.get("userCode",false),
     uid: false,
 }
-
-const socket = io({transports: ["websocket"],reconnection: true});
-
 let adminCode = ls.get("adminCode",[]);
-
-let playingSong = false;
-
 let lastScrollY = 0;
+let videoObj = {
+    playing: false,
+};

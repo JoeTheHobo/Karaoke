@@ -44,9 +44,9 @@ async function searchSong(q) {
         // Only include videos from approved channels
         let approved = false;
         let index;
-        checkingAproved: for (let i = 0; i < YTChannels.length; i++) {
-            if (YTChannels[i].name == v.channel) {
-                if (YTChannels[i].type !== songSearchExtension.toLowerCase()) continue;
+        checkingAproved: for (let i = 0; i < data.allowedChannels.length; i++) {
+            if (data.allowedChannels[i].name == v.channel) {
+                if (data.allowedChannels[i].type !== songSearchExtension.toLowerCase()) continue;
                 approved = true;
                 index = i;
                 break checkingAproved;
@@ -77,7 +77,7 @@ async function searchSong(q) {
 function fixTitle(title,index) {
   if (!title) return { song: "", artist: "" };
 
-  let format = YTChannels[index].format;
+  let format = data.allowedChannels[index].format;
 
   let first = title.subset(0,format[1] + "\\before");
   let secondFull = title.subset(format[1] + "\\after",true);
@@ -153,11 +153,11 @@ function updateQueue() {
     holder.html("");
     closeQueueEditor();
 
-    for (let i = 0; i < queue.length; i++) {
-        let q = queue[i];
+    for (let i = 0; i < data.queue.length; i++) {
+        let q = data.queue[i];
         q.type = "queue";
     }
-    displaySongs(holder,queue,"queue");
+    displaySongs(holder,data.queue,"queue");
 }
 
 
@@ -177,8 +177,8 @@ function closeQueueEditor() {
 
 
 function setPlayingSong(l) {
-    if (playingSong === l) return;
-    playingSong = l;
+    if (data.playingSong === l) return;
+    data.playingSong = l;
 
     let container = $("currentSong");
     container.innerHTML = "";
@@ -354,15 +354,13 @@ function displaySongs(div,list,type,showExtension = true) {
                 else $(".qpAdmin").hide();
                 if (user.admin || l.singerID === user.uid) {
                     openQueueEditor(container);
-                    $("qpChangeSong").songNumber = i;
-                    selectedSong = i;
-
+                    data.selectedSong = i;
                 }
             });
 
         } else {
-            let addSongToQueueText = changingSong ? `Change Song To '${l.song}'` : `Add '${l.song}' To Queue?`;
-            let addToQueueText = changingSong ? `Change Song!` : "Add To Queue!";
+            let addSongToQueueText = data.changingSong ? `Change Song To '${l.song}'` : `Add '${l.song}' To Queue?`;
+            let addToQueueText = data.changingSong ? `Change Song!` : "Add To Queue!";
             container.on("click touch",function(e) {
                 if (e.target.classList.contains("s3IconFavorite")) return;
                 popup(addSongToQueueText,function() {
@@ -375,12 +373,12 @@ function displaySongs(div,list,type,showExtension = true) {
                         url: l.url,
                         singerID: user.uid,
                         videoId: l.videoId,
-                        changingSong: changingSong,
+                        changingSong: data.changingSong,
                         channel: l.channel,
                         extension: l.extension,
                     })
-                    if (changingSong) {
-                        changingSong = false;
+                    if (data.changingSong) {
+                        data.changingSong = false;
                         setScene("usersigned");
                     }
                 },addToQueueText)
@@ -639,7 +637,7 @@ function videoChecker() {
 
     if (user.admin) updateAdminMusicControls();
 
-    if (!videoInfo) {
+    if (!data.videoInfo) {
         requestAnimationFrame(videoChecker);
         return;
     }
@@ -648,10 +646,10 @@ function videoChecker() {
     videoEl.volume = globalMute ? 0 : settings.volume/100;
 
 
-    if (videoInfo.pausedAt) {
+    if (data.videoInfo.pausedAt) {
         if (videoObj.playing) {
             videoEl.pause();
-            videoEl.currentTime = videoInfo.pausedAt / 1000;
+            videoEl.currentTime = data.videoInfo.pausedAt / 1000;
             videoObj.playing = false;
         }
         requestAnimationFrame(videoChecker);
@@ -660,27 +658,27 @@ function videoChecker() {
 
     let now = Date.now();
 
-    if (videoInfo.startTime && !videoObj.playing) {
-        if (now > videoInfo.startTime) {
-            playVideo(videoInfo.videoId);
+    if (data.videoInfo.startTime && !videoObj.playing) {
+        if (now > data.videoInfo.startTime) {
+            playVideo(data.videoInfo.videoId);
             videoObj.playing = true;
-            videoInfo.playing = true;
+            data.videoInfo.playing = true;
         }
     }
 
     if (videoObj.playing) {
         let currentDur = videoEl.currentTime * 1000;
-        let realDuration = now - videoInfo.startTime;
+        let realDuration = now - data.videoInfo.startTime;
         let delay = Math.abs(currentDur - realDuration);
         $(".videoDelayTracker").innerHTML = Math.round(delay); 
         if (delay > 200) {
             //Fix Duration if delay is greater than 200ms
             videoEl.currentTime = (realDuration)/1000;
         }
-        if (now >= videoInfo.startTime + videoInfo.duration) {
+        if (now >= data.videoInfo.startTime + data.videoInfo.duration) {
             //Video Ended
             videoObj.playing = false;
-            videoInfo = {
+            data.videoInfo = {
                 startTime: false,
                 playing: false,
                 pausedAt: false,
@@ -698,7 +696,7 @@ function updateAdminMusicControls() {
     if (!user.admin) return;
 
 
-    if (videoInfo?.startTime) {
+    if (data.videoInfo?.startTime) {
         if ($(".adminMusic").style.display !== "flex")
             $(".adminMusic").show("flex");
     } else {
@@ -707,20 +705,20 @@ function updateAdminMusicControls() {
         
         return;
     }
-    let totalTime = new _time(videoInfo.duration,"duration").format("MM:SS");
+    let totalTime = new _time(data.videoInfo.duration,"duration").format("MM:SS");
     let currentTime;
-    if (videoInfo.pausedAt) {
-        if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = videoInfo.pausedAt;
+    if (data.videoInfo.pausedAt) {
+        if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = data.videoInfo.pausedAt;
     } else {
-        if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = Date.now() - videoInfo.startTime;
+        if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = Date.now() - data.videoInfo.startTime;
     }
     currentTime = new _time($(".adminTimerScroll").value,"duration").format("MM:SS");
     $(".adminTimer").innerHTML = currentTime + "/" + totalTime;
-    $(".adminTimerScroll").max = videoInfo.duration; 
+    $(".adminTimerScroll").max = data.videoInfo.duration; 
     
 
 
-    if (videoInfo?.playing) {
+    if (data.videoInfo?.playing) {
         if ($("music_play").src !== "img/music_pause.png")
             $("music_play").src = "img/music_pause.png";
     } else {

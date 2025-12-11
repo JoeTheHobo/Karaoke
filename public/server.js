@@ -11,8 +11,8 @@ socket.on("setSocket",(sscode,user,videoStats,global_popularSongs) => {
     sessionCode = sscode;
     ls.save("sessionCode",sscode);
     ls.save("userCode",user.uid);
-    videoInfo = videoStats;
-    server_popularSongs = global_popularSongs;
+    data.videoInfo = videoStats;
+    data.popularSongs = global_popularSongs;
 
     if (user.type !== "screen") {
         socket.emit("checkIfQR",sessionCode,user.uid);
@@ -21,27 +21,26 @@ socket.on("setSocket",(sscode,user,videoStats,global_popularSongs) => {
     
 })
 socket.on("global_popularSongs",(global_popularSongs) => {
-    server_popularSongs = global_popularSongs;
+    data.popularSongs = global_popularSongs;
 })
-socket.on("updatedQueue",(q) => {
-    if (!q) q = [];
-    queue = q;
+socket.on("updatedQueue",(server_queue) => {
+    if (!server_queue) server_queue = [];
+    data.queue = server_queue;
     updateQueue();
 
-    if (changingSong) {
-        if (queue.length == 0) {
-            changingSong = false;
+    if (data.changingSong) {
+        if (data.queue.length == 0) {
+            data.changingSong = false;
             setScene("usersigned");
             return;
         }
-        if (queue[0].queueID === changingSong) {
-            changingSong = false;
+        if (data.queue[0].queueID === data.changingSong) {
+            data.changingSong = false;
             setScene("usersigned");
             return;
         }
     }
 })
-
 
 socket.on("settingSong",(obj) => {
     if (user.type !== "screen") return;
@@ -50,7 +49,7 @@ socket.on("settingSong",(obj) => {
 
 socket.on("setUserPrompt", (userID) => {
     if (user.uid === userID) {
-        let obj = structuredClone(queue[0]);
+        let obj = structuredClone(data.queue[0]);
         obj.date = Date.now();
         obj.type = "addable";
         obj.playing = false;
@@ -60,23 +59,19 @@ socket.on("setUserPrompt", (userID) => {
     }
 });
 socket.on("screenVideoUpdate",(videoStats) => {
-    videoInfo = videoStats;
-    
+    data.videoInfo = videoStats;
 })
 socket.on("updateAdminSettings",(adminSettings) => {
     settings = adminSettings;
     updateAdminSettings(adminSettings);
 })
 
-let videoObj = {
-    playing: false,
-};
 
 
 socket.on("promptQR",promptQR);
 
 socket.on("returningAllowedChannels",(data) => {
-    YTChannels = data.YTChannels;
+    data.allowedChannels = data.YTChannels;
 })
 
 
