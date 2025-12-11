@@ -1,0 +1,33 @@
+ls.setID("Karaokev4");
+const socket = io({transports: ["websocket"],reconnection: true});
+let sessionCode = ls.get("sessionCode",false);
+let songSearchExtension = "Karaoke";
+let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
+let settings = {
+    volume: 75,
+    testing_mode: false,
+}
+let globalMute = false;
+let data = {
+    allowedChannels: undefined,
+    selectedSong: undefined,
+    videoInfo: {},
+    popularSongs: [],
+    playingSong: false,
+    changingSong: false,
+    queue: [],
+}
+let user = {
+    type: undefined,
+    history: ls.get("history",[]),
+    favorites: ls.get("favorites",[]),
+    showName: ls.get("showName",false),
+    admin: false,
+    code: ls.get("userCode",false),
+    uid: false,
+}
+let adminCode = ls.get("adminCode",[]);
+let lastScrollY = 0;
+let videoObj = {
+    playing: false,
+};
