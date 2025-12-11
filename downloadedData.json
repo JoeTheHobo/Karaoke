@@ -55,7 +55,7 @@
   },
   "4RiRGBsdx3E": {
     "videoId": "4RiRGBsdx3E",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=4RiRGBsdx3E",
     "channel": "Musisi Karaoke",
     "song": "The Fate of Ophelia",
@@ -773,13 +773,22 @@
     "channel": "Rap City",
     "extension": "Lyrics"
   },
-  "0w7-fpMIC5k": {
-    "plays": 2,
-    "song": "Do Re Mi ",
-    "artist": "Blackbear",
-    "url": "https://www.youtube.com/watch?v=0w7-fpMIC5k",
-    "videoId": "0w7-fpMIC5k",
-    "channel": "Captain Awesome Karaoke",
+  "-gs_SZM2lRk": {
+    "plays": 1,
+    "song": "do re mi ",
+    "artist": "blackbear",
+    "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",
+    "videoId": "-gs_SZM2lRk",
+    "channel": "Sing King",
+    "extension": "Karaoke"
+  },
+  "d-y2PfMoUec": {
+    "plays": 6,
+    "song": "Him &amp; I ",
+    "artist": "G-Eazy &amp; Halsey",
+    "url": "https://www.youtube.com/watch?v=d-y2PfMoUec",
+    "videoId": "d-y2PfMoUec",
+    "channel": "Sing King",
     "extension": "Karaoke"
   }
 }

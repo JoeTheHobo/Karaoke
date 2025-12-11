@@ -118,6 +118,7 @@ $("music_skip").on("click touch",() => {
     socket.emit("adminControls","Skip Song");
 })
 $("music_play").on("click touch",() => {
+
     if ($("music_play").src.includes("pause")) {
         socket.emit("adminControls","Pause Song"); //Pause Song
     } else {
@@ -254,3 +255,4 @@ $(".scren_finish").on("click",() => {
     socket.emit("request_qr",qrURL);
     socket.emit("screenJoined",sessionCode,user.code);
 })
+

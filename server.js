@@ -140,7 +140,6 @@ io.on("connection", (socket) => {
       socket.emit("promptQR");
     })
     socket.on("userJoined", (ssCode,uCode) => {
-
       let foundUser = false;
       for (let i = 0; i < state.users.length; i++) {
         let user = state.users[i];

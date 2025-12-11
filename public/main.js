@@ -1,26 +1,17 @@
 setTimeout(function() {
     $("splash").style.opacity = 0;
 },1000)
+function setSplash() {
+    $("splash").style.opacity = 1;
+    setTimeout(function() {
+        $("splash").style.opacity = 0;
+    },1000)
+}
 function setScene(scene) {
     $(".scene").hide();
     $("scene_" + scene).show("flex");
 
     if (scene === "adminSignin") resetAdminPinPad();
-}
-// detect URL path
-const path = window.location.pathname;
-if (path === "/user") {
-    setScene("usersigned");
-    user.type = "user";
-    socket.emit("userJoined",sessionCode,user.code);
-} else if (path === "/" || path === "/screen") {
-    user.type = "screen";
-    setScene("screenSelection")
-} else {
-    //Redirect to User
-    setScene("usersigned");
-    user.type = "user";
-    socket.emit("userJoined",sessionCode,user.code);
 }
 
 async function searchSong(q) {
@@ -625,7 +616,7 @@ function setAppearingText(first = "",second = "",third = "") {
     $("appearingText1").innerHTML = first;
     $("appearingText2").innerHTML = second;
     $("appearingText3").innerHTML = third;
-    $(".appearingText").show();
+    $(".appearingText").show("flex");
 }
 
 videoChecker();
@@ -634,6 +625,7 @@ function videoChecker() {
         requestAnimationFrame(videoChecker);
         return;
     } 
+
 
     if (user.admin) updateAdminMusicControls();
 
@@ -734,8 +726,4 @@ function updateAdminSettings(settings) {
     $("admin_input_testing").checked = settings.testing_mode;
     $(".adminVolumeScroll").value = settings.volume;
     
-}
-
-if (adminCode.length === 4) {
-    socket.emit("checkAdminCode",adminCode.join(""))
 }

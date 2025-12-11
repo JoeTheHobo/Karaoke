@@ -1,5 +1,6 @@
 ls.setID("Karaokev4");
-const socket = io({transports: ["websocket"],reconnection: true});
+let socket = null;
+let reconnectTimer = null;
 let sessionCode = ls.get("sessionCode",false);
 let songSearchExtension = "Karaoke";
 let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";

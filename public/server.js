@@ -1,13 +1,8 @@
-socket.on("connect", () => {
-    socket.emit("updateQueue");
-    setTimeout(function() {
-        socket.emit("checkIfQR",sessionCode,user.uid)
-    },50);
-});
 
-socket.on("setSocket",(sscode,user,videoStats,global_popularSongs) => {
-    user.uid = user.uid;
-    user.admin = user.admin;
+
+socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs) => {
+    user.uid = serverUser.uid;
+    user.admin = serverUser.admin;
     sessionCode = sscode;
     ls.save("sessionCode",sscode);
     ls.save("userCode",user.uid);
@@ -48,6 +43,7 @@ socket.on("settingSong",(obj) => {
 })
 
 socket.on("setUserPrompt", (userID) => {
+    console.log(user.uid,userID)
     if (user.uid === userID) {
         let obj = structuredClone(data.queue[0]);
         obj.date = Date.now();
@@ -70,13 +66,13 @@ socket.on("updateAdminSettings",(adminSettings) => {
 
 socket.on("promptQR",promptQR);
 
-socket.on("returningAllowedChannels",(data) => {
-    data.allowedChannels = data.YTChannels;
+socket.on("returningAllowedChannels",(serverData) => {
+    data.allowedChannels = serverData.YTChannels;
 })
 
 
-socket.on("qr_result", data => {
-    $(".qrCodeImg").src = "data:image/png;base64," + data.base64;
+socket.on("qr_result", serverData => {
+    $(".qrCodeImg").src = "data:image/png;base64," + serverData.base64;
 })
 
 socket.on("allowAdmin",(adminSettings) => {
