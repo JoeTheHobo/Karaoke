@@ -69,6 +69,8 @@ function initSocket() {
             socket.emit("checkIfQR",sessionCode,user.uid)
         },50);
 
+        if (loadImages) setImages();
+
     })
 
 }

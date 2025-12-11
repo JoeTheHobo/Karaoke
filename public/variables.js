@@ -32,3 +32,7 @@ let lastScrollY = 0;
 let videoObj = {
     playing: false,
 };
+let images = null;
+let savedImages = [];
+
+let loadImages = false;

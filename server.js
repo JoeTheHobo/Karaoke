@@ -66,7 +66,11 @@ const e = require("express");
 
 //fixDownloads("./public/Song Downloads","./downloadedData.json");
 
-
+app.get("/imagelist", (req, res) => {
+  const dir = path.join(__dirname, "public/songPhotos");
+  const files = fs.readdirSync(dir);
+  res.json(files);
+});
 app.get("/api/search", async (req, res) => {
   const query = req.query.q;
   if (!query) return res.status(400).send("Missing search query");

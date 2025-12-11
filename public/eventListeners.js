@@ -66,8 +66,10 @@ $("qpMoveBottom").on("click",function() {
     socket.emit("alterQueue","Move Bottom",data.queue[data.selectedSong].queueID);
 })
 $("qpRemove").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
+    popup("Remove Song From Queue?",() => {
+        closeQueueEditor();
+        socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
+    },"Remove It!",true)
 })
 $("qpChangeSong").on("click",function() {
     closeQueueEditor();
@@ -152,7 +154,7 @@ $("admin_input_queue_distance").on("change",function() {
 
 //Admin Pinpad
 $(".pinpad_option").on("touchstart",function() {
-    navigator.vibrate(30); // vibrate for 30ms
+    if (navigator.vibrate) navigator.vibrate(30); // vibrate for 30ms
     if ("0123456789".includes(this.innerHTML)) {
         if (adminCode.length > 4) return;
         adminCode.push(this.innerHTML);

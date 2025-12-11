@@ -261,7 +261,10 @@ function displaySongs(div,list,type,showExtension = true) {
 
                 checkImageExists(l.videoId).then(photo => {
                     if (!photo) return;
-                    addSong.src = photo.src;
+                    if (loadImages) addSong.src = $("img_" + l.videoId).src;
+                    else addSong.src = "songPhotos/" + l.videoId + ".jpg";
+                    
+
                     s1IconHolder.classAdd("songCover");
 
                 })
@@ -340,7 +343,7 @@ function displaySongs(div,list,type,showExtension = true) {
 
         if (l.type === "queue" && type !== "history" && user.type !== "screen") {
             addLongPress(container,function(e) {
-                navigator.vibrate(30); // vibrate for 30ms
+                if (navigator.vibrate) navigator.vibrate(30); // vibrate for 30ms
                 if (user.admin) $(".qpAdmin").show("flex");
                 else $(".qpAdmin").hide();
                 if (user.admin || l.singerID === user.uid) {
@@ -726,4 +729,16 @@ function updateAdminSettings(settings) {
     $("admin_input_testing").checked = settings.testing_mode;
     $(".adminVolumeScroll").value = settings.volume;
     
+}
+
+async function setImages() {
+    photos = await fetch("/imagelist").then(r => r.json());
+    photos.forEach(fileName => {
+        let videoId = fileName.subset(0,".\\before");
+        if (savedImages.includes(videoId)) return;
+        let img = $(".savedImages").create("img");
+        img.src = "songPhotos/" + fileName;
+        img.id = "img_" + videoId;
+        savedImages.push(videoId);
+    });
 }

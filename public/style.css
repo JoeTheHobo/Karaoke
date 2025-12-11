@@ -109,6 +109,7 @@ body,html {
     left: 0;
     right: 0;
     top: 50px;
+    flex-direction: column;
     margin: auto;
     text-align: center;
     width: max-content;
@@ -724,7 +725,6 @@ input, select {
     align-items: center;
     justify-content: center;
     aspect-ratio: 1/1;
-    width: 50%;
 }
 .s1IconAddSong {
     width: 100%;
@@ -1206,7 +1206,7 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     font-size: 30px !important;
 }
 .songCover {
-    width: 100% !important;
+    height: 100% !important;
     margin-right: 3px;
 }
 .songCover > * {
@@ -1360,29 +1360,30 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     border: none;
 }
 .admin_input_checkbox {
-    appearance: none;          /* remove default */
     -webkit-appearance: none;
-    aspect-ratio: 1 / 1;
-    cursor: pointer;
+    appearance: none;
+    width: 28px;        /* Safari-friendly – must set width + height */
+    height: 28px;       /* instead of aspect-ratio */
     background: white;
-    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
     position: relative;
+    display: inline-block;
 }
 
-/* checkmark */
+/* checkmark (Safari-friendly) */
 .admin_input_checkbox:checked::after {
     content: "";
     position: absolute;
-    inset: 0;
-
-    /* simple black checkmark */
-    background: black;
-    mask: url("data:image/svg+xml;utf8,<svg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path d='M5 10l4 4 6-8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/70% no-repeat;
-
-    /* fallback if mask unsupported: solid fill */
-    /* background: black; border-radius optional */
+    left: 7px;
+    top: 3px;
+    width: 8px;
+    height: 14px;
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+    transform: rotate(45deg);
 }
-
 
 
 
