@@ -1326,11 +1326,13 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     text-align: center;
     height: 90%;
+    box-sizing: border-box;
     outline: none;
     border: 2px solid white;
 }
 .admin_input_number {
     width: 20%;
+    box-sizing: border-box;
 }
 .admin_input_select {
     width: 45%;
@@ -1362,22 +1364,23 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 .admin_input_checkbox {
     -webkit-appearance: none;
     appearance: none;
-    width: 28px;        /* Safari-friendly – must set width + height */
-    height: 28px;       /* instead of aspect-ratio */
+    width: 50px;        /* Safari-friendly – must set width + height */
+    height: 50px;       /* instead of aspect-ratio */
     background: white;
     border: 2px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     position: relative;
     display: inline-block;
+
 }
 
 /* checkmark (Safari-friendly) */
 .admin_input_checkbox:checked::after {
     content: "";
     position: absolute;
-    left: 7px;
-    top: 3px;
+    left: 17px;
+    top: 12px;
     width: 8px;
     height: 14px;
     border-right: 3px solid black;
