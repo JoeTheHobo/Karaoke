@@ -82,3 +82,6 @@ socket.on("allowAdmin",(adminSettings) => {
     setScene("usersigned")
     updateAdminSettings(adminSettings);
 })
+socket.on("hideYourSongsNext",() => {
+    $(".promptQR").hide();
+})

@@ -199,7 +199,7 @@ $(".clearSearch").on("click touch",function() {
     this.$P().$(".songTitle").focus();
 })
 $(".findSongButton").on("click touch",function() {
-    searchSong($(".songTitle").value);
+    searchSong(this.$P().$(".songTitle").value);
 })
 
 //SEARCH SONG TYPE SWITCHES
@@ -207,16 +207,16 @@ $(".singAlone").on("click touch",function() {
     $(".singMode").classRemove("active");
     this.$P().classAdd("active");
     songSearchExtension = "Karaoke";
-    $(".songResultsDiv").innerHTML = "";
-    searchSong($(".songTitle").value);
+    $(".songResultsDiv").html("")
+    searchSong(this.$P().$P().$P().$(".songTitle").value);
 
 })
 $(".singAlong").on("click touch",function() {
     $(".singMode").classRemove("active");
     this.$P().classAdd("active");
     songSearchExtension = "Lyrics";
-    $(".songResultsDiv").innerHTML = "";
-    searchSong($(".songTitle").value);
+    $(".songResultsDiv").html("")
+    searchSong(this.$P().$P().$P().$(".songTitle").value);
 })
 
 

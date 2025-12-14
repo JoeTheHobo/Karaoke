@@ -271,7 +271,7 @@
   },
   "F-p2BQ4H1nA": {
     "videoId": "F-p2BQ4H1nA",
-    "plays": 12,
+    "plays": 19,
     "url": "https://www.youtube.com/watch?v=F-p2BQ4H1nA",
     "channel": "Musisi Karaoke",
     "song": "Lose Yourself",
@@ -756,7 +756,7 @@
     "extension": "Karaoke"
   },
   "ypZTfLupGqE": {
-    "plays": 11,
+    "plays": 13,
     "song": "luther ",
     "artist": "Kendrick Lamar",
     "url": "https://www.youtube.com/watch?v=ypZTfLupGqE",
@@ -807,6 +807,15 @@
     "url": "https://www.youtube.com/watch?v=20GjgF_3faw",
     "videoId": "20GjgF_3faw",
     "channel": "Sing King",
+    "extension": "Karaoke"
+  },
+  "bG9_AphKgPw": {
+    "plays": 1,
+    "song": "Swan ",
+    "artist": "Not for Radio",
+    "url": "https://www.youtube.com/watch?v=bG9_AphKgPw",
+    "videoId": "bG9_AphKgPw",
+    "channel": "Peter B",
     "extension": "Karaoke"
   }
 }

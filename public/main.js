@@ -1,12 +1,11 @@
-setTimeout(function() {
-    $("splash").style.opacity = 0;
-},1000)
 function setSplash() {
     $("splash").style.opacity = 1;
     setTimeout(function() {
         $("splash").style.opacity = 0;
     },1000)
 }
+setSplash();
+
 function setScene(scene) {
     $(".scene").hide();
     $("scene_" + scene).show("flex");
@@ -15,6 +14,7 @@ function setScene(scene) {
 }
 
 async function searchSong(q) {
+    console.log(q)
     $(".songTitle").simpleBlur();
     if (!q) return;
     q = q + " " + songSearchExtension;
@@ -26,7 +26,7 @@ async function searchSong(q) {
     $(".songResultsGradient").css("opacity",1);
     $(".userStatSongs").hide();
     $(".addSongTopRow").show("flex");
-    resultsDiv.innerHTML = "";
+    resultsDiv.html("");
 
     let vid_index = -1;
     let list = [];
@@ -60,7 +60,7 @@ async function searchSong(q) {
 
 
     if (videos.length === 0) {
-        $(".songResultsDiv").innerHTML = "";
+        $(".songResultsDiv").html("");
         let errorText = $(".songResultsDiv").create("div.errorText>No Results Found");
     }
 }
@@ -119,8 +119,8 @@ function popup(text,func,affirmText = "Continue",allowAny = false) {
     };
 }
 function clearSearch() {
-    $(".songTitle").value = "";
-    $(".songResultsDiv").innerHTML = "";
+    $(".songTitle").value("");
+    $(".songResultsDiv").html("");
     $(".addSongTopRow").hide();
     
     $(".songResultsGradient").css("opacity",0)
@@ -728,7 +728,6 @@ function updateAdminSettings(settings) {
     $("admin_input_queue_type").value = settings.queue_type.format("A");
     $("admin_input_testing").checked = settings.testing_mode;
     $(".adminVolumeScroll").value = settings.volume;
-    
 }
 
 async function setImages() {

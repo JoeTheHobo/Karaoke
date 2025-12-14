@@ -57,7 +57,6 @@ app.use(express.static("public"));
 const axios = require("axios");
 
 const { loadStats, saveStats, addPlay, sortStatsByPopular } = require('./songStats');
-const { channel } = require("diagnostics_channel");
 let global_songStats = loadStats("downloadedData.json");
 let global_popularSongs = sortStatsByPopular(global_songStats);
 
@@ -391,6 +390,7 @@ async function playVideo() {
     pausedAt: false,
   }
   io.to("music").emit("screenVideoUpdate",state.music);
+  io.emit("hideYourSongsNext");
   
   if (!settings.testing_mode) addPlay(global_songStats, state.waitingOnQR.videoInfo);
   saveStats("downloadedData.json",global_songStats);

@@ -1,23 +1,29 @@
+/*1494*/
+/*1210 Removing Items which dont exist anymore*/
+/*1166 Removing spaces lol*/
+/*1011*/
 body,html {
     background-color: #77DD77;
-    background-image: url("img/backgroundLeaf.png") ;
+    background-image: url("../img/backgroundLeaf.png") ;
     background-size: cover; /* Scales the image to cover the element */
     width: 100%;
     height: 100%;
     margin: 0;
     overflow: hidden;
-    transition: background .2s ease-in-out;
     user-select: none;
-  font-family: "Inter", sans-serif;
-      padding: 0;
-
+    font-family: "Inter", sans-serif;
+    padding: 0;
 }
-
 .scene {
     display: none;
     width: 100%;
     height: 100%;
-
+    align-items: center;
+    flex-direction: column;
+}
+#scene_screenSelection {
+    background: rgb(29, 29, 29);
+    justify-content: center;
 }
 .qrCodeHolder {
     position: absolute;
@@ -30,7 +36,7 @@ body,html {
 .qrCodeImg {
     width: 80%;
     border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
 }
 .screenLogo {
     z-index: 500;
@@ -42,7 +48,6 @@ body,html {
 }
 .screenLogo > * {
     font-size: 30px !important;
-
 }
 .column1Fill {
     flex: 1;
@@ -51,29 +56,17 @@ body,html {
     bottom: 10px;
     width: 18% !important;
 }
-.column_1 {
-    padding: 5px;
-    position: fixed;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 18%;
-    height: 100%;
-}
 .displayingPort {
     background: black;
     display: flex;
     position: relative;
     width: 100%;
     justify-content: center;
+    height: 100%;
 }
 
 .queueList {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 .queueSong {
     position: relative;
@@ -82,26 +75,9 @@ body,html {
     background: rgba(0, 0, 0, 0.322);
     border-radius: 10px;
     margin-bottom: 15px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
     padding: 10px;
     flex-direction: column;
-}
-.elTopRow2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    height: 50%;
-    width: 100%;
-
-}
-.elBottomRow2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    overflow: hidden;
-    transition: all 0.3s ease;
-    margin-top: 10px;
 }
 .appearingText {
     position: absolute;
@@ -115,26 +91,14 @@ body,html {
     width: max-content;
     color: rgb(255, 255, 255);
     font-weight: bold;
-  -webkit-text-stroke: 5px black;
-   paint-order: stroke fill;
-    
 }
 .appearingTextLarge {
     font-size: 50px;
-
 }
 .appearingTextSmall {
     font-size: 30px;
 }
 
-
-.subtitle {
-    color: #f3f3f3;
-    font-size: 20px;
-    font-weight: bold;
-    opacity: 0.9;
-    margin-bottom: 3px;
-}
 .title {
     color: #ffffff;
     font-size: 30px;
@@ -142,188 +106,6 @@ body,html {
     margin: 5px;
 }
 
-#scene_user,#scene_createuser {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.pinSigning {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-
-}
-.solidLine {
-    width: 90%;
-    height: 0px;
-    border: 1px solid black;
-    margin-top: 15px;
-    margin-bottom: 10px;
-
-}
-.numberInputs {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.inputNumber {
-    border-radius: 3px;
-    background-color: white;
-    width: 55px;
-    aspect-ratio: 1/1;
-    margin: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-}
-.pinNumbers {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-
-}
-.inputRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-}
-.inputInvis {
-    width: 80px;
-    height: 75px;
-
-}
-.inputDelete {
-    background: rgb(219, 219, 219) !important;
-}
-.inputSelect,.inputDelete {
-    width: 75px;
-    height: 75px;
-    background: white;
-    display: flex;
-    align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    justify-content: center;
-    font-size: 35px;
-    margin: 3px;
-    border-radius: 5px;
-    transition: all .2s ease-out;
-    user-select: none;
-    outline: none;
-    border: none;
-}
-.inputSelect:active,.inputDelete:active {
-    font-size: 23px;
-}
-.clicking { 
-    background: pink;
-}
-
-
-#scene_usersigned {
-    flex-direction: column;
-    align-items: center;
-}
-.karaokeBanner {
-    width: 100%;
-}
-.karaokeBanner2 {
-    position: absolute;
-    right: -30px;
-    bottom: -30px;
-    width: 150px;
-}
-
-.tabList { 
-
-  display: flex;
-  width: 100%;
-  height: 65px;
-  background: rgba(0, 0, 0, 0.644);
-  color: white;
-  text-align: center;
-  flex-direction: row;
-  align-items: center;
-}
-.tab {
-    flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  transition: all 0.2s ease-in-out;
-  -webkit-tap-highlight-color: transparent; /* remove blue flash on mobile */
-  outline: none; /* prevent focus outline */
-  opacity: 0.5;
-}
-.tabText {
-    font-size: 12px;
-    margin-top: 3px;
-}
-.tabSelected {
-    opacity: 1;
-}
-.tabIcon {
-    height: 60%;
-    aspect-ratio: 1/1;
-}
-.warningText {
-    display: none;
-    color: rgba(255, 255, 255, 0.527);
-    font-weight: bold;
-
-}
-
-.tabScene {
-  padding: 1rem;
-  overflow: auto;
-  width: 90%;
-  flex-direction: column;
-  flex: 1;
-}
-.addSongTopRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 35px;
-    display: none;
-    width: 100%;
-    flex-shrink: 0;
-    justify-content: space-evenly;
-    margin-top: 5px;
-
-}
-.usernameInput {
-    height: 30px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    width: 80%;
-    padding-left: 15px;
-    margin-top: 10px;
-} 
-.submitName {
-    height: 40px;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    font-weight: bold;
-    font-size: 20px;
-    background: rgb(255, 255, 255);
-    margin-top: 15px;
-
-}
 .addQueue {
     height: 30px;
     border: none;
@@ -334,17 +116,7 @@ body,html {
     width: 120px;
     font-size: 15px;
     margin-right: 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-}
-.songResultsList {
-    width: 100%;
-    flex: 1; /* fills all remaining space */
-    overflow-y: auto; /* adds scroll bar if content too tall */
-}
-
-.showRow {
-  max-height: 100px !important; /* adjust depending on your layout */
-  opacity: 1 !important;
+    box-shadow: var(--shadow-sm);
 }
 
 
@@ -356,172 +128,25 @@ body,html {
     left: 0;
     background: rgba(0, 0, 0, 0.541);
 }
-.popup,.promptQR {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-}
-.popupBody {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    z-index: 1000;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    border-radius: 5px;
-    background: white;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: max-content;
-}
-.popup_title,.popup_title2 {
-    margin-top: 20px;
-    color: black;
-    font-size: 18px;
-    text-align: center;
-    font-weight: bold;
-
-
-}
-.promptOK {
-    background-color: #5acd8a;
-    margin-bottom: 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    color: white;
-    margin-top: 5px;
-}
-.popup_bottomRow {
-    margin-top: 15px;
-    align-items: center;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-
-}
-.popup_button {
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    width: 150px;
-    height: 50px;
-    font-size: 18px;
-    font-weight: bold;
-}
-.popup_cancel {
-    background: rgb(135 135 135);
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    color: white;
-    transition: all .2s ease-in-out;
-
-}
-.popup_cancel:active {
-    background: rgb(252, 113, 113);
-}
-.popup_affirm {
-    background-color: #5acd8a;
-    color: white;
-    
-}
 .displayingVideo {
     width: 95%;
-    
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-
-}
-.adminOnly {
-    display: none;
-}
-.queueEditIcon {
-    width: 25px;
-    height: 25px;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-
 }
 
-.adminControlObject {
-    background: rgba(255, 255, 255, 0.62);
-    width: 95%;
-    border-radius: 5px;
-    height: max-content;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.userListEntry {
-    width: 100%;
-    font-size: 20px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    
-}
-.adminControls {
-    width: 100%;
-    font-size: 20px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-
-}
-.musicControls {
-    width: 100%;
-    font-size: 20px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.336);
-
-}
-
-.adminControlInput {
-    width: 90%;
-    height: 35px;
-    font-size: 20px;
-    border: none;
-    border-radius: 5px;
-    outline: none;
-    padding-left: 10px;
-}
-.adminControlRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 5px;
-    justify-content: space-evenly;
-}
-.adminControlSelectorInput {
-    width: 30%;
-    height: 35px;
-    font-size: 20px;
-    text-align: center;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-}
-.adminControlButton {
-    width: 75%;
-    height: 35px;
-    font-size: 20px;
-    margin-top: 5px;
-    
-}
 input, select {
   font-size: 16px !important;
 }
 
-
+.addSongTopRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 35px;
+    display: none;
+    width: 100%;
+    flex-shrink: 0;
+    justify-content: space-evenly;
+    margin-top: 5px;
+}
 .singMode {
     padding: 10px;
     transition: all .2s ease-in-out;
@@ -546,16 +171,13 @@ input, select {
     transition: all .1s ease-in-out;
 }
 .inputSelected {
-    
     border: 2px solid rgb(91, 107, 255) !important;
 }
 .songTitle {
-    
     -webkit-appearance: none;  /* removes iOS default styles */
     appearance: none;
     line-height: normal;       /* stops weird vertical stretching */
     padding: 1px;
-
     height: 90%;
     border: none;
     outline: none;
@@ -567,21 +189,10 @@ input, select {
     aspect-ratio: 1/1;
     padding-right: 5px;
     padding-left: 5px;
-
 }
 
 
 
-.signed_header {
-    width: 100%;
-    height: max-content;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    background: #46bb4c;
-
-}
 .sideRow {
     width: 100%;
     display: flex;
@@ -598,7 +209,6 @@ input, select {
     justify-content: center;
     margin-right: 10px;
     z-index: 500;
-
 }
 .leaveChangeHolder > * {
     aspect-ratio: 1/1;
@@ -636,7 +246,6 @@ input, select {
     font-size: 20px;
     font-weight: bold;
     margin: 1px;
-
 }
 .logoBrownText {
     color: #543727;
@@ -654,25 +263,10 @@ input, select {
     background-clip: text;
 }
 
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
 .songResultsDiv {
     width: 95%;
-    display: flex;
-    flex-direction: column;
     flex: 1;
-    
     overflow-y: scroll;
-    align-items: center;
     padding-bottom: 100px;
 }
 #currentSong {
@@ -682,24 +276,21 @@ input, select {
     align-items: center;
     height: 73px;
     color: white;
-    
 }
 .songListing {
     width: 100%;
     background: rgba(0, 0, 0, 0.322);
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
     margin-top: 3px;
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 63px;
     color: white;
-
 }
 .usersSong {
     border: 2px solid rgba(109, 245, 104, 0.89);
-
 }
 .screenQueueObject {
     background: rgba(2, 10, 0, 0.904) !important;
@@ -713,7 +304,6 @@ input, select {
 .section1 {
     height: 100%;
     aspect-ratio: 1/1;
-
 }
 .section3 {
     width: 15%;
@@ -745,7 +335,6 @@ input, select {
     justify-content: center;
     height: 30%;
     aspect-ratio: 1/1;
-
 }
 .s3IconFavorite {
     width: 100%;
@@ -757,8 +346,6 @@ input, select {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-
-
 }
 .s2DivRow {
     display: flex;
@@ -769,7 +356,6 @@ input, select {
     overflow: hidden; /* Hides overflowing text */
     text-overflow: clip;
     justify-content: start;
-
 }
 .s2DivMini {
     font-size: 11px;
@@ -843,73 +429,6 @@ input, select {
 .animation4 {
     animation: bounceRandom1 3.4s infinite linear;
 }
-@keyframes bounceRandom0 {
-    0%   { height: 10%; }
-    15%  { height: 75%; }
-    30%  { height: 25%; }
-    50%  { height: 90%; }
-    65%  { height: 40%; }
-    80%  { height: 60%; }
-    100% { height: 10%; }
-}
-@keyframes bounceRandom1 {
-    0%   { height: 15%; }
-    10%  { height: 85%; }
-    20%  { height: 30%; }
-    30%  { height: 95%; }
-    40%  { height: 50%; }
-    50%  { height: 75%; }
-    60%  { height: 20%; }
-    70%  { height: 65%; }
-    80%  { height: 35%; }
-    90%  { height: 100%; }
-    100% { height: 15%; }
-}
-@keyframes bounceRandom2 {
-    0%   { height: 10%; }
-    5%   { height: 82%; }
-    10%  { height: 33%; }
-    15%  { height: 97%; }
-    20%  { height: 40%; }
-    25%  { height: 73%; }
-    30%  { height: 18%; }
-    35%  { height: 67%; }
-    40%  { height: 28%; }
-    45%  { height: 89%; }
-    50%  { height: 35%; }
-    55%  { height: 92%; }
-    60%  { height: 22%; }
-    65%  { height: 79%; }
-    70%  { height: 30%; }
-    75%  { height: 96%; }
-    80%  { height: 45%; }
-    85%  { height: 60%; }
-    90%  { height: 20%; }
-    95%  { height: 75%; }
-    100% { height: 10%; }
-}
-@keyframes bounceRandom3 {
-  0%   { height: 0%; }
-  12%  { height: 38%; }
-  27%  { height: 12%; }
-  43%  { height: 62%; }
-  59%  { height: 28%; }
-  74%  { height: 80%; }
-  86%  { height: 45%; }
-  100% { height: 0%; }
-}
-@keyframes bounceRandom4 {
-  0%   { height: 0%; }
-  18%  { height: 55%; }
-  33%  { height: 22%; }
-  48%  { height: 70%; }
-  63%  { height: 35%; }
-  79%  { height: 90%; }
-  91%  { height: 48%; }
-  100% { height: 0%; }
-}
-
-
 
 
 #queueSheet {
@@ -930,7 +449,6 @@ input, select {
 }
 #collapseBtn {
     width: 25px;
-    transition: all .5s ease-in-out;
     margin-right: 15px;
 }
 .collapseBtnReversed {
@@ -942,7 +460,6 @@ input, select {
   align-items: center;
   color: white;
   font-size: 18px;
-  cursor: grab;
   user-select: none;
 }
 
@@ -973,14 +490,18 @@ input, select {
     overflow: hidden;
     position: absolute;
     left: 0;
-    align-items: center;
     top: 0;
     z-index: 501;
     opacity: 0;
-    display: flex;
-    flex-direction: column;
     transition: opacity .2s ease-in-out;
     pointer-events: none;
+}
+
+.signed_header {
+    width: 100%;
+    height: max-content;
+    padding: 10px;
+    background: #46bb4c;
 }
 .header {
     width: 100%;
@@ -991,7 +512,6 @@ input, select {
     justify-content: space-between;
     padding: 15px;
     box-sizing: border-box;
-
 }
 .displayTitle,.adminHeaderTitle {
     color: white;
@@ -999,25 +519,18 @@ input, select {
     font-weight: bold;
 }
 .displayExit,.admin_exit {
-    filter: invert(1);
     width: 25px;
 }
 .displayBody {
     width: 95%;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding-top: 10px;
     overflow-y: auto;
     padding-bottom: 150px
 }
 .userStatSongs {
-    display: flex;
-    flex-direction: column;
     width: 100%;
     box-sizing: border-box;
-    align-items: center;
     padding-top: 5px;
 }
 .groupBoxTitle {
@@ -1034,7 +547,6 @@ input, select {
     padding: 10px;
     width: 98%;
     justify-content: left;
-
 }
 .userStatDiv {
     border-radius: 5px;
@@ -1046,25 +558,21 @@ input, select {
     font-weight: bold;
     font-size: 20px;
     padding: 3px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
-    
 }
 #userStat_mostPlayed {
     background: #9ea1fd;
-
 }
 #userStat_Favorites {
     background: #e48292;
-
 }
 #userStat_History {
     background: #d07ddb;
 }
 #globalStat_popular {
     background: #ffb584;
-
 }
 .userStatImg {
     position: absolute;
@@ -1074,12 +582,6 @@ input, select {
     aspect-ratio: 1/1;
 }
 
-.statSongDiv {
-    position: absolute;
-    left: 0;
-    top: 0;
-
-}
 .historyMarker {
     width: 100%;
     text-align: left;
@@ -1126,20 +628,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     animation: splashPop 0.8s ease forwards;
 }
 
-@keyframes splashPop {
-    0%   { transform: scale(0.9); opacity: 0; }
-    60%  { transform: scale(1.05); opacity: 1; }
-    100% { transform: scale(1.0); opacity: 1; }
-}
 
 
-#scene_adminSignin,#scene_admin {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-
-}
 .as_title {
     font-weight: bold;
     font-size: 25px;
@@ -1150,7 +640,6 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     display: flex;
     flex-direction: row;
     gap: 10px;
-
 }
 .as_input {
     background: white;
@@ -1162,14 +651,11 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     justify-content: center;
     font-size: 25px;
     font-weight: bold;
-
 }
 .as_input_empty {
     color: rgba(56, 56, 56, 0.315);
 }
 .pinpad {
-    display: flex;
-    flex-direction: column;
     gap: 5px;
     margin-top: 10px;
 }
@@ -1177,11 +663,10 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     display: flex;
     flex-direction: row;
     gap: 5px;
-
 }
 .pinpad_option {
     background: white;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
     width: 70px;
     height: 70px;
     display: flex;
@@ -1224,18 +709,12 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 
 
 .adminBody {
-    display: flex;
-    flex-direction: column;
     width: 100%;
     flex: 1;
-    align-items: center;
 }
 .adminGroup {
     margin-top: 10px;
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    align-items: center;
 }
 .adminTitle {
     font-size: 24px;
@@ -1271,7 +750,6 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     background: white;  /* thumb color */
     border-radius: 50%;
     border: 2px solid #ccc; /* optional so you can see it */
-    cursor: pointer;
 }
 .adminTimerRow {
     display: flex;
@@ -1284,7 +762,7 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 .adminGroup {
     border-radius: 10px;
     width: 95% !important;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
 }
 .adminMusic {
     background: rgb(110 146 183);
@@ -1323,7 +801,7 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 .adminInputAll {
     border-radius: 5px;
     font-size: 23px !important;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
     text-align: center;
     height: 90%;
     box-sizing: border-box;
@@ -1337,19 +815,14 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 .admin_input_select {
     width: 45%;
     margin-left: 3px;
-
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-
     background: white;
     color: black;
-
     padding: 10px;
     height: 50px;
     font-size: 16px;
-    cursor: pointer;
-
     /* remove blue highlight ring */
     outline: none;
 }
@@ -1369,10 +842,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     background: white;
     border: 2px solid #ccc;
     border-radius: 5px;
-    cursor: pointer;
     position: relative;
     display: inline-block;
-
 }
 
 /* checkmark (Safari-friendly) */
@@ -1405,13 +876,12 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     font-weight: bold;
     background: white;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
     width: 80%;
     height: 90%;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
 }
 
 .videoDelayTracker {
@@ -1424,40 +894,16 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     display: none;
 }
 
-
-#scene_screenSelection {
-    background: rgb(29, 29, 29);
-    align-items: center;
-    justify-content: center;
-}
 .menu {
     background: rgba(51, 255, 61, 0.356);
     width: max-content;
     height: max-content;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: var(--shadow-sm);
 }
 
 
-.queuePopup2 {
-    padding: 3px;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    z-index: 600;
-    width: max-content;
-    height: 35px;
-    background: rgb(255, 255, 255);
-    border-radius: 30px;
-    display: flex;
-    flex-direction: row;
-    box-shadow: rgba(0, 0, 0, 0.2) -2.95px 3.95px 2.6px;
-    align-items: center;
-    top: 0;
-    left: 0;
-    transition: opacity .1s ease-in-out;
-}
 .qp_icon_holder {
     height: 100%;
     aspect-ratio: 1/1;
@@ -1479,15 +925,88 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     flex: 1;
     margin-left: 10px;
 }
-.leaveChangeSong {
-    
-    filter: invert(1);
-}
-#scene_changeSong {
-    flex-direction: column;
-    align-items: center;
-}
 .queueSmallText {
     color: rgba(255, 255, 255, 0.479);
     font-size: 13px;
+}
+
+
+.popup_title,.popup_title2 {
+    margin-top: 20px;
+    color: black;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+.promptOK {
+    background-color: #5acd8a;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+    color: white;
+    margin-top: 5px;
+}
+.popup_bottomRow {
+    margin-top: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.popup_button {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.popup_cancel {
+    background: rgb(135 135 135);
+    box-shadow: var(--shadow-sm);
+    color: white;
+    transition: all .2s ease-in-out;
+}
+.popup_cancel:active {
+    background: rgb(252, 113, 113);
+}
+.popup_affirm {
+    background-color: #5acd8a;
+    color: white;
+}
+
+.queuePopup2 {
+    padding: 3px;
+    opacity: 0;
+    pointer-events: none;
+    width: max-content;
+    height: 35px;
+    background: rgb(255, 255, 255);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: rgba(0, 0, 0, 0.2) -2.95px 3.95px 2.6px;
+    align-items: center;
+    transition: opacity .1s ease-in-out;
+}
+
+.popup,.promptQR {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+.popupBody {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
+    border-radius: 5px;
+    background: white;
+    width: 90%;
+    height: max-content;
 }

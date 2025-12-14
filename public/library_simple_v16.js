@@ -1,23 +1,17 @@
 /*
     ----------------Simple----------------
-          Use JavaScript but simply.
-    Version: 16
-    Created By: JoeTheHobo (John Jones)
+    Version: 17
+    Created By: John Jones
     Email: johnjonesma@gmail.com
 */
 
-//For Console Log - Ignore
-let plugingLogs = [];
-function pluginsIncludes(name,version) {
-    plugingLogs.push({
-        name: name,
-        version: version,
-    })
-} 
 
-Array.prototype.insert = function ( index, ...items ) {
-    this.splice( index, 0, ...items );
-};
+Array.prototype.value = function(value) {
+    for (let i = 0; i < this.length; i++) {
+        this[i].value = value;
+    }
+    return this;
+}
 Array.prototype.html = function(html) {
     for (let i = 0; i < this.length; i++) {
         this[i].html(html);
@@ -28,56 +22,35 @@ Element.prototype.html = function(html) {
     this.innerHTML = html;
     return this;
 }
-Object.prototype.classRemove = function(classes) {
-    if (this.length == undefined) {
-        [this].classRemove(classes);
-    } else {
-        let arr = [];
-        for (let i = 0; i < this.length; i++) {
-            arr.push(this[i])
-        }
-        arr.classRemove(classes);
+Element.prototype.classRemove = function(classes) {
+    let classList = classes.split(" ");
+    for (let i = 0; i < classList.length; i++) {
+        this.classList.remove(classList[i]);
     }
     return this;
 }
-Object.prototype.classAdd = function(classes) {
-    if (this.length == undefined) {
-        [this].classAdd(classes);
-    } else {
-        let arr = [];
-        for (let i = 0; i < this.length; i++) {
-            arr.push(this[i])
-        }
-        arr.classAdd(classes);
+Element.prototype.classAdd = function(classes) {
+    let classList = classes.split(" ");
+    for (let i = 0; i < classList.length; i++) {
+        this.classList.add(classList[i]);
     }
     return this;
 }
 Array.prototype.classAdd = function(classes) {
-    let list = classes.split(" ")
-    repeat(this,(object,i) => {
-        repeat(list,(name,i) => {
-            object.classList.add(name);
-        })
-    })
+    for (let i = 0; i < this.length; i++) {
+        this[i].classAdd(classes);
+    }
     return this;
 }
 Array.prototype.classRemove = function(classes) {
-    let list = classes.split(" ")
-    repeat(this,(object,i) => {
-        repeat(list,(name,i) => {
-            try {
-                object.classList.remove(name);
-            } catch {
-                
-            }
-            
-        })
-    })
+    for (let i = 0; i < this.length; i++) {
+        this[i].classRemove(classes);
+    }
     return this;
 }
 
 
-Object.prototype.$P = function(x = 1) {
+Element.prototype.$P = function(x = 1) {
     let a = this;
     for (var i = 0; i < x; i++) {
         a = a.parentNode;
@@ -103,83 +76,42 @@ function $(selector,context = document) {
         return elements.length === 1 ? (elements[0]) : (elements.length === 0 ? false : Array.from(elements));
     }
 }
-
-Object.prototype.css = function(obj,val) {
-    if (this.length) {
-        for (let i = 0; i < this.length; i++) {
-            this[i].css(obj,val)
-        }
-    }
-    else {
-        if (_type(obj).type == "string" && val) {
-            newObj = {};
-            newObj[obj] = val;
-            obj = newObj;
-        }
-        for (let i = 0; i < Object.keys(obj).length; i++) {
-            let key = Object.keys(obj)[i];
-            let value = Object.values(obj)[i];
-            if (_type(value).type == "number") value += "px";
-
-            if (key == "absoluteCenter") {
-                this.css({
-                    position: "absolute",
-                    margin: "auto",
-                    left: value === "horizontal" || value === true ? 0 : '',
-                    right: value === "horizontal" || value === true ? 0 : '',
-                    top: value === "vertical" || value === true ? 0 : '',
-                    bottom: value === "vertical" || value === true ? 0 : ''
-                })
-                continue;
-            }
-            if (key.orCompare("outline","border","display") && value == false) value = "none";
-            if (key.orCompare("color","backgroundColor")) value = _color(value).color; 
-            if (key.includes("margin") && key.length > 6) {
-                if (key.toLowerCase().includes("left")) this.style.marginLeft = value;
-                if (key.toLowerCase().includes("right")) this.style.marginRight = value;
-                if (key.toLowerCase().includes("top")) this.style.marginTop = value;
-                if (key.toLowerCase().includes("bottom")) this.style.marginBottom = value;
-                continue;
-            }
-            if (key.includes("padding") && key.length > 7) {
-                if (key.toLowerCase().includes("left")) this.style.paddingLeft = value;
-                if (key.toLowerCase().includes("right")) this.style.paddingRight = value;
-                if (key.toLowerCase().includes("top")) this.style.paddingTop = value;
-                if (key.toLowerCase().includes("bottom")) this.style.paddingBottom = value;
-                continue;
-            }
-
-            this.style[key] = value;
-        }
-    }
-    return this;
-}
-Object.prototype.on = function(what,func) {
-    if (this.length) {
-        for (let i = 0; i < this.length; i++) {
-            this[i].on(what,func)
-        }
-    } else {
-        let actions = what.split(" ");
-        for (let i = 0; i < actions.length; i++) {
-            this.addEventListener(actions[i],function(e) {
-                func.call(this,e);
-            });
-        }
-    }
-
-    return this;
-}
-Array.prototype.toLowerCase = function() {
+Array.prototype.css = function(obj,val) {
     for (let i = 0; i < this.length; i++) {
-        this[i] = this[i].toLowerCase();
+        this[i].css(obj,val);
     }
     return this;
 }
-Array.prototype.toUpperCase = function() {
-    for (let i = 0; i < this.length; i++) {
-        this[i] = this[i].toUpperCase();
+Element.prototype.css = function(obj,val) {
+    if (_type(obj).type == "string") {
+        newObj = {};
+        newObj[obj] = val;
+        obj = newObj;
     }
+    for (let i = 0; i < Object.keys(obj).length; i++) {
+        let key = Object.keys(obj)[i];
+        let value = Object.values(obj)[i];
+        if (["outline","border","display"].includes(key) && value == false) value = "none";
+        if (["color","backgroundColor"].includes(key)) value = _color(value).color; 
+
+        this.style[key] = value;
+    }
+    return this;
+}
+Array.prototype.on = function(what,func) {
+    for (let i = 0; i < this.length; i++) {
+        this[i].on(what,func);
+    }
+    return this;
+}
+Element.prototype.on = function(what,func) {
+    let actions = what.split(" ");
+    for (let i = 0; i < actions.length; i++) {
+        this.addEventListener(actions[i],function(e) {
+            func.call(this,e);
+        });
+    }
+
     return this;
 }
 String.prototype.rnd = function(amt = false,l=[]) {
@@ -329,9 +261,6 @@ function isClass(obj) {
   }
 
 
-
-  
-  pluginsIncludes("_type",2);
 
 //////////////////
 //HOW TO USE RND//
@@ -518,119 +447,6 @@ Object.prototype.create = function(elem,x = null) {
     } else this.appendChild(ele);
     return ele;
 }
-/*
-    Repeat Documentation
-
-    --Repeat From 0 to x--
-    repeat(x,(i) => {
-
-    })
-        -The Count Of The Loop Is Sent To The Functions Parameter
-
-    --Start At Any Number--
-    repeat(firstNum,LastNum,Function);
-
-    --Repeat Through Arrays--
-    let array = [1,2,3]
-    repeat(array,(child,i) => {
-
-    })
-        -The Count of the loop, and the current child is sent to the functions Parameters;
-
-    --Repeat Through Strings--
-    let string = "abc"
-    repeat(string,(child,i) => {
-        
-    })
-
-    --Tips--
-
-    -You Can Break a Loop by returning false in your functions
-
-    --Inverting A List--
-    Simply add a -1 parameter to the end of the repeat function to go backwards.
-    repeat(count,function,-1)
-        -You can do any number! It just controls the count of the loop. You can index by 2s and more!
-
-
-    --Doing A While Loop--
-    Setting First Parameter to true will make it iterate forever. Make sure to return false somewhere in the function.
-    repeat(true,(iteration) => {
-
-        return false;
-    })
-        -Iteration is passed to your functions parameters
-        
-*/
-function repeat(count, func, func2, inverse = 1) {
-    let startNum = 0;
-    let countTo;
-    let isInverse = inverse;
-    let type = typeof count === 'string' ? 'string' : Array.isArray(count) ? 'array' : count === true ? 'while' : '';
-
-    if (type === 'string' || type === 'array') {
-        countTo = count.length;
-    } else if (type === 'while') {
-        let i = 0;
-        while (true) {
-            let resolve = func(i);
-            if (resolve === false) break;
-            i++;
-        }
-        return;
-    } else {
-        countTo = count;
-    }
-
-    if (func2 && typeof func2 === 'function') {
-        startNum = count;
-        isInverse = inverse;
-        func = func2;
-    }
-
-    let iterator;
-    if (isInverse > 0) {
-        iterator = i => i < countTo;
-    } else {
-        iterator = i => i > startNum - 1;
-    }
-
-    for (let i = startNum; iterator(i); i += isInverse) {
-        let wontKill = true;
-        if (type === 'array') {
-            wontKill = func(count[i], i);
-        } else if (type === 'string') {
-            wontKill = func(count.charAt(i), i);
-        } else {
-            wontKill = func(i);
-        }
-        if (wontKill === false) break;
-    }
-}
-/*
-    $MAP Documentation
-    Example:
-    let map = $MAP(5,5,function(i,j) {
-        return i*j;
-    });
-    Example Written Out
-    $MAP(height,width,(i,j) => { 
-        let cell = null;
-        return cell;
-    })
-
-*/
-function $MAP(y,x=y,func = function() {return null}) {
-    let map = [];
-    for (let i = 0; i < y; i++) {
-        let toPush = [];
-        for (let j = 0; j < x; j++) {
-            toPush.push(func(i,j))
-        }
-        map.push(toPush)
-    }
-    return map;
-}
 
 
 function s_shuffle(array) {
@@ -658,114 +474,9 @@ String.prototype.shuffle = function() {
 }
 
 
-Array.prototype.sum = function() {
-    return this.reduce((total,num) => { return total + num; });
-}
 Array.prototype.avg = function() {
     return this.sum()/this.length;
 }
-Array.prototype.high = function() {
-    return Math.max(...this);
-}
-Array.prototype.low = function() {
-    return Math.min(...this);
-}
-Array.prototype.median = function () {
-    return this.slice().sort((a, b) => a - b)[Math.floor(this.length / 2)];
-};
-Array.prototype.mode = function() {
-    let a = this;
-    return Object.values(
-    a.reduce((count, i) => {
-        if (!(i in count)) {
-        count[i] = [0, i];
-        }
-        
-        count[i][0]++;
-        return count;
-    }, {})
-    ).reduce((a, v) => v[0] < a[0] ? a : v, [0, null])[1];
-}
-
-function clone(orig) {
-    return Object.assign(Object.create(Object.getPrototypeOf(orig)),orig);
-}
-
-/*
-    Example code:
-    slog('.[background: green; color: red;]Hello World'); //Out puts a log that says "Hello World" in red with a green background.
-*/
-window.slog = function() {
-    let final = 'console.log(';
-    if (!arguments.length) arguments = [''];
-    for (let k = 0; k < arguments.length; k++) {
-        let texts = [];
-        let addons = [];
-        let text = '';
-        let prev = false;
-        let txt = arguments[k] + '';
-        if (txt !== '<br>') {
-            for (var i = 0; i < txt.length; i++) {
-                if (txt.charAt(i) == '.' && txt.charAt(i + 1) == '[') {
-                    if (prev) {
-                        texts.push(text);
-                        text = '';
-                    }
-                    i += 2;
-                    let add = '';
-                    for (var j = i; j < txt.length; j++) {
-                        if (txt.charAt(j) == ']') {
-                            addons.push(add);
-                            i = j;
-                            j = txt.length;
-                        } else {
-                            add += txt.charAt(j);
-                        }
-                    }
-                    prev = true;
-                } else {
-                    text += txt.charAt(i);
-                }
-            }
-            texts.push(text);
-            if (addons.length > 0) {
-                for (var i = 0; i < texts.length - k; i++) {
-                    final += ' "%c' + texts[i] + '" +';
-                }
-            } else if (k > 0) {
-                final += "'" + texts + "''";
-            } else {
-                final += "'" + texts + "''";
-            }
-            final = final.substring(0, final.length - 1);
-            final += ',';
-            for (var i = 0; i < addons.length; i++) {
-                final += ' "' + addons[i] + '",';
-            }   
-            final = final.substring(0, final.length - 1);
-            final += ',';
-        } else {
-            final += `"<br>",`;
-        }
-    }
-    final = final.substring(0,final.length - 1) + ')';
-    eval(final);
-}
-sloglibrary = function(v,n,c) {
-slog('.[background: lightgreen; font-weight: bold; font-size: 14px; color: black]V' + v + ' Library .[background: lightgreen;font-weight: bold; font-size: 20px; color: black]' + n + '.[background: lightgreen;font-weight: bold; font-size: 14px; color: black] ' + c);
-}
-slogplugin = function(v,n,c) {
-    slog('.[background: lightyellow; color: black;font-weight: bold; black;font-size: 14px]V' + v + ' Plugin .[background: lightyellow;font-weight: bold;color: black; font-size: 20px]' + n +'.[background: lightyellow;color: black;font-weight: bold; font-size: 14px] ' + c);
-}
-slogIncludes = function(text) {
-    slog(`.[font-size: 12px; background: silver; color: black;]${text}`)
-}
-
-
-
-
-
-
 
 /*
 LS Version 3
@@ -804,11 +515,11 @@ window.ls = {
         if (deleteAll) localStorage.clear();
         else {
             if (ls.uniqueID) {
-                repeat(Object.keys(localStorage),(name,i) => {
-                    if (name.includes("/ui/" + ls.uniqueID + "/ui/")) {
-                        ls.delete(name,true)
+                Object.keys(localStorage).forEach(key => {
+                    if (key.includes("/ui/" + ls.uniqueID + "/ui/")) {
+                        ls.delete(key,true)
                     }
-                })
+                });
             } else
                 console.warn("Local Storage: No uniqueID set, to delete all cookies write ls.clear(true), or set UniqueID by writing ls.setUniqueID(yourID)");
         }
@@ -817,126 +528,8 @@ window.ls = {
         let add = ls.uniqueID ? "/ui/" + ls.uniqueID + "/ui/" : "";
         if (byPass) add = "";
         localStorage.removeItem(add + saveName);
-    },
-    log: function(logAll = false) {
-        if (!logAll) 
-            if (ls.uniqueID) logAll = false;
-
-        let matchId = logAll !== false ? logAll : ls.uniqueID;
-
-        logAll === true ? slog(".[background:white;color:black;font-size:15px]LS is Logging All Storages") : slog(".[background:white;color:black;font-size:15px]LS is Logging '" + matchId + "' Storage");
-        
-        if (logAll === true) {
-            let groups = ls.getArrayOfMe();
-            for (let i = 0; i < groups.length; i++) {
-                let group = groups[i];
-                slog(`.[font-weight: bold;color:black;background:silver;font-size:10px]In Storage '${group.name}':`);
-                for (let i = 0; i < group.storage.length; i++) {
-                    let obj = group.storage[i];
-                    console.log(obj.key + ": ",obj.value)
-                }
-            }
-        } else {
-            for (let i = 0; i < Object.keys(localStorage).length; i++) {
-                if (Object.keys(localStorage)[i].includes("/ui/" + matchId + "/ui/")) {
-                    console.log(Object.keys(localStorage)[i].split("/ui/" + matchId + "/ui/")[1] + ": ", ls.get(Object.keys(localStorage)[i],false,true))
-                }
-            }
-        }
-    },
-    facts: function() {
-        let groups = ls.getArrayOfMe();
-
-        var _lsTotal = 0,
-            _xLen, _x;
-        for (_x in localStorage) {
-            if (!localStorage.hasOwnProperty(_x)) {
-                continue;
-            }
-            _xLen = ((localStorage[_x].length + _x.length) * 2);
-            _lsTotal += _xLen;
-            let newObj = {
-                key: _x.substring(0, 50),
-                value: (_xLen / 1024).toFixed(2),
-            }
-            let within = false;
-            if (newObj.key.includes("/ui/")) {
-                within = newObj.key.split("/ui/")[1];
-                newObj.key = newObj.key.split("/ui/")[2];
-                
-            }
-
-            repeat(groups,(group,i) => {
-                if (within && group.name !== within) {
-                    return;
-                }
-                repeat(group.storage,(obj,j) => {
-                    if (obj.key == newObj.key) {
-                        obj.space = (_xLen / 1024).toFixed(2);
-                        group.space += Number((_xLen / 1024).toFixed(2));
-                    }
-                })
-            })
-        };
-
-        let TotalUsed = (_lsTotal / 1024).toFixed(2);
-        let percent = Math.round((TotalUsed / 5000)*10000)/100;
-
-
-
-        slog(".[background:white;color:black;font-size:15px]--LS FACTS--")
-        slog("Total Storage: 5000 KB");
-        slog("Total Used: " + TotalUsed + " KB (" + percent + "%)");
-        repeat(groups,(group,i) => {
-            slog(`.[font-weight: bold;color:black;background:silver;font-size:12px]Storage '${group.name}' uses ${group.space.toFixed(2)} KB:`);
-            repeat(group.storage,(obj,j) => {
-                console.log(obj.key + ": " + obj.space + " KB")
-            })
-        })
-    },
-    getArrayOfMe: function() {
-        let groups = [{name:"General Storage",storage:[],space:0}];
-        for (let i = 0; i < Object.keys(localStorage).length; i++) {
-
-            if (!Object.keys(localStorage)[i].includes("/ui/")) {
-                groups[0].storage.push({
-                    key: Object.keys(localStorage)[i],
-                    value: ls.get(Object.keys(localStorage)[i],false,true),
-                    space: 0,
-                })
-            } else {
-                let foundGroup = false;
-                let keyName = Object.keys(localStorage)[i].split("/ui/")[1]
-                repeat(groups,(obj,i) => {
-                    if (obj.name == keyName) foundGroup = i;
-                })
-                if (!foundGroup) {
-                    groups.push({
-                        name: keyName,
-                        storage: [
-                            {
-                                key: Object.keys(localStorage)[i].split("/ui/")[2],
-                                value: ls.get(Object.keys(localStorage)[i],false,true),
-                                space: 0,
-                            }
-                        ],
-                        space: 0,
-                    })
-                } else {
-                    groups[foundGroup].storage.push(
-                        {
-                            key: Object.keys(localStorage)[i].split("/ui/")[2],
-                            value: ls.get(Object.keys(localStorage)[i],false,true),
-                            space: 0,
-                        }
-                    )
-                }
-            }
-        }
-        return groups;
-    },
+    }
 }
-pluginsIncludes("ls",3.1);
 
 
 Array.prototype.simpleBlur = function() {
@@ -956,136 +549,11 @@ Element.prototype.simpleBlur = function() {
 ---DOM  V1---
 -------------
 
-domElement.fadeOut(speedInMS);
-domElement.fadeIn(speedInMS);
 domElement.hide();
 domElement.show();
-domElement.delete();
-domElement.getSize() (Return width and height object)
-domElement.slideIn("width"/"height",speedInMS);
-domElement.slideOut("width"/"height",speedInMS);
-domElement.hover(cssObj);
 
 */
-/*
-    _warning Documentation
 
-    let a = new _warning({
-        text: "hey", -Optional popup text
-        time: [miliseconds], -Optional time popup is on screen
-        fade: true/false, -Optional if popup fades in and out
-        speed: [miliseconds], -Optional speed of fade in and out
-        css: {}"css", -Optional Control CSS
-    });
-    a.show("I'm A Bunny, And I really like to dance");
-
-    _warning.show(text [string] optional, time [milliseconds] optional);
-*/
-
-class _warning {
-    constructor(obj = {}) {
-        if (obj.css)
-            this.css = obj.css;
-        
-        this.css.color = obj.css.color ?? "white";
-        this.css.background = obj.css.background ? obj.css.background : "#414141ee";
-        this.css.borderRadius = obj.css.borderRadius ? obj.css.borderRadius : "5px";
-        this.css.width = obj.css.width ? obj.css.width : "80%";
-        this.css.maxWidth = obj.css.maxWidth ? obj.css.maxWidth : "500px";
-        this.css.height = obj.css.height ? obj.css.height : "";
-        this.css.padding = obj.css.padding ? obj.css.padding : "5px";
-        this.css.position = obj.css.position ? obj.css.position : "fixed";
-        this.css.left = obj.css.left ? obj.css.left : 0;
-        this.css.right = obj.css.right ? obj.css.right : 0;
-        this.css.bottom = obj.css.bottom ? obj.css.bottom : "50px";
-        this.css.top = obj.css.top ? obj.css.top : "";
-        this.css.margin = obj.css.margin ? obj.css.margin : "auto";
-        this.css.textAlign = obj.css.textAlign ? obj.css.textAlign : "center";
-        this.css.lineHeight = obj.css.lineHeight ?? (obj.css.height ?? "");
-        this.css.fontSize = obj.css.fontSize ? obj.css.fontSize : "20px";
-        this.css.opacity = obj.css.opacity ? obj.css.opacity : 0;
-            
-        
-        this.text = obj.text ? obj.text : "";
-        this.time = obj.time ? obj.time : 1000;
-        this.fade = obj.fade ? obj.fade : true;
-        this.speed = obj.speed ? obj.speed : 5000;
-        if (!this.fade) {
-            this.css.opacity = obj.opacity ? obj.opacity : 1;
-        }
-        this.css.transition =  obj.transition ? obj.transition : "all " + (this.speed/10000) + "s ease-in-out";
-
-    }
-    show(text = this.text,time = this.time) {
-        this.div = document.body.create("div");
-        this.div.css(this.css);
-        this.div.css({
-            zIndex: 1000,
-        })
-        this.div.innerHTML = text;
-
-        let div = this.div;
-        if (this.fade) {
-            setTimeout(function() {
-                div.style.opacity = 1;
-                
-            },1)
-        }
-        
-        let ele = this;
-        setTimeout(function() {
-            
-            if (ele.fade) {
-                setTimeout(function() {
-                    div.style.opacity = 0;
-                    
-                    setTimeout(function() {
-                        ele.hide();
-                    },ele.speed)
-                },1)
-            } else {
-                ele.hide();
-            }
-        },time)
-    }
-    hide() {
-        this.div.remove();
-    }
-}
-
-
-Object.prototype.fadeOut = function(ms = 1000,whatHappensToMe = "hidden") {
-    let element = this;
-    this.css({
-        transition: "opacity " + (ms/1000) + "s",
-        opacity: 1, 
-    })
-
-    setTimeout(function() {
-        element.css({
-            opacity: 0,
-        })
-        setTimeout(function() {
-            element.css({
-                visibility: whatHappensToMe,
-            })
-        },ms)
-    },1)
-}
-Object.prototype.fadeIn = function(ms = 1000,whatHappensToMe = "visible") {
-    let element = this;
-    this.css({
-        transition: "opacity " + (ms/1000) + "s",
-        opacity: 0, 
-        visibility: whatHappensToMe,
-    })
-
-    setTimeout(function() {
-        element.css({
-            opacity: 1,
-        })
-    },1)
-}
 Object.prototype.show = function(as = "block") {
     if (this.length) {
         for (let i = 0; i < this.length; i++) {
@@ -1104,462 +572,59 @@ Object.prototype.hide = function() {
         this.style.display = "none";
     }
 }
-Object.prototype.getSize = function() {
-    let node = this.cloneNode();
-
-    node.style.transition = "";
-    node.style.maxWidth = window.innerWidth + "px";
-    node.style.maxHeight = window.innerHeight + "px";
-    node.style.visibility = "visible";
-
-    document.body.appendChild(node)
-
-    let object = {
-        width: node.offsetWidth,
-        height: node.offsetHeight,
-    }
-    
-    node.delete();
-
-    return object;
-} 
-
-
-Object.prototype.slideOut = function(where = "width",speedMS = 500) {
-    let whatToTransition = "max-" + where;
-
-    let element = this;
-    this.css({
-        transition: whatToTransition + " " + (speedMS/1000) + "s",
-    })
-
-    if (whatToTransition == "max-width") this.style.maxWidth = this.offsetWidth + "px";
-    else this.style.maxHeight = this.offsetHeight + "px";
-
-    setTimeout(function() {
-        if (whatToTransition == "max-width") element.style.maxWidth = "0px";
-        else element.style.maxHeight = "0px";
-
-        setTimeout(function() {
-            element.css({
-                visibility: "hidden",
-            })
-        },speedMS)
-    },1)
-}
-Object.prototype.slideIn = function(where = "width",speedMS = 500) {
-    let whatToTransition = "max-" + where;
-
-    let element = this;
-    this.css({
-        transition: whatToTransition + " " + (speedMS/1000) + "s",
-        visibility: "visible",
-    })
-
-    if (whatToTransition == "max-width") {
-        this.style.maxWidth = "0px";
-        this.style.maxHeight = "100%";
-    } else {
-        this.style.maxHeight = "0px";
-        this.style.maxWidth = "100%";
-    } 
-
-    setTimeout(function() {
-        if (whatToTransition == "max-width") element.style.maxWidth = element.getSize().width + "px";
-        else element.style.maxHeight = element.getSize().height + "px";
-    },1)
-}
-Object.prototype.hover = function(obj) {
-    this.hoverSaves = this.hoverSaves ? this.hoverSaves : [];
-    for (let i = 0; i < Object.keys(obj).length; i++) {
-        this.hoverSaves.push({
-            key: Object.keys(obj)[i],
-            value: eval("this.style." + Object.keys(obj)[i]),
-            newVal: Object.values(obj)[i]
-        })
-    }
-    this.on('mouseover',function() {
-        for (let i = 0; i < this.hoverSaves.length; i++) {
-            eval('this.style.' + this.hoverSaves[i].key + ' = "' + this.hoverSaves[i].newVal + '"')
-        }
-    });
-    this.on('mouseout',function(obj) {
-        for (let i = 0; i < this.hoverSaves.length; i++) {
-            eval('this.style.' + this.hoverSaves[i].key + ' = "' + this.hoverSaves[i].value + '"')
-        }
-    });
-}
-
-pluginsIncludes("DOM",1);
-
-/*
-    Currently Working:
-    innerHTML
-    placeholder
-    src
-    id
-    className
-    href
-    title
-    disabled
-    checked
-    alt
-    target
-    type
-    size
-    pattern
-
-    Cant Work:
-    Value
-    maxlength
-
-    Havent Attemped:
-    style
-    min
-    max
-    rows
-    cols
-    readonly
-    contenteditable
-    data-*
-    download
-    rel
-    autocomplete
-    autofocus
-    controls
-    form
-    formaction
-    formenctype
-    formmethod
-    formtarget
-    muliple
-    required
-    tabindex
-    translate
-    aria-*
-    lang
-    scrolling
-    sandbox
-    charset
-    defer
-    async
-    integrity
-    media
-    sizes
-    usemap
-    datetime
-    poster
-    loop
-    muted
-    preload
-    open
-    label
-    selected
-    wrap
-*/
-
-
-Object.defineProperty(Array.prototype, 'pattern', {
-    get: function() {
-        // When accessing the property, return the innerHTML of the first element
-        return this[0] ? this[0].pattern : '';
-    },
-    set: function(pattern) {
-        // When setting the property, set innerHTML for all elements in the array
-        this.forEach(element => {
-            if (element) {
-                element.pattern = pattern;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'size', {
-    get: function() {
-        // When accessing the property, return the innerHTML of the first element
-        return this[0] ? this[0].size : '';
-    },
-    set: function(size) {
-        // When setting the property, set innerHTML for all elements in the array
-        this.forEach(element => {
-            if (element) {
-                element.size = size;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'innerHTML', {
-    get: function() {
-        // When accessing the property, return the innerHTML of the first element
-        return this[0] ? this[0].innerHTML : '';
-    },
-    set: function(html) {
-        // When setting the property, set innerHTML for all elements in the array
-        this.forEach(element => {
-            if (element) {
-                element.innerHTML = html;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'placeholder', {
-    get: function() {
-        // When accessing the property, return the placeholder attribute of the first element
-        return this[0] ? this[0].placeholder : '';
-    },
-    set: function(placeholder) {
-        // When setting the property, set the placeholder attribute for all elements in the array
-        this.forEach(element => {
-            if (element && element.tagName.toLowerCase() === 'input') {
-                element.placeholder = placeholder;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'value', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].value : '';
-    },
-    set: function(value) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.value !== 'undefined') {
-                element.value = value;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'id', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].id : '';
-    },
-    set: function(id) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.id !== 'undefined') {
-                element.id = id;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'className', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].class : '';
-    },
-    set: function(className) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.className !== 'undefined') {
-                element.className = className;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'href', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].class : '';
-    },
-    set: function(href) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.href !== 'undefined') {
-                element.href = href;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'title', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].class : '';
-    },
-    set: function(title) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.title !== 'undefined') {
-                element.title = title;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'disabled', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].class : '';
-    },
-    set: function(disabled) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.disabled !== 'undefined') {
-                element.disabled = disabled;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'checked', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].class : '';
-    },
-    set: function(checked) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.checked !== 'undefined') {
-                element.checked = checked;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'alt', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].class : '';
-    },
-    set: function(alt) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.alt !== 'undefined') {
-                element.alt = alt;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'target', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].class : '';
-    },
-    set: function(target) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.target !== 'undefined') {
-                element.target = target;
-            }
-        });
-    }
-});
-Object.defineProperty(Array.prototype, 'type', {
-    get: function() {
-        // When accessing the property, return the value property of the first element
-        return this[0] ? this[0].class : '';
-    },
-    set: function(type) {
-        // When setting the property, set the value property for all elements in the array
-        this.forEach(element => {
-            if (element && typeof element.type !== 'undefined') {
-                element.type = type;
-            }
-        });
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Lorem
-let lorem_elements = $("<lorem");
-if (!lorem_elements.length) lorem_elements = [lorem_elements];
-for (let i = 0; i < lorem_elements.length; i++) {
-    let wordCount = 50;
-    let paragraphs = 1;
-    if (lorem_elements[i].id) {
-        let idSplit = lorem_elements[i].id.split(",")
-        wordCount = Number(idSplit[0]);
-        if (idSplit[1]) paragraphs = Number(idSplit[1]);
-    }
-
-    
-    lorem_elements[i].innerHTML = lorem(Number(wordCount),Number(paragraphs));
-}
-
-
-function lorem(words,paragraphs=1) {
-    let text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id nibh tortor id aliquet lectus proin. Urna nunc id cursus metus aliquam. Vitae justo eget magna fermentum iaculis eu non. Phasellus faucibus scelerisque eleifend donec. Accumsan tortor posuere ac ut consequat semper viverra. Est pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Consectetur a erat nam at lectus urna duis. In iaculis nunc sed augue. Purus sit amet luctus venenatis lectus magna fringilla urna porttitor. Mi eget mauris pharetra et ultrices neque. Id interdum velit laoreet id donec ultrices tincidunt arcu. Pharetra sit amet aliquam id diam. Ac turpis egestas maecenas pharetra convallis posuere morbi. Convallis posuere morbi leo urna molestie at elementum eu.'
-    let textSplit = text.split(" ");
-    let returnText = "";
-    let count = 0;
-    let whenToSplitCount = 0;
-    let WhenToSplit = Math.round(words/paragraphs);
-    let capitalize = false;
-
-    repeat(words,(i) => {
-        let word = textSplit[count];
-        if (capitalize) {
-            word = word.charAt(0).toUpperCase() + word.substring(1,word.length);
-            capitalize = false;
-
-            if (word.charAt(word.length-1) == ".") word = word.substring(0,word.length-1)
-        }
-        returnText += word + " ";
-
-        if (whenToSplitCount == WhenToSplit && paragraphs !== 1) {
-            returnText = returnText.substring(0,returnText.length-1) + '.<br><br>'
-            whenToSplitCount = 0;
-            capitalize = true;
-        }
-
-        count++;
-        whenToSplitCount++;
-        if (count > textSplit.length) count = 0;
-    })
-    return returnText;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4448,10 +3513,6 @@ function rgbToHex(r, g, b) {
 
 
 
-pluginsIncludes("_color",1);
-
-
-
 
 
 
@@ -4498,18 +3559,6 @@ String.prototype.subset = function(start=0,end = undefined,...modifiers) {
         return Number(returnString.substring(0,modObj.length));
 }
 
-String.prototype.orCompare = function(...compares) {
-    for (let i = 0; i < compares.length; i++) {
-        if (this.toString() === compares[i]) return true;
-    }
-    return false;
-}
-String.prototype.andCompare = function(...compares) {
-    for (let i = 0; i < compares.length; i++) {
-        if (this !== compares[i]) return false;
-    }
-    return true;
-}
 function findIndex(string,searchString) {
     let indexObj = {
         position: "on", //before/on/after/full
@@ -4533,9 +3582,9 @@ function findIndex(string,searchString) {
             if (stringArr[i] == "fi") stringArr[i] = "find";
 
             //Find results
-            if (stringArr[i].orCompare("after","before","on","full")) indexObj.position = stringArr[i];
-            if (stringArr[i].orCompare("count","index")) indexObj.indexType = stringArr[i];
-            if (stringArr[i].orCompare("ci","cs")) indexObj.caseSensitive = stringArr[i] == "cs" ? true : false;
+            if (["after","before","on","full"].includes(stringArr[i])) indexObj.position = stringArr[i];
+            if (["count","index"].includes(stringArr[i])) indexObj.indexType = stringArr[i];
+            if (["ci","cs"].includes(stringArr[i])) indexObj.caseSensitive = stringArr[i] == "cs" ? true : false;
             if (!isNaN(stringArr[i])) indexObj.add = Number(stringArr[i]);
         }
 
@@ -4572,8 +3621,6 @@ function findIndex(string,searchString) {
 }
 
 
-pluginsIncludes("subset",1);
-
 
 class _time {
     constructor(date = new Date(),type) {
@@ -4597,7 +3644,7 @@ class _time {
             }
             if (customString) custStr += char;
 
-            if (!customString && char.orCompare("/",":"," ","|")) {
+            if (!customString && ["/",":"," ","|"].includes(char)) {
                 if (newString !== "") dateArr.push(newString)
                 newString = "";
                 dateArr.push(char)
@@ -4650,17 +3697,17 @@ class _time {
 
             if (str == "dow") addingString += this.time.getDay();
 
-            if (str.orCompare("yy","year")) addingString += this.time.getFullYear().toString().subset(2,3);
-            if (str.orCompare("yyyy","Year")) addingString += this.time.getFullYear();
+            if (["yy","year"].includes(str)) addingString += this.time.getFullYear().toString().subset(2,3);
+            if (["yyyy","Year"].includes(str)) addingString += this.time.getFullYear();
 
-            if (str.orCompare("M","minutes")) addingString += this.time.getMinutes();
-            if (str.orCompare("MM","Minutes")) addingString += this.time.getMinutes() < 10 ? "0" + this.time.getMinutes() : this.time.getMinutes();
+            if (["M","minutes"].includes(str)) addingString += this.time.getMinutes();
+            if (["MM","Minutes"].includes(str)) addingString += this.time.getMinutes() < 10 ? "0" + this.time.getMinutes() : this.time.getMinutes();
 
             if (str == "H") addingString += this.time.getHours() > 12 ? this.time.getHours() - 12 : this.time.getHours();
             if (str == "HH") addingString += (this.time.getHours() > 12 ? this.time.getHours() - 12 : this.time.getHours()) < 10 ? "0" + (this.time.getHours() > 12 ? this.time.getHours() - 12 : this.time.getHours()) : (this.time.getHours() > 12 ? this.time.getHours() - 12 : this.time.getHours());
             
-            if (str.orCompare("S","seconds")) addingString += this.time.getSeconds();
-            if (str.orCompare("SS","Seconds")) addingString += this.time.getSeconds() < 10 ? "0" + this.time.getSeconds() : this.time.getSeconds();
+            if (["S","seconds"].includes(str)) addingString += this.time.getSeconds();
+            if (["SS","Seconds"].includes(str)) addingString += this.time.getSeconds() < 10 ? "0" + this.time.getSeconds() : this.time.getSeconds();
 
             if (str == "MS") addingString += this.time.getMilliseconds();
             if (str == "MSMS") addingString += this.time.getMilliseconds() < 10 ? "00" + this.time.getMilliseconds() : this.time.getMilliseconds() < 100 ? "0" + this.time.getMilliseconds() : this.time.getMilliseconds();
@@ -4673,7 +3720,7 @@ class _time {
 
             if (str.charAt(0) == "*") addingString += str.subset(1,"*end\\-1");
 
-            if (str.orCompare("/",":"," ")) {
+            if (["/",":"," "].includes(str)) {
                 addingString += str;
             }
 
@@ -4687,14 +3734,14 @@ class _time {
                     if (!_type(addingString).isNumber) {
                         let addition = Number(mod.subset(1,true));
                         let index;
-                        if (str.orCompare("month","Month","MONTH")) {
+                        if (["month","Month","MONTH"].includes(str)) {
                             index = (this.time.getMonth() + addition) % 12;
                         }
                         if (str == "month") addingString = this.months[index].toLowerCase();
                         if (str == "Month") addingString = this.months[index];
                         if (str == "MONTH") addingString = this.months[index].toUpperCase();
                         
-                        if (str.orCompare("day","Day","DAY")) {
+                        if (["day","Day","DAY"].includes(str)) {
                             index = (this.time.getDay() + addition) % 7;
 
                         }
@@ -4709,7 +3756,7 @@ class _time {
                     if (!_type(addingString).isNumber) {
                         let addition = Number(mod.subset(1,true));
                         let index;
-                        if (str.orCompare("month","Month","MONTH")) {
+                        if (["month","Month","MONTH"].includes(str)) {
                             index = (this.time.getMonth() - addition) % 12;
                             while (index < 0) {
                                 index += 12;
@@ -4720,7 +3767,7 @@ class _time {
                         if (str == "Month") addingString = this.months[index];
                         if (str == "MONTH") addingString = this.months[index].toUpperCase();
                         
-                        if (str.orCompare("day","Day","DAY")) {
+                        if (["day","Day","DAY"].includes(str)) {
                             index = (this.time.getDay() - addition) % 7;
                             while (index < 0) {
                                 index += 7;
@@ -4833,7 +3880,6 @@ function timeObject(ms) {
         }
     };
 }
-pluginsIncludes("_time",1);
 
 
 
@@ -5000,7 +4046,7 @@ String.prototype.format = function(format,condition) {
                     findingLength += Number(newString)-1;
                 }
                 newString += char;
-                if (char.orCompare("a","A","b","i","x","X")) {
+                if (["a","A","b","i","x","X"].includes(char)) {
                     findingLength++;
                 }
                 if (_type(char).isNumber && !_type(newString).isNumber) newString = char;
@@ -5297,50 +4343,4 @@ function _nfFixed(number,round,formatNum) {
 function numberWithCommas(x) {
     return x.toString().subset(0,".\\before").replace(/\B(?=(\d{3})+(?!\d))/g, ",") + x.toString().subset(".",true);
 }
-
-
-
-
-class Popup {
-    constructor(obj) {
-        this.div = create("div");
-        this.css(obj.css ? obj.css : {});
-        this.elements = obj.elements ? obj.elements : [];
-    }
-    css = function(obj = {}) {
-        this.div.css({
-            display: "none",
-            background: obj.background ? obj.background : "gray",
-            borderRadius: obj.borderRadius ? obj.borderRadius : "5px",
-            position: obj.position ? obj.position : "absolute",
-            zIndex: obj.zIndex ? obj.zIndex : 600,
-            left: obj.left ? obj.left : 0,
-            right: obj.right ? obj.right : 0,
-            top: obj.top ? obj.top : 0,
-            bottom: obj.bottom ? obj.bottom : 0,
-            margin: obj.margin ? obj.margin : "auto",
-            width: obj.width ? obj.width : "max-content",
-            height: obj.height ? obj.height : "max-content",
-            padding: obj.padding ? obj.padding : "20px",
-        });
-    }
-    open = function() {
-        this.div.style.display = "flex";
-    }
-    close = function() {
-        this.div.style.display = "none";
-    }
-}
-
-
-
-
-
-sloglibrary(16.5,'Simple','John Jones');
-let includesString = "-Simple Includes: ";
-for (let i = 0; i < plugingLogs.length; i++) {
-    includesString += `${plugingLogs[i].name} V${plugingLogs[i].version}`
-    if (i < plugingLogs.length - 1) includesString += ", ";
-}
-slogIncludes(includesString)
 

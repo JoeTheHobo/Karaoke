@@ -1,0 +1,17 @@
+.global_invert {
+    filter: invert(1);
+}
+.column_align_center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+:root {
+  --shadow-sm: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.global_popup {
+    position: absolute;
+    z-index: 800;
+    top: 0;
+    left: 0;
+}
