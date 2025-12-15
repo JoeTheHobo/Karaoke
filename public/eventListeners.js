@@ -15,7 +15,7 @@ document.addEventListener("focusout", (e) => {
     }
 });
 document.body.on("click touch",(e) => {
-    if (!e.target.classList.contains("queuePopup2")) {
+    if (!e.target.classList.contains("queuePopup2") && !e.target.classList.contains("qpIconSelected")) {
         closeQueueEditor();
     }
 })
@@ -50,37 +50,59 @@ $(".displayExit").on("click touch",() => {
 //    Queue Popup Options    //
 ///////////////////////////////
 $("qpMoveTop").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Move Top",data.queue[data.selectedSong].queueID);
+    this.classAdd("qpIconSelected");
+    setTimeout(() => {
+        closeQueueEditor();
+        socket.emit("alterQueue","Move Top",data.queue[data.selectedSong].queueID);
+    },200);
 })
 $("qpMoveUp").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Move Up",data.queue[data.selectedSong].queueID);
+    this.classAdd("qpIconSelected");
+    setTimeout(() => {
+        closeQueueEditor();
+        socket.emit("alterQueue","Move Up",data.queue[data.selectedSong].queueID);
+    },200);
 })
 $("qpMoveDown").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Move Down",data.queue[data.selectedSong].queueID);
-})
-$("qpMoveBottom").on("click",function() {
-    closeQueueEditor();
-    socket.emit("alterQueue","Move Bottom",data.queue[data.selectedSong].queueID);
-})
-$("qpRemove").on("click",function() {
-    popup("Remove Song From Queue?",() => {
+    this.classAdd("qpIconSelected");
+    setTimeout(() => {
         closeQueueEditor();
-        socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
-    },"Remove It!",true)
+        socket.emit("alterQueue","Move Down",data.queue[data.selectedSong].queueID);
+    },200);
+})
+$("qpMoveBottom").on("click touch",function() {
+    this.classAdd("qpIconSelected");
+    setTimeout(() => {
+        closeQueueEditor();
+        socket.emit("alterQueue","Move Bottom",data.queue[data.selectedSong].queueID);
+    },200);
+})
+$("qpRemove").on("click touch",function() {
+    this.classAdd("qpIconSelected");
+    setTimeout(() => {
+        closeQueueEditor();
+        popup("Remove Song From Queue?",() => {
+            socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
+        },"Remove It!",true)
+    },200);
 })
 $("qpChangeName").on("click touch",function() {
-    popup("Choose your name.",() => {
-        let name = $(".showNameInput").value;
-        socket.emit("alterQueue","Change Name",data.queue[data.selectedSong].queueID,name);
-    },"Change Name")
+    this.classAdd("qpIconSelected");
+    setTimeout(() => {
+        closeQueueEditor();
+        popup("Choose your name.",() => {
+            let name = $(".showNameInput").value;
+            socket.emit("alterQueue","Change Name",data.queue[data.selectedSong].queueID,name);
+        },"Change Name")
+    },200);
 })
 $("qpChangeSong").on("click",function() {
-    closeQueueEditor();
-    data.changingSong = data.queue[data.selectedSong].queueID;
-    setScene("changeSong");
+    this.classAdd("qpIconSelected");
+    setTimeout(() => {
+        closeQueueEditor();
+        data.changingSong = data.queue[data.selectedSong].queueID;
+        setScene("changeSong");
+    },200);
 })
 //Leave Change Song Screen
 $(".leaveChangeSong").on("click touch",() => {

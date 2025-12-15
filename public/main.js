@@ -169,7 +169,8 @@ function openQueueEditor(container) {
     $(".queuePopup2").style.pointerEvents = "all";
 }
 function closeQueueEditor() {
-    if ($(".queuePopup2").container) setTimeout(() => {  $(".queuePopup2").container.css("zIndex",500); },100)
+    if ($(".qpIconSelected")) $(".qpIconSelected").classRemove("qpIconSelected");
+    if ($(".queuePopup2").container) setTimeout(() => {  $(".queuePopup2").container.css("zIndex",500); },200)
     devis($(".universalBlurredBackground"));
     if ($(".universalBlurredBackground")) $(".universalBlurredBackground").css("backdropFilter","none");
     $(".queuePopup2").style.opacity = 0;
@@ -330,7 +331,9 @@ function displaySongs(div,list,type,showExtension = true) {
                         }
                     }
                     if (!foundFavorite) {
-                        user.favorites.push(l);
+                        let savingL = structuredClone(l);
+                        savingL.type = "addable";
+                        user.favorites.push(savingL);
                         star.src = "img/dazzleIcons/heart_filled.png";
                     }
                     ls.save("favorites",user.favorites);
