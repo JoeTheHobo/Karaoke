@@ -87,3 +87,11 @@
         background-position: 0% 50%;
     }
 }
+
+
+
+@keyframes likeBounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}

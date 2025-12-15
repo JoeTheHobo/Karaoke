@@ -1,3 +1,6 @@
+//Icon Pack
+//https://www.svgrepo.com/collection/dazzle-line-icons/33
+
 function setSplash() {
     $("splash").style.opacity = 1;
     setTimeout(function() {
@@ -256,13 +259,15 @@ function displaySongs(div,list,type,showExtension = true) {
                 let addSong = s1IconHolder.create("img.s1IconAddSong");
 
                 if (l.type == "addable" || type == "history") {
-                    addSong.src = "img/addIcon.png";
+                    addSong.src = "img/dazzleIcons/add.svg";
+                    addSong.classAdd("global_invert");
                 }
 
                 checkImageExists(l.videoId).then(photo => {
                     if (!photo) return;
                     if (loadImages) addSong.src = $("img_" + l.videoId).src;
                     else addSong.src = "songPhotos/" + l.videoId + ".jpg";
+                    addSong.classRemove("global_invert");
                     
 
                     s1IconHolder.classAdd("songCover");
@@ -303,9 +308,9 @@ function displaySongs(div,list,type,showExtension = true) {
             if (user.type !== "screen") {
                 iconHolder = section3.create("div.s3IconHolder");
                 let star = iconHolder.create("img.s3IconFavorite");
-                star.src = "img/star.png"; 
+                star.src = "img/dazzleIcons/heart.png"; 
                 for (let i = 0; i < user.favorites.length; i++) {
-                    if (user.favorites[i].videoId === l.videoId) star.src = "img/gold_star.png";
+                    if (user.favorites[i].videoId === l.videoId) star.src = "img/dazzleIcons/heart_filled.png";
                 }
 
                 star.on("click",function() {
@@ -313,13 +318,13 @@ function displaySongs(div,list,type,showExtension = true) {
                     for (let i = 0; i < user.favorites.length; i++) {
                         if (user.favorites[i].videoId === l.videoId) {
                             foundFavorite = true;
-                            star.src = "img/star.png";
+                            star.src = "img/dazzleIcons/heart.png";
                             user.favorites.splice(i,1);
                         }
                     }
                     if (!foundFavorite) {
                         user.favorites.push(l);
-                        star.src = "img/gold_star.png"
+                        star.src = "img/dazzleIcons/heart_filled.png";
                     }
                     ls.save("favorites",user.favorites);
                 })
@@ -714,11 +719,11 @@ function updateAdminMusicControls() {
 
 
     if (data.videoInfo?.playing) {
-        if ($("music_play").src !== "img/music_pause.png")
-            $("music_play").src = "img/music_pause.png";
+        if ($("music_play").src !== "img/dazzleIcons/song_pause.svg")
+            $("music_play").src = "img/dazzleIcons/song_pause.svg";
     } else {
-        if ($("music_play").src !== "img/music_play.png")
-            $("music_play").src = "img/music_play.png";
+        if ($("music_play").src !== "img/dazzleIcons/song_play.svg")
+            $("music_play").src = "img/dazzleIcons/song_play.svg";
     }
 }
 

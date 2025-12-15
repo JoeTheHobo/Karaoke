@@ -190,7 +190,7 @@
   },
   "bOcCjuQuDno": {
     "videoId": "bOcCjuQuDno",
-    "plays": 5,
+    "plays": 7,
     "url": "https://www.youtube.com/watch?v=bOcCjuQuDno",
     "channel": "Josiah Winslow",
     "song": "Coffin ",
@@ -271,7 +271,7 @@
   },
   "F-p2BQ4H1nA": {
     "videoId": "F-p2BQ4H1nA",
-    "plays": 19,
+    "plays": 21,
     "url": "https://www.youtube.com/watch?v=F-p2BQ4H1nA",
     "channel": "Musisi Karaoke",
     "song": "Lose Yourself",
@@ -442,7 +442,7 @@
   },
   "JO9dHGu-ayA": {
     "videoId": "JO9dHGu-ayA",
-    "plays": 0,
+    "plays": 3,
     "url": "https://www.youtube.com/watch?v=JO9dHGu-ayA",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -756,7 +756,7 @@
     "extension": "Karaoke"
   },
   "ypZTfLupGqE": {
-    "plays": 13,
+    "plays": 16,
     "song": "luther ",
     "artist": "Kendrick Lamar",
     "url": "https://www.youtube.com/watch?v=ypZTfLupGqE",
@@ -783,7 +783,7 @@
     "extension": "Karaoke"
   },
   "d-y2PfMoUec": {
-    "plays": 6,
+    "plays": 7,
     "song": "Him &amp; I ",
     "artist": "G-Eazy &amp; Halsey",
     "url": "https://www.youtube.com/watch?v=d-y2PfMoUec",
@@ -816,6 +816,15 @@
     "url": "https://www.youtube.com/watch?v=bG9_AphKgPw",
     "videoId": "bG9_AphKgPw",
     "channel": "Peter B",
+    "extension": "Karaoke"
+  },
+  "-h6zdzLK-hE": {
+    "plays": 1,
+    "song": "Lose Control ",
+    "artist": "Teddy Swims",
+    "url": "https://www.youtube.com/watch?v=-h6zdzLK-hE",
+    "videoId": "-h6zdzLK-hE",
+    "channel": "Sing King",
     "extension": "Karaoke"
   }
 }

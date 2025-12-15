@@ -5,7 +5,6 @@
     Email: johnjonesma@gmail.com
 */
 
-
 Array.prototype.value = function(value) {
     for (let i = 0; i < this.length; i++) {
         this[i].value = value;
@@ -71,8 +70,8 @@ function $(selector,context = document) {
         return selector.split(" ").map(s => $(s, context));
     } else {
         if(!'#.<'.includes(selector.charAt(0))) selector = '#' + selector;
-        if (selector.charAt(0) == '<') selector = selector.charAt(selector.length-1) == '>' ? selector.substring(1,selector.length-1) : selector.substring(1,selector.length);
-        const elements  = context.querySelectorAll(selector);
+        if (selector.charAt(0) == '<') selector = selector.subset("<\\after",">\\before");
+        const elements = context.querySelectorAll(selector);
         return elements.length === 1 ? (elements[0]) : (elements.length === 0 ? false : Array.from(elements));
     }
 }
