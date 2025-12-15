@@ -320,6 +320,11 @@ input, select {
     width: 90%;
     height: 90%;
 }
+.s1IconAddSong2 {
+    width: 50% !important;
+    height: 50% !important;
+
+}
 .section3 {
     display: flex;
     align-items: center;

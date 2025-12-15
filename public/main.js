@@ -1,5 +1,5 @@
 //Icon Pack
-//https://www.svgrepo.com/collection/dazzle-line-icons/33
+//https://www.svgrepo.com/collection/dazzle-line-icons/1
 
 function setSplash() {
     $("splash").style.opacity = 1;
@@ -179,17 +179,26 @@ function closeQueueEditor() {
 
 
 function setPlayingSong(l) {
-    if (data.playingSong === l) return;
+    if ($("currentSong").status === l.status && data.playingSong === l) return;
     data.playingSong = l;
+    $("currentSong").status = l.status;
 
     let container = $("currentSong");
     container.innerHTML = "";
 
     let section1 = container.create("div.section1");
-        let linesHolder = section1.create("div.playingLines");
-        for (let j = 0; j < 5; j++) {
-            let line = linesHolder.create("div.playingLine");
-            line.classAdd("animation" + j);
+        if (l.status === "playing") {
+            let linesHolder = section1.create("div.playingLines");
+            for (let j = 0; j < 5; j++) {
+                let line = linesHolder.create("div.playingLine");
+                line.classAdd("animation" + j);
+            }
+        }
+        if (l.status === "qr") {
+            let s1IconHolder = section1.create("div.s1IconHolder");
+            let addSong = s1IconHolder.create("img.s1IconAddSong2");
+            addSong.src = "img/dazzleIcons/user_check.svg";
+            addSong.classAdd("global_invert");
         }
     let section2 = container.create("div.section2");
         let singerTitle = section2.create("div.s2Div>" + l.singer);
@@ -269,6 +278,17 @@ function displaySongs(div,list,type,showExtension = true) {
                 if (l.type == "addable" || type == "history") {
                     addSong.src = "img/dazzleIcons/add.svg";
                     addSong.classAdd("global_invert");
+                }
+                
+                if (l.type == "queue") {
+                    if (l.status === "downloaded") {
+
+                    }
+                    if (l.status === "downloading") {
+                        addSong.src = "img/dazzleIcons/download.svg";
+                        addSong.classAdd("global_invert");
+                        addSong.classAdd("s1IconAddSong2");
+                    }
                 }
 
                 checkImageExists(l.videoId).then(photo => {

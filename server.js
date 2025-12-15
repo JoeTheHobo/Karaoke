@@ -256,6 +256,7 @@ io.on("connection", (socket) => {
 
     })
     socket.on("addQueue",(obj) => {
+      obj.status = "added";
         if (obj.changingSong !== false) {
           alterQueue("Change Song",obj.changingSong,obj);
           return;
@@ -300,7 +301,7 @@ io.on("connection", (socket) => {
 });
 function readySong(q) {
   if (!q.queueID) q.queueID = simple.rnd(9999999);
-  downloadVideo(q.videoId);
+  q.status = downloadVideo(q.videoId);
   queueHandler();
 }
 
@@ -369,6 +370,8 @@ function playSong() {
     channel: song.channel,
     extension: song.extension,
   }
+  song.status = "qr";
+  io.emit("queueStateChange",song.queueID,song.status);
   /*song.videoId,*/ 
   io.emit("setUserPrompt", song.singerID);
   setTimeout(function() {
@@ -380,6 +383,9 @@ function playSong() {
   },30000);
 }
 async function playVideo() {
+  state.queue[0].status = "playing";
+  io.emit("queueStateChange",state.queue[0].queueID,state.queue[0].status);
+  io.emit("hidePromptOK");
   const duration = await getVideoDuration(`./public/Song Downloads/${state.waitingOnQR.videoID}.mp4`);
   state.music = {
     startTime: Date.now() + 3000,
@@ -425,6 +431,9 @@ function checkSongReadiness(q) {
     findAndDownloadImage(q);
   }
   if (!downloaded) return false;
+  q.status = "downloaded";
+  io.emit("queueStateChange",q.queueID,q.status);
+
   return true;
 }
 function checkIfSongIsDownloaded(videoId) {
@@ -446,8 +455,8 @@ let downloadList = [];
 let downloaderWorking = false;
 function downloadVideo(videoId) {
   let downloaded = checkIfSongIsDownloaded(videoId);
-  if (downloaded) return;
-  if (downloadList.includes(videoId)) return;
+  if (downloaded) return "downloaded";
+  if (downloadList.includes(videoId)) return "downloading";
 
   downloadList.push(videoId);
 
@@ -455,6 +464,7 @@ function downloadVideo(videoId) {
     downloaderWorking = true;
     downloadVideo_helper(downloadList[0],true); 
   }
+  return "downloading";
 }
 
 function downloadVideo_helper(videoId) {

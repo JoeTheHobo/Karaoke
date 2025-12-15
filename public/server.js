@@ -42,8 +42,10 @@ socket.on("settingSong",(obj) => {
     setAppearingText(obj.song,"Sung by",obj.singer);
 })
 
+socket.on("hidePromptOK",() => {
+ $(".promptQR").hide();   
+})
 socket.on("setUserPrompt", (userID) => {
-    console.log(user.uid,userID)
     if (user.uid === userID) {
         let obj = structuredClone(data.queue[0]);
         obj.date = Date.now();
@@ -84,4 +86,14 @@ socket.on("allowAdmin",(adminSettings) => {
 })
 socket.on("hideYourSongsNext",() => {
     $(".promptQR").hide();
+})
+
+socket.on("queueStateChange",(queueID,status) => {
+    for (let i = 0; i < data.queue.length; i++) {
+        if (data.queue[i].queueID === queueID) {
+            data.queue[i].status = status;
+            updateQueue();
+            return;
+        }
+    }
 })
