@@ -984,8 +984,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     opacity: 0;
     pointer-events: none;
     width: max-content;
-    height: 35px;
-    background: rgb(255, 255, 255);
+    height: 30px;
+    background: rgb(235, 235, 235);
     border-radius: 30px;
     display: flex;
     flex-direction: row;
@@ -1012,4 +1012,20 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     background: white;
     width: 90%;
     height: max-content;
+}
+
+.universalBlurredBackground {
+    pointer-events: none;
+    opacity: 0;
+
+    transition: all .2s ease-in-out;
+
+    position: fixed;            /* fixed is usually better for full-screen overlays */
+    inset: 0;                   /* shorthand for top/left/right/bottom = 0 */
+    z-index: 700;
+
+    backdrop-filter: none;
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+
+    background: rgba(255, 255, 255, 0.05); /* REQUIRED for Firefox & consistency */
 }

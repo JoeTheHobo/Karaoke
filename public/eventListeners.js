@@ -71,6 +71,12 @@ $("qpRemove").on("click",function() {
         socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
     },"Remove It!",true)
 })
+$("qpChangeName").on("click touch",function() {
+    popup("Choose your name.",() => {
+        let name = $(".showNameInput").value;
+        socket.emit("alterQueue","Change Name",data.queue[data.selectedSong].queueID,name);
+    },"Change Name")
+})
 $("qpChangeSong").on("click",function() {
     closeQueueEditor();
     data.changingSong = data.queue[data.selectedSong].queueID;

@@ -145,6 +145,7 @@ function addQueue(obj) {
 function updateQueue() {
     let holder = $(".queueList"); 
     holder.html("");
+    
     closeQueueEditor();
 
     for (let i = 0; i < data.queue.length; i++) {
@@ -161,10 +162,16 @@ function openQueueEditor(container) {
         left: rect.left + "px",
         top: (rect.top - 50) + "px",
     })
+    $(".queuePopup2").container = container;
+    vis($(".universalBlurredBackground"));
+    if ($(".universalBlurredBackground")) $(".universalBlurredBackground").css("backdropFilter","blur(10px)");
     $(".queuePopup2").style.opacity = 1;
     $(".queuePopup2").style.pointerEvents = "all";
 }
 function closeQueueEditor() {
+    if ($(".queuePopup2").container) setTimeout(() => {  $(".queuePopup2").container.css("zIndex",500); },100)
+    devis($(".universalBlurredBackground"));
+    if ($(".universalBlurredBackground")) $(".universalBlurredBackground").css("backdropFilter","none");
     $(".queuePopup2").style.opacity = 0;
     $(".queuePopup2").style.pointerEvents = "none";
 }
@@ -210,7 +217,7 @@ function displaySongs(div,list,type,showExtension = true) {
         }
         return;
     }
-    div.innerHTML = "";
+    div.innerHTML = type === "queue" ?  `<div class="universalBlurredBackground"></div>` : "";
 
     if (type == "queue" && !div.classList.contains("column1Fill")) {
         let title = div.create("div.queueTitle>Queue List")
@@ -352,6 +359,10 @@ function displaySongs(div,list,type,showExtension = true) {
                 if (user.admin) $(".qpAdmin").show("flex");
                 else $(".qpAdmin").hide();
                 if (user.admin || l.singerID === user.uid) {
+                    container.css({
+                        zIndex: 701,
+                        position: "relative",
+                    });
                     openQueueEditor(container);
                     data.selectedSong = i;
                 }
@@ -745,4 +756,22 @@ async function setImages() {
         img.id = "img_" + videoId;
         savedImages.push(videoId);
     });
+}
+
+
+function vis(element) {
+    if (!element) return;
+    element.css({
+        opacity: 1,
+        pointerEvents: "all"
+    })
+    return element;
+}
+function devis(element) {
+    if (!element) return;
+    element.css({
+        opacity: 0,
+        pointerEvents: "none"
+    })
+    return element;
 }

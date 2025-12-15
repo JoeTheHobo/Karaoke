@@ -251,8 +251,8 @@ io.on("connection", (socket) => {
       }
       io.to("music").emit("screenVideoUpdate",state.music);
     })
-    socket.on("alterQueue",(code,queueID) => {
-      alterQueue(code,queueID);
+    socket.on("alterQueue",(code,queueID,extra) => {
+      alterQueue(code,queueID,extra);
 
     })
     socket.on("addQueue",(obj) => {
@@ -498,6 +498,9 @@ function alterQueue(code,queueID,obj) {
 
   const item = state.queue[index];
 
+  if (code === "Change Name") {
+    state.queue[index].singer = obj;
+  }
   if (code == "Move Top") {
     state.queue.splice(index, 1);
     state.queue.splice(1, 0, item);
