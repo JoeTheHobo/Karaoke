@@ -798,3 +798,12 @@ function devis(element) {
     })
     return element;
 }
+
+function adminSlideIn() {
+    $(".admin_slide").style.maxWidth = "500px";
+    $("scene_usersigned").classAdd("slideLeft");
+}
+function adminSlideOut() {
+    $(".admin_slide").style.maxWidth = "0px";
+    $("scene_usersigned").classRemove("slideLeft");
+}

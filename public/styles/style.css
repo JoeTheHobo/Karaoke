@@ -25,6 +25,25 @@ body,html {
     background: rgb(29, 29, 29);
     justify-content: center;
 }
+#scene_usersigned {
+  transition: transform 250ms linear;
+}
+.slideLeft {
+    transform: translateX(-95%)
+}
+.admin_slide {
+    width: 95%;
+    max-width: 0px;
+    overflow: hidden;
+    height: 100%;
+    right: 0px;
+    transition: all 250ms linear;
+    position: absolute;
+    z-index: 999;
+    background: #222222;
+    top: 0px;
+    box-sizing: border-box;
+}
 .qrCodeHolder {
     position: absolute;
     width: 18%;

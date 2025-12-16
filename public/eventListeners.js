@@ -117,14 +117,14 @@ $(".leaveChangeSong").on("click touch",() => {
 ////////////////////////////////
 $(".adminControlsHolder").on("click touch",() => {
     if (user.admin) {
-        setScene("admin");
+        adminSlideIn();
     } else {
         setScene("adminSignin");
     }
 
 })
 $(".admin_exit").on("click touch",() => {
-    setScene("usersigned")
+    adminSlideOut();
 })
 $(".admin_signout").on("click touch",() => {
     user.admin = false;
