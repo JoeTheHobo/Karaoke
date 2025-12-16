@@ -671,7 +671,7 @@ function videoChecker() {
     }
 
     let videoEl = $(".displayingVideo");
-    videoEl.volume = globalMute ? 0 : settings.volume/100;
+    videoEl.volume = globalMute ? 0 : settings.volume;
 
 
     if (data.videoInfo.pausedAt) {

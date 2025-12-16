@@ -218,7 +218,8 @@ io.on("connection", (socket) => {
       if (control === "setVolume") {
         settings.volume = Number(value);
         if (settings.volume < 0) settings.volume = 0;
-        if (settings.volume > 100) settings.volume = 100;
+        if (settings.volume > 1) settings.volume = 1;
+        console.log(settings.volume);
         io.to("music").emit("updateAdminSettings",settings)
         return;
       }

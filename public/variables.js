@@ -5,7 +5,7 @@ let sessionCode = ls.get("sessionCode",false);
 let songSearchExtension = "Karaoke";
 let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
 let settings = {
-    volume: 75,
+    volume: .75,
     testing_mode: false,
 }
 let globalMute = false;

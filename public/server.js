@@ -61,6 +61,7 @@ socket.on("screenVideoUpdate",(videoStats) => {
 })
 socket.on("updateAdminSettings",(adminSettings) => {
     settings = adminSettings;
+    console.log(settings)
     updateAdminSettings(adminSettings);
 })
 
