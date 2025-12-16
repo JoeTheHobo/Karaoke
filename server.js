@@ -133,7 +133,7 @@ io.on("connection", (socket) => {
       socket.admin = true;
       socket.join("music");
       socket.join("admin");
-      socket.emit("allowAdmin",settings)
+      socket.emit("allowAdmin",settings,true)
     })
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;

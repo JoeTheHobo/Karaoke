@@ -77,12 +77,13 @@ socket.on("qr_result", serverData => {
     $(".qrCodeImg").src = "data:image/png;base64," + serverData.base64;
 })
 
-socket.on("allowAdmin",(adminSettings) => {
+socket.on("allowAdmin",(adminSettings,goToAdmin) => {
     if (user.type === "screen") return;
     user.admin = true;
     ls.save("adminCode",adminCode)
     setScene("user")
     updateAdminSettings(adminSettings);
+    if (goToAdmin) setTimeout(adminSlideIn,100);
 })
 socket.on("hideYourSongsNext",() => {
     $(".promptQR").hide();

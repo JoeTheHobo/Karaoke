@@ -129,8 +129,8 @@ $(".admin_exit").on("click touch",() => {
 $(".admin_signout").on("click touch",() => {
     user.admin = false;
     ls.save("adminCode",[])
-    setScene("user")
     socket.emit("adminControls","Sign Out Of Admin");
+    adminSlideOut();
 })
 
 
