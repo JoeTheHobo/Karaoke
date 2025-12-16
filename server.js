@@ -128,12 +128,12 @@ io.on("connection", (socket) => {
     gatherAllowedChannels();
     socket.uid = false;
 
-    socket.on("checkAdminCode",(code) => {
+    socket.on("checkAdminCode",(code,goToAdmin = false) => {
       if (code !== adminCode) return;
       socket.admin = true;
       socket.join("music");
       socket.join("admin");
-      socket.emit("allowAdmin",settings,true)
+      socket.emit("allowAdmin",settings,goToAdmin)
     })
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;

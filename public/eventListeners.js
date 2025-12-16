@@ -185,7 +185,7 @@ $(".pinpad_option").on("touchstart",function() {
         adminCode.push(this.innerHTML);
         if (adminCode.length === 4) {
             setTimeout(function() {
-                socket.emit("checkAdminCode",adminCode.join(""))
+                socket.emit("checkAdminCode",adminCode.join(""),true)
             },50);
         }
         setAdminInputs();
