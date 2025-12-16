@@ -26,12 +26,12 @@ socket.on("updatedQueue",(server_queue) => {
     if (data.changingSong) {
         if (data.queue.length == 0) {
             data.changingSong = false;
-            setScene("usersigned");
+            setScene("user");
             return;
         }
         if (data.queue[0].queueID === data.changingSong) {
             data.changingSong = false;
-            setScene("usersigned");
+            setScene("user");
             return;
         }
     }
@@ -81,7 +81,7 @@ socket.on("allowAdmin",(adminSettings) => {
     if (user.type === "screen") return;
     user.admin = true;
     ls.save("adminCode",adminCode)
-    setScene("usersigned")
+    setScene("user")
     updateAdminSettings(adminSettings);
 })
 socket.on("hideYourSongsNext",() => {

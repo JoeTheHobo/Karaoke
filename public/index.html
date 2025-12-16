@@ -75,98 +75,111 @@
         <div class="videoDelayTracker"></div>
     </div>
     
-    
-    <div class="scene" id="scene_usersigned">
-        <div class="signed_header column_align_center">
-            <div class="sideRow">
-                <div class="logo"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
-                <div class="adminControlsHolder"><img src="img/dazzleIcons/settings.svg" class="adminControlsIcon global_invert" alt=""></div>
-            </div>
-            <div class="inputSearchContainer">
-                <img src="img/dazzleIcons/search_1.svg" class="findSongButton searchSmall" alt="">
-                <input type="text" enterkeyhint="done" class="songTitle" placeholder="Search songs or artists...">
-                <img class="clearSearch" src="img/dazzleIcons/x_1.svg" alt="">
-            </div>
-        </div>
-        <div class="addSongTopRow">
-            <div class="singMode active"><div class="singAlone">Karaoke</div></div>
-            <div class="singMode"><div class="singAlong">With Vocals</div></div>
-        </div>
-        <div class="userStatSongs column_align_center">
-            <div class="groupChoices">
-                <div class="userStatDiv" id="userStat_mostPlayed"><div class="userStatTitle">Your Most<br>Played</div><img class="userStatImg global_invert" src="img/dazzleIcons/most_played.svg" alt=""></div>
-                <div class="userStatDiv" id="userStat_Favorites"><div class="userStatTitle">Favorites</div><img class="userStatImg global_invert" src="img/dazzleIcons/heart.svg" alt=""></div>
-                <div class="userStatDiv" id="userStat_History"><div class="userStatTitle">History</div><img class="userStatImg global_invert" src="img/dazzleIcons/history.svg" alt=""></div>
-                <div class="userStatDiv" id="globalStat_popular"><div class="userStatTitle">Popular</div><img class="userStatImg global_invert" src="img/fire.png" alt=""></div>
-            </div>
-        </div>
-        <div class="songResultsDiv column_align_center"></div>
-        <div class="songResultsGradient"></div>
-        <div id="queueSheet">
-            <div id="dragHandle">
-                <div id="currentSong">
-
+    <div class="scene" id="scene_user">
+        <div class="user_activity">
+            <div class="signed_header column_align_center">
+                <div class="sideRow">
+                    <div class="logo"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
+                    <div class="adminControlsHolder"><img src="img/dazzleIcons/settings.svg" class="adminControlsIcon global_invert" alt=""></div>
                 </div>
-                <img id="collapseBtn" class="global_invert" src="img/dazzleIcons/arrow_up.svg">
-            </div>
-
-            <div id="queueContent">
-                <div class="queueList"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="admin_slide">
-        <div class="header">
-            <div class="adminHeaderTitle">Admin</div>
-            <img class="admin_exit global_invert" src="img/dazzleIcons/x_1.svg" alt="">
-        </div>
-        <div class="adminBody column_align_center">
-            <div class="adminGroup adminMusic column_align_center">
-                <div class="adminTitle">Video Control</div>
-                <div class="adminTimer">2:13/3:42</div>
-                <input type="range" min="0" class="adminTimerScroll">
-                <div class="adminTimerRow">
-                    <img src="img/dazzleIcons/song_skip.svg" class="adminMusicSetting global_invert global_xInvert" id="music_restart" alt="">
-                    <img src="img/music_minus_10.png" class="adminMusicSetting" id="music_minus_10" alt="">
-                    <img src="img/dazzleIcons/song_play.svg" class="adminMusicPlay global_invert" id="music_play" alt="">
-                    <img src="img/music_plus_10.png" class="adminMusicSetting" id="music_plus_10" alt="">
-                    <img src="img/dazzleIcons/song_skip.svg" class="adminMusicSetting global_invert" id="music_skip" alt="">
+                <div class="inputSearchContainer">
+                    <img src="img/dazzleIcons/search_1.svg" class="findSongButton searchSmall" alt="">
+                    <input type="text" enterkeyhint="done" class="songTitle" placeholder="Search songs or artists...">
+                    <img class="clearSearch" src="img/dazzleIcons/x_1.svg" alt="">
                 </div>
             </div>
-            <div class="adminGroup adminVolume column_align_center">
-                <div class="adminTitle">Music Control</div>
-                <input type="range" min="0" max="100" class="adminVolumeScroll">
+            <div class="addSongTopRow">
+                <div class="singMode active"><div class="singAlone">Karaoke</div></div>
+                <div class="singMode"><div class="singAlong">With Vocals</div></div>
             </div>
-            <div class="adminGroup adminGeneral column_align_center">
-                <div class="adminTitle">General Settings</div>
-                <div class="adminSettingRow">
-                    <div class="adminLabel">Queue Distance</div>
-                    <input type="number" class="adminInputAll admin_input_number" id="admin_input_queue_distance">
-                </div>
-                <div class="adminSettingRow">
-                    <div class="adminLabel">Queue Type</div>
-                    <select class="admin_input_select adminInputAll" value="Auto" id="admin_input_queue_type">
-                        <option value="Auto">Auto</option>
-                        <option value="Basic">Basic</option>
-                    </select>
-                </div>
-                <div class="adminSettingRow">
-                    <div class="adminLabel">Testing Mode</div>
-                    <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_testing">
+            <div class="userStatSongs column_align_center">
+                <div class="groupChoices">
+                    <div class="userStatDiv" id="userStat_mostPlayed"><div class="userStatTitle">Your Most<br>Played</div><img class="userStatImg global_invert" src="img/dazzleIcons/most_played.svg" alt=""></div>
+                    <div class="userStatDiv" id="userStat_Favorites"><div class="userStatTitle">Favorites</div><img class="userStatImg global_invert" src="img/dazzleIcons/heart.svg" alt=""></div>
+                    <div class="userStatDiv" id="userStat_History"><div class="userStatTitle">History</div><img class="userStatImg global_invert" src="img/dazzleIcons/history.svg" alt=""></div>
+                    <div class="userStatDiv" id="globalStat_popular"><div class="userStatTitle">Popular</div><img class="userStatImg global_invert" src="img/fire.png" alt=""></div>
                 </div>
             </div>
+            <div class="songResultsDiv column_align_center"></div>
+            <div class="songResultsGradient"></div>
+            <div id="queueSheet">
+                <div id="dragHandle">
+                    <div id="currentSong">
 
-            <!--
-            <div class="adminGroup adminUsers column_align_center">
-                <div class="adminTitle">User Settings</div>
+                    </div>
+                    <img id="collapseBtn" class="global_invert" src="img/dazzleIcons/arrow_up.svg">
+                </div>
 
+                <div id="queueContent">
+                    <div class="queueList"></div>
+                </div>
             </div>
-            
-            -->
         </div>
-        <div class="admin_signout_holder">
-            <div class="admin_signout">Sign Out</div>
+
+        <div class="admin_slide">
+            <div class="header">
+                <div class="adminHeaderTitle">Control Panel</div>
+                <img class="admin_exit global_invert" src="img/dazzleIcons/arrow_right.svg" alt="">
+            </div>
+            <div class="adminBody column_align_center">
+                <div class="adminGroup adminMusic column_align_center">
+                    <div class="adminTitle">Video Control</div>
+                    <div class="adminTimer">2:13/3:42</div>
+                    <input type="range" min="0" class="adminTimerScroll">
+                    <div class="adminTimerRow">
+                        <img src="img/dazzleIcons/song_skip.svg" class="adminMusicSetting  global_xInvert" id="music_restart" alt="">
+                        <img src="img/music_minus_10.png" class="adminMusicSetting global_invert" id="music_minus_10" alt="">
+                        <img src="img/dazzleIcons/song_play.svg" class="adminMusicPlay " id="music_play" alt="">
+                        <img src="img/music_plus_10.png" class="adminMusicSetting global_invert" id="music_plus_10" alt="">
+                        <img src="img/dazzleIcons/song_skip.svg" class="adminMusicSetting " id="music_skip" alt="">
+                    </div>
+                </div>
+                <div class="adminGroup adminVolume column_align_center">
+                    <div class="adminTitle">Volume</div>
+                    <div class="volumeSliderHolders">
+                        <div class="volumeSliderGroup">
+                            <div class="v-slider" id="micSlider">
+                                <div class="track"></div>
+                                <div class="thumb"></div>
+                            </div>
+                            <img class="volumeIcon" src="img/dazzleIcons/volume_loud.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="adminGroup adminGeneral column_align_center">
+                    <div class="adminTitle">General Settings</div>
+                    <div class="adminSettingRow">
+                        <div class="adminLabel">Queue Mode</div>
+                        <select class="admin_input_select adminInputAll" value="Auto" id="admin_input_queue_type">
+                            <option value="Auto">Auto</option>
+                            <option value="Basic">Basic</option>
+                        </select>
+                    </div>
+                    <div class="explanitoryText">How new songs are placed in the queue.</div>
+                    <div class="explanitoryText queueModeText">Automatically spaces songs to keep turns fair between singers.</div>
+                    <div class="adminSettingRow">
+                        <div class="adminLabel">Singer Spacing</div>
+                        <input type="number" class="adminInputAll admin_input_number" id="admin_input_queue_distance">
+                    </div>
+                    <div class="explanitoryText">Controls how far apart a singer’s songs are placed in the queue.</div>
+                    <div class="adminSettingRow">
+                        <div class="adminLabel">Testing Mode</div>
+                        <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_testing">
+                    </div>
+                    <div class="explanitoryText">When enabled, songs are not saved to users or the server. Use this mode to test features without affecting real data.</div>
+                </div>
+
+                <!--
+                <div class="adminGroup adminUsers column_align_center">
+                    <div class="adminTitle">User Settings</div>
+
+                </div>
+                
+                -->
+            </div>
+            <div class="admin_signout_holder">
+                <div class="admin_signout">Sign Out</div>
+            </div>
         </div>
     </div>
 

@@ -9,12 +9,6 @@ function setSplash() {
 }
 setSplash();
 
-function setScene(scene) {
-    $(".scene").hide();
-    $("scene_" + scene).show("flex");
-
-    if (scene === "adminSignin") resetAdminPinPad();
-}
 
 async function searchSong(q) {
     console.log(q)
@@ -412,7 +406,7 @@ function displaySongs(div,list,type,showExtension = true) {
                     })
                     if (data.changingSong) {
                         data.changingSong = false;
-                        setScene("usersigned");
+                        setScene("user");
                     }
                 },addToQueueText)
                 
@@ -766,7 +760,15 @@ function updateAdminSettings(settings) {
     $("admin_input_queue_distance").value = settings.max_distance;
     $("admin_input_queue_type").value = settings.queue_type.format("A");
     $("admin_input_testing").checked = settings.testing_mode;
-    $(".adminVolumeScroll").value = settings.volume;
+
+    if ($("admin_input_queue_type").value === "Auto") {
+        $(".queueModeText").innerHTML = "Automatically spaces songs to keep turns fair between singers.";
+    }
+    if ($("admin_input_queue_type").value === "Basic") {
+        $(".queueModeText").innerHTML = "Adds songs to the end of the queue in request order.";
+    }
+
+    setSlider(settings.volume);
 }
 
 async function setImages() {
@@ -800,10 +802,10 @@ function devis(element) {
 }
 
 function adminSlideIn() {
-    $(".admin_slide").style.maxWidth = "500px";
-    $("scene_usersigned").classAdd("slideLeft");
+    $(".admin_slide").style.transform = "none";
+    $(".user_activity").classAdd("slideLeft");
 }
 function adminSlideOut() {
-    $(".admin_slide").style.maxWidth = "0px";
-    $("scene_usersigned").classRemove("slideLeft");
+    $(".admin_slide").style.transform = "translateX(100%)";
+    $(".user_activity").classRemove("slideLeft");
 }

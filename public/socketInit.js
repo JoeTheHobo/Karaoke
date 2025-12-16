@@ -41,7 +41,7 @@ function initSocket() {
 
         const path = window.location.pathname;
         if (path === "/user") {
-            setScene("usersigned");
+            setScene("user");
             user.type = "user";
             socket.emit("userJoined",sessionCode,user.code);
         } else if (path === "/" || path === "/screen") {
@@ -49,7 +49,7 @@ function initSocket() {
             setScene("screenSelection")
         } else {
             //Redirect to User
-            setScene("usersigned");
+            setScene("user");
             user.type = "user";
             socket.emit("userJoined",sessionCode,user.code);
         }
@@ -101,4 +101,12 @@ function scheduleFullReconnect() {
     reconnectTimer = null;
     initSocket(); // full re-init
   }, 800); // small backoff
+}
+
+
+function setScene(scene) {
+    $(".scene").hide();
+    $("scene_" + scene).show("flex");
+
+    if (scene === "adminSignin") resetAdminPinPad();
 }

@@ -13,6 +13,8 @@ body,html {
     user-select: none;
     font-family: "Inter", sans-serif;
     padding: 0;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
 }
 .scene {
     display: none;
@@ -25,24 +27,37 @@ body,html {
     background: rgb(29, 29, 29);
     justify-content: center;
 }
-#scene_usersigned {
-  transition: transform 250ms linear;
+.user {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;   /* THIS is the key */
+}
+.user_activity {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    transition: transform 250ms cubic-bezier(.2,.8,.2,1);
 }
 .slideLeft {
     transform: translateX(-95%)
 }
 .admin_slide {
     width: 95%;
-    max-width: 0px;
+    transform: translateX(100%);
     overflow: hidden;
     height: 100%;
     right: 0px;
-    transition: all 250ms linear;
-    position: absolute;
+    transition: transform 250ms cubic-bezier(.2,.8,.2,1);
+    position: fixed;
     z-index: 999;
     background: #222222;
     top: 0px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .qrCodeHolder {
     position: absolute;
@@ -751,35 +766,90 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     font-weight: bold;
     width: 100%;
     text-align: center;
-    color: white;
+    color: rgb(0, 0, 0);
     margin-top: 3px;
 }
 .adminTimer {
     font-size: 16px;
     width: 100%;
     text-align: center;
-    color: white;
+    color: rgb(0, 0, 0);
     margin-top: 3px;
 }
-.adminTimerScroll,.adminVolumeScroll {
+
+.volumeSliderHolders {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 200px;
+    justify-content: space-evenly;
+}
+.volumeSliderGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 50px;
+}
+.volumeSliderGroup > img {
+    aspect-ratio: 1/1;
+    width: 100%;
+}
+.v-slider {
+  position: relative;
+  width: 28px;
+  flex: 1;
+  touch-action: none;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.track {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 100%;
+  background: #2b2b2b;
+  border-radius: 3px;
+
+  -webkit-box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80); 
+box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
+}
+
+.thumb {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform: translate(-50%, 50%);
+  width: 22px;
+  height: 30px;
+  background: #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.adminTimerScroll {
     -webkit-appearance: none !important;
     width: 85%;
     margin-top: 15px;
     margin-bottom: 25px;
     height: 6px;
-    background: white; /* track color */
+    background: rgb(0, 0, 0); /* track color */
     border-radius: 5px;
     outline: none;
 }
 
 /* Thumb */
-.adminTimerScroll::-webkit-slider-thumb,.adminVolumeScroll::-webkit-slider-thumb {
+.adminTimerScroll::-webkit-slider-thumb {
     -webkit-appearance: none !important;
     width: 20px;
     height: 20px;
-    background: white;  /* thumb color */
+    background: rgb(0, 0, 0);  /* thumb color */
     border-radius: 50%;
-    border: 2px solid #ccc; /* optional so you can see it */
+    border: 2px solid #3d3d3d; /* optional so you can see it */
 }
 .adminTimerRow {
     display: flex;
@@ -795,13 +865,23 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     box-shadow: var(--shadow-sm);
 }
 .adminMusic {
-    background: rgb(110 146 183);
+    background: rgb(255, 255, 255);
 }
 .adminVolume {
-    background: rgb(147 98 201);
+    background: rgb(255, 255, 255);
 }
 .adminGeneral {
-    background: rgb(207 69 69);
+    box-shadow: none !important;
+}
+.adminGeneral > * {
+    color: white !important;
+}
+.explanitoryText {
+    opacity: 0.7;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2px;
+    margin-top: 2px;
 }
 .adminUsers {
     background: rgb(247 183 86);
@@ -819,7 +899,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     flex-direction: row;
     align-items: center;
     width: 100%;
-    height: 60px;
+    height: 40px;
+    margin-top: 5px;
 }
 .adminLabel {
     width: 50%;
@@ -833,7 +914,7 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     font-size: 23px !important;
     box-shadow: var(--shadow-sm);
     text-align: center;
-    height: 90%;
+    height: 80%;
     box-sizing: border-box;
     outline: none;
     border: 2px solid white;
@@ -850,8 +931,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
     -moz-appearance: none;
     background: white;
     color: black;
-    padding: 10px;
-    height: 50px;
+    padding: 2px;
+    height: 30px;
     font-size: 16px;
     /* remove blue highlight ring */
     outline: none;
@@ -867,8 +948,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 .admin_input_checkbox {
     -webkit-appearance: none;
     appearance: none;
-    width: 50px;        /* Safari-friendly – must set width + height */
-    height: 50px;       /* instead of aspect-ratio */
+    width: 25px;        /* Safari-friendly – must set width + height */
+    height: 25px;       /* instead of aspect-ratio */
     background: white;
     border: 2px solid #ccc;
     border-radius: 5px;
@@ -880,8 +961,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 .admin_input_checkbox:checked::after {
     content: "";
     position: absolute;
-    left: 17px;
-    top: 12px;
+    left: 5px;
+    top: 0px;
     width: 8px;
     height: 14px;
     border-right: 3px solid black;
@@ -893,14 +974,22 @@ background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(217, 78, 110, 0) 20
 
 
 .admin_signout_holder {
-    height: 75px;
     width: 100%;
+    height: 8%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.admin_signout {
+    text-align: center;
+    width: 100%;
+    font-size: 19px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #b8ffb8;
+}
 
-.admin_signout,.scren_finish {
+.scren_finish {
     color: black;
     font-size: 25px;
     font-weight: bold;

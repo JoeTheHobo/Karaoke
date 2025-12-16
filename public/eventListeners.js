@@ -106,7 +106,7 @@ $("qpChangeSong").on("click",function() {
 })
 //Leave Change Song Screen
 $(".leaveChangeSong").on("click touch",() => {
-    setScene("usersigned");
+    setScene("user");
     data.changingSong = false;
 })
 
@@ -129,7 +129,7 @@ $(".admin_exit").on("click touch",() => {
 $(".admin_signout").on("click touch",() => {
     user.admin = false;
     ls.save("adminCode",[])
-    setScene("usersigned")
+    setScene("user")
     socket.emit("adminControls","Sign Out Of Admin");
 })
 
@@ -165,9 +165,6 @@ $(".adminTimerScroll").on("touchend",function() {
     data.videoInfo.startTime -= difference;
     socket.emit("adminControls","setTime",this.value);
 })
-$(".adminVolumeScroll").on("change",function() {
-    socket.emit("adminControls","setVolume",this.value);
-})
 
 //General Admin Settings
 $("admin_input_testing").on("click touch",function() {
@@ -198,7 +195,7 @@ $(".pinpad_option").on("touchstart",function() {
         setAdminInputs();
     }
     if (this.innerHTML == "Exit") {
-        setScene("usersigned");
+        setScene("user");
     }
 })
 
@@ -286,3 +283,53 @@ $(".scren_finish").on("click",() => {
     socket.emit("screenJoined",sessionCode,user.code);
 })
 
+
+
+const slider = $("micSlider");
+const thumb = slider.$(".thumb");
+
+slider.on("pointerdown", e => {
+  slider.setPointerCapture(e.pointerId);
+  updateSlider(e);
+});
+
+slider.on("pointermove", e => {
+  if (slider.hasPointerCapture(e.pointerId)) updateSlider(e);
+});
+
+function setSlider(val) {
+    thumb.style.bottom = `${val * 100}%`;
+    updateVolumeIcon(val)
+    $(".volumeIcon").storedVal = val;
+}
+function updateSlider(e) {
+    const rect = slider.getBoundingClientRect();
+    let y = e.clientY - rect.top;
+    y = Math.max(0, Math.min(rect.height, y));
+
+    const value = 1 - y / rect.height; // 0–1
+    thumb.style.bottom = `${value * 100}%`;
+
+    socket.emit("adminControls","setVolume",value);
+}
+$(".volumeIcon").on("click touch",function() {
+    if (this.storedVal === 0) socket.emit("adminControls","setVolume",.75);
+    else socket.emit("adminControls","setVolume",0);
+})
+function updateVolumeIcon(val) {
+    val = val*100;
+    let icon = $(".volumeIcon");
+    if (val > 74) {
+        icon.src = "img/dazzleIcons/volume-max.svg";
+        return;
+    }
+    if (val > 30) {
+        icon.src = "img/dazzleIcons/volume-min.png";
+        return;
+    }
+    if (val > 0) {
+        icon.src = "img/dazzleIcons/volume-off.png";
+        return;
+    }
+    icon.src = "img/dazzleIcons/volume_mute.svg";
+}
