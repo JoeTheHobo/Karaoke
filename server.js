@@ -22,7 +22,7 @@ let settings = {
   testing_mode: false,
   max_distance: 4,
   queue_type: "auto", //basic or auto
-  volume: 75,
+  volume: .75,
 }
 let state = {
   users: [],

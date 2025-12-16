@@ -144,6 +144,15 @@
       ],
       "type": "karaoke"
     },
+    {
+      "name": "ZP Music",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
 
 
 
