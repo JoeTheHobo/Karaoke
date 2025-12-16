@@ -1,4 +1,4 @@
-ls.setID("Karaokev4");
+ls.setID("Karaokev5");
 let socket = null;
 let reconnectTimer = null;
 let sessionCode = ls.get("sessionCode",false);
