@@ -763,9 +763,11 @@ function updateAdminSettings(settings) {
 
     if ($("admin_input_queue_type").value === "Auto") {
         $(".queueModeText").innerHTML = "Automatically spaces songs to keep turns fair between singers.";
+        $(".singerSpacing").show("flex");
     }
     if ($("admin_input_queue_type").value === "Basic") {
         $(".queueModeText").innerHTML = "Adds songs to the end of the queue in request order.";
+        $(".singerSpacing").hide();
     }
 
     setSlider(settings.volume);
