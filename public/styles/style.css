@@ -887,6 +887,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     text-align: center;
     margin-bottom: 2px;
     margin-top: 2px;
+    font-size: 12px;
 }
 .adminUsers {
     background: rgb(247 183 86);
@@ -904,7 +905,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     flex-direction: row;
     align-items: center;
     width: 100%;
-    height: 40px;
+    height: 30px;
     margin-top: 5px;
 }
 .adminLabel {
@@ -912,11 +913,11 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     text-align: right;
     padding-right: 3px;
     color: white;
-    font-size: 20px;
+    font-size: 17px;
 }
 .adminInputAll {
     border-radius: 5px;
-    font-size: 23px !important;
+    font-size: 18px !important;
     box-shadow: var(--shadow-sm);
     text-align: center;
     height: 80%;
@@ -937,7 +938,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     background: white;
     color: black;
     padding: 2px;
-    height: 30px;
+    height: 25px;
     font-size: 16px;
     /* remove blue highlight ring */
     outline: none;

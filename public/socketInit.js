@@ -1,15 +1,10 @@
 
 // Visibility handler — runs when user returns to the page
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible") {
-    console.log("User returned to the app (visibilitychange)");
-    setSplash(); // whatever you do
-    forceReconnectSocket();
-    // after reconnect, ask server for fresh state if needed:
-    // socket.emit("requestState") — but only after connect; you can do that in 'connect' handler
-  } else {
-    console.log("User left the app (visibilitychange)");
-  }
+  if (document.visibilityState !== "visible") return;
+
+  setSplash();
+  forceReconnectSocket();
 });
 
 function reconnectSocket() {
@@ -78,21 +73,17 @@ initSocket();
 
 function forceReconnectSocket() {
   // If socket exists, try to use the same instance
-  if (socket) {
-    if (!socket.connected) {
-      console.log("Force reconnect via socket.connect()");
-      try {
-        socket.connect(); // tells the same socket instance to reconnect
-      } catch (e) {
-        console.warn("socket.connect() failed, re-initting", e);
-        scheduleFullReconnect();
-      }
-    } else {
-      console.log("Socket already connected");
-    }
-  } else {
-    console.log("No socket instance — creating a new one");
+  if (!socket) {
     initSocket();
+    return;
+  }
+  if (socket.connected) return;
+
+  try {
+    socket.connect(); // tells the same socket instance to reconnect
+  } catch (e) {
+    console.warn("socket.connect() failed, re-initting", e);
+    scheduleFullReconnect();
   }
 }
 function scheduleFullReconnect() {
