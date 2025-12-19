@@ -275,8 +275,8 @@ $(".scren_finish").on("click",() => {
     else $(".screenLogo2").hide();
     if ($("screen_input_screenText").checked) $(".appearingText").show("flex"); 
     else $(".appearingText").hide();
-    if ($("screen_input_muted").checked) globalMute = true;
-    else globalMute = false;
+    if ($("screen_input_muted").checked) globalMute = false;
+    else globalMute = true;
 
     if (globalMute) settings.volume = 0;
 
