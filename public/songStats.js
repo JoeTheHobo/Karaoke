@@ -281,7 +281,7 @@ let songStats = {
   },
   "F0y7myKDKyA": {
     "videoId": "F0y7myKDKyA",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=F0y7myKDKyA",
     "channel": "EasyKaraoke",
     "song": "Sing For The Moment",
