@@ -36,6 +36,9 @@ $("userStat_History").on("click touch",function() {
 $("globalStat_popular").on("click touch",function() {
     setSongDisplay("Popular",data.popularSongs,"search",false);
 })
+$("globalStat_artists").on("click touch",function() {
+    setSongDisplay("Artists",false,"search",false);
+})
 //Exit To Main Menu
 $(".displayExit").on("click touch",() => {
     $(".displayDiv").style.opacity = 0;

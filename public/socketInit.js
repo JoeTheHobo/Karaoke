@@ -69,7 +69,14 @@ function initSocket() {
     })
 
 }
-initSocket();
+if (!offlineMode) initSocket();
+else {
+    socket = {
+        on: () => {
+            
+        }
+    }
+}
 
 function forceReconnectSocket() {
   // If socket exists, try to use the same instance

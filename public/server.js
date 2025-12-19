@@ -1,5 +1,3 @@
-
-
 socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs) => {
     user.uid = serverUser.uid;
     user.admin = serverUser.admin;

@@ -580,6 +580,7 @@ input, select {
     width: 100%;
     box-sizing: border-box;
     padding-top: 5px;
+    height: 80vh;
 }
 .groupBoxTitle {
     color: white;
@@ -621,6 +622,9 @@ input, select {
 }
 #globalStat_popular {
     background: #ffb584;
+}
+#globalStat_artists {
+    background: #ce84ff;
 }
 .userStatImg {
     position: absolute;
@@ -1155,4 +1159,36 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     -webkit-backdrop-filter: blur(10px); /* Safari */
 
     background: rgba(255, 255, 255, 0.05); /* REQUIRED for Firefox & consistency */
+}
+
+
+.cator {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    overflow-y: scroll;
+    flex: 1;
+    min-height: 0; 
+}
+.artistDiv {
+    width: 120px;
+    height: 75px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.artistDiv > div {
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.692);
+    width: 100%;
+    text-align: center;
+    color: white;
+
 }

@@ -1,3 +1,6 @@
+let offlineMode = false;
+
+
 ls.setID("Karaokev5");
 let socket = null;
 let reconnectTimer = null;

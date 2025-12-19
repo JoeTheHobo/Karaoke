@@ -11,7 +11,6 @@ setSplash();
 
 
 async function searchSong(q) {
-    console.log(q)
     $(".songTitle").simpleBlur();
     if (!q) return;
     q = q + " " + songSearchExtension;
@@ -132,6 +131,82 @@ function clearSearch() {
     else $("userStat_mostPlayed").show();
 }
 clearSearch();
+function generateArtistsCatagory(parent) {
+    parent.html("")
+    let holder = parent.create("div.cator");
+
+    let artists = [];
+    Object.keys(songStats).forEach((key) => {
+        let set = songStats[key];
+        let setArtists = set.artist.charAt(0) === '"' ? set.artist.subset(`"\\after`,`"\\before`) : set.artist;
+
+        let splits = [" ft. "," &amp; "," ft "," x "];
+        if (!["AjCmq54NPZo"].includes(set.videoId)) splits.push(" & ")
+
+        setArtists = setArtists.toLowerCase()._split(...splits);
+
+        for (let i = 0; i < setArtists.length; i++) {
+            let art = setArtists[i];
+            art = cleanArt(art);
+            if (art.charAt(art.length-1) === " ") art = art.subset(0,art.length-2);
+
+            let found = false;
+            for (let j = 0; j < artists.length; j++) {
+                if (artists[j].artist === art) {
+                    found = true;
+                    artists[j].songs.push(set);
+                }
+            }
+            if (!found) {
+                artists.push({
+                    songs: [set],
+                    artist: art
+                })
+            }
+        }
+
+    })
+
+    artists.sort((a, b) => a.artist.localeCompare(b.artist));
+
+    for (let i = 0; i < artists.length; i++) {
+        let artist = artists[i];
+        let container = holder.create("div.artistDiv>")
+        container.style.backgroundImage = `url('./songPhotos/${artist.songs.rnd().videoId}.jpg')`;
+        let text = container.create("div>" + artist.artist
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' '));
+
+        container.on("click touch",() => {
+            setSongDisplay(artist.artist,artist.songs,"search");
+        })
+    }
+
+
+}
+function cleanArt(artist) {
+    artist = artist.replace(`from 'despicable me 4'`,"")
+    artist = artist.replace(`(lyrics)`,"")
+    return artist;
+}
+String.prototype._split = function(...splitters) {
+    let set = [];
+    for (let i = 0; i < splitters.length; i++) {
+        set.push({
+            name: splitters[i],
+            length: splitters[i].length,
+        })
+    }
+    set.sort((a,b) => b.length - a.length);
+
+    let str = this;
+    for (let i = 0; i < set.length; i++) {
+        str = str.replaceAll(set[i].name,"|@$*|");
+    }
+    return str.split("|@$*|");
+}
 function addQueue(obj) {
     socket.emit("addQueue",obj);
     clearSearch();
@@ -569,7 +644,11 @@ function setSongDisplay(title,songs,type,showExtension = true) {
     $(".displayDiv").style.opacity = 1;
     $(".displayDiv").style.pointerEvents = "all";
     $(".displayBody").innerHTML = "";
-    displaySongs($(".displayBody"),songs,type,showExtension)
+
+    if (title === "Artists") {
+        generateArtistsCatagory($(".displayBody"))
+    } else
+        displaySongs($(".displayBody"),songs,type,showExtension)
 }
 
 

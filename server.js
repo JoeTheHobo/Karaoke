@@ -255,6 +255,9 @@ io.on("connection", (socket) => {
       alterQueue(code,queueID,extra);
 
     })
+    socket.on("getAllVideoData",() => {
+      downloadSongStatsToJS();
+    })
     socket.on("addQueue",(obj) => {
       obj.status = "added";
         if (obj.changingSong !== false) {
@@ -309,7 +312,17 @@ server.listen(3000, () => {
   console.log("Kareoke server running on port 3000");
 });
 
-
+function downloadSongStatsToJS() {
+      //Create file if not already made in ./public named sontStats.js
+      //Edit file to be let offlineStats = global_songStats
+      const filePath = path.join(__dirname, 'public', 'songStats.js');
+      const fileContents =
+      `// AUTO-GENERATED FILE — DO NOT EDIT
+let songStats = ${JSON.stringify(global_songStats, null, 2)};
+      `;
+      fs.writeFileSync(filePath, fileContents, 'utf8');
+}
+downloadSongStatsToJS();
 function gatherAllowedChannels() {
   try {
     const data = fs.readFileSync("./allowedChannels.json", "utf8");
