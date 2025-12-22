@@ -894,6 +894,14 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     margin-top: 2px;
     font-size: 12px;
 }
+.explanitoryText2 {
+    opacity: 0.9;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    font-size: 12px;
+}
 .adminUsers {
     background: rgb(247 183 86);
 }
@@ -1216,4 +1224,46 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     text-align: center;
     color: white;
 
+}
+
+
+
+
+.adminAddChannel {
+    background: white;
+    padding-bottom: 10px;
+}
+.channel_name {
+    outline: none;
+    height: 25px;
+    width: 80%;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+.channel_select {
+    width: 30%;
+    border: 2px solid black;
+    outline: none;
+    height: 30px;
+    border-radius: 5px;
+}
+.channel_divider {
+    outline: none;
+    height: 25px;
+    width: 20%;
+    border-radius: 5px;
+    border: 2px solid black;
+    text-align: center;
+}
+.channel_submit {
+    outline: none;
+    height: 30px;
+    width: 20%;
+    border-radius: 5px;
+    border: 2px solid black;
+    text-align: center;
+    font-size: 18px;
+}
+.channel_error {
+    border: 2px solid red;
 }

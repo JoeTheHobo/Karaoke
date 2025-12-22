@@ -162,14 +162,6 @@
       ],
       "type": "karaoke"
     },
-
-
-
-    
-
-
-
-    
     {
       "name": "7clouds",
       "format": [
@@ -331,6 +323,24 @@
         "s"
       ],
       "type": "lyrics"
+    },
+    {
+      "name": "obskure karaoke",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    { 
+      "name": "atomic karaoke...",
+      "format": [
+        "s",
+        " - ",
+        "a"
+      ],
+      "type": "karaoke"
     }
   ]
 }

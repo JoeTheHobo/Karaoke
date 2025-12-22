@@ -26,7 +26,7 @@ let user = {
     history: ls.get("history",[]),
     favorites: ls.get("favorites",[]),
     showName: ls.get("showName",false),
-    admin: false,
+    adminLevel: 0,
     code: ls.get("userCode",false),
     uid: false,
 }

@@ -147,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="adminGroup adminGeneral column_align_center">
+                <div class="adminGroup adminGeneral column_align_center adminLevel2">
                     <div class="adminTitle">General Settings</div>
                     <div class="adminSettingRow">
                         <div class="adminLabel">Queue Mode</div>
@@ -168,6 +168,19 @@
                         <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_testing">
                     </div>
                     <div class="explanitoryText">When enabled, songs are not saved to users or the server. Use this mode to test features without affecting real data.</div>
+                </div>
+                <div class="adminGroup adminAddChannel column_align_center adminLevel2">
+                    <div class="adminTitle">Add Channel</div>
+                    <div class="explanitoryText2">Add channels from YouTube so they pop up when searching for songs.</div>
+                    <input type="text" class="channel_name" placeholder="Channel Name...">
+                    <div class="flex_row margin_top_15 flex_center">
+                        <select class="channel_first channel_select" value="0"><option value="0">Artist</option><option value="1">Song Name</option></select>
+                        <input type="text" class="channel_divider" placeholder=" - ">
+                        <select class="channel_second channel_select" value="1"><option value="0">Artist</option><option value="1">Song Name</option></select>
+                    </div>
+                    <select class="channel_type channel_select margin_top_15" value="0"><option value="0">Karaoke</option><option value="1">Lyric</option></select>
+                    <div class="explanitoryText2">Is this channel a Karaoke or Lyric type Channel (Does the artist sing along with the lyrics)</div>
+                    <button class="channel_submit margin_top_15">Submit</button>
                 </div>
 
                 <!--

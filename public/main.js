@@ -32,7 +32,8 @@ async function searchSong(q) {
         let approved = false;
         let index;
         checkingAproved: for (let i = 0; i < data.allowedChannels.length; i++) {
-            if (data.allowedChannels[i].name == v.channel) {
+            let channelName = v.channel.trim();
+            if (data.allowedChannels[i].name.toLowerCase() == channelName.toLowerCase()) {
                 if (data.allowedChannels[i].type !== songSearchExtension.toLowerCase()) continue;
                 approved = true;
                 index = i;
@@ -69,7 +70,7 @@ function fixTitle(title,index) {
   let first = title.subset(0,format[1] + "\\before");
   let secondFull = title.subset(format[1] + "\\after",true);
   let second = "";
-  let bannedChars = ["[","(","|"];
+  let bannedChars = ["[","(","|","-"];
   buildingSecond: for (let i = 0; i < secondFull.length; i++) {
     let char = secondFull.charAt(i);
     if (bannedChars.includes(char)) {
@@ -448,9 +449,9 @@ function displaySongs(div,list,type,showExtension = true) {
         if (l.type === "queue" && type !== "history" && user.type !== "screen") {
             addLongPress(container,function(e) {
                 if (navigator.vibrate) navigator.vibrate(30); // vibrate for 30ms
-                if (user.admin) $(".qpAdmin").show("flex");
+                if (user.adminLevel > 0) $(".qpAdmin").show("flex");
                 else $(".qpAdmin").hide();
-                if (user.admin || l.singerID === user.uid) {
+                if (user.adminLevel > 0 || l.singerID === user.uid) {
                     container.css({
                         zIndex: 701,
                         position: "relative",
@@ -736,13 +737,13 @@ function setAppearingText(first = "",second = "",third = "") {
 
 videoChecker();
 function videoChecker() {
-    if (user.type !== "screen" && !user.admin) {
+    if (user.type !== "screen" && user.adminLevel < 1) {
         requestAnimationFrame(videoChecker);
         return;
     } 
 
 
-    if (user.admin) updateAdminMusicControls();
+    if (user.adminLevel > 0) updateAdminMusicControls();
 
     if (!data.videoInfo) {
         requestAnimationFrame(videoChecker);
@@ -800,7 +801,7 @@ function videoChecker() {
 }
 
 function updateAdminMusicControls() {
-    if (!user.admin) return;
+    if (!user.adminLevel > 0) return;
 
 
     if (data.videoInfo?.startTime) {
@@ -835,21 +836,29 @@ function updateAdminMusicControls() {
 }
 
 function updateAdminSettings(settings) {
-    if (!user.admin) return;
-    $("admin_input_queue_distance").value = settings.max_distance;
-    $("admin_input_queue_type").value = settings.queue_type.format("A");
-    $("admin_input_testing").checked = settings.testing_mode;
-
-    if ($("admin_input_queue_type").value === "Auto") {
-        $(".queueModeText").innerHTML = "Automatically spaces songs to keep turns fair between singers.";
-        $(".singerSpacing").show("flex");
-    }
-    if ($("admin_input_queue_type").value === "Basic") {
-        $(".queueModeText").innerHTML = "Adds songs to the end of the queue in request order.";
-        $(".singerSpacing").hide();
-    }
+    if (user.adminLevel < 1) return;
 
     setSlider(settings.volume);
+
+    if (user.adminLevel < 2) {
+        $(".adminLevel2").hide();
+    } else {
+        if ($(".adminLevel2")[0].style.display !== "flex")
+            $(".adminLevel2").show("flex");
+        
+        $("admin_input_queue_distance").value = settings.max_distance;
+        $("admin_input_queue_type").value = settings.queue_type.format("A");
+        $("admin_input_testing").checked = settings.testing_mode;
+
+        if ($("admin_input_queue_type").value === "Auto") {
+            $(".queueModeText").innerHTML = "Automatically spaces songs to keep turns fair between singers.";
+            $(".singerSpacing").show("flex");
+        }
+        if ($("admin_input_queue_type").value === "Basic") {
+            $(".queueModeText").innerHTML = "Adds songs to the end of the queue in request order.";
+            $(".singerSpacing").hide();
+        }
+    }
 }
 
 async function setImages() {
@@ -890,3 +899,62 @@ function adminSlideOut() {
     $(".admin_slide").style.transform = "translateX(100%)";
     $(".user_activity").classRemove("slideLeft");
 }
+
+
+
+function clearAddChannel() {
+    $(".channel_name").value = "";
+    $(".channel_first").value = "0";
+    $(".channel_divider").value = "";
+    $(".channel_second").value = "1";
+    $(".channel_type").value = "0";
+    if ($(".channel_error")) $(".channel_error").classRemove("channel_error");
+
+}
+clearAddChannel();
+$(".channel_first").on("change",function() {
+    if (this.value === "0")
+        $(".channel_second").value = "1";
+    else
+        $(".channel_second").value = "0";
+})
+$(".channel_second").on("change",function() {
+    if (this.value === "0")
+        $(".channel_first").value = "1";
+    else
+        $(".channel_first").value = "0";
+})
+$(".channel_submit").on("click touch",() => {
+    let name = $(".channel_name").value;
+    let first = $(".channel_first").value;
+    let divider = $(".channel_divider").value;
+    if (divider === "") divider = " - ";
+    let type = $(".channel_type").value;
+
+    let errors = false;
+
+    if (name === "") {
+        errors = true;
+        $(".channel_name").classAdd("channel_error")
+    }
+
+    if (errors) return;
+
+    clearAddChannel();
+
+    let format = [
+        first === "0" ? "a" : "s",
+        divider,
+        first === "0" ? "s" : "a",
+    ];
+
+    let obj = {
+        name: name,
+        format: format,
+        type: type === "0" ? "karaoke" : "lyrics",
+    }
+
+    socket.emit("addAllowedChannel",obj)
+
+
+})

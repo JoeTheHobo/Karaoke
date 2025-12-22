@@ -17,6 +17,8 @@
 */
 
 const adminCode = "5646";
+const supervisorCode = "1234";
+
 let sessionCode = Math.floor(Math.random() * 99999);
 let settings = {
   testing_mode: false,
@@ -127,13 +129,21 @@ io.on("connection", (socket) => {
   console.log("Station connected:", socket.id);
     gatherAllowedChannels();
     socket.uid = false;
+    socket.adminLevel = 0;
 
     socket.on("checkAdminCode",(code,goToAdmin = false) => {
-      if (code !== adminCode) return;
-      socket.admin = true;
-      socket.join("music");
-      socket.join("admin");
-      socket.emit("allowAdmin",settings,goToAdmin)
+      if (code === adminCode) {
+        socket.adminLevel = 2;
+        socket.join("music");
+        socket.join("admin");
+        socket.emit("allowAdmin",settings,goToAdmin,2)
+      }
+      if (code === supervisorCode) {
+        socket.adminLevel = 1;
+        socket.join("music");
+        socket.join("admin");
+        socket.emit("allowAdmin",settings,goToAdmin,1);
+      }
     })
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;
@@ -141,6 +151,50 @@ io.on("connection", (socket) => {
       if (state.waitingOnQR.id !== uid) return;
 
       socket.emit("promptQR");
+    })
+    socket.on("addAllowedChannel",(obj) => {
+      if (socket.adminLevel < 2) return;
+
+      const filePath = path.join(__dirname, "allowedChannels.json");
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) {
+          console.error("Failed to read allowedChannels.json", err);
+          return;
+        }
+
+        let json;
+        try {
+          json = JSON.parse(data);
+        } catch (e) {
+          console.error("Invalid JSON in allowedChannels.json", e);
+          return;
+        }
+
+        // Ensure array exists
+        if (!Array.isArray(json.YTChannels)) {
+          json.YTChannels = [];
+        }
+
+        // Optional: prevent duplicates by name
+        const exists = json.YTChannels.some(
+          ch => ch.name.toLowerCase() === obj.name.toLowerCase()
+        );
+        if (exists) return;
+
+        json.YTChannels.push(obj);
+
+        fs.writeFile(
+          filePath,
+          JSON.stringify(json, null, 2), // pretty-print
+          "utf8",
+          (err) => {
+            if (err) {
+              console.error("Failed to write allowedChannels.json", err);
+            }
+            gatherAllowedChannels();
+          }
+        );
+      });
     })
     socket.on("userJoined", (ssCode,uCode) => {
       let foundUser = false;
@@ -154,7 +208,6 @@ io.on("connection", (socket) => {
         let uid = Math.floor(Math.random() * 99999);
         let obj = {
           uid: uid,
-          admin: false,
         }
         state.users.push(obj)
         socket.user = obj;
@@ -193,7 +246,7 @@ io.on("connection", (socket) => {
         io.emit("updatedQueue",state.queue);
     })
     socket.on("updateAdminSettings",(setting,value) => {
-      if (!socket.admin) return;
+      if (socket.adminLevel < 2) return;
       
       if (setting === "testing_mode") {
         settings.testing_mode = value === true ? true : false;
@@ -208,9 +261,9 @@ io.on("connection", (socket) => {
       io.to("admin").emit("updateAdminSettings",settings)
     })
     socket.on("adminControls",(control,value) => {
-      if (!socket.admin) return;
+      if (socket.adminLevel < 1) return;
       if (control === "Sign Out Of Admin") {
-        socket.admin = false;
+        socket.adminLevel = 0;
         socket.leave("admin");
         socket.leave("music");
         return;
@@ -325,6 +378,7 @@ let songStats = ${JSON.stringify(global_songStats, null, 2)};
 downloadSongStatsToJS();
 function gatherAllowedChannels() {
   try {
+    
     const data = fs.readFileSync("./allowedChannels.json", "utf8");
     const allowedChannels = JSON.parse(data);
 

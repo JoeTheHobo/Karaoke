@@ -1,6 +1,5 @@
 socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs) => {
     user.uid = serverUser.uid;
-    user.admin = serverUser.admin;
     sessionCode = sscode;
     ls.save("sessionCode",sscode);
     ls.save("userCode",user.uid);
@@ -75,9 +74,9 @@ socket.on("qr_result", serverData => {
     $(".qrCodeImg").src = "data:image/png;base64," + serverData.base64;
 })
 
-socket.on("allowAdmin",(adminSettings,goToAdmin) => {
+socket.on("allowAdmin",(adminSettings,goToAdmin,adminLevel) => {
     if (user.type === "screen") return;
-    user.admin = true;
+    user.adminLevel = adminLevel;
     ls.save("adminCode",adminCode)
     setScene("user")
     updateAdminSettings(adminSettings);

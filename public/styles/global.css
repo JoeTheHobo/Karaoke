@@ -19,3 +19,14 @@
 .global_xInvert {
     transform: scaleX(-1);
 }
+.flex_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.margin_top_15 {
+    margin-top: 8px;
+}
+.flex_center {
+    justify-content: space-evenly;
+}

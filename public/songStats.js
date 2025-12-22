@@ -272,7 +272,7 @@ let songStats = {
   },
   "F-p2BQ4H1nA": {
     "videoId": "F-p2BQ4H1nA",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=F-p2BQ4H1nA",
     "channel": "Musisi Karaoke",
     "song": "Lose Yourself",
@@ -380,7 +380,7 @@ let songStats = {
   },
   "Hqh5Kwf_YEg": {
     "videoId": "Hqh5Kwf_YEg",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=Hqh5Kwf_YEg",
     "channel": "MrEntertainerKaraoke",
     "song": "You Probably Couldn't See The Lights But You Were Staring Straight At Me",
@@ -686,7 +686,7 @@ let songStats = {
   },
   "xXbk3InFCxY": {
     "videoId": "xXbk3InFCxY",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=xXbk3InFCxY",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -853,6 +853,15 @@ let songStats = {
     "url": "https://www.youtube.com/watch?v=LVuV2_BhIPg",
     "videoId": "LVuV2_BhIPg",
     "channel": "ZP Music",
+    "extension": "Karaoke"
+  },
+  "jrf8b820dMM": {
+    "plays": 1,
+    "song": "All Around Me ",
+    "artist": "Flyleaf",
+    "url": "https://www.youtube.com/watch?v=jrf8b820dMM",
+    "videoId": "jrf8b820dMM",
+    "channel": "Core Karaoke",
     "extension": "Karaoke"
   }
 };

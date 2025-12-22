@@ -119,7 +119,7 @@ $(".leaveChangeSong").on("click touch",() => {
 //    Admin Screen Control    //
 ////////////////////////////////
 $(".adminControlsHolder").on("click touch",() => {
-    if (user.admin) {
+    if (user.adminLevel > 0) {
         adminSlideIn();
     } else {
         setScene("adminSignin");
@@ -128,9 +128,10 @@ $(".adminControlsHolder").on("click touch",() => {
 })
 $(".admin_exit").on("click touch",() => {
     adminSlideOut();
+    clearAddChannel();
 })
 $(".admin_signout").on("click touch",() => {
-    user.admin = false;
+    user.adminLevel = 0;
     ls.save("adminCode",[])
     socket.emit("adminControls","Sign Out Of Admin");
     adminSlideOut();
