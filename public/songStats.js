@@ -353,7 +353,7 @@ let songStats = {
   },
   "gx6J54BIsn0": {
     "videoId": "gx6J54BIsn0",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=gx6J54BIsn0",
     "channel": "Captain Awesome Karaoke",
     "song": "Lucky You",
@@ -775,7 +775,7 @@ let songStats = {
     "extension": "Lyrics"
   },
   "-gs_SZM2lRk": {
-    "plays": 0,
+    "plays": 2,
     "song": "do re mi ",
     "artist": "blackbear",
     "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",

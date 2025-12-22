@@ -153,6 +153,15 @@
       ],
       "type": "karaoke"
     },
+    {
+      "name": "Core Karaoke",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
 
 
 
