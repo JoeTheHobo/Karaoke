@@ -686,7 +686,7 @@ let songStats = {
   },
   "xXbk3InFCxY": {
     "videoId": "xXbk3InFCxY",
-    "plays": 2,
+    "plays": 3,
     "url": "https://www.youtube.com/watch?v=xXbk3InFCxY",
     "channel": "Sing King",
     "extension": "Karaoke",
