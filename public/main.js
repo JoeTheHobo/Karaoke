@@ -43,7 +43,8 @@ async function searchSong(q) {
         if (!approved) return;
 
         let set = fixTitle(v.title,index);
-        list.push({
+
+        let obj = {
             song: set.song,
             artist: set.artist,
             channel: v.channel,
@@ -51,7 +52,20 @@ async function searchSong(q) {
             url: v.url,
             videoId: v.videoId,
             extension: songSearchExtension,
-        })
+        }
+
+        for (let i = 0; i < list.length; i++) {
+            let l = list[i];
+            if (l.length) l = l[0];
+            if (l.artist.toLowerCase() === set.artist.toLowerCase() &&
+                l.song.toLowerCase() === set.song.toLowerCase()) {
+                    if (list[i].length) list[i].push(obj);
+                    else list[i] = [list[i],obj];
+                    return;
+                }
+        }
+
+        list.push(obj)
     });
     displaySongs($(".songResultsDiv"),list,"search")
 
@@ -81,13 +95,13 @@ function fixTitle(title,index) {
   }
 
   if (format[0] == "a") return {
-    song: second,
-    artist: first,
+    song: second.trim(),
+    artist: first.trim(),
   }
   
   if (format[0] == "s") return {
-    song: first,
-    artist: second,
+    song: first.trim(),
+    artist: second.trim(),
   }
 }
 
@@ -316,6 +330,12 @@ function displaySongs(div,list,type,showExtension = true) {
 
     for (let i = 0; i < list.length; i++) {
         let l = list[i];
+
+        let multipleSongs = false;
+        if (l.length) {
+            multipleSongs = true;
+            l = l.shift();
+        }
         
         songCheck(l);
 
@@ -333,7 +353,26 @@ function displaySongs(div,list,type,showExtension = true) {
             if (user.type !== "screen") continue;
 
         }
-        let container = div.create("div.songListing");
+
+        let container;
+        if (multipleSongs) {
+            let multiContainer = div.create("div.multiContainer");
+            container = multiContainer.create("div.songListing");
+            let seeVariations = multiContainer.create("div.seeVariations>See Variations");
+            let fullSongs = multiContainer.create("div.multiContainer");
+            fullSongs.style.display = "none";
+            displaySongs(fullSongs,list[i],type,showExtension);
+
+            seeVariations.on("click touch",function() {
+                multiContainer.classAdd("multi_visible");
+                fullSongs.style.display = "flex";
+                seeVariations.hide();
+            })
+            
+        } else {
+            container = div.create("div.songListing");
+        }
+
         if (div.classList.contains("column1Fill")) container.classAdd("screenQueueObject");
         let section1 = container.create("div.section1");
             if (l.playing && type !== "history") {
@@ -392,7 +431,7 @@ function displaySongs(div,list,type,showExtension = true) {
             let channelTitle;
             if (l.channel && l.type !== "queue") {
                 channelTitle = section2.create("div.s2Div>" + l.channel);
-                channelTitle.classAdd("s2TextLight");
+                channelTitle.classAdd("s2TextLight channel_title");
                 artistTitle.classAdd("s2TextLight");
                 songTitle.classAdd("s2TextBold");
             }
