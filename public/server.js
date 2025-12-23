@@ -1,5 +1,6 @@
 socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs) => {
     user.uid = serverUser.uid;
+    user.banned = serverUser.banned;
     sessionCode = sscode;
     ls.save("sessionCode",sscode);
     ls.save("userCode",user.uid);
@@ -60,6 +61,12 @@ socket.on("updateAdminSettings",(adminSettings) => {
     settings = adminSettings;
     updateAdminSettings(adminSettings);
 })
+socket.on("updatedUsers",(users) => {
+    if (user.adminLevel < 2) return;
+    global_users = users;
+
+    updateAdminUsers();
+})
 
 
 
@@ -94,4 +101,7 @@ socket.on("queueStateChange",(queueID,status) => {
             return;
         }
     }
+})
+socket.on("updateBanState",(state) => {
+    user.banned = state;
 })

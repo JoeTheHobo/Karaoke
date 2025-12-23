@@ -29,6 +29,7 @@ let user = {
     adminLevel: 0,
     code: ls.get("userCode",false),
     uid: false,
+    banned: false,
 }
 let adminCode = ls.get("adminCode",[]);
 let lastScrollY = 0;
@@ -39,3 +40,5 @@ let images = null;
 let savedImages = [];
 
 let loadImages = false;
+
+let global_users = [];

@@ -6,4 +6,8 @@ function songCheck(song) {
     if (song.song == "Seven Nation Army (The Voice Performance) Karaoke") {
         song.song = "Seven Nation Army";
     }
+    if (song.song == "Ultimate KPop Demon Hunters Song Compilation 🎤🎶 (Karaoke Songs With Lyrics") {
+        song.song = "Ultimate Song Compliation";
+        song.artist = "Kpop Demon Hunters";
+    }
 }

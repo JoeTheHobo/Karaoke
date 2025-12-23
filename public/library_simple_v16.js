@@ -5,6 +5,14 @@
     Email: johnjonesma@gmail.com
 */
 
+Element.prototype.input_type = function(type) {
+    this.type = type;
+    return this;
+}
+Element.prototype.input_checked = function(val) {
+    this.checked = val;
+    return this;
+}
 Array.prototype.value = function(value) {
     for (let i = 0; i < this.length; i++) {
         this[i].value = value;

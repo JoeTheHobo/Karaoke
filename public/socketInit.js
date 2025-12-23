@@ -38,7 +38,7 @@ function initSocket() {
         if (path === "/user") {
             setScene("user");
             user.type = "user";
-            socket.emit("userJoined",sessionCode,user.code);
+            socket.emit("userJoined",sessionCode,user.code,user.showName);
         } else if (path === "/" || path === "/screen") {
             user.type = "screen";
             setScene("screenSelection")
@@ -46,7 +46,7 @@ function initSocket() {
             //Redirect to User
             setScene("user");
             user.type = "user";
-            socket.emit("userJoined",sessionCode,user.code);
+            socket.emit("userJoined",sessionCode,user.code,user.showName);
         }
         
         if (adminCode.length === 4) {

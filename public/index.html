@@ -123,7 +123,8 @@
                 <img class="admin_exit global_invert" src="img/dazzleIcons/arrow_right.svg" alt="">
             </div>
             <div class="adminBody column_align_center">
-                <div class="adminGroup adminMusic column_align_center">
+                <div class="openCloseGroup" id="control_av">Audio/Visual Controls</div>
+                <div class="adminGroup adminMusic column_align_center" id="av">
                     <div class="adminTitle">Video Control</div>
                     <div class="adminTimer">2:13/3:42</div>
                     <input type="range" min="0" class="adminTimerScroll">
@@ -135,7 +136,7 @@
                         <img src="img/dazzleIcons/song_skip.svg" class="adminMusicSetting " id="music_skip" alt="">
                     </div>
                 </div>
-                <div class="adminGroup adminVolume column_align_center">
+                <div class="adminGroup adminVolume column_align_center" id="av">
                     <div class="adminTitle">Volume</div>
                     <div class="volumeSliderHolders">
                         <div class="volumeSliderGroup">
@@ -147,8 +148,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="adminGroup adminGeneral column_align_center adminLevel2">
-                    <div class="adminTitle">General Settings</div>
+                <div class="openCloseGroup adminLevel2" id="control_general_settings">General Settings</div>
+                <div class="adminGroup adminGeneral column_align_center adminLevel2" id="general_settings">
                     <div class="adminSettingRow">
                         <div class="adminLabel">Queue Mode</div>
                         <select class="admin_input_select adminInputAll" value="Auto" id="admin_input_queue_type">
@@ -169,7 +170,8 @@
                     </div>
                     <div class="explanitoryText">When enabled, songs are not saved to users or the server. Use this mode to test features without affecting real data.</div>
                 </div>
-                <div class="adminGroup adminAddChannel column_align_center adminLevel2">
+                <div class="openCloseGroup adminLevel2" id="control_add_channel">Add Channel</div>
+                <div class="adminGroup adminAddChannel column_align_center adminLevel2" id="add_channel">
                     <div class="adminTitle">Add Channel</div>
                     <div class="explanitoryText2">Add channels from YouTube so they pop up when searching for songs.</div>
                     <input type="text" class="channel_name" placeholder="Channel Name...">
@@ -182,14 +184,10 @@
                     <div class="explanitoryText2">Is this channel a Karaoke or Lyric type Channel (Does the artist sing along with the lyrics)</div>
                     <button class="channel_submit margin_top_15">Submit</button>
                 </div>
-
-                <!--
-                <div class="adminGroup adminUsers column_align_center">
-                    <div class="adminTitle">User Settings</div>
+                <div class="openCloseGroup adminLevel2" id="control_users">Users</div>
+                <div class="adminGroup adminUsersList column_align_center adminLevel2" id="users">
 
                 </div>
-                
-                -->
             </div>
             <div class="admin_signout_holder">
                 <div class="admin_signout">Sign Out</div>

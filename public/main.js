@@ -110,6 +110,7 @@ function popup(text,func,affirmText = "Continue",allowAny = false) {
             return;
         }
         user.showName = $(".showNameInput").value;
+        if (user.showName !== ls.get("showName",false)) socket.emit("changedShowName",user.showName);
         ls.save("showName",$(".showNameInput").value);
         $(".popup").hide();
         func($(".popup").sendValue);
@@ -465,6 +466,10 @@ function displaySongs(div,list,type,showExtension = true) {
             let addSongToQueueText = data.changingSong ? `Change Song To '${l.song}'` : `Add '${l.song}' To Queue?`;
             let addToQueueText = data.changingSong ? `Change Song!` : "Add To Queue!";
             container.on("click touch",function(e) {
+                if (user.banned) {
+                    popup("You have been blocked from adding songs.",()=>{},"I accept",true);
+                    return;
+                }
                 if (e.target.classList.contains("s3IconFavorite")) return;
                 popup(addSongToQueueText,function() {
                     $(".displayDiv").style.opacity = 0;
@@ -958,3 +963,41 @@ $(".channel_submit").on("click touch",() => {
 
 
 })
+
+
+$(".openCloseGroup").on("click touch",function() {
+    let id = this.id.subset("_\\after",true);
+    openSettingsMenu(id);
+})
+function openSettingsMenu(menu) {
+    $(".openCloseGroup").classRemove("openClose_open");
+    $(".adminGroup").css("maxHeight","0px");
+    $("control_" + menu).classAdd("openClose_open")
+    setTimeout(() => $(menu).css("maxHeight","999px"),0);
+    
+}
+setTimeout(function() {
+    openSettingsMenu("av");
+},1000)
+
+function updateAdminUsers() {
+    if (user.adminLevel < 2) return;
+    let container = $(".adminUsersList").html("");
+
+    let row = container.create("div.users_row");
+    row.create("div.users_id>ID")
+    row.create("div.users_name>Display Name")
+    row.create("div.users_songs>Songs")
+    row.create("div.users_banned>Banned")
+    for (let i = 0; i < global_users.length; i++) {
+        let user = global_users[i];
+        let row = container.create("div.users_row");
+        if (i % 2 === 0) row.classAdd("users_row_gray");
+        row.create("div.users_id>" + user.uid);
+        row.create("div.users_name>" + user.displayName);
+        row.create("div.users_songs>" + user.songCount);
+        row.create("div.users_banned").create("input.users_checkbox").input_type("checkbox").input_checked(user.banned).on("click",function() {
+            socket.emit("sendBanState",user,this.checked);
+        })
+    }
+}

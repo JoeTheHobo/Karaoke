@@ -137,6 +137,7 @@ io.on("connection", (socket) => {
         socket.join("music");
         socket.join("admin");
         socket.emit("allowAdmin",settings,goToAdmin,2)
+        socket.emit("updatedUsers",state.users);
       }
       if (code === supervisorCode) {
         socket.adminLevel = 1;
@@ -196,7 +197,27 @@ io.on("connection", (socket) => {
         );
       });
     })
-    socket.on("userJoined", (ssCode,uCode) => {
+    socket.on("sendBanState",(user,banState) => {
+      if (socket.adminLevel < 2) return;
+
+      for (let i = 0; i < state.users.length; i++) {
+        if (state.users[i].uid === user.uid) {
+          state.users[i].banned = banState;
+          
+          io.to("uid" + state.users[i].uid).emit("updateBanState",banState);
+          io.to("admin").emit("updatedUsers",state.users);
+          return;
+        }
+      }
+    })
+    socket.on("changedShowName",(userShowName) => {
+      if (!socket.user) return;
+
+      socket.user.displayName = userShowName;
+
+      io.to("admin").emit("updatedUsers",state.users);
+    })
+    socket.on("userJoined", (ssCode,uCode,userShowName) => {
       let foundUser = false;
       for (let i = 0; i < state.users.length; i++) {
         let user = state.users[i];
@@ -208,12 +229,17 @@ io.on("connection", (socket) => {
         let uid = Math.floor(Math.random() * 99999);
         let obj = {
           uid: uid,
+          displayName: userShowName,
+          banned: false,
+          songCount: 0.
         }
         state.users.push(obj)
         socket.user = obj;
       }
+      socket.join("uid" + socket.user.uid);
 
       socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50));
+      io.to("admin").emit("updatedUsers",state.users);
 
     }) 
     socket.on("screenJoined", () => {
@@ -312,6 +338,8 @@ io.on("connection", (socket) => {
       downloadSongStatsToJS();
     })
     socket.on("addQueue",(obj) => {
+      if (socket.user.banned) return;
+
       obj.status = "added";
         if (obj.changingSong !== false) {
           alterQueue("Change Song",obj.changingSong,obj);
