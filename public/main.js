@@ -354,20 +354,13 @@ function displaySongs(div,list,type,showExtension = true) {
 
         }
 
-        let container;
+        let container, multiContainer,fullSongs;
         if (multipleSongs) {
-            let multiContainer = div.create("div.multiContainer");
+            multiContainer = div.create("div.multiContainer");
             container = multiContainer.create("div.songListing");
-            let seeVariations = multiContainer.create("div.seeVariations>See Variations");
-            let fullSongs = multiContainer.create("div.multiContainer");
+            fullSongs = multiContainer.create("div.multiContainer");
             fullSongs.style.display = "none";
             displaySongs(fullSongs,list[i],type,showExtension);
-
-            seeVariations.on("click touch",function() {
-                multiContainer.classAdd("multi_visible");
-                fullSongs.style.display = "flex";
-                seeVariations.hide();
-            })
             
         } else {
             container = div.create("div.songListing");
@@ -430,7 +423,27 @@ function displaySongs(div,list,type,showExtension = true) {
             let artistTitle = section2.create("div.s2Div>" + l.artist);
             let channelTitle;
             if (l.channel && l.type !== "queue") {
-                channelTitle = section2.create("div.s2Div>" + l.channel);
+                if (multipleSongs) {
+                    channelTitle = section2.create("div.s2DivRow");
+                    let channelName = channelTitle.create("div.as>" + l.channel);
+
+                    let seeVariations = channelTitle.create("div.seeVariations>See Variations");
+
+                    seeVariations.on("click touch",function() {
+                        if (this.innerHTML === "See Variations") {
+                            multiContainer.classAdd("multi_visible");
+                            fullSongs.style.display = "flex";
+                            this.innerHTML = "Hide Variations";
+                        } else {
+                            multiContainer.classRemove("multi_visible");
+                            fullSongs.style.display = "none";
+                            this.innerHTML = "See Variations";
+                        }
+                    })
+                } else {
+                    channelTitle = section2.create("div.s2Div>" + l.channel);
+                }
+
                 channelTitle.classAdd("s2TextLight channel_title");
                 artistTitle.classAdd("s2TextLight");
                 songTitle.classAdd("s2TextBold");
@@ -509,7 +522,7 @@ function displaySongs(div,list,type,showExtension = true) {
                     popup("You have been blocked from adding songs.",()=>{},"I accept",true);
                     return;
                 }
-                if (e.target.classList.contains("s3IconFavorite")) return;
+                if (e.target.classList.contains("s3IconFavorite") || e.target.classList.contains("seeVariations")) return;
                 popup(addSongToQueueText,function() {
                     $(".displayDiv").style.opacity = 0;
                     $(".displayDiv").style.pointerEvents = "none";
