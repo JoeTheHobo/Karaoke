@@ -80,28 +80,22 @@ app.get("/api/search", async (req, res) => {
   let allVideos = [];
   const baseURL = "https://www.googleapis.com/youtube/v3/search";
   let nextPageToken = "";
-  const maxTotal = 50; // define this! number of videos to cap at
 
   try {
-    do {
-      const response = await axios.get(baseURL, {
-        params: {
-          part: "snippet",
-          q: query,
-          type: "video",
-          maxResults: 50,
-          key: apiKey,
-          safeSearch: "none",
-          pageToken: nextPageToken, // <--- this tells YouTube which page we want
-        },
-      });
+    const response = await axios.get(baseURL, {
+      params: {
+        part: "snippet",
+        q: query,
+        type: "video",
+        maxResults: 10,
+        key: apiKey,
+        safeSearch: "none",
+        pageToken: nextPageToken, // <--- this tells YouTube which page we want
+      },
+    });
 
-      const data = response.data;
-      allVideos.push(...data.items);
-
-      nextPageToken = data.nextPageToken; // will be undefined if no more pages
-
-    } while (nextPageToken && allVideos.length < maxTotal);
+    const data = response.data;
+    allVideos.push(...data.items);
     
     // Return simplified results
     const results = allVideos.map((item) => ({
