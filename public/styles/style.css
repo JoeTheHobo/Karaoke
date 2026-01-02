@@ -127,10 +127,10 @@ body,html {
     font-weight: bold;
 }
 .appearingTextLarge {
-    font-size: 50px;
+    font-size: clamp(50px, 1.2vw, 120px);
 }
 .appearingTextSmall {
-    font-size: 30px;
+    font-size: clamp(30px, 1.2vw, 70px);
 }
 
 .title {
@@ -324,6 +324,19 @@ input, select {
     height: 63px;
     color: white;
 }
+.songListing_b {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.322);
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    margin-top: 3px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 7vh;
+    color: white;
+
+}
 .usersSong {
     border: 2px solid rgba(109, 245, 104, 0.89);
 }
@@ -420,15 +433,15 @@ input, select {
 }
 .s2TextLight{
     opacity: 0.5;
-    font-size: 13px;
+    font-size: clamp(13px, .8vw, 25px);
 }
 .s2TextBold{
-    font-size: 16px;
+    font-size: clamp(16px, .8vw, 32px);
 }
 .s2TextCenter {
     text-align: center;
     width: 100%;
-    font-size: 18px;
+    font-size: clamp(20px, .8vw, 50px);
 }
 
 
@@ -515,6 +528,12 @@ input, select {
     width: 100%;
     text-align: left;
     font-size: 16px;
+    color: white;
+}
+.queueTitle_b {
+    width: 100%;
+    text-align: center;
+    font-size: clamp(20px, 1.2vw, 50px);
     color: white;
 }
 .clearSearch {
@@ -1099,6 +1118,13 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     color: rgba(255, 255, 255, 0.479);
     font-size: 13px;
 }
+.queueSmallText_b {
+    color: rgba(255, 255, 255, 0.479);
+    
+    font-size: clamp(15px, 1vw, 40px);
+    width: 100%;
+    text-align: center;
+}
 
 
 .popup_title,.popup_title2 {
@@ -1132,11 +1158,14 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     font-size: 18px;
     font-weight: bold;
 }
-.popup_cancel {
+.popup_cancel,.prompt_cancel {
     background: rgb(135 135 135);
     box-shadow: var(--shadow-sm);
     color: white;
     transition: all .2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .popup_cancel:active {
     background: rgb(252, 113, 113);
@@ -1363,4 +1392,137 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+#scene_screen_2 {
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    
+}
+.s2_column_a {
+    width: 80%;
+    height: 100%;
+}
+.s2_screen_display {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+}
+.s2_bottom_row {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: rgb(32, 32, 32);
+}
+.s2_qr_holder {
+    height: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.s2_art_display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex: 1;
+    overflow: hidden;
+}
+.s2_art_display > img {
+    width: auto;
+    height: 100%;
+}
+.s2_logo {
+
+}
+.video_foreground {
+    height: 95% !important;
+    width: auto !important;
+}
+
+.s2_column_b {
+    width: 20%;
+    height: 100%;
+    background: rgb(32, 32, 32);
+    padding: 10px;
+    padding-top: 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.glow-gold {
+  border: 2px solid #ffd65c;
+  box-shadow:
+    inset 0 0 10px rgba(255,214,92,0.6),
+    inset 0 0 25px rgba(255,214,92,0.4),
+    0 0 10px rgba(255,214,92,0.8),
+    0 0 25px rgba(255,214,92,0.9);
+}
+.glow-blue {
+  border: 2px solid #4fc3ff;
+  box-shadow:
+    inset 0 0 10px rgba(79,195,255,0.6),
+    inset 0 0 25px rgba(79,195,255,0.4),
+    0 0 10px rgba(79,195,255,0.8),
+    0 0 25px rgba(79,195,255,0.9);
+}
+.mini_text {
+    font-size: 20px; 
+    margin-top: 20px;
+    opacity: 0.7;
+
+}
+
+.appearingTextColored {
+    color: red;
+}
+
+
+
+
+.firework {
+  position: absolute;
+  width: 2px;
+
+  border-radius: 50%;
+}
+.firework_transition {
+  transition: all 2s;
+}
+.firework_explode {
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  transform: translate(-50%, -100%) scale(0.1);
+  opacity: 0;
+  background: currentColor;
+  box-shadow:
+    0 -70px 0 0 currentColor,
+    50px -50px 0 0 currentColor,
+    70px 0 0  currentColor,
+    50px 50px 0 0 currentColor,
+    0 70px 0 0  currentColor,
+    -50px 50px 0 0 currentColor,
+    -70px 0 0  currentColor,
+    -50px -50px 0 0 currentColor;
+  animation: boom2 1.3s ease-out;
+}
+
+@keyframes boom2{
+  0%   { opacity: 0; transform: translate(-50%, -100%) scale(0.1); }
+  55%  { opacity: 0; }
+  60%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -100%) scale(1); }
 }
