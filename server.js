@@ -25,6 +25,7 @@ let settings = {
   max_distance: 4,
   queue_type: "auto", //basic or auto
   volume: .75,
+  video_controller: "server",
 }
 let state = {
   users: [],
@@ -33,6 +34,7 @@ let state = {
     
   },
   waitingOnQR: false,
+  songPlaying: false,
 }
 
 const path = require("path");
@@ -139,13 +141,35 @@ io.on("connection", (socket) => {
         socket.join("admin");
         socket.emit("allowAdmin",settings,goToAdmin,1);
       }
+      if (code === supervisorCode || code == adminCode) {
+        console.log(settings.video_controller)
+        if (settings.video_controller === "client") {
+          console.log(state.songPlaying)
+          if (state.songPlaying) {
+            socket.emit("showVideoPlayer");
+          } else {
+            socket.emit("hideVideoPlayer");
+          }
+        }
+      }
     })
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;
       if (state.waitingOnQR.accepted) return;
       if (state.waitingOnQR.id !== uid) return;
 
-      socket.emit("promptQR");
+      io.emit("promptQR");
+    })
+    socket.on("clientFinishedVideo",() => {
+      io.to("admin").emit("hideVideoPlayer");
+      if (socket.userType !== "screen") return;
+      
+      state.songPlaying = false;
+
+      setTimeout(() => {
+        state.queue.shift();
+        playSong();
+      },3000);
     })
     socket.on("addAllowedChannel",(obj) => {
       if (socket.adminLevel < 2) return;
@@ -212,6 +236,7 @@ io.on("connection", (socket) => {
       io.to("admin").emit("updatedUsers",state.users);
     })
     socket.on("userJoined", (ssCode,uCode,userShowName) => {
+      socket.userType = "user";
       let foundUser = false;
       for (let i = 0; i < state.users.length; i++) {
         let user = state.users[i];
@@ -237,6 +262,7 @@ io.on("connection", (socket) => {
 
     }) 
     socket.on("screenJoined", () => {
+      socket.userType = "screen";
       socket.join("screen");
       socket.join("music");
       socket.emit("setSocket",sessionCode,false,state.music);
@@ -244,7 +270,7 @@ io.on("connection", (socket) => {
     })
     socket.on("PromptOk",(id) => {
       if (state.waitingOnQR.accepted) return;
-      if (state.waitingOnQR.id !== id) return;
+      if ((state.waitingOnQR.id !== id && socket.adminLevel < 1)) return;
       playVideo();
       state.waitingOnQR.accepted = true;
     })
@@ -293,35 +319,58 @@ io.on("connection", (socket) => {
         if (settings.volume < 0) settings.volume = 0;
         if (settings.volume > 1) settings.volume = 1;
         io.to("music").emit("updateAdminSettings",settings)
+        if (settings.video_controller == "client") io.to("screen").emit("setVolume",settings.volume)
         return;
       }
 
       if (!state.music.startTime) return;
       if (control == "setTime") {
+        if (settings.video_controller === "client") return;
+        
         let difference = value - (Date.now() - state.music.startTime);
         state.music.startTime -= difference;
       }
       if (control === "Pause Song") {
+        console.log(settings.video_controller)
+        if (settings.video_controller === "client") {
+          io.to("screen").emit("musicControl","pause");
+        }
         state.music.pausedAt = Date.now() - state.music.startTime;
         state.music.playing = false;
       }
       if (control === "Play Song") {
+        if (settings.video_controller === "client") {
+          io.to("screen").emit("musicControl","play");
+        }
         state.music.startTime = Date.now() - state.music.pausedAt;
         state.music.playing = true;
         state.music.pausedAt = null;
       }
       if (control === "Restart Song") {
-          state.music.startTime = Date.now();
+        if (settings.video_controller === "client") {
+          io.to("screen").emit("musicControl","restart");
+        }
+        state.music.startTime = Date.now();
       }
       if (control === "Skip Song") {
+          if (settings.video_controller === "client") {
+            io.to("screen").emit("musicControl","skip");
+          }
           state.music.startTime -= state.music.duration;
       }
       if (control === "-10 Seconds") {
+        if (settings.video_controller === "client") {
+          io.to("screen").emit("musicControl","minus_10");
+        }
           state.music.startTime += (10*1000);
       }
       if (control === "+10 Seconds") {
+        if (settings.video_controller === "client") {
+          io.to("screen").emit("musicControl","plus_10");
+        }
           state.music.startTime -= (10*1000);
       }
+      console.log("emmited",state.music)
       io.to("music").emit("screenVideoUpdate",state.music);
     })
     socket.on("alterQueue",(code,queueID,extra) => {
@@ -332,6 +381,7 @@ io.on("connection", (socket) => {
       downloadSongStatsToJS();
     })
     socket.on("addQueue",(obj) => {
+      if (!socket.user) return;
       if (socket.user.banned) return;
 
       obj.status = "added";
@@ -351,15 +401,20 @@ io.on("connection", (socket) => {
         let pastSingers = {};
         findingSpot: for (let i = 0; i < state.queue.length; i++) {
             let q = state.queue[i];
-
+            if (q.singerID === obj.singerID) {
+              pastSingers = {}; 
+              continue;
+            }
             if (pastSingers[q.singerID]) {
-              if ( ( i - pastSingers[q.singerID] ) > settings.max_distance) {
+              if ( ( i - pastSingers[q.singerID].pos ) < settings.max_distance) {
                 allowedInsert = i;
                 break findingSpot;
               }
-              pastSingers[q.singerID] = i;
+              pastSingers[q.singerID].pos = i;
             } else {
-              pastSingers[q.singerID] = i;
+              pastSingers[q.singerID] = {
+                pos: i,
+              };
             }
         }
 
@@ -490,8 +545,15 @@ async function playVideo() {
   if (!settings.testing_mode) addPlay(global_songStats, state.waitingOnQR.videoInfo);
   saveStats("downloadedData.json",global_songStats);
   sortGlobalStats();
+  if (settings.video_controller === "client"){
+    io.emit("startSong_client",state.waitingOnQR.videoID);
+    state.songPlaying = true;
+  } 
 }
 function videoChecker() {
+  if (settings.video_controller === "client") {
+    return
+  }
   if (state.music.playing) {
     let now = Date.now();
     if (now >= state.music.startTime + state.music.duration) {
@@ -559,7 +621,7 @@ function downloadVideo(videoId) {
 function downloadVideo_helper(videoId) {
   const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
   const downloadFolder = path.join(__dirname, "public/Song Downloads");
-  const ffmpegPath = "C:\\ffmpeg-8.0-essentials_build\\bin\\ffmpeg.exe";
+  const ffmpegPath = "D:\\libraries\\ffmpeg\\bin\\ffmpeg.exe";
 
   // Save file as Song Downloads\<videoId>.mp4
   const outputPath = path.join(downloadFolder, `${videoId}.%(ext)s`);

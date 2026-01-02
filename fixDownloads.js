@@ -5,7 +5,6 @@ const { exec } = require("child_process");
 const fetch = require("node-fetch");
 const { getJson } = require("serpapi");
 const https = require("https");
-
 const ytdlp = path.join(__dirname, "node_modules/yt-dlp-exec/bin/yt-dlp.exe");
 
 const data = fs.readFileSync("./allowedChannels.json", "utf8");

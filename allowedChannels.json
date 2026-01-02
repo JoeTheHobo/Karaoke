@@ -333,8 +333,98 @@
       ],
       "type": "karaoke"
     },
-    { 
+    {
       "name": "atomic karaoke...",
+      "format": [
+        "s",
+        " - ",
+        "a"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "John dimaano",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Karaokemedia",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Mandy h.",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Zoom karaoke official",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Luetya",
+      "format": [
+        "s",
+        " - ",
+        "a"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Stevronar",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Caelas",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Starkaraokevevo",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Songjam: official karaoke",
+      "format": [
+        "a",
+        " - ",
+        "s"
+      ],
+      "type": "karaoke"
+    },
+    {
+      "name": "Lol puppies",
       "format": [
         "s",
         " - ",
