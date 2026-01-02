@@ -315,12 +315,16 @@ function displaySongs(div,list,type,showExtension = true) {
     div.innerHTML = type === "queue" ?  `<div class="universalBlurredBackground"></div>` : "";
 
     if (type == "queue" && !div.classList.contains("column1Fill")) {
-        let title = div.create("div.queueTitle>Queue List")
-        if (list.length > 1) {
+        let titleClass = "queueTitle";
+        if (using_screen_layout === "b") titleClass = "queueTitle_b";
+        let title = div.create(`div.${titleClass}>Queue List`)
+        if (list.length > 1 && user.type == "user") {
             div.create("div.queueSmallText>Hold down on your songs for more options.")
         }
-        if (list.length === 1) {
-            div.create("div.queueSmallText>No song in queue.")
+        if ((list.length === 1 && user.type !== "screen") || (user.type === "screen" && list.length === 0)) {
+            let noSongQueueClass = "queueSmallText";
+            if (using_screen_layout === "b") noSongQueueClass = "queueSmallText_b";
+            div.create(`div.${noSongQueueClass}>No song in queue.`)
         }
         if (list.length === 0) $("queueSheet").hide();
         else $("queueSheet").show()
@@ -339,7 +343,7 @@ function displaySongs(div,list,type,showExtension = true) {
         
         songCheck(l);
 
-        if (div.classList.contains("column1Fill") && i > 4) continue;
+        if (using_screen_layout === "a" && i > 4) continue;
         if (type === "history") {
             let date = new _time(new Date(l.date)).format("mm/dd/yy");
             if (currentDate !== date) {
@@ -363,7 +367,8 @@ function displaySongs(div,list,type,showExtension = true) {
             displaySongs(fullSongs,list[i],type,showExtension);
             
         } else {
-            container = div.create("div.songListing");
+            if (type == "queue" && using_screen_layout === "b") container = div.create("div.songListing_b");
+            else container = div.create("div.songListing");
         }
 
         if (div.classList.contains("column1Fill")) container.classAdd("screenQueueObject");
@@ -772,10 +777,10 @@ function promptQR() {
  $(".promptQR").show("flex");   
 }
 
-
-function playVideo(fileName) {
+function playVideo(fileName,handledByClient = false) {
     if (user.type !== "screen") return;
-    let videoEl = $(".displayingVideo");
+    stopFireworks();
+    let videoEl = $(".video_" + using_screen_layout);
     videoEl.src = `/Song Downloads/${fileName}.mp4`;
     videoEl.show();
     videoEl.muted = true;
@@ -783,18 +788,27 @@ function playVideo(fileName) {
     videoEl.play().then(() => {
         videoEl.muted = false;
     }).catch(err => console.error("Autoplay blocked:", err));
+
+    if (handledByClient) {
+        videoEl.addEventListener("ended",() => {
+            socket.emit("clientFinishedVideo")
+            videoEl.hide();
+            startFireworks();
+        },{ once: true})
+    }
 }
 
-function setAppearingText(first = "",second = "",third = "") {
-    $("appearingText1").innerHTML = first;
-    $("appearingText2").innerHTML = second;
-    $("appearingText3").innerHTML = third;
+function setAppearingText(first = "",second = "",third = "",fourth = "") {
+    $("appearingText1").html(first)
+    $("appearingText2").html(second);
+    $("appearingText3").html(third);
+    $("appearingText4").html(fourth);
     $(".appearingText").show("flex");
 }
 
 videoChecker();
 function videoChecker() {
-    if (user.type !== "screen" && user.adminLevel < 1) {
+    if ((user.type !== "screen" && user.adminLevel < 1)) {
         requestAnimationFrame(videoChecker);
         return;
     } 
@@ -802,12 +816,21 @@ function videoChecker() {
 
     if (user.adminLevel > 0) updateAdminMusicControls();
 
+    if (video_controller === "client") {
+        requestAnimationFrame(videoChecker)
+        return;
+    }
+
     if (!data.videoInfo) {
         requestAnimationFrame(videoChecker);
         return;
     }
 
-    let videoEl = $(".displayingVideo");
+    if (user.type !== "screen") {
+        requestAnimationFrame(videoChecker);
+        return;
+    }
+    let videoEl = $(".video_" + using_screen_layout);
     videoEl.volume = globalMute ? 0 : settings.volume;
 
 
@@ -836,7 +859,7 @@ function videoChecker() {
         let realDuration = now - data.videoInfo.startTime;
         let delay = Math.abs(currentDur - realDuration);
         $(".videoDelayTracker").innerHTML = Math.round(delay); 
-        if (delay > 200) {
+        if (delay > 500) {
             //Fix Duration if delay is greater than 200ms
             videoEl.currentTime = (realDuration)/1000;
         }
@@ -850,6 +873,7 @@ function videoChecker() {
             }
             videoEl.pause();
             videoEl.hide();
+            startFireworks();
         }
     }
 
@@ -860,27 +884,30 @@ function videoChecker() {
 function updateAdminMusicControls() {
     if (!user.adminLevel > 0) return;
 
-
-    if (data.videoInfo?.startTime) {
-        if ($(".adminMusic").style.display !== "flex")
-            $(".adminMusic").show("flex");
-    } else {
-        if ($(".adminMusic").style.display !== "none")
-            $(".adminMusic").hide();
+    if (video_controller !== "client") {
         
-        return;
+        if (data.videoInfo?.startTime) {
+            if ($(".adminMusic").style.display !== "flex")
+                $(".adminMusic").show("flex");
+        } else {
+            if ($(".adminMusic").style.display !== "none")
+                $(".adminMusic").hide();
+            
+            return;
+        }
+
+        let totalTime = new _time(data.videoInfo.duration,"duration").format("MM:SS");
+        let currentTime;
+        if (data.videoInfo.pausedAt) {
+            if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = data.videoInfo.pausedAt;
+        } else {
+            if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = Date.now() - data.videoInfo.startTime;
+        }
+        currentTime = new _time($(".adminTimerScroll").value,"duration").format("MM:SS");
+        $(".adminTimer").innerHTML = currentTime + "/" + totalTime;
+        $(".adminTimerScroll").max = data.videoInfo.duration; 
+        
     }
-    let totalTime = new _time(data.videoInfo.duration,"duration").format("MM:SS");
-    let currentTime;
-    if (data.videoInfo.pausedAt) {
-        if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = data.videoInfo.pausedAt;
-    } else {
-        if (!$(".adminTimerScroll").scrolling) $(".adminTimerScroll").value = Date.now() - data.videoInfo.startTime;
-    }
-    currentTime = new _time($(".adminTimerScroll").value,"duration").format("MM:SS");
-    $(".adminTimer").innerHTML = currentTime + "/" + totalTime;
-    $(".adminTimerScroll").max = data.videoInfo.duration; 
-    
 
 
     if (data.videoInfo?.playing) {
@@ -1053,3 +1080,134 @@ function updateAdminUsers() {
         })
     }
 }
+
+
+function fireworkMover() {
+
+    let rect = $('.s2_screen_display').getBoundingClientRect();
+    
+    for (let i = 0; i < $(".fw").length; i++) {
+        $(".fw")[i].css({
+            left: rnd(rect.width) + "px",
+            height: rnd(rect.height) + "px",
+        })
+    }
+
+    setTimeout(fireworkMover,1300);
+}
+fireworkMover();
+
+
+let fireworks = [];
+class firework {
+    constructor(container) {
+        this.container = container;
+        this.div = container.create("div.firework");
+        this.div.hide();
+        this.working = false;
+    }
+    getColor() {
+        this.color = _color("rnd").ogColor;
+    }
+    getPos() {
+        let rect = this.container.getBoundingClientRect();
+        console.log(rect)
+        this.pos = {
+            x: rnd(rect.width),
+            y: rnd(rect.height),
+        }
+    }
+    start() {
+        this.working = true;
+        let Class = this;
+        setTimeout(function() {
+            if (!Class.working) return;
+            Class.getColor();
+            Class.div.css({
+                color: Class.color,
+                background: Class.color,
+            })
+            Class.div.show();
+            Class.getPos();
+            Class.div.classRemove("firework_transition");
+            let rect = Class.container.getBoundingClientRect();
+            Class.div.css({
+                left: Class.pos.x + "px",
+                top: rect.height + "px",
+                height: "0px",
+                opacity: 1,
+            })
+            
+
+            setTimeout(function() {
+                if (!Class.working) return;
+                Class.div.classAdd("firework_transition");
+                Class.div.css({
+                    top: (Class.pos.y) + "px",
+                    height: "200px",
+                    opacity: 0,
+                })
+
+                setTimeout(function() {
+                if (!Class.working) return;
+                    Class.div.classRemove("firework_transition");
+                    setTimeout(function() {
+                        Class.div.css({
+                            opacity: "",
+                            height: "",
+                        });
+                        
+                        setTimeout(function() {
+                            Class.div.classAdd("firework_explode");
+                        },100)
+
+                    },200)
+                },1500);
+            },300)
+
+
+            setTimeout(function() {
+                if (!Class.working) return;
+                Class.div.hide();
+                Class.start();
+                Class.div.css({
+                    animation: "",
+                })
+                Class.div.classRemove("firework_explode");
+            },5000)
+
+        },rnd(9999));
+
+    }
+
+    stop() {
+        this.div.hide();
+        this.working = false;
+    }
+}
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+fireworks.push(new firework($('.s2_screen_display')));
+
+function stopFireworks() {
+    for (let i = 0; i < fireworks.length; i++) {
+        fireworks[i].stop();
+    }
+};
+
+function startFireworks() {
+    for (let i = 0; i < fireworks.length; i++) {
+        fireworks[i].start();
+    }
+};
+
+startFireworks();

@@ -152,6 +152,7 @@ $("music_skip").on("click touch",() => {
     socket.emit("adminControls","Skip Song");
 })
 $("music_play").on("click touch",() => {
+    console.log("hit")
 
     if ($("music_play").src.includes("pause")) {
         socket.emit("adminControls","Pause Song"); //Pause Song
@@ -256,6 +257,9 @@ $(".singAlong").on("click touch",function() {
 /////////////////////////
 //    Popup Options    //
 /////////////////////////
+$(".prompt_cancel").on("click touch",function() {
+    $(".promptQR").hide();
+})
 $(".promptOK").on("click touch",function() {
     $(".promptQR").hide();
     socket.emit("PromptOk",user.uid)
@@ -269,7 +273,7 @@ $(".popup_cancel").on("click",function() {
 //////////////////////////
 //    SCREEN OPTIONS    //
 //////////////////////////
-$(".scren_finish").on("click",() => {
+$(".scren_finish")[0].on("click",() => {
     if ($("screen_input_qr").checked) $(".qrCodeHolder").show("flex"); 
     else $(".qrCodeHolder").hide();
     if ($("screen_input_queue").checked) $(".screenQueue").show("flex"); 
@@ -282,12 +286,27 @@ $(".scren_finish").on("click",() => {
     else globalMute = true;
 
     if (globalMute) settings.volume = 0;
+    using_screen_layout = "a";
 
     setScene("screen");
     user.type = "screen";
     socket.emit("request_qr",qrURL);
     socket.emit("screenJoined",sessionCode,user.code);
 })
+
+$(".scren_finish")[1].on("click",() => {
+    if ($("screen_input_muted").checked) globalMute = false;
+    else globalMute = true;
+
+    if (globalMute) settings.volume = 0;
+    setScene("screen_2");
+    using_screen_layout = "b";
+    user.type = "screen";
+    socket.emit("request_qr",qrURL);
+    socket.emit("screenJoined",sessionCode,user.code);
+
+
+});
 
 
 

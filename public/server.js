@@ -37,21 +37,30 @@ socket.on("updatedQueue",(server_queue) => {
 
 socket.on("settingSong",(obj) => {
     if (user.type !== "screen") return;
-    setAppearingText(obj.song,"Sung by",obj.singer);
+    setAppearingText(obj.song,"Sung by",obj.singer,"Singer use your phone to start song.");
 })
 
 socket.on("hidePromptOK",() => {
  $(".promptQR").hide();   
 })
 socket.on("setUserPrompt", (userID) => {
-    if (user.uid === userID) {
+    if (user.type === "screen") return;
+    if (user.uid === userID || user.adminLevel > 0) {
         let obj = structuredClone(data.queue[0]);
         obj.date = Date.now();
         obj.type = "addable";
         obj.playing = false;
         if (!settings.testing_mode) user.history.push(obj);
         ls.save("history",user.history);
+
+        $(".popup_title2").html("Your Songs Next!");
+        $(".prompt_cancel").hide();
+        if (user.uid !== userID) {
+            $(".popup_title2").html("Start Song For Singer?");
+            $(".prompt_cancel").show("flex");
+        }
         promptQR();
+
     }
 });
 socket.on("screenVideoUpdate",(videoStats) => {
@@ -78,7 +87,7 @@ socket.on("returningAllowedChannels",(serverData) => {
 
 
 socket.on("qr_result", serverData => {
-    $(".qrCodeImg").src = "data:image/png;base64," + serverData.base64;
+    $(".qr_img_" + using_screen_layout).src = "data:image/png;base64," + serverData.base64;
 })
 
 socket.on("allowAdmin",(adminSettings,goToAdmin,adminLevel) => {
@@ -104,4 +113,48 @@ socket.on("queueStateChange",(queueID,status) => {
 })
 socket.on("updateBanState",(state) => {
     user.banned = state;
+})
+socket.on("startSong_client",(videoID) => {
+    video_controller = "client";
+    if (user.adminLevel > 0) 
+        $(".adminMusic").show("flex");
+    if (user.type !== "screen") return;
+    playVideo(videoID,true);
+})
+socket.on("hideVideoPlayer",() => {
+    video_controller = "client";
+    $(".adminMusic").hide();
+})
+socket.on("showVideoPlayer",() => {
+    video_controller = "client";
+    $(".adminMusic").show("flex");
+})
+socket.on("musicControl",(setting) => {
+    if (user.type !== "screen") return;
+    let videoEl = $(".displayingVideo");
+    if (!videoEl) return;
+    if (setting === "play") {
+        videoEl.play();
+    }
+    if (setting === "pause") {
+        videoEl.pause();
+    }
+    if (setting === "restart") {
+        videoEl.currentTime = 0;
+    }
+    if (setting === "skip") {
+        videoEl.currentTime = videoEl.duration - 0.5;
+        videoEl.play();
+    }
+    if (setting === "minus_10") {
+        videoEl.currentTime -= 10;
+    }
+    if (setting === "plus_10") {
+        videoEl.currentTime += 10;
+    }
+})
+socket.on("setVolume",(volume) => {
+    if (user.type !== "screen") return;
+    $(".displayingVideo").volume = volume;
+
 })

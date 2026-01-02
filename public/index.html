@@ -54,12 +54,34 @@
         </div>
 
     </div>
+    <div class="scene" id="scene_screen_2">
+        <div class="s2_column_a">
+            <div class="s2_screen_display">
+                <div class="appearingText">
+                    <div class="appearingTextLarge" id="appearingText1">Scan QR To Add Songs</div>
+                    <div class="appearingTextSmall" id="appearingText2"></div>
+                    <div class="appearingTextLarge" id="appearingText3"></div>
+                    <div class="appearingTextLarge appearingTextColored" id="appearingText4"></div>
+                </div>
 
+                <video class="displayingVideo video_b video_foreground"></video>
+
+            </div>
+            <div class="s2_bottom_row">
+                <div class="s2_qr_holder">
+                    <img class="qrCodeImg qr_img_b" alt=""></div>
+                <div class="s2_art_display">
+                    <img src="screen_banner.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="s2_column_b glow-gold queueList queue_b"></div>
+    </div>
     <div class="scene" id="scene_screen">
         <div class="logo screenLogo screenLogo2"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
         <div class="qrCodeHolder">
 
-            <img class="qrCodeImg" alt="">
+            <img class="qrCodeImg qr_img_a" alt="">
         </div>
         <div class="displayingPort">
             <div class="appearingText">
@@ -67,10 +89,9 @@
                 <div class="appearingTextSmall" id="appearingText2"></div>
                 <div class="appearingTextLarge" id="appearingText3"></div>
             </div>
-            <video class="displayingVideo"></video>
-            <div class="durrationBar"></div>
+            <video class="displayingVideo video_a"></video>
         </div>
-        <div class="queueList column_align_center column1Fill screenQueue"></div>
+        <div class="queueList queue_a column_align_center column1Fill screenQueue"></div>
 
         <div class="videoDelayTracker"></div>
     </div>
@@ -259,15 +280,22 @@
             <div class="explanitoryText">Enable or mute audio playback from this screen.</div>
             
             <div class="scren_finish">Continue</div>
+            
+            <div class="mini_text">Or proceed To Screen Layout B</div>
+            
+            <div class="scren_finish">Use Screen Layout B</div>
+
         </div>
     </div>
 
     <div class="global_popup promptQR">
         <div class="blurredBackground"></div>
         <div class="popupBody column_align_center">
-            <div class="popup_title2">Your Songs Next!</div>
-            <button class="popup_button promptOK">Start Song</button>
-
+            <div class="popup_title2"></div>
+            <div class="popup_bottomRow">
+                <button class="popup_button prompt_cancel">Cancel</button>
+                <button class="popup_button promptOK">Start Song</button>
+            </div>
         </div>
     </div>
     <div class="global_popup popup">
