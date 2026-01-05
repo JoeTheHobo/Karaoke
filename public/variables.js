@@ -6,7 +6,7 @@ let socket = null;
 let reconnectTimer = null;
 let sessionCode = ls.get("sessionCode",false);
 let songSearchExtension = "Karaoke";
-let qrURL = "https://ettie-apocatastatic-marni.ngrok-free.dev/user";
+let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
 let settings = {
     volume: .75,
     testing_mode: false,
