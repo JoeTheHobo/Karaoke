@@ -13,73 +13,12 @@ setSplash();
 async function searchSong(q) {
     $(".songTitle").simpleBlur();
     if (!q) return;
-    q = q + " " + songSearchExtension;
-
-    const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
-    const videos = await res.json();
-
-    const resultsDiv = $(".songResultsDiv");
-    $(".songResultsGradient").css("opacity",1);
-    $(".userStatSongs").hide();
-    $(".addSongTopRow").show("flex");
-    resultsDiv.html("");
-
-    let vid_index = -1;
-    let list = [];
-    videos.forEach(v => {
-        vid_index++;
-        // Only include videos from approved channels
-        let approved = false;
-        let index;
-        checkingAproved: for (let i = 0; i < data.allowedChannels.length; i++) {
-            let channelName = v.channel.trim();
-            if (data.allowedChannels[i].name.toLowerCase() == channelName.toLowerCase()) {
-                if (data.allowedChannels[i].type !== songSearchExtension.toLowerCase()) continue;
-                approved = true;
-                index = i;
-                break checkingAproved;
-            }
-        }
-        if (!approved) return;
-
-        let set = fixTitle(v.title,index);
-
-        let obj = {
-            song: set.song,
-            artist: set.artist,
-            channel: v.channel,
-            type: "addable",
-            url: v.url,
-            videoId: v.videoId,
-            extension: songSearchExtension,
-        }
-
-        for (let i = 0; i < list.length; i++) {
-            let l = list[i];
-            if (l.length) l = l[0];
-            if (l.artist.toLowerCase() === set.artist.toLowerCase() &&
-                l.song.toLowerCase() === set.song.toLowerCase()) {
-                    if (list[i].length) list[i].push(obj);
-                    else list[i] = [list[i],obj];
-                    return;
-                }
-        }
-
-        list.push(obj)
-    });
-    displaySongs($(".songResultsDiv"),list,"search")
-
-
-    if (videos.length === 0) {
-        $(".songResultsDiv").html("");
-        let errorText = $(".songResultsDiv").create("div.errorText>No Results Found");
-    }
+    socket.emit("searchSong",q,songSearchExtension);
+    return;
 }
 
-function fixTitle(title,index) {
+function fixTitle(title,format) {
   if (!title) return { song: "", artist: "" };
-
-  let format = data.allowedChannels[index].format;
 
   let first = title.subset(0,format[1] + "\\before");
   let secondFull = title.subset(format[1] + "\\after",true);
@@ -1111,7 +1050,6 @@ class firework {
     }
     getPos() {
         let rect = this.container.getBoundingClientRect();
-        console.log(rect)
         this.pos = {
             x: rnd(rect.width),
             y: rnd(rect.height),

@@ -78,12 +78,53 @@ socket.on("updatedUsers",(users) => {
 })
 
 
+socket.on("returnedSearchedSongs",(videos) => {
+
+    const resultsDiv = $(".songResultsDiv");
+    $(".songResultsGradient").css("opacity",1);
+    $(".userStatSongs").hide();
+    $(".addSongTopRow").show("flex");
+    resultsDiv.html("");
+
+    let list = [];
+    videos.forEach(v => {
+        let set = fixTitle(v.title,v.format);
+
+        let obj = {
+            song: set.song,
+            artist: set.artist,
+            channel: v.channelName,
+            type: "addable",
+            url: v.url,
+            videoId: v.videoId,
+            extension: songSearchExtension,
+        }
+
+        for (let i = 0; i < list.length; i++) {
+            let l = list[i];
+            if (l.length) l = l[0];
+            if (l.artist.toLowerCase() === set.artist.toLowerCase() &&
+                l.song.toLowerCase() === set.song.toLowerCase()) {
+                    if (list[i].length) list[i].push(obj);
+                    else list[i] = [list[i],obj];
+                    return;
+                }
+        }
+
+        list.push(obj)
+    });
+    displaySongs($(".songResultsDiv"),list,"search")
+
+
+    if (videos.length === 0) {
+        $(".songResultsDiv").html("");
+        let errorText = $(".songResultsDiv").create("div.errorText>No Results Found");
+    }
+})
+
 
 socket.on("promptQR",promptQR);
 
-socket.on("returningAllowedChannels",(serverData) => {
-    data.allowedChannels = serverData.YTChannels;
-})
 
 
 socket.on("qr_result", serverData => {

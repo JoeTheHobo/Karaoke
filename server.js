@@ -61,59 +61,20 @@ app.use(express.static("public"));
 const axios = require("axios");
 
 const { loadStats, saveStats, addPlay, sortStatsByPopular } = require('./songStats');
+const { searchYTChannel, buildSearchIndex, searchLocalIndex } = require("./searchAndSave.js")
 let global_songStats = loadStats("downloadedData.json");
 let global_popularSongs = sortStatsByPopular(global_songStats);
 
-const { fixDownloads, findAndDownloadImage } = require("./fixDownloads.js");
+const { findAndDownloadImage } = require("./fixDownloads.js");
 const e = require("express");
 
-//fixDownloads("./public/Song Downloads","./downloadedData.json");
+buildSearchIndex();
 
 app.get("/imagelist", (req, res) => {
   const dir = path.join(__dirname, "public/songPhotos");
   const files = fs.readdirSync(dir);
   res.json(files);
 });
-app.get("/api/search", async (req, res) => {
-  const query = req.query.q;
-  if (!query) return res.status(400).send("Missing search query");
-
-  const apiKey = "AIzaSyD_4wsox7STzRLzqJhctwuCKAHqddDc-uQ";
-  let allVideos = [];
-  const baseURL = "https://www.googleapis.com/youtube/v3/search";
-  let nextPageToken = "";
-
-  try {
-    const response = await axios.get(baseURL, {
-      params: {
-        part: "snippet",
-        q: query,
-        type: "video",
-        maxResults: 10,
-        key: apiKey,
-        safeSearch: "none",
-        pageToken: nextPageToken, // <--- this tells YouTube which page we want
-      },
-    });
-
-    const data = response.data;
-    allVideos.push(...data.items);
-    
-    // Return simplified results
-    const results = allVideos.map((item) => ({
-        videoId: item.id.videoId,
-        title: item.snippet.title,
-        channel: item.snippet.channelTitle,
-        url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-    }));
-
-    res.json(results);
-  } catch (err) {
-    console.error("YouTube API error:", err.message);
-    res.status(500).send("YouTube API error");
-  }
-});
-
 
 // Serve index.html for any route
 app.get(/.*/, (req, res) => {
@@ -123,7 +84,6 @@ app.get(/.*/, (req, res) => {
 // Handle connections
 io.on("connection", (socket) => {
   console.log("Station connected:", socket.id);
-    gatherAllowedChannels();
     socket.uid = false;
     socket.adminLevel = 0;
 
@@ -173,47 +133,7 @@ io.on("connection", (socket) => {
     })
     socket.on("addAllowedChannel",(obj) => {
       if (socket.adminLevel < 2) return;
-
-      const filePath = path.join(__dirname, "allowedChannels.json");
-      fs.readFile(filePath, "utf8", (err, data) => {
-        if (err) {
-          console.error("Failed to read allowedChannels.json", err);
-          return;
-        }
-
-        let json;
-        try {
-          json = JSON.parse(data);
-        } catch (e) {
-          console.error("Invalid JSON in allowedChannels.json", e);
-          return;
-        }
-
-        // Ensure array exists
-        if (!Array.isArray(json.YTChannels)) {
-          json.YTChannels = [];
-        }
-
-        // Optional: prevent duplicates by name
-        const exists = json.YTChannels.some(
-          ch => ch.name.toLowerCase() === obj.name.toLowerCase()
-        );
-        if (exists) return;
-
-        json.YTChannels.push(obj);
-
-        fs.writeFile(
-          filePath,
-          JSON.stringify(json, null, 2), // pretty-print
-          "utf8",
-          (err) => {
-            if (err) {
-              console.error("Failed to write allowedChannels.json", err);
-            }
-            gatherAllowedChannels();
-          }
-        );
-      });
+      searchYTChannel(obj);
     })
     socket.on("sendBanState",(user,banState) => {
       if (socket.adminLevel < 2) return;
@@ -267,6 +187,9 @@ io.on("connection", (socket) => {
       socket.join("music");
       socket.emit("setSocket",sessionCode,false,state.music);
       socket.emit("updateAdminSettings",settings);
+    })
+    socket.on("searchSong",(query,extension) => {
+      socket.emit("returnedSearchedSongs",searchLocalIndex(query,extension))
     })
     socket.on("PromptOk",(id) => {
       if (state.waitingOnQR.accepted) return;
@@ -453,18 +376,6 @@ let songStats = ${JSON.stringify(global_songStats, null, 2)};
       fs.writeFileSync(filePath, fileContents, 'utf8');
 }
 downloadSongStatsToJS();
-function gatherAllowedChannels() {
-  try {
-    
-    const data = fs.readFileSync("./allowedChannels.json", "utf8");
-    const allowedChannels = JSON.parse(data);
-
-    io.emit("returningAllowedChannels", allowedChannels);
-  } catch (err) {
-    console.error("Error reading allowedChannels.json:", err);
-    io.emit("returningAllowedChannels", { error: "Failed to load allowed channels" });
-  }
-}
 
 let queueWorking = false;
 function queueHandler() {

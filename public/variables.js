@@ -13,7 +13,6 @@ let settings = {
 }
 let globalMute = false;
 let data = {
-    allowedChannels: undefined,
     selectedSong: undefined,
     videoInfo: {},
     popularSongs: [],

@@ -1,12 +1,11 @@
 /*
     The Plan:
-
-    Function for searching a youtubechannel
-
+    Complete
+    Function for searching a youtubechannel 
     Create a function to gather all the data into one JS object
 
+    In Progress
     Create a function that searches the cache
-
     create a daily checker
 */
 const fs = require("fs");
@@ -17,7 +16,8 @@ const CACHE_DIR = path.join(__dirname, "searchCache");
 
 let searchIndex = []; // merged in-memory index
 
-async function searchYTChannel(channelUrl) {
+async function searchYTChannel(obj) {
+  let channelUrl = obj.name;
   const channelId = await resolveChannelId(channelUrl);
   const filePath = path.join(CACHE_DIR, `${channelId}.json`);
 
@@ -25,20 +25,28 @@ async function searchYTChannel(channelUrl) {
     return { status: "exists", channelId };
   }
 
+  console.log("-----------------");
+  console.log("Adding",obj.name)
+
   const uploadsPlaylistId = await getUploadsPlaylistId(channelId);
+  
+  console.log("Gathering Videos")
   const videos = await crawlUploadsPlaylist(uploadsPlaylistId);
 
   const payload = {
     channelId,
     channelUrl,
     lastChecked: new Date().toISOString(),
+    format: obj.format,
+    type: obj.type,
     videos
   };
 
+  console.log("Writing To File");
   fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
+  console.log("Finished");
   return { status: "created", channelId };
 }
-
 async function resolveChannelId(input) {
   const apiKey = "AIzaSyD_4wsox7STzRLzqJhctwuCKAHqddDc-uQ";
 
@@ -148,6 +156,7 @@ async function crawlUploadsPlaylist(uploadsPlaylistId) {
   let videos = [];
   let nextPageToken = null;
 
+  let check = 1;
   do {
     const res = await axios.get(
       "https://www.googleapis.com/youtube/v3/playlistItems",
@@ -161,6 +170,8 @@ async function crawlUploadsPlaylist(uploadsPlaylistId) {
         },
       }
     );
+    console.log("Video check",check)
+    check++;
 
     const items = res.data.items || [];
 
@@ -173,8 +184,8 @@ async function crawlUploadsPlaylist(uploadsPlaylistId) {
       videos.push({
         videoId: item.snippet.resourceId.videoId,
         title,
-        normalizedTitle: normalizeTitle(title),
         channelId: item.snippet.channelId,
+        normalizedTitle: normalize(title),
         channelName: item.snippet.channelTitle,
         url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
       });
@@ -189,13 +200,6 @@ async function crawlUploadsPlaylist(uploadsPlaylistId) {
 
   return videos;
 }
-function normalizeTitle(str) {
-  return str
-    .toLowerCase()
-    .replace(/[^a-z0-9 ]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 function buildSearchIndex() {
   searchIndex = [];
@@ -208,19 +212,75 @@ function buildSearchIndex() {
     );
 
     for (const video of data.videos) {
+      video.format = data.format;
+      video.type = data.type;
       searchIndex.push(video);
     }
   }
-  return searchIndex;
 }
 
-function searchLocalIndex(search) {
+function searchLocalIndex(query, extension, threshold = 0.9) {
+    extension = extension.toLowerCase();
     const q = normalize(query);
     if (!q) return [];
 
     return searchIndex
-        .filter(v => v.normalizedTitle.includes(q))
-        .slice(0, 20);
+        .filter(v => v.type === extension)
+        .map(v => {
+            const title = v.normalizedTitle;
+
+            // FAST PATHS
+            if (title.includes(q)) {
+                return { ...v, score: 1 };
+            }
+
+            // prefix boost (eminem → emi)
+            if (title.startsWith(q)) {
+                return { ...v, score: 0.95 };
+            }
+
+            // FUZZY ONLY IF NECESSARY
+            const score = wordSimilarity(q, title);
+            return { ...v, score };
+        })
+        .filter(v => v.score >= threshold)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 50);
+}
+function wordSimilarity(query, text) {
+  const words = text.split(" ");
+  let best = 0;
+
+  for (const word of words) {
+      const score = similarity(query, word);
+      if (score > best) best = score;
+  }
+
+  return best;
+}
+function similarity(a, b) {
+    if (!a || !b) return 0;
+
+    const matrix = Array.from({ length: a.length + 1 }, () =>
+        Array(b.length + 1).fill(0)
+    );
+
+    for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+    for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+    for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            matrix[i][j] = Math.min(
+                matrix[i - 1][j] + 1,
+                matrix[i][j - 1] + 1,
+                matrix[i - 1][j - 1] + cost
+            );
+        }
+    }
+
+    const distance = matrix[a.length][b.length];
+    return 1 - distance / Math.max(a.length, b.length);
 }
 function normalize(str) {
   return str
@@ -249,7 +309,12 @@ function dailyChecker() {
 
 module.exports = {
     searchYTChannel,
+    buildSearchIndex,
+    searchLocalIndex
+}
+/*
+
     returnSearchCache,
     searchCache,
     dailyChecker,
-}
+*/
