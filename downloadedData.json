@@ -631,7 +631,7 @@
   },
   "U9AV8FR4Ogk": {
     "videoId": "U9AV8FR4Ogk",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=U9AV8FR4Ogk",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -861,6 +861,24 @@
     "url": "https://www.youtube.com/watch?v=jrf8b820dMM",
     "videoId": "jrf8b820dMM",
     "channel": "Core Karaoke",
+    "extension": "Karaoke"
+  },
+  "9DU90VBeF5c": {
+    "plays": 1,
+    "song": "Opalite",
+    "artist": "Taylor Swift",
+    "url": "https://www.youtube.com/watch?v=9DU90VBeF5c",
+    "videoId": "9DU90VBeF5c",
+    "channel": "EasyKaraoke",
+    "extension": "Karaoke"
+  },
+  "urqFk4H0Nts": {
+    "plays": 1,
+    "song": "Zero",
+    "artist": "Imagine Dragons",
+    "url": "https://www.youtube.com/watch?v=urqFk4H0Nts",
+    "videoId": "urqFk4H0Nts",
+    "channel": "MrEntertainerKaraoke",
     "extension": "Karaoke"
   }
 }

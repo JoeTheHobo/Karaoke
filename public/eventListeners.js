@@ -237,8 +237,6 @@ $(".singAlone").on("click touch",function() {
     $(".singMode").classRemove("active");
     this.$P().classAdd("active");
     songSearchExtension = "Karaoke";
-    $(".songResultsDiv").html("")
-    $(".songResultsDiv").create("div.spinner");
     searchSong(this.$P().$P().$P().$(".songTitle").value);
 
 })
@@ -246,8 +244,6 @@ $(".singAlong").on("click touch",function() {
     $(".singMode").classRemove("active");
     this.$P().classAdd("active");
     songSearchExtension = "Lyrics";
-    $(".songResultsDiv").html("")
-    $(".songResultsDiv").create("div.spinner");
     searchSong(this.$P().$P().$P().$(".songTitle").value);
 })
 

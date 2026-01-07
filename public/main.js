@@ -13,6 +13,13 @@ setSplash();
 async function searchSong(q) {
     $(".songTitle").simpleBlur();
     if (!q) return;
+    const resultsDiv = $(".songResultsDiv");
+    $(".songResultsGradient").css("opacity",1);
+    $(".userStatSongs").hide();
+    $(".addSongTopRow").show("flex");
+    resultsDiv.html("");
+    $(".songResultsDiv").html("")
+    $(".songResultsDiv").create("div.spinner");
     socket.emit("searchSong",q,songSearchExtension);
     return;
 }

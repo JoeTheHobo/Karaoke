@@ -81,9 +81,6 @@ socket.on("updatedUsers",(users) => {
 socket.on("returnedSearchedSongs",(videos) => {
 
     const resultsDiv = $(".songResultsDiv");
-    $(".songResultsGradient").css("opacity",1);
-    $(".userStatSongs").hide();
-    $(".addSongTopRow").show("flex");
     resultsDiv.html("");
 
     let list = [];

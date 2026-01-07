@@ -532,7 +532,7 @@ function downloadVideo(videoId) {
 function downloadVideo_helper(videoId) {
   const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
   const downloadFolder = path.join(__dirname, "public/Song Downloads");
-  const ffmpegPath = "D:\\libraries\\ffmpeg\\bin\\ffmpeg.exe";
+  const ffmpegPath = "C:\\ffmpeg-8.0-essentials_build\\bin\\ffmpeg.exe";
 
   // Save file as Song Downloads\<videoId>.mp4
   const outputPath = path.join(downloadFolder, `${videoId}.%(ext)s`);
