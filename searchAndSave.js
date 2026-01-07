@@ -229,58 +229,51 @@ function searchLocalIndex(query, extension, threshold = 0.9) {
         .map(v => {
             const title = v.normalizedTitle;
 
-            // FAST PATHS
-            if (title.includes(q)) {
-                return { ...v, score: 1 };
-            }
-
-            // prefix boost (eminem → emi)
-            if (title.startsWith(q)) {
-                return { ...v, score: 0.95 };
-            }
-
-            // FUZZY ONLY IF NECESSARY
-            const score = wordSimilarity(q, title);
+            const score = simple_similarity(q, title);
             return { ...v, score };
         })
         .filter(v => v.score >= threshold)
         .sort((a, b) => b.score - a.score)
         .slice(0, 50);
 }
-function wordSimilarity(query, text) {
-  const words = text.split(" ");
-  let best = 0;
+function simple_similarity(a,b) {
+  let aTokens = normalize(a).split(" ");
+  let bTokens = normalize(b).split(" ");
 
-  for (const word of words) {
-      const score = similarity(query, word);
-      if (score > best) best = score;
+  let score = 0;
+  let maxScore = 0;
+
+  aWords: for (const q of aTokens) {
+    maxScore += q.length;
+    bWords: for (const w of bTokens) {
+      if (q === w) {
+        score += q.length;
+        continue aWords;
+      }
+      if (Math.abs(w.length - q.length) > 2) continue;
+
+
+      let i = 0, j = 0, edits = 0;
+      while (i < q.length && j < w.length) {
+        if (q[i] === w[j]) {
+          i++; j++;
+        } else {
+          edits++;
+          if (edits > 2) {
+            continue bWords;
+          };
+          if (q.length > w.length) i++;
+          else if (q.length > w.length) j++;
+          else { i++; j++; }
+        }
+      }
+
+      score += q.length/2;
+
+    }
   }
 
-  return best;
-}
-function similarity(a, b) {
-    if (!a || !b) return 0;
-
-    const matrix = Array.from({ length: a.length + 1 }, () =>
-        Array(b.length + 1).fill(0)
-    );
-
-    for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
-    for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
-
-    for (let i = 1; i <= a.length; i++) {
-        for (let j = 1; j <= b.length; j++) {
-            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-            matrix[i][j] = Math.min(
-                matrix[i - 1][j] + 1,
-                matrix[i][j - 1] + 1,
-                matrix[i - 1][j - 1] + cost
-            );
-        }
-    }
-
-    const distance = matrix[a.length][b.length];
-    return 1 - distance / Math.max(a.length, b.length);
+  return score/maxScore;
 }
 function normalize(str) {
   return str
