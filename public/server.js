@@ -95,7 +95,9 @@ socket.on("returnedSearchedSongs",(videos) => {
             url: v.url,
             videoId: v.videoId,
             extension: songSearchExtension,
+            plays: songStats[v.videoId]?.plays ?? 0,
         }
+        
 
         for (let i = 0; i < list.length; i++) {
             let l = list[i];
@@ -110,6 +112,9 @@ socket.on("returnedSearchedSongs",(videos) => {
 
         list.push(obj)
     });
+
+    list.sort((a, b) => getTotalPlays(b) - getTotalPlays(a));
+
     displaySongs($(".songResultsDiv"),list,"search")
 
 
@@ -118,6 +123,17 @@ socket.on("returnedSearchedSongs",(videos) => {
         let errorText = $(".songResultsDiv").create("div.errorText>No Results Found");
     }
 })
+function getTotalPlays(item) {
+    // single song object
+    if (!Array.isArray(item)) {
+        return item?.plays ?? 0;
+    }
+
+    // array of song objects
+    return item.reduce((sum, song) => {
+        return sum + (song?.plays ?? 0);
+    }, 0);
+}
 
 
 socket.on("promptQR",promptQR);

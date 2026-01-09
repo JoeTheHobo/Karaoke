@@ -74,7 +74,7 @@ let songStats = {
   },
   "5bzd2Pv01Rs": {
     "videoId": "5bzd2Pv01Rs",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=5bzd2Pv01Rs",
     "channel": "MrEntertainerKaraoke",
     "song": "Somebody Save Me",
@@ -272,7 +272,7 @@ let songStats = {
   },
   "F-p2BQ4H1nA": {
     "videoId": "F-p2BQ4H1nA",
-    "plays": 1,
+    "plays": 2,
     "url": "https://www.youtube.com/watch?v=F-p2BQ4H1nA",
     "channel": "Musisi Karaoke",
     "song": "Lose Yourself",
@@ -380,7 +380,7 @@ let songStats = {
   },
   "Hqh5Kwf_YEg": {
     "videoId": "Hqh5Kwf_YEg",
-    "plays": 1,
+    "plays": 2,
     "url": "https://www.youtube.com/watch?v=Hqh5Kwf_YEg",
     "channel": "MrEntertainerKaraoke",
     "song": "You Probably Couldn't See The Lights But You Were Staring Straight At Me",
@@ -578,7 +578,7 @@ let songStats = {
   },
   "s7U6QFn9rZE": {
     "videoId": "s7U6QFn9rZE",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=s7U6QFn9rZE",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "Babydoll ",
@@ -632,7 +632,7 @@ let songStats = {
   },
   "U9AV8FR4Ogk": {
     "videoId": "U9AV8FR4Ogk",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=U9AV8FR4Ogk",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -686,7 +686,7 @@ let songStats = {
   },
   "xXbk3InFCxY": {
     "videoId": "xXbk3InFCxY",
-    "plays": 4,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=xXbk3InFCxY",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -775,7 +775,7 @@ let songStats = {
     "extension": "Lyrics"
   },
   "-gs_SZM2lRk": {
-    "plays": 2,
+    "plays": 1,
     "song": "do re mi ",
     "artist": "blackbear",
     "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",
@@ -862,6 +862,24 @@ let songStats = {
     "url": "https://www.youtube.com/watch?v=jrf8b820dMM",
     "videoId": "jrf8b820dMM",
     "channel": "Core Karaoke",
+    "extension": "Karaoke"
+  },
+  "9DU90VBeF5c": {
+    "plays": 1,
+    "song": "Opalite",
+    "artist": "Taylor Swift",
+    "url": "https://www.youtube.com/watch?v=9DU90VBeF5c",
+    "videoId": "9DU90VBeF5c",
+    "channel": "EasyKaraoke",
+    "extension": "Karaoke"
+  },
+  "urqFk4H0Nts": {
+    "plays": 1,
+    "song": "Zero",
+    "artist": "Imagine Dragons",
+    "url": "https://www.youtube.com/watch?v=urqFk4H0Nts",
+    "videoId": "urqFk4H0Nts",
+    "channel": "MrEntertainerKaraoke",
     "extension": "Karaoke"
   }
 };

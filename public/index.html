@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4ade80">
 
-    <title>Kareoke Woods</title>
+    <title>Prime Kareoke</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
@@ -17,12 +17,12 @@
 
     <div id="splash">
         <div class="logo">
+            <div class="logoText logoBrownText">PRIME</div>
             <div class="logoText logoRedText">KARAOKE</div>
-            <div class="logoText logoBrownText">WOODS</div>
         </div>
     </div>
     <div class="scene" id="scene_adminSignin">
-        <div class="logo adminLogo"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
+        <div class="logo adminLogo"><div class="logoText logoBrownText">PRIME</div><div class="logoText logoRedText">KARAOKE</div></div>
         <div class="as_title">Enter Admin Pin</div>
         <div class="as_inputs">
             <div class="as_input as_input_empty">x</div>
@@ -78,7 +78,7 @@
         <div class="s2_column_b glow-gold queueList queue_b"></div>
     </div>
     <div class="scene" id="scene_screen">
-        <div class="logo screenLogo screenLogo2"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
+        <div class="logo screenLogo screenLogo2"><div class="logoText logoBrownText">PRIME</div><div class="logoText logoRedText">KARAOKE</div></div>
         <div class="qrCodeHolder">
 
             <img class="qrCodeImg qr_img_a" alt="">
@@ -99,15 +99,15 @@
     <div class="scene" id="scene_user">
         <div class="user_activity">
             <div class="signed_header column_align_center">
-                <div class="sideRow">
-                    <div class="logo"><div class="logoText logoBrownText">PRIME</div><div class="logoText logoRedText">KARAOKE</div></div>
-                    <div class="adminControlsHolder"><img src="img/dazzleIcons/settings.svg" class="adminControlsIcon global_invert" alt=""></div>
-                </div>
+                <div class="logo"><div class="logoText logoBrownText">PRIME</div><div class="logoText logoRedText">KARAOKE</div></div>
+                <img src="img/dazzleIcons/search_1.svg" class="findSongButton searchSmall search_hidden_3" alt="">
                 <div class="inputSearchContainer">
-                    <img src="img/dazzleIcons/search_1.svg" class="findSongButton searchSmall" alt="">
-                    <input type="text" enterkeyhint="done" class="songTitle" placeholder="Search songs or artists...">
-                    <img class="clearSearch" src="img/dazzleIcons/x_1.svg" alt="">
+                    <input type="text" enterkeyhint="done" class="songTitle search_hidden" placeholder="Search songs or artists...">
+                    <img class="clearSearch search_hidden" src="img/dazzleIcons/x_1.svg" alt="">
                 </div>
+                
+                <div class="adminControlsHolder"><img src="img/dazzleIcons/settings.svg" class="adminControlsIcon global_invert" alt=""></div>
+
             </div>
             <div class="addSongTopRow">
                 <div class="singMode active"><div class="singAlone">Karaoke</div></div>
@@ -115,11 +115,11 @@
             </div>
             <div class="userStatSongs column_align_center">
                 <div class="groupChoices">
+                    <div class="userStatDiv" id="globalStat_popular"><div class="userStatTitle">Popular</div><img class="userStatImg global_invert" src="img/fire.png" alt=""></div>
+                    <div class="userStatDiv" id="globalStat_artists"><div class="userStatTitle">Artists</div><img class="userStatImg global_invert" src="img/dazzleIcons/user_search.svg" alt=""></div>
                     <div class="userStatDiv" id="userStat_mostPlayed"><div class="userStatTitle">Your Most<br>Played</div><img class="userStatImg global_invert" src="img/dazzleIcons/most_played.svg" alt=""></div>
                     <div class="userStatDiv" id="userStat_Favorites"><div class="userStatTitle">Favorites</div><img class="userStatImg global_invert" src="img/dazzleIcons/heart.svg" alt=""></div>
                     <div class="userStatDiv" id="userStat_History"><div class="userStatTitle">History</div><img class="userStatImg global_invert" src="img/dazzleIcons/history.svg" alt=""></div>
-                    <div class="userStatDiv" id="globalStat_popular"><div class="userStatTitle">Popular</div><img class="userStatImg global_invert" src="img/fire.png" alt=""></div>
-                    <div class="userStatDiv" id="globalStat_artists"><div class="userStatTitle">Artists</div><img class="userStatImg global_invert" src="img/dazzleIcons/user_search.svg" alt=""></div>
                 </div>
             </div>
             <div class="songResultsDiv column_align_center"></div>
@@ -249,7 +249,7 @@
     <div class="savedImages" style="position:absolute; left:-9999px; top:-9999px; width:0; height:0; overflow:hidden;"></div>
 
     <div class="scene" id="scene_screenSelection">
-        <div class="logo screenLogo"><div class="logoText logoRedText">KARAOKE</div><div class="logoText logoBrownText">WOODS</div></div>
+        <div class="logo screenLogo"><div class="logoText logoBrownText">PRIME</div><div class="logoText logoRedText">KARAOKE</div></div>
 
         <div class="menu">
             <div class="title">Screen Layout</div>
@@ -267,7 +267,7 @@
                 <div class="adminLabel">Logo</div>
                 <input type="checkbox" checked="true" class="adminInputAll admin_input_checkbox" id="screen_input_logo">
             </div>
-            <div class="explanitoryText">Show the Karaoke Woods logo at the top of the screen.</div>
+            <div class="explanitoryText">Show the Prime Karaoke logo at the top of the screen.</div>
             <div class="adminSettingRow">
                 <div class="adminLabel">Status Text</div>
                 <input type="checkbox" checked="true" class="adminInputAll admin_input_checkbox" id="screen_input_screenText">

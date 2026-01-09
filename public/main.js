@@ -42,13 +42,47 @@ function fixTitle(title,format) {
 
   if (format[0] == "a") return {
     song: second.trim(),
-    artist: first.trim(),
+    artist: fixArtist(first.trim()),
   }
   
   if (format[0] == "s") return {
     song: first.trim(),
-    artist: second.trim(),
+    artist: fixArtist(second.trim()),
   }
+}
+function fixArtist(artistString) {
+    if (!artistString || typeof artistString !== "string") return "";
+
+    let artists = [];
+    let feats = [];
+    let breaks = [" & ",", "," and "];
+    const featRegex = /\s+(?:ft\.?|feat\.?)\s+/i;
+
+    // 1️⃣ Split main vs feat FIRST
+    const parts = artistString.split(featRegex);
+    const mainPart = parts[0];
+    const featPart = parts[1];
+
+    // 2️⃣ Helper to split by breaks
+    const splitArtists = (str) =>
+        str
+            .split(new RegExp(`\\s*(?:${breaks.join("|")})\\s*`))
+            .map(a => a.trim())
+            .filter(Boolean);
+
+    artists = splitArtists(mainPart);
+
+    if (featPart) {
+        feats = splitArtists(featPart);
+    }
+
+    // 3️⃣ Rebuild string
+    let result = artists.join(", ");
+    if (feats.length) {
+        result += " Ft. " + feats.join(", ");
+    }
+
+    return result;
 }
 
 function popup(text,func,affirmText = "Continue",allowAny = false) {
@@ -80,17 +114,23 @@ function clearSearch() {
     $(".songTitle").value("");
     $(".songResultsDiv").html("");
     $(".addSongTopRow").hide();
-    
+
+    $(".findSongButton").classAdd("search_hidden_3");
+    $(".inputSearchContainer").classRemove("inputFullBar");
+    $(".songTitle").simpleBlur();
+
     $(".songResultsGradient").css("opacity",0)
     
     $(".userStatSongs").show("flex");
 
-    if (user.favorites.length === 0) $("userStat_Favorites").hide();
-    else $("userStat_Favorites").show();
-    if (user.history.length === 0) $("userStat_History").hide();
-    else $("userStat_History").show();
-    if (user.history.length === 0) $("userStat_mostPlayed").hide();
-    else $("userStat_mostPlayed").show();
+    $("globalStat_artists").hide(); //Temporary hide, if wanted for future
+
+    if (user.favorites.length === 0) $("userStat_Favorites").classAdd("hidden_menu");
+    else $("userStat_Favorites").classRemove("hidden_menu");
+    if (user.history.length === 0) $("userStat_History").classAdd("hidden_menu");
+    else $("userStat_History").classRemove("hidden_menu");
+    if (user.history.length === 0) $("userStat_mostPlayed").classAdd("hidden_menu");
+    else $("userStat_mostPlayed").classRemove("hidden_menu");
 }
 clearSearch();
 function generateArtistsCatagory(parent) {

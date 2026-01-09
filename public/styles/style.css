@@ -4,7 +4,7 @@
 /*1011*/
 body,html {
     background-color: #77DD77;
-    background-image: url("../img/backgroundLeaf.png") ;
+    background-image: url("../img/background3.png");
     background-size: cover; /* Scales the image to cover the element */
     width: 100%;
     height: 100%;
@@ -192,21 +192,28 @@ input, select {
     opacity: 1;
     font-weight: bold;
 }
-
+.inputFullBar {
+    width: 95% !important;
+    padding-left: 30px;
+    border: 2px solid rgb(207, 207, 207);
+}
 .inputSearchContainer {
+    position: absolute;
     display: flex;
     flex-direction: row;
     align-items: center;
     border-radius: 3px;
     background-color: white;
+    margin-left: 10px;
+    z-index: 300;
     height: 40px;
-    width: 90%;
-    margin-top: 10px;
-    border: 2px solid rgb(207, 207, 207);
-    transition: all .1s ease-in-out;
+    width: 0;
+    overflow: hidden;
+    transition: all .2s ease-in-out;
+    box-sizing: border-box;
 }
 .inputSelected {
-    border: 2px solid rgb(91, 107, 255) !important;
+    border: 2px solid rgb(255, 91, 255) !important;
 }
 .songTitle {
     -webkit-appearance: none;  /* removes iOS default styles */
@@ -220,10 +227,12 @@ input, select {
     flex: 1;
 }
 .findSongButton {
-    height: 70%;
-    aspect-ratio: 1/1;
-    padding-right: 5px;
-    padding-left: 5px;
+    height: 32px;
+    width: 32px;
+    margin-left: 10px;
+    z-index: 302;
+    transition: all .2s;
+    transform: scale(0.75); 
 }
 
 
@@ -250,17 +259,17 @@ input, select {
     height: 95%;
 }
 .adminControlsHolder {
+    width: 30px;
+    margin-right: 10px;
     height: 30px;
-    aspect-ratio: 1/1;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 10px;
-    z-index: 500;
+    z-index: 299;
 }
 .adminControlsIcon {
-    width: 95%;
-    aspect-ratio: 1/1;
+    height: 30px;
+    width: 30px;
     z-index: 500;
 }
 
@@ -283,14 +292,14 @@ input, select {
     margin: 1px;
 }
 .logoBrownText {
-    color: #4a3059;
+    color: #ffffff;
 }
 .logoRedText {
     background-image: linear-gradient(
         90deg,
-        #a0f5a0,
-        #50da50,
-        #5cfa4e
+        #f5a0f1,
+        #cf50da,
+        #d84efa
     );
     background-size: 300% 300%;
     animation: gradientShift 3s ease-in-out infinite;
@@ -549,6 +558,7 @@ input, select {
     width: 100%;
     height: 100vh;
     background: rgb(143 221 142);
+    background-image: url("../img/background3.png");
     overflow: hidden;
     position: absolute;
     left: 0;
@@ -561,12 +571,13 @@ input, select {
 
 .signed_header {
     width: 100%;
+    padding-top: 10px;
     height: max-content;
-    padding: 10px;
-    background: #46bb4c;
+    background: linear-gradient(180deg,rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
     display: flex;
     align-items: center;
-    flex-direction: column;
+    justify-content: space-between;
+    flex-direction: row;
 }
 .header {
     width: 100%;
@@ -626,25 +637,44 @@ input, select {
     color: white;
     font-weight: bold;
     font-size: 20px;
+    text-shadow: 1px 1px 2px rgb(66, 66, 66);
     padding: 3px;
-    box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
+
+    box-shadow: var(--shadow-sm);
 }
-#userStat_mostPlayed {
-    background: #9ea1fd;
-}
-#userStat_Favorites {
-    background: #e48292;
-}
-#userStat_History {
-    background: #d07ddb;
+.userStatDiv::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 3px;
+
+
+  pointer-events: none;
 }
 #globalStat_popular {
-    background: #ffb584;
+  background: linear-gradient(to bottom, #ffc470, #ffa852);
 }
 #globalStat_artists {
-    background: #ce84ff;
+  background: linear-gradient(
+    to bottom,
+    #ce84ff,
+    #ae33ff
+  );
+}
+#userStat_mostPlayed {
+  background: linear-gradient(to bottom, #9ea1fd, #3f8cff);
+}
+#userStat_Favorites {
+  background: linear-gradient(to bottom, #ff67a6, #f33da2);
+}
+#userStat_History {
+  background: linear-gradient(
+    to bottom,
+    #d07ddb,
+    #e942ff
+  );
 }
 .userStatImg {
     position: absolute;
@@ -1031,7 +1061,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     font-size: 19px;
     font-weight: bold;
     text-decoration: underline;
-    color: #b8ffb8;
+    color: #cf9eff;
 }
 
 .scren_finish {
@@ -1309,7 +1339,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     margin-top: 5px;
 }
 .openClose_open {
-    color: #b8ffb8;
+    color: #cf9eff;
 }
 
 .adminUsersList > :first-child > * {
@@ -1525,4 +1555,14 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
   55%  { opacity: 0; }
   60%  { opacity: 1; }
   100% { opacity: 0; transform: translate(-50%, -100%) scale(1); }
+}
+
+
+.hidden_menu {
+    filter: grayscale(100%);
+}
+
+.search_hidden_3 {
+    filter: invert(1);
+    transform: none; 
 }

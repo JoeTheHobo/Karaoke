@@ -25,12 +25,15 @@ document.body.on("click touch",(e) => {
 //    Song Selection Tabs    //
 ///////////////////////////////
 $("userStat_mostPlayed").on("click touch",function() {
+    if (this.classList.contains("hidden_menu")) return;
     setSongDisplay("Your Most Played",findMostPlayed(user.history),"search");
 })
 $("userStat_Favorites").on("click touch",function() {
+    if (this.classList.contains("hidden_menu")) return;
     setSongDisplay("Favorites",user.favorites,"search");
 })
 $("userStat_History").on("click touch",function() {
+    if (this.classList.contains("hidden_menu")) return;
     setSongDisplay("History",[...user.history].reverse(),"history");
 })
 $("globalStat_popular").on("click touch",function() {
@@ -226,9 +229,14 @@ $(".songTitle").on("keydown",function(e) {
 })
 $(".clearSearch").on("click touch",function() {
     clearSearch();
-    this.$P().$(".songTitle").focus();
 })
 $(".findSongButton").on("click touch",function() {
+    if (this.classList.contains("search_hidden_3")) {
+        $(".inputSearchContainer").classAdd("inputFullBar")
+        this.classRemove("search_hidden_3");
+        this.$P().$(".songTitle").focus();
+        return;
+    }
     searchSong(this.$P().$(".songTitle").value);
 })
 
