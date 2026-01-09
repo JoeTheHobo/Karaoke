@@ -664,17 +664,13 @@ input, select {
   );
 }
 #userStat_mostPlayed {
-  background: linear-gradient(to bottom, #9ea1fd, #3f8cff);
+  background: linear-gradient(to bottom, #9ea1fd, #893fff);
 }
 #userStat_Favorites {
   background: linear-gradient(to bottom, #ff67a6, #f33da2);
 }
 #userStat_History {
-  background: linear-gradient(
-    to bottom,
-    #d07ddb,
-    #e942ff
-  );
+  background: linear-gradient(to bottom, #89ed71, #70d364);
 }
 .userStatImg {
     position: absolute;
