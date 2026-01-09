@@ -1165,7 +1165,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     font-weight: bold;
 }
 .promptOK {
-    background-color: #5acd8a;
+    background-color: #9738e9;
     margin-bottom: 10px;
     box-shadow: var(--shadow-sm);
     color: white;
@@ -1201,7 +1201,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     background: rgb(252, 113, 113);
 }
 .popup_affirm {
-    background-color: #5acd8a;
+    background-color: #9738e9;
     color: white;
 }
 

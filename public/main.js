@@ -55,7 +55,7 @@ function fixArtist(artistString) {
 
     let artists = [];
     let feats = [];
-    let breaks = [" & ",", "," and "];
+    let breaks = [" & ",", "," and ", " x "];
     const featRegex = /\s+(?:ft\.?|feat\.?)\s+/i;
 
     // 1️⃣ Split main vs feat FIRST

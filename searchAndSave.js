@@ -219,65 +219,69 @@ function buildSearchIndex() {
   }
 }
 
-function searchLocalIndex(query, extension, threshold = 0.9) {
-    extension = extension.toLowerCase();
-    const q = normalize(query);
-    if (!q) return [];
+function searchLocalIndex(query, extension, threshold = 0.65) {
+  extension = extension.toLowerCase();
+  const q = normalize(query);
+  if (!q) return [];
 
-    return searchIndex
-        .filter(v => v.type === extension)
-        .map(v => {
-            const title = v.normalizedTitle;
-
-            const score = simple_similarity(q, title);
-            return { ...v, score };
-        })
-        .filter(v => v.score >= threshold)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 50);
-}
-function simple_similarity(a,b) {
-  let aTokens = normalize(a).split(" ");
-  let bTokens = normalize(b).split(" ");
-
-  let score = 0;
-  let maxScore = 0;
-
-  aWords: for (const q of aTokens) {
-    maxScore += q.length;
-    bWords: for (const w of bTokens) {
-      if (q === w) {
-        score += q.length;
-        continue aWords;
-      }
-      if (Math.abs(w.length - q.length) > 2) continue;
+  return searchIndex
+    .filter(v => v.type === extension)
+    .map(v => {
+      const title = normalize(v.title);
+      if (v.title.includes("Me, Myself & I")) console.log(title)
+        
+      // 1️⃣ full string similarity
+      let best = similarity(q, title);
 
 
-      let i = 0, j = 0, edits = 0;
-      while (i < q.length && j < w.length) {
-        if (q[i] === w[j]) {
-          i++; j++;
-        } else {
-          edits++;
-          if (edits > 2) {
-            continue bWords;
-          };
-          if (q.length > w.length) i++;
-          else if (q.length > w.length) j++;
-          else { i++; j++; }
+      // 2️⃣ sliding window word match (important)
+      const qWords = q.split(" ");
+      const tWords = title.split(" ");
+
+      if (tWords.length >= qWords.length) {
+        for (let i = 0; i <= tWords.length - qWords.length; i++) {
+          const window = tWords.slice(i, i + qWords.length).join(" ");
+          best = Math.max(best, similarity(q, window));
         }
       }
 
-      score += q.length/2;
+      return { ...v, score: best };
+    })
+    .filter(v => v.score >= threshold)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 50);
+}
+function similarity(a, b) {
+  const dist = levenshtein(a, b);
+  return 1 - dist / Math.max(a.length, b.length);
+}
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  if (!m) return n;
+  if (!n) return m;
 
+  const dp = new Array(n + 1);
+  for (let j = 0; j <= n; j++) dp[j] = j;
+
+  for (let i = 1; i <= m; i++) {
+    let prev = i - 1;
+    dp[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const temp = dp[j];
+      dp[j] = Math.min(
+        dp[j] + 1,
+        dp[j - 1] + 1,
+        prev + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+      prev = temp;
     }
   }
-
-  return score/maxScore;
+  return dp[n];
 }
 function normalize(str) {
   return str
     .toLowerCase()
+    .replaceAll("&","and")
     .replace(/[^a-z0-9 ]/g, "")
     .replace(/\s+/g, " ")
     .trim();
