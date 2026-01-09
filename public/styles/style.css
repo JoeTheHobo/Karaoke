@@ -3,7 +3,7 @@
 /*1166 Removing spaces lol*/
 /*1011*/
 body,html {
-    background-color: #77DD77;
+    background-color: #dd77c4;
     background-image: url("../img/background3.png");
     background-size: cover; /* Scales the image to cover the element */
     width: 100%;
@@ -605,7 +605,8 @@ input, select {
     margin-top: 55px;
     padding-top: 10px;
     overflow-y: auto;
-    padding-bottom: 150px
+    padding-bottom: 150px;
+    overflow-x: hidden;
 }
 .userStatSongs {
     width: 100%;
@@ -637,7 +638,6 @@ input, select {
     color: white;
     font-weight: bold;
     font-size: 20px;
-    text-shadow: 1px 1px 2px rgb(66, 66, 66);
     padding: 3px;
     position: relative;
     overflow: hidden;
