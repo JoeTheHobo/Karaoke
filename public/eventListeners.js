@@ -362,3 +362,30 @@ function updateVolumeIcon(val) {
     }
     icon.src = "img/dazzleIcons/volume_mute.svg";
 }
+
+
+
+
+
+$("create_session").on("click touch",function() {
+    setScene("create_session")
+    $("admin_code").value = rnd(1000,9999);
+    $("supervisor_code").value = rnd(1000,9999);
+})
+$(".code_button").on("click touch",function() {
+    this.placeholder = this.value;
+    this.value = "";
+});
+$(".code_button").on("blur",function() {
+    let value = Number(this.value);
+    if (value === "") this.value = this.placeholder;
+    if (value < 1000 || value > 9999) this.value = this.placeholder; 
+})
+$("start_session").on("click touch",function() {
+    let adminCode = Number($("admin_code").value);
+    if (adminCode < 1000 || adminCode > 9999) return;
+    let supervisorCode = Number($("supervisor_code").value);
+    if (supervisorCode < 1000 || supervisorCode > 9999) return;
+
+    socket.emit("create_session",adminCode,supervisorCode);
+})

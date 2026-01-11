@@ -30,3 +30,44 @@
 .flex_center {
     justify-content: space-evenly;
 }
+
+.button {
+    background: rgb(39, 39, 39);
+    color: white;
+    border: 2px solid white;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.absolute_centered {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.subtitle {
+    color: white;
+    font-size: 20px;
+}
+.input_number {
+    width: 100px;
+    outline: none;
+    border: none;
+    height: 35px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid white;
+
+}

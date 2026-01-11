@@ -16,6 +16,9 @@
     ngrok http 3000
 */
 
+let sessions = {};
+
+
 const adminCode = "5646";
 const supervisorCode = "1234";
 
@@ -87,6 +90,40 @@ io.on("connection", (socket) => {
     socket.uid = false;
     socket.adminLevel = 0;
 
+    socket.on("create_session",(adminCode,supervisorCode) => {
+      if (typeof adminCode !== "number") return;
+      if (adminCode < 1000 || adminCode > 9999) return;
+      if (typeof supervisorCode !== "number") return;
+      if (supervisorCode < 1000 || supervisorCode > 9999) return; 
+
+      let sessionCode = Math.floor(Math.random() * 999999);
+
+      sessions[sessionCode] = {
+        codes: {
+          admin: adminCode,
+          supervisor: supervisorCode,
+          session: sessionCode,
+        },
+        settings: {
+          testing_mode: false,
+          max_distance: 4,
+          queue_type: "auto", //basic or auto
+          volume: .75,
+          video_controller: "server",
+        },
+        state: {
+          users: [],
+          queue: [],
+          music: {
+            
+          },
+          waitingOnQR: false,
+          songPlaying: false,
+        }
+      }
+
+      joinSession(socket,sessionCode,true);
+    })
     socket.on("checkAdminCode",(code,goToAdmin = false) => {
       if (code === adminCode) {
         socket.adminLevel = 2;
@@ -618,4 +655,39 @@ function sortGlobalStats() {
   global_popularSongs = sortStatsByPopular(global_songStats);
   const topSongs = global_popularSongs.slice(0, 50);
   io.emit("global_popularSongs", topSongs);
+}
+
+function joinSession(socket,ssid,isAdmin) {
+  if (!sessions[ssid]) return;
+  let session = sessions[ssid];
+  if (socket.ssid) {
+    socket.leave(socket.ssid);
+  }
+  socket.join(ssid);
+
+  socket.userType = "user";
+
+  
+
+  let foundUser = false;
+  for (let i = 0; i < session.state.users.length; i++) {
+    let user = session.state.users[i];
+    if (user.uid === uCode) foundUser = user; 
+  }
+  if (foundUser && ssCode === sessionCode) {
+    socket.user = foundUser;
+  } else {
+    let uid = Math.floor(Math.random() * 99999);
+    let obj = {
+      uid: uid,
+      displayName: userShowName,
+      banned: false,
+      songCount: 0.
+    }
+    state.users.push(obj)
+    socket.user = obj;
+  }
+  socket.join("uid" + socket.user.uid);
+  socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50));
+  io.to(ssid).to("admin").emit("updatedUsers",state.users); 
 }

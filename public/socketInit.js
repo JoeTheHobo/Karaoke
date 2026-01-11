@@ -36,7 +36,7 @@ function initSocket() {
 
         const path = window.location.pathname;
         if (path === "/user") {
-            setScene("user");
+            setScene("sessions");
             user.type = "user";
             socket.emit("userJoined",sessionCode,user.code,user.showName);
         } else if (path === "/" || path === "/screen") {

@@ -4351,3 +4351,35 @@ function numberWithCommas(x) {
     return x.toString().subset(0,".\\before").replace(/\B(?=(\d{3})+(?!\d))/g, ",") + x.toString().subset(".",true);
 }
 
+
+
+const radio = (() => {
+    const tells = {};
+    const noop = {log: () => {},run: () => {}};
+
+    return {
+        set: (name) => {
+            tells[name] = {count: 0};
+        },
+        clear: (name) => {
+            if (!name) {
+                console.warn("Radio Error: No Name Was Given To Clear");
+                return;
+            }
+            if (name === "*") {
+                Object.keys(tells).forEach(k => delete tells[k]);
+                return;
+            }
+            delete tells[name];
+        },
+        listen: (name,max = Infinity) => {
+            let tell = tells[name];
+            if (!tell) return noop;
+            if (++tell.count >= max) delete tells[name];
+            return {
+                log: (...args) => console.log(`Radio[${name}]`,...args),
+                run: (fn) => fn?.()
+            }
+        }
+    }
+})();
