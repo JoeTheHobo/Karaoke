@@ -49,6 +49,8 @@ function initSocket() {
             socket.emit("userJoined",sessionCode,user.code,user.showName);
         }
         
+        checkThemes();
+        
         if (adminCode.length === 4) {
             socket.emit("checkAdminCode",adminCode.join(""))
         }
