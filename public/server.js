@@ -148,7 +148,7 @@ socket.on("allowAdmin",(adminSettings,goToAdmin,adminLevel) => {
     if (user.type === "screen") return;
     user.adminLevel = adminLevel;
     ls.save("adminCode",adminCode)
-    setScene("sessions")
+    setScene("user");
     updateAdminSettings(adminSettings);
     if (goToAdmin) setTimeout(adminSlideIn,100);
 })
