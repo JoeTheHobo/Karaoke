@@ -14,6 +14,9 @@ const axios = require("axios");
 
 const CACHE_DIR = path.join(__dirname, "searchCache");
 
+const Fuse = require("fuse.js");
+let karaoke_fuse,lyric_fuse;
+
 let searchIndex = []; // merged in-memory index
 
 async function searchYTChannel(obj) {
@@ -214,69 +217,44 @@ function buildSearchIndex() {
     for (const video of data.videos) {
       video.format = data.format;
       video.type = data.type;
+      video.normalizedTitle = normalize(video.title);
       searchIndex.push(video);
     }
   }
-}
 
-function searchLocalIndex(query, extension, threshold = 0.65) {
-  extension = extension.toLowerCase();
-  const q = normalize(query);
-  if (!q) return [];
+  let settings = {
+    keys: [{name: 'normalizedTitle', weight: 2},'channelName'],
+    ignoreDiacritics: true,
 
-  return searchIndex
-    .filter(v => v.type === extension)
-    .map(v => {
-      const title = normalize(v.title);
-      if (v.title.includes("Me, Myself & I")) console.log(title)
-        
-      // 1️⃣ full string similarity
-      let best = similarity(q, title);
-
-
-      // 2️⃣ sliding window word match (important)
-      const qWords = q.split(" ");
-      const tWords = title.split(" ");
-
-      if (tWords.length >= qWords.length) {
-        for (let i = 0; i <= tWords.length - qWords.length; i++) {
-          const window = tWords.slice(i, i + qWords.length).join(" ");
-          best = Math.max(best, similarity(q, window));
-        }
-      }
-
-      return { ...v, score: best };
-    })
-    .filter(v => v.score >= threshold)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 50);
-}
-function similarity(a, b) {
-  const dist = levenshtein(a, b);
-  return 1 - dist / Math.max(a.length, b.length);
-}
-function levenshtein(a, b) {
-  const m = a.length, n = b.length;
-  if (!m) return n;
-  if (!n) return m;
-
-  const dp = new Array(n + 1);
-  for (let j = 0; j <= n; j++) dp[j] = j;
-
-  for (let i = 1; i <= m; i++) {
-    let prev = i - 1;
-    dp[0] = i;
-    for (let j = 1; j <= n; j++) {
-      const temp = dp[j];
-      dp[j] = Math.min(
-        dp[j] + 1,
-        dp[j - 1] + 1,
-        prev + (a[i - 1] === b[j - 1] ? 0 : 1)
-      );
-      prev = temp;
-    }
   }
-  return dp[n];
+
+  lyric_fuse = new Fuse(searchIndex.filter(v => v.type === "lyrics"), settings)
+  karaoke_fuse = new Fuse(searchIndex.filter(v => v.type === "karaoke"),settings)
+}
+
+function searchLocalIndex(query, extension,global_songStats) {
+  extension = extension.toLowerCase();
+
+  function helper_search(fuse_arr,q) {
+    let results = fuse_arr.search(q).slice(0,500);
+
+    for (let i = 0; i < results.length; i++) {
+      const r = results[i];
+      const stats = global_songStats[r.item.videoId];
+      r._plays = stats ? stats.plays : 0;
+    }
+
+    return results.sort((a, b) => b._plays - a._plays).slice(0,50).map(r => r.item);
+
+  }
+
+  if (extension === "karaoke")
+    return helper_search(karaoke_fuse,query)
+  if (extension === "lyrics")
+    return helper_search(lyric_fuse,query);
+
+  console.warn("Bad Extension: ",extension);
+  return [];
 }
 function normalize(str) {
   return str

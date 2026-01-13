@@ -226,7 +226,7 @@ io.on("connection", (socket) => {
       socket.emit("updateAdminSettings",settings);
     })
     socket.on("searchSong",(query,extension) => {
-      socket.emit("returnedSearchedSongs",searchLocalIndex(query,extension))
+      socket.emit("returnedSearchedSongs",searchLocalIndex(query,extension,global_songStats))
     })
     socket.on("PromptOk",(id) => {
       if (state.waitingOnQR.accepted) return;
