@@ -21,8 +21,8 @@ class _prompt {
         this.build = obj?.build ?? [];
         this.settings = {
             delivery: obj?.settings?.delivery ?? "centered",
-            delivery_bottom: {
-                slideIn: obj?.settings?.delivery_bottom?.slideIn ?? true,
+            delivery_slide: {
+                slideIn: obj?.settings?.delivery_slide?.slideIn ?? true,
             },
             background: {
                 type: obj?.settings?.background?.type ?? "opaque",
@@ -103,7 +103,16 @@ class _prompt {
             bottom: 0,
             maxHeight: "0px",
             opacity: 1,
-            
+        }
+        if (this.settings.delivery === "top") prompt_style = {
+            position: "absolute",
+            width: "100%",
+            height: "max-content",
+            borderBottomLeftRadius: "20px",
+            borderBottomRightRadius: "20px",
+            top: 0,
+            maxHeight: "0px",
+            opacity: 1,
         }
         this.html.prompt = this.html.body.create("div");
         this.html.prompt.css({
@@ -123,9 +132,12 @@ class _prompt {
             padding: prompt_style.padding ?? "unset",
             borderTopLeftRadius: prompt_style.borderTopLeftRadius ?? "unset",
             borderTopRightRadius: prompt_style.borderTopRightRadius ?? "unset",
+            borderBottomLeftRadius: prompt_style.borderBottomLeftRadius ?? "unset",
+            borderBottomRightRadius: prompt_style.borderBottomRightRadius ?? "unset",
             boxSizing: "border-box",
             maxHeight: prompt_style.maxHeight ?? "unset",
             overflow: "hidden",
+            boxShadow: `rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px`,
         })
 
         let container = this.html.prompt;
@@ -153,7 +165,8 @@ class _prompt {
                 alignItems: "center",
                 width: "100%",
                 justifyContent: "space-evenly",
-                marginTop: "15px",
+                marginTop: "7px",
+                marginBottom: "7px",
             })
             let elems = [];
             for (let i = 0; i < item.length; i++) {
@@ -172,7 +185,8 @@ class _prompt {
             }
         }
         div.css({
-            marginTop: "15px",
+            marginTop: "7px",
+            marginBottom: "7px",
         })
 
         if (item.item === "input") {
@@ -262,7 +276,7 @@ class _prompt {
 
         let maxHeight = "unset";
         let padding = false;
-        if (this.settings.delivery === "bottom" && this.settings.delivery_bottom.slideIn) {
+        if ((["top","bottom"].includes(this.settings.delivery)) && this.settings.delivery_slide.slideIn) {
             maxHeight = "100%";
             padding = "15px";
         }
@@ -303,7 +317,7 @@ let prompt_user_banned = new _prompt({
         {item: "button",type: "neon",close: true, neonColor: "red",text: "Oof."}
     ],
     settings: {
-        delivery: "bottom",
+        delivery: "top",
     }
 });
 
@@ -313,7 +327,7 @@ let prompt_user_start_song = new _prompt({
         [/*{item: "button",type: "neon", neonColor: "green", text: "Push Song Back.",close: true,func: puss_push_song_back},*/{item: "button",type: "neon",close: true, neonColor: "purple",text: "Start Song.",func: puss_start_song}]
     ],
     settings: {
-        delivery: "bottom",
+        delivery: "top",
     }
 });
 function puss_push_song_back() {
@@ -329,7 +343,7 @@ let prompt_admin_start_song = new _prompt({
         [{item: "button",type: "neon", neonColor: "blue", text: "No.",close: true},{item: "button",type: "neon",close: true, neonColor: "purple",text: "Start Song.",func: puss_start_song}]
     ],
     settings: {
-        delivery: "bottom",
+        delivery: "top",
     }
 });
 
@@ -342,7 +356,7 @@ let prompt_add_song = new _prompt({
         [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon", iid:"afirm", neonColor: "purple",text: "Add To Queue!"}]
     ],
     settings: {
-        delivery: "bottom",
+        delivery: "top",
     },
     onBuild: function(elems,song) {
         elems["showname"].$("<input").value = user.showName;
@@ -386,7 +400,7 @@ let prompt_change_song = new _prompt({
         [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon",close: true, iid:"afirm", neonColor: "purple",text: "Change Song!"}]
     ],
     settings: {
-        delivery: "bottom",
+        delivery: "top",
     },
     onBuild: function(elems,song) {
         displaySongs(elems["songDisplay"],[song],"search",false,false);
@@ -424,7 +438,7 @@ let prompt_remove_song = new _prompt({
         }}]
     ],
     settings: {
-        delivery: "bottom",
+        delivery: "top",
     },
     onBuild: (elems) => {
         displaySongs(elems["songDisplay"],[data.queue[data.selectedSong]],"search",false,false);
@@ -452,7 +466,7 @@ let prompt_change_name = new _prompt({
         }}]
     ],
     settings: {
-        delivery: "bottom",
+        delivery: "top",
     },
     onBuild: function(elems) {
         elems["showname"].$("<input").value = data.queue[data.selectedSong].singer;
