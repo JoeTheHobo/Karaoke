@@ -775,7 +775,7 @@ let songStats = {
     "extension": "Lyrics"
   },
   "-gs_SZM2lRk": {
-    "plays": 1,
+    "plays": 5,
     "song": "do re mi ",
     "artist": "blackbear",
     "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",

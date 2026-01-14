@@ -157,12 +157,15 @@
 
         <div class="admin_slide">
             <div class="header">
-                <div class="adminHeaderTitle">Control Panel</div>
+                <div class="sidebyside">
+                    <div class="adminHeaderTitle">Control Panel</div>
+                    <div class="adminTypeTitle"></div>
+                </div>
                 <img class="admin_exit global_invert" src="img/dazzleIcons/arrow_right.svg" alt="">
             </div>
             <div class="adminBody column_align_center">
-                <div class="openCloseGroup" id="control_av">Audio/Visual Controls</div>
-                <div class="adminGroup adminMusic column_align_center" id="av">
+                <div class="openCloseGroup admin_tab_audioVisual" id="control_av">Audio/Visual Controls</div>
+                <div class="adminGroup adminMusic column_align_center admin_tab_audioVisual" id="av">
                     <div class="adminTitle">Video Control</div>
                     <div class="adminTimer">2:13/3:42</div>
                     <input type="range" min="0" class="adminTimerScroll">
@@ -186,8 +189,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="openCloseGroup adminLevel2" id="control_general_settings">General Settings</div>
-                <div class="adminGroup adminGeneral column_align_center adminLevel2" id="general_settings">
+                <div class="openCloseGroup admin_tab_general_settings" id="control_general_settings">General Settings</div>
+                <div class="adminGroup adminGeneral column_align_center admin_tab_general_settings" id="general_settings">
                     <div class="adminSettingRow">
                         <div class="adminLabel">Queue Mode</div>
                         <select class="admin_input_select adminInputAll" value="Auto" id="admin_input_queue_type">
@@ -202,14 +205,33 @@
                         <input type="number" class="adminInputAll admin_input_number" id="admin_input_queue_distance">
                     </div>
                     <div class="explanitoryText singerSpacing">Controls how far apart a singer’s songs are placed in the queue.</div>
+                    
+                    <div class="adminSettingRow">
+                        <div class="adminLabel">Disable Adding Songs</div>
+                        <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_adding_songs">
+                    </div>
+                    <div class="explanitoryText">When enabled, songs are no longer allowed to be added to the queue for all users.</div>
+
+                    <div class="adminSettingRow">
+                        <div class="adminLabel">Cut Off Time</div>
+                        <input type="time" class="adminInputAll" id="admin_input_time">
+                    </div>
+                    <div class="explanitoryText">Choose a time for the queue to auto shut down and prevent users from adding songs.</div>
+                    
+                    <div class="adminSettingRow">
+                        <div class="adminLabel">Reset Cut Off Time</div>
+                        <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_turn_off_time">
+                    </div>
+                    <div class="explanitoryText">Click to turn off the cut off time</div>
+
                     <div class="adminSettingRow">
                         <div class="adminLabel">Testing Mode</div>
                         <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_testing">
                     </div>
                     <div class="explanitoryText">When enabled, songs are not saved to users or the server. Use this mode to test features without affecting real data.</div>
                 </div>
-                <div class="openCloseGroup adminLevel2" id="control_add_channel">Add Channel</div>
-                <div class="adminGroup adminAddChannel column_align_center adminLevel2" id="add_channel">
+                <div class="openCloseGroup admin_tab_add_channel" id="control_add_channel">Add Channel</div>
+                <div class="adminGroup adminAddChannel column_align_center admin_tab_add_channel" id="add_channel">
                     <div class="adminTitle">Add Channel</div>
                     <div class="explanitoryText2">Add channels from YouTube so they pop up when searching for songs.</div>
                     <input type="text" class="channel_name" placeholder="Channel URL...">
@@ -222,8 +244,8 @@
                     <div class="explanitoryText2">Is this channel a Karaoke or Lyric type Channel (Does the artist sing along with the lyrics)</div>
                     <button class="channel_submit margin_top_15">Submit</button>
                 </div>
-                <div class="openCloseGroup adminLevel2" id="control_users">Users</div>
-                <div class="adminGroup adminUsersList column_align_center adminLevel2" id="users">
+                <div class="openCloseGroup admin_tab_users" id="control_users">Users</div>
+                <div class="adminGroup adminUsersList column_align_center admin_tab_users" id="users">
 
                 </div>
             </div>
@@ -249,13 +271,13 @@
                 <div class="changeSongTitle">Change Song</div>
                 <div class="leaveChangeHolder"><img src="img/dazzleIcons/x_1.svg" class="leaveChangeSong global_invert" alt=""></div>
             </div>
-            <div class="inputSearchContainer">
-                <img src="img/dazzleIcons/search_1.svg" class="findSongButton searchSmall" alt="">
+            <div class="inputSearchContainer changesong_searchContainer">
+                <img src="img/dazzleIcons/search_1.svg" class="findSongButton searchSmall changesong_searchicon" alt="">
                 <input type="text" enterkeyhint="done" class="songTitle" placeholder="Search songs or artists...">
-                <img class="clearSearch" src="img/dazzleIcons/x_1.svg" alt="">
+                <img class="clearSearch changesong_clearsearch" src="img/dazzleIcons/x_1.svg" alt="">
             </div>
         </div>
-        <div class="addSongTopRow">
+        <div class="addSongTopRow changesong_toprow">
             <div class="singMode active"><div class="singAlone">Karaoke</div></div>
             <div class="singMode"><div class="singAlong">With Vocals</div></div>
         </div>

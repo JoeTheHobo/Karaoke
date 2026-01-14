@@ -18,9 +18,51 @@
 
 let sessions = {};
 
-
-const adminCode = "5646";
-const supervisorCode = "1234";
+let adminRoles = [];
+adminRoles.push({
+  title: "Creator",
+  code: "5646",
+  access: {
+    tabs: {
+      audioVisual: true,
+      general_settings: true,
+      add_channel: true,
+      users: true,
+    },
+    accept_songs: true,
+    modify_queue: true,
+  },
+})
+adminRoles.push({
+  title: "Admin",
+  code: "7423",
+  access: {
+    tabs: {
+      audioVisual: true,
+      general_settings: true,
+      add_channel: false,
+      users: false,
+    },
+    accept_songs: true,
+    modify_queue: true,
+    
+  },
+})
+adminRoles.push({
+  title: "Supervisor",
+  code: "1234",
+  access: {
+    tabs: {
+      audioVisual: true,
+      general_settings: false,
+      add_channel: false,
+      users: false,
+    },
+    accept_songs: true,
+    modify_queue: true,
+    
+  },
+})
 
 let sessionCode = Math.floor(Math.random() * 99999);
 let settings = {
@@ -29,6 +71,8 @@ let settings = {
   queue_type: "auto", //basic or auto
   volume: .75,
   video_controller: "server",
+  block_all_songs: false, //block users from adding songs to queue
+  turn_off_time: false, //Set Time to Turn Off Songs
 }
 let state = {
   users: [],
@@ -88,7 +132,7 @@ app.get(/.*/, (req, res) => {
 io.on("connection", (socket) => {
   console.log("Station connected:", socket.id);
     socket.uid = false;
-    socket.adminLevel = 0;
+    socket.adminAccess = null;
 
     socket.on("create_session",(adminCode,supervisorCode) => {
       if (typeof adminCode !== "number") return;
@@ -125,27 +169,26 @@ io.on("connection", (socket) => {
       joinSession(socket,sessionCode,true);
     })
     socket.on("checkAdminCode",(code,goToAdmin = false) => {
-      if (code === adminCode) {
-        socket.adminLevel = 2;
-        socket.join("music");
-        socket.join("admin");
-        socket.emit("allowAdmin",settings,goToAdmin,2)
-        socket.emit("updatedUsers",state.users);
-      }
-      if (code === supervisorCode) {
-        socket.adminLevel = 1;
-        socket.join("music");
-        socket.join("admin");
-        socket.emit("allowAdmin",settings,goToAdmin,1);
-      }
-      if (code === supervisorCode || code == adminCode) {
-        console.log(settings.video_controller)
-        if (settings.video_controller === "client") {
-          console.log(state.songPlaying)
-          if (state.songPlaying) {
-            socket.emit("showVideoPlayer");
-          } else {
-            socket.emit("hideVideoPlayer");
+      if (socket.userType !== "user") return;
+
+      for (let i = 0; i < adminRoles.length; i++) {
+        if (adminRoles[i].code === code) {
+          socket.adminAccess = adminRoles[i].access;
+          socket.join("admin");
+          socket.emit("allowAdmin",settings,goToAdmin,adminRoles[i]);
+
+          if (socket.adminAccess.tabs.users) {
+            socket.emit("updatedUsers",state.users);
+          }
+          if (socket.adminAccess.tabs.audioVisual) {
+            socket.join("music")
+            if (settings.video_controller === "client") {
+              if (state.songPlaying) {
+                socket.emit("showVideoPlayer");
+              } else {
+                socket.emit("hideVideoPlayer");
+              }
+            }
           }
         }
       }
@@ -169,11 +212,11 @@ io.on("connection", (socket) => {
       },3000);
     })
     socket.on("addAllowedChannel",(obj) => {
-      if (socket.adminLevel < 2) return;
+      if (socket.adminAccess?.tabs.add_channel !== true) return;
       searchYTChannel(obj);
     })
     socket.on("sendBanState",(user,banState) => {
-      if (socket.adminLevel < 2) return;
+      if (socket.adminAccess?.tabs.users !== true) return;
 
       for (let i = 0; i < state.users.length; i++) {
         if (state.users[i].uid === user.uid) {
@@ -202,6 +245,7 @@ io.on("connection", (socket) => {
       if (foundUser && ssCode === sessionCode) {
         socket.user = foundUser;
       } else {
+        console.log("New User Created")
         let uid = Math.floor(Math.random() * 99999);
         let obj = {
           uid: uid,
@@ -214,7 +258,7 @@ io.on("connection", (socket) => {
       }
       socket.join("uid" + socket.user.uid);
 
-      socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50));
+      socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50),settings.block_all_songs);
       io.to("admin").emit("updatedUsers",state.users);
 
     }) 
@@ -230,7 +274,7 @@ io.on("connection", (socket) => {
     })
     socket.on("PromptOk",(id) => {
       if (state.waitingOnQR.accepted) return;
-      if ((state.waitingOnQR.id !== id && socket.adminLevel < 1)) return;
+      if ((state.waitingOnQR.id !== id && socket.adminAccess.accept_songs !== true)) return;
       playVideo();
       state.waitingOnQR.accepted = true;
     })
@@ -252,10 +296,14 @@ io.on("connection", (socket) => {
         io.emit("updatedQueue",state.queue);
     })
     socket.on("updateAdminSettings",(setting,value) => {
-      if (socket.adminLevel < 2) return;
+      if (socket.adminAccess?.tabs.general_settings !== true) return;
       
       if (setting === "testing_mode") {
         settings.testing_mode = value === true ? true : false;
+      }
+      if (setting === "adding_songs") {
+        settings.block_all_songs = value === true ? true : false;
+        io.emit("blockAllSongs",settings.block_all_songs)
       }
       if (setting === "queue_type") {
         settings.queue_type = value.toLowerCase() === "auto" ? "auto" : "basic";
@@ -263,17 +311,24 @@ io.on("connection", (socket) => {
       if (setting === "queue_distance") {
         settings.max_distance = Number(value);
       }
+      if (setting === "cut_off_time") {
+        if (value === false) settings.turn_off_time = false;
+        else settings.turn_off_time = getCutoffDate(value);
+      }
 
       io.to("admin").emit("updateAdminSettings",settings)
     })
     socket.on("adminControls",(control,value) => {
-      if (socket.adminLevel < 1) return;
+
       if (control === "Sign Out Of Admin") {
-        socket.adminLevel = 0;
+        socket.adminAccess = null;
         socket.leave("admin");
         socket.leave("music");
         return;
       }
+
+      if (socket.adminAccess?.tabs.audioVisual !== true) return;
+
       if (control === "setVolume") {
         settings.volume = Number(value);
         if (settings.volume < 0) settings.volume = 0;
@@ -322,7 +377,9 @@ io.on("connection", (socket) => {
         if (settings.video_controller === "client") {
           io.to("screen").emit("musicControl","minus_10");
         }
-          state.music.startTime += (10*1000);
+        state.music.startTime += (10*1000);
+        if (state.music.startTime > Date.now()) state.music.startTime = Date.now();
+          
       }
       if (control === "+10 Seconds") {
         if (settings.video_controller === "client") {
@@ -330,10 +387,11 @@ io.on("connection", (socket) => {
         }
           state.music.startTime -= (10*1000);
       }
-      console.log("emmited",state.music)
+
       io.to("music").emit("screenVideoUpdate",state.music);
     })
     socket.on("alterQueue",(code,queueID,extra) => {
+      //Potential security threat here, we should check to make sure you have access
       alterQueue(code,queueID,extra);
 
     })
@@ -341,6 +399,7 @@ io.on("connection", (socket) => {
       downloadSongStatsToJS();
     })
     socket.on("addQueue",(obj) => {
+      if (settings.block_all_songs) return;
       if (!socket.user) return;
       if (socket.user.banned) return;
 
@@ -499,14 +558,12 @@ async function playVideo() {
   } 
 }
 function videoChecker() {
-  if (settings.video_controller === "client") {
-    return
-  }
   if (state.music.playing) {
     let now = Date.now();
     if (now >= state.music.startTime + state.music.duration) {
       state.music.startTime = false;
       state.music.playing = false;
+      io.to("music").emit("screenVideoUpdate",state.music);
       setTimeout(() => {
         state.queue.shift();
         playSong();
@@ -517,12 +574,14 @@ function videoChecker() {
       let now = Date.now();
       if (now >= state.music.startTime) {
         state.music.playing = true;
+        io.to("music").emit("screenVideoUpdate",state.music);
+
       }
     }
   }
   setTimeout(videoChecker,200);
 }
-videoChecker();
+if (settings.video_controller === "server") videoChecker();
 function checkSongReadiness(q) {
   let downloaded =  checkIfSongIsDownloaded(q.videoId);
   let hasPhoto = checkIfSongHasPhoto(q.videoId)
@@ -691,3 +750,43 @@ function joinSession(socket,ssid,isAdmin) {
   socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50));
   io.to(ssid).to("admin").emit("updatedUsers",state.users); 
 }
+function getCutoffDate(timeStr) {
+  const now = new Date();
+  const [hour, minute] = timeStr.split(":").map(Number);
+
+  // minutes since midnight
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const inputMinutes = hour * 60 + minute;
+
+  // decide day
+  const day = inputMinutes > nowMinutes
+    ? now.toDateString()                // today
+    : new Date(now.getTime() + 86400000).toDateString(); // tomorrow
+
+  return {
+    hour,
+    minute,
+    day
+  };
+}
+function isPastCutoff(cutoffParts) {
+  const now = new Date();
+  const cutoff = new Date(cutoffParts.day);
+  cutoff.setHours(cutoffParts.hour, cutoffParts.minute, 0, 0);
+
+  return now >= cutoff;
+}
+function cutOffTimeChecker() {
+
+  if (settings.turn_off_time) {
+    if (isPastCutoff(settings.turn_off_time)) {
+      settings.block_all_songs = true;
+      settings.turn_off_time = false;
+      io.emit("blockAllSongs",settings.block_all_songs);
+      io.to("admin").emit("updateAdminSettings",settings);
+    }
+  }
+
+  setTimeout(cutOffTimeChecker,1000*60*1); //Recheck every minute
+}
+cutOffTimeChecker();

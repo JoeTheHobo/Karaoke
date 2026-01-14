@@ -10,8 +10,8 @@ function setSplash() {
 setSplash();
 
 
-async function searchSong(q) {
-    $(".songTitle").simpleBlur();
+async function searchSong(q,loseFocus = true) {
+    if (loseFocus) $(".songTitle").simpleBlur();
     if (!q) return;
     const resultsDiv = $(".songResultsDiv");
     $(".songResultsGradient").css("opacity",1);
@@ -110,18 +110,18 @@ function popup(text,func,affirmText = "Continue",allowAny = false) {
         func($(".popup").sendValue);
     };
 }
-function clearSearch() {
+function clearSearch(hideAll = true) {
     $(".songTitle").value("");
     $(".songResultsDiv").html("");
     $(".addSongTopRow").hide();
 
-    $(".findSongButton").classAdd("search_hidden_3");
-    $(".inputSearchContainer").classRemove("inputFullBar");
-    $(".songTitle").simpleBlur();
+    if (hideAll) $(".findSongButton").classAdd("search_hidden_3");
+    if (hideAll) $(".inputSearchContainer").classRemove("inputFullBar");
+    if (hideAll) $(".songTitle").simpleBlur();
 
-    $(".songResultsGradient").css("opacity",0)
+    if (hideAll) $(".songResultsGradient").css("opacity",0)
     
-    $(".userStatSongs").show("flex");
+    if (hideAll) $(".userStatSongs").show("flex");
 
     $("globalStat_artists").hide(); //Temporary hide, if wanted for future
 
@@ -493,9 +493,9 @@ function displaySongs(div,list,type,showExtension = true) {
         if (l.type === "queue" && type !== "history" && user.type !== "screen") {
             addLongPress(container,function(e) {
                 if (navigator.vibrate) navigator.vibrate(30); // vibrate for 30ms
-                if (user.adminLevel > 0) $(".qpAdmin").show("flex");
+                if (user.adminAccess?.modify_queue === true) $(".qpAdmin").show("flex");
                 else $(".qpAdmin").hide();
-                if (user.adminLevel > 0 || l.singerID === user.uid) {
+                if (user.adminAccess?.modify_queue || l.singerID === user.uid) {
                     container.css({
                         zIndex: 701,
                         position: "relative",
@@ -509,7 +509,7 @@ function displaySongs(div,list,type,showExtension = true) {
             let addSongToQueueText = data.changingSong ? `Change Song To '${l.song}'` : `Add '${l.song}' To Queue?`;
             let addToQueueText = data.changingSong ? `Change Song!` : "Add To Queue!";
             container.on("click touch",function(e) {
-                if (user.banned) {
+                if (user.banned || settings.block_all_songs) {
                     popup("You have been blocked from adding songs.",()=>{},"I accept",true);
                     return;
                 }
@@ -793,14 +793,14 @@ function setAppearingText(first = "",second = "",third = "",fourth = "") {
 }
 
 videoChecker();
+let syncLocked = false;
 function videoChecker() {
-    if ((user.type !== "screen" && user.adminLevel < 1)) {
+    if ((user.type == "user" && user.adminAccess?.tabs?.audioVisual !== true)) {
         requestAnimationFrame(videoChecker);
         return;
     } 
 
-
-    if (user.adminLevel > 0) updateAdminMusicControls();
+    if (user.adminAccess?.tabs?.audioVisual === true) updateAdminMusicControls();
 
     if (video_controller === "client") {
         requestAnimationFrame(videoChecker)
@@ -845,9 +845,10 @@ function videoChecker() {
         let realDuration = now - data.videoInfo.startTime;
         let delay = Math.abs(currentDur - realDuration);
         $(".videoDelayTracker").innerHTML = Math.round(delay); 
-        if (delay > 500) {
+        if (!syncLocked && Math.abs(delay) > 500) {
             //Fix Duration if delay is greater than 200ms
             videoEl.currentTime = (realDuration)/1000;
+            syncLocked = true;
         }
         if (now >= data.videoInfo.startTime + data.videoInfo.duration) {
             //Video Ended
@@ -857,6 +858,7 @@ function videoChecker() {
                 playing: false,
                 pausedAt: false,
             }
+            syncLocked = false;
             videoEl.pause();
             videoEl.hide();
             startFireworks();
@@ -868,7 +870,7 @@ function videoChecker() {
 }
 
 function updateAdminMusicControls() {
-    if (!user.adminLevel > 0) return;
+    if (user.adminAccess?.tabs.audioVisual !== true) return;
 
     if (video_controller !== "client") {
         
@@ -906,19 +908,27 @@ function updateAdminMusicControls() {
 }
 
 function updateAdminSettings(settings) {
-    if (user.adminLevel < 1) return;
+    if (user.adminAccess == null) return;
 
-    setSlider(settings.volume);
+    if (user.adminAccess.tabs.audioVisual) {
+        $(".admin_tab_audioVisual").show("flex");
+        setSlider(settings.volume);
 
-    if (user.adminLevel < 2) {
-        $(".adminLevel2").hide();
     } else {
-        if ($(".adminLevel2")[0].style.display !== "flex")
-            $(".adminLevel2").show("flex");
-        
+        $(".admin_tab_audioVisual").hide();
+    }
+
+    if (user.adminAccess.tabs.general_settings) {
+        $(".admin_tab_general_settings").show("flex");
+
         $("admin_input_queue_distance").value = settings.max_distance;
         $("admin_input_queue_type").value = settings.queue_type.format("A");
         $("admin_input_testing").checked = settings.testing_mode;
+        $("admin_input_adding_songs").checked = settings.block_all_songs;
+        if (settings.turn_off_time)
+            $("admin_input_time").value = settings.turn_off_time.hour + ":" + settings.turn_off_time.minute;
+        else 
+            $("admin_input_time").value = "";
 
         if ($("admin_input_queue_type").value === "Auto") {
             $(".queueModeText").innerHTML = "Automatically spaces songs to keep turns fair between singers.";
@@ -928,8 +938,28 @@ function updateAdminSettings(settings) {
             $(".queueModeText").innerHTML = "Adds songs to the end of the queue in request order.";
             $(".singerSpacing").hide();
         }
+    } else {
+        $(".admin_tab_general_settings").hide();
+        
+    }
+    
+    if (user.adminAccess.tabs.add_channel) {
+        $(".admin_tab_add_channel").show("flex");
+
+    } else {
+        $(".admin_tab_add_channel").hide();
+        
+    }
+    
+    if (user.adminAccess.tabs.users) {
+        $(".admin_tab_users").show("flex");
+
+    } else {
+        $(".admin_tab_users").hide();
+        
     }
 }
+
 
 async function setImages() {
     photos = await fetch("/imagelist").then(r => r.json());
@@ -1046,7 +1076,7 @@ setTimeout(function() {
 },1000)
 
 function updateAdminUsers() {
-    if (user.adminLevel < 2) return;
+    if (user.adminAccess?.tabs?.users !== true) return;
     let container = $(".adminUsersList").html("");
 
     let row = container.create("div.users_row");

@@ -108,10 +108,15 @@ $("qpChangeSong").on("click",function() {
         closeQueueEditor();
         data.changingSong = data.queue[data.selectedSong].queueID;
         setScene("changeSong");
+        $(".changesong_searchContainer").classAdd("inputFullBar")
+        $(".changesong_searchicon").classRemove("search_hidden_3")
+        
+        $(".changesong_searchContainer").$("<input").focus();
     },200);
 })
 //Leave Change Song Screen
 $(".leaveChangeSong").on("click touch",() => {
+    clearSearch();
     setScene("user");
     data.changingSong = false;
 })
@@ -122,7 +127,7 @@ $(".leaveChangeSong").on("click touch",() => {
 //    Admin Screen Control    //
 ////////////////////////////////
 $(".adminControlsHolder").on("click touch",() => {
-    if (user.adminLevel > 0) {
+    if (user.adminAccess !== null) {
         adminSlideIn();
     } else {
         setScene("adminSignin");
@@ -134,7 +139,7 @@ $(".admin_exit").on("click touch",() => {
     clearAddChannel();
 })
 $(".admin_signout").on("click touch",() => {
-    user.adminLevel = 0;
+    user.adminAccess = null;
     ls.save("adminCode",[])
     socket.emit("adminControls","Sign Out Of Admin");
     adminSlideOut();
@@ -178,12 +183,22 @@ $(".adminTimerScroll").on("touchend",function() {
 $("admin_input_testing").on("click touch",function() {
     socket.emit("updateAdminSettings","testing_mode",this.checked)
 });
+$("admin_input_adding_songs").on("click touch",function() {
+    socket.emit("updateAdminSettings","adding_songs",this.checked)
+});
 $("admin_input_queue_type").addEventListener("change",function() {
     socket.emit("updateAdminSettings","queue_type",this.value)
 });
 $("admin_input_queue_distance").on("change",function() {
     socket.emit("updateAdminSettings","queue_distance",this.value)
 });
+$("admin_input_time").on("change",function() {
+    socket.emit("updateAdminSettings","cut_off_time",this.value)
+});
+$("admin_input_turn_off_time").on("click touch",function() {
+    this.checked = false;
+    socket.emit("updateAdminSettings","cut_off_time",false)
+})
 
 //Admin Pinpad
 $(".pinpad_option").on("touchstart",function() {
@@ -224,11 +239,39 @@ $("<input").on("blur",function() {
     } else
         this.classRemove("inputSelected");
 })
+let input_searching = false;
+let searchEnd;
+let searchElem;
+function startSearchTimer() {
+
+    if (input_searching === false) return;
+
+    if (Date.now() >= searchEnd) {
+        input_searching = false;
+        searchSong(searchElem.value,false);
+    }
+
+    requestAnimationFrame(startSearchTimer);
+}
 $(".songTitle").on("keydown",function(e) {
+    if (this.value !== "") {
+        searchEnd = Date.now() + 500;
+        input_searching = true;
+        searchElem = this;
+        startSearchTimer();
+    } else {
+        input_searching = false;
+    }
     if (e.key == "Enter") searchSong(this.value);
 })
 $(".clearSearch").on("click touch",function() {
-    clearSearch();
+    if (this.classList.contains("changesong_clearsearch")) {
+        clearSearch(false);
+        $(".changesong_searchContainer").$("<input").focus();
+
+    }
+    else
+        clearSearch();
 })
 $(".findSongButton").on("click touch",function() {
     if (this.classList.contains("search_hidden_3")) {
@@ -313,6 +356,7 @@ $(".scren_finish")[1].on("click",() => {
 });
 
 
+let lastSliderPos = settings.volume;
 
 const slider = $("micSlider");
 const thumb = slider.$(".thumb");
@@ -328,8 +372,8 @@ slider.on("pointermove", e => {
 
 function setSlider(val) {
     thumb.style.bottom = `${val * 100}%`;
-    updateVolumeIcon(val)
-    $(".volumeIcon").storedVal = val;
+    updateVolumeIcon(val);
+    if (val !== 0) lastSliderPos = val;
 }
 function updateSlider(e) {
     const rect = slider.getBoundingClientRect();
@@ -342,7 +386,7 @@ function updateSlider(e) {
     socket.emit("adminControls","setVolume",value);
 }
 $(".volumeIcon").on("click touch",function() {
-    if (this.storedVal === 0) socket.emit("adminControls","setVolume",.75);
+    if (settings.volume == 0) socket.emit("adminControls","setVolume",lastSliderPos);
     else socket.emit("adminControls","setVolume",0);
 })
 function updateVolumeIcon(val) {

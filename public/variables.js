@@ -10,6 +10,7 @@ let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
 let settings = {
     volume: .75,
     testing_mode: false,
+    block_all_songs: false,
 }
 let globalMute = false;
 let data = {
@@ -25,7 +26,7 @@ let user = {
     history: ls.get("history",[]),
     favorites: ls.get("favorites",[]),
     showName: ls.get("showName",false),
-    adminLevel: 0,
+    adminAccess: null,
     code: ls.get("userCode",false),
     uid: false,
     banned: false,

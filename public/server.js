@@ -1,5 +1,12 @@
-socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs) => {
+/*
+    If no user code set make one.
+    Check session code against servers
+    if different change users code.
+*/
+
+socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs,block_all_songs) => {
     user.uid = serverUser.uid;
+    user.code = serverUser.uid;
     user.banned = serverUser.banned;
     sessionCode = sscode;
     ls.save("sessionCode",sscode);
@@ -11,6 +18,8 @@ socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs) => {
         socket.emit("checkIfQR",sessionCode,user.uid);
     }
     socket.emit("updateQueue");
+
+    settings.block_all_songs = block_all_songs;
     
 })
 socket.on("global_popularSongs",(global_popularSongs) => {
@@ -45,7 +54,7 @@ socket.on("hidePromptOK",() => {
 })
 socket.on("setUserPrompt", (userID) => {
     if (user.type === "screen") return;
-    if (user.uid === userID || user.adminLevel > 0) {
+    if (user.uid === userID || user.adminAccess?.accept_songs) {
         let obj = structuredClone(data.queue[0]);
         obj.date = Date.now();
         obj.type = "addable";
@@ -65,13 +74,14 @@ socket.on("setUserPrompt", (userID) => {
 });
 socket.on("screenVideoUpdate",(videoStats) => {
     data.videoInfo = videoStats;
+    syncLocked = false;
 })
 socket.on("updateAdminSettings",(adminSettings) => {
     settings = adminSettings;
     updateAdminSettings(adminSettings);
 })
 socket.on("updatedUsers",(users) => {
-    if (user.adminLevel < 2) return;
+    if (user.adminAccess?.tabs?.users !== true) return;
     global_users = users;
 
     updateAdminUsers();
@@ -144,9 +154,11 @@ socket.on("qr_result", serverData => {
     $(".qr_img_" + using_screen_layout).src = "data:image/png;base64," + serverData.base64;
 })
 
-socket.on("allowAdmin",(adminSettings,goToAdmin,adminLevel) => {
+socket.on("allowAdmin",(adminSettings,goToAdmin,adminAccess) => {
     if (user.type === "screen") return;
-    user.adminLevel = adminLevel;
+    user.adminAccess = adminAccess.access;
+    $(".adminTypeTitle").innerHTML = adminAccess.title;
+
     ls.save("adminCode",adminCode)
     setScene("user");
     updateAdminSettings(adminSettings);
@@ -170,7 +182,7 @@ socket.on("updateBanState",(state) => {
 })
 socket.on("startSong_client",(videoID) => {
     video_controller = "client";
-    if (user.adminLevel > 0) 
+    if (user.adminAccess?.tabs?.audioVisual)
         $(".adminMusic").show("flex");
     if (user.type !== "screen") return;
     playVideo(videoID,true);
@@ -211,4 +223,8 @@ socket.on("setVolume",(volume) => {
     if (user.type !== "screen") return;
     $(".displayingVideo").volume = volume;
 
+})
+
+socket.on("blockAllSongs",(bool) => {
+    settings.block_all_songs = bool;
 })
