@@ -96,31 +96,6 @@ function fixArtist(artistString) {
     return result;
 }
 
-function popup(text,func,affirmText = "Continue",allowAny = false) {
-    $(".popup_title").innerHTML = text;
-    $(".popup_affirm").innerHTML = affirmText;
-    $(".showNameInput").value = user.showName ? user.showName : "";
-    $(".showNameInput").classRemove("emptyName");
-    $(".popup").show("flex");
-    if (allowAny) $(".showNameInput").hide();
-    else $(".showNameInput").show();
-    $(".popup_affirm").onclick = function() {
-        if (allowAny) {
-            $(".popup").hide();
-            func();
-            return;
-        }
-        if ($(".showNameInput").value === "") {
-            $(".showNameInput").classAdd("emptyName");
-            return;
-        }
-        user.showName = $(".showNameInput").value;
-        if (user.showName !== ls.get("showName",false)) socket.emit("changedShowName",user.showName);
-        ls.save("showName",$(".showNameInput").value);
-        $(".popup").hide();
-        func($(".popup").sendValue);
-    };
-}
 function clearSearch(hideAll = true) {
     $(".songTitle").value("");
     $(".songResultsDiv").html("");
@@ -302,7 +277,7 @@ function setPlayingSong(l) {
     }
 
 }
-function displaySongs(div,list,type,showExtension = true) {
+function displaySongs(div,list,type,showExtension = true,clickable = true) {
     if (div.length) {
         for (let i = 0; i < div.length; i++) {
             displaySongs(div[i],list,type);
@@ -517,35 +492,18 @@ function displaySongs(div,list,type,showExtension = true) {
                 }
             });
 
-        } else {
-            let addSongToQueueText = data.changingSong ? `Change Song To '${l.song}'` : `Add '${l.song}' To Queue?`;
-            let addToQueueText = data.changingSong ? `Change Song!` : "Add To Queue!";
+        } else if (clickable) {
             container.on("click touch",function(e) {
                 if (user.banned || settings.block_all_songs) {
-                    popup("You have been blocked from adding songs.",()=>{},"I accept",true);
+                    prompt_user_banned.prompt();
                     return;
                 }
                 if (e.target.classList.contains("s3IconFavorite") || e.target.classList.contains("seeVariations")) return;
-                popup(addSongToQueueText,function() {
-                    $(".displayDiv").style.opacity = 0;
-                    $(".displayDiv").style.pointerEvents = "none";
-                    addQueue({
-                        song: l.song,
-                        artist: l.artist,
-                        singer: user.showName,
-                        url: l.url,
-                        singerID: user.uid,
-                        videoId: l.videoId,
-                        changingSong: data.changingSong,
-                        channel: l.channel,
-                        extension: l.extension,
-                    })
-                    if (data.changingSong) {
-                        data.changingSong = false;
-                        setScene("user");
-                    }
-                },addToQueueText)
-                
+
+                if (data.changingSong)
+                    prompt_change_song.prompt(l);
+                else
+                    prompt_add_song.prompt(l); 
             })
         }
     }

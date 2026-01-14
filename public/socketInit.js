@@ -62,9 +62,6 @@ function initSocket() {
         }
         
         socket.emit("updateQueue");
-        setTimeout(function() {
-            socket.emit("checkIfQR",sessionCode,user.uid)
-        },50);
 
         if (loadImages) setImages();
 

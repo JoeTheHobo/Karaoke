@@ -49,27 +49,26 @@ socket.on("settingSong",(obj) => {
     setAppearingText(obj.song,"Sung by",obj.singer,"Singer use your phone to start song.");
 })
 
-socket.on("hidePromptOK",() => {
- $(".promptQR").hide();   
+socket.on("saveToLocal",(videoInfo) => {
+    videoInfo.date = Date.now();
+    videoInfo.type = "addable";
+    videoInfo.playing = false;
+    user.history.push(videoInfo);
+    ls.save("history",user.history);
+    prompt_user_start_song.hide();
+})
+socket.on("closePrompts",() => {
+    prompt_admin_start_song.hide();
 })
 socket.on("setUserPrompt", (userID) => {
     if (user.type === "screen") return;
-    if (user.uid === userID || user.adminAccess?.accept_songs) {
-        let obj = structuredClone(data.queue[0]);
-        obj.date = Date.now();
-        obj.type = "addable";
-        obj.playing = false;
-        if (!settings.testing_mode) user.history.push(obj);
-        ls.save("history",user.history);
-
-        $(".popup_title2").html("Your Songs Next!");
-        $(".prompt_cancel").hide();
-        if (user.uid !== userID) {
-            $(".popup_title2").html("Start Song For Singer?");
-            $(".prompt_cancel").show("flex");
-        }
-        promptQR();
-
+    if (user.uid === userID) {
+        prompt_user_start_song.prompt();
+        return;
+    }
+    if (user.adminAccess?.accept_songs) {
+        prompt_admin_start_song.prompt();
+        return;
     }
 });
 socket.on("screenVideoUpdate",(videoStats) => {
@@ -145,7 +144,12 @@ function getTotalPlays(item) {
 }
 
 
-socket.on("promptQR",promptQR);
+socket.on("promptQR",(admin) => {
+    if (admin)
+        prompt_admin_start_song.prompt();
+    else
+        prompt_user_start_song.prompt();
+});
 
 
 
@@ -164,7 +168,8 @@ socket.on("allowAdmin",(adminSettings,goToAdmin,adminAccess) => {
     if (goToAdmin) setTimeout(adminSlideIn,100);
 })
 socket.on("hideYourSongsNext",() => {
-    $(".promptQR").hide();
+    prompt_user_start_song.hide();
+    prompt_admin_start_song.hide();
 })
 
 socket.on("queueStateChange",(queueID,status) => {

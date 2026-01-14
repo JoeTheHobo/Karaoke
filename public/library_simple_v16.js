@@ -2932,7 +2932,7 @@ function addOpacityToColor(color,opacity="ff",a="ff",b="ff",c="ff",d="ff") {
             let conversion = hexToRGB(this.color);
             conversion.a = parseInt(this.opacity, 16);
             if (type == "object") return { r: conversion.r,g: conversion.g,b: conversion.b,a: conversion.a};
-            if (type == "string") return "rgba(" + conversion.r + "," + conversion.g + "," + conversion.b + conversion.a + ")";
+            if (type == "string") return "rgba(" + conversion.r + "," + conversion.g + "," + conversion.b + "," + (conversion.a/255) + ")";
             if (type == "array") return [conversion.r,conversion.g,conversion.b,conversion.a];
             console.warn("Invalid Type To Return, Enter either Object/String/Array")
         },
@@ -3045,7 +3045,20 @@ function addOpacityToColor(color,opacity="ff",a="ff",b="ff",c="ff",d="ff") {
             newObj.colorName = findColorObj.name;
             newObj.colorNameSimilarity = findColorObj.similar;
             return newObj;
-        }
+        },
+        opaque: function(amt) {
+            let newObj = JSON.parse(JSON.stringify(this));
+
+            let opacity = Math.round(amt * 255).toString(16).padStart(2, "0");
+
+            newObj.color = newObj.color.subset(0,6) + opacity;
+
+            let findColorObj = findColorName(newObj.ogColor)
+            newObj.colorName = findColorObj.name;
+            newObj.colorNameSimilarity = findColorObj.similar;
+            return newObj;
+            
+        },
     }
 }
 function darkenHexColor(hex, percent) {

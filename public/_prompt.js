@@ -1,0 +1,461 @@
+class _prompt {
+    constructor(obj) {
+        /*
+            Modes:
+            Slide Up
+            Centered
+
+            Background:
+            Empty,
+            opaque,
+            blurred,
+
+
+        */
+
+        this.html = {
+            body: false,
+            background: false,
+            prompt: false,
+        }
+        this.build = obj?.build ?? [];
+        this.settings = {
+            delivery: obj?.settings?.delivery ?? "centered",
+            delivery_bottom: {
+                slideIn: obj?.settings?.delivery_bottom?.slideIn ?? true,
+            },
+            background: {
+                type: obj?.settings?.background?.type ?? "opaque",
+                type_opaque: {
+                    style: {
+                        opacity: obj?.settings?.background?.type_opaque?.style?.opacity ?? 0.5,
+                        backgroundColor: obj?.settings?.background?.type_opaque?.style?.backgroundColor ?? "black",
+                    }
+                }
+            },
+            prompt: {
+                style: {
+                    backgroundColor: obj?.settings?.prompt?.style?.backgroundColor ?? "#252525",
+                    color: obj?.settings?.prompt?.style?.color ?? "white",
+                }
+            },
+            style: {
+                zIndex: obj?.settings?.style?.zIndex ?? 1000,
+                position: obj?.settings?.style?.position ?? "absolute",
+            },
+            fadeIn: obj?.settings?.fadeIn ?? 200,
+        }
+        this.onBuild = obj.onBuild || function() {};
+    }
+    prompt(...args) {
+        this.buildHTML(...args);
+        this.setBackground();
+        this.setPrompt();
+    }
+    hide() {
+        if (this.html.body)
+            this.html.body.remove();
+    }
+
+    buildHTML(...args) {
+        this.html.body = create("div");
+        this.html.body.css({
+            position: this.settings.style.position,
+            zIndex: this.settings.style.zIndex,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+        })
+
+        let background_style;
+        if (this.settings.background.type === "opaque") background_style = this.settings.background.type_opaque.style;
+        this.html.background = this.html.body.create("div");
+        this.html.background.css({
+            opacity: 0,
+            backgroundColor: background_style.backgroundColor,
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            transition: `all ${this.settings.fadeIn/1000}s ease-in-out`
+        })
+
+        let prompt_style;
+        if (this.settings.delivery === "centered") prompt_style = {
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            margin: "auto",
+            width: "max-content",
+            height: "max-content",
+            borderRadius: "5px",
+            padding: "15px",
+            opacity: 0,
+        }
+        if (this.settings.delivery === "bottom") prompt_style = {
+            position: "absolute",
+            width: "100%",
+            height: "max-content",
+            borderTopLeftRadius: "20px",
+            borderTopRightRadius: "20px",
+            bottom: 0,
+            maxHeight: "0px",
+            opacity: 1,
+            
+        }
+        this.html.prompt = this.html.body.create("div");
+        this.html.prompt.css({
+            opacity: prompt_style.opacity ?? 0,
+            backgroundColor: this.settings.prompt.style.backgroundColor,
+            width: prompt_style.width ?? "unset",
+            height: prompt_style.height ?? "unset",
+            position: prompt_style.position ?? "unset",
+            left: prompt_style.left ?? "unset",
+            right: prompt_style.right ?? "unset",
+            top: prompt_style.top ?? "unset",
+            bottom: prompt_style.bottom ?? "unset",
+            margin: prompt_style.margin ?? "unset",
+            transition: `all ${this.settings.fadeIn/1000}s ease-in-out`,
+            color: this.settings.prompt.style.color,
+            borderRadius: prompt_style.borderRadius ?? "unset",
+            padding: prompt_style.padding ?? "unset",
+            borderTopLeftRadius: prompt_style.borderTopLeftRadius ?? "unset",
+            borderTopRightRadius: prompt_style.borderTopRightRadius ?? "unset",
+            boxSizing: "border-box",
+            maxHeight: prompt_style.maxHeight ?? "unset",
+            overflow: "hidden",
+        })
+
+        let container = this.html.prompt;
+        let elems = {};
+        for (let i = 0; i < this.build.length; i++) {
+            let obj = this.helper_build(container,this.build[i],this)
+            if (!obj) continue;
+            if (!obj.length) {
+                obj = [obj];
+            }
+            for (let j = 0; j < obj.length; j++) {
+                elems[obj[j].iid] = obj[j].elem;
+            }
+        }
+        this.onBuild(elems,...args);
+        this.elems = elems;
+    }
+    helper_build(container,item,Class) {
+        let div = container.create("div");
+
+        if (item.length) {
+            div.css({
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                width: "100%",
+                justifyContent: "space-evenly",
+                marginTop: "15px",
+            })
+            let elems = [];
+            for (let i = 0; i < item.length; i++) {
+                let obj = this.helper_build(div,item[i],Class);
+                if (!obj) continue;
+                elems.push(obj)
+            }
+            return elems;
+        }
+
+        let style = item?.style || {};
+
+        if (item.item === "custom") {
+            if (item.style) {
+                div.css(item.style);
+            }
+        }
+        div.css({
+            marginTop: "15px",
+        })
+
+        if (item.item === "input") {
+            let input = div.create("input");
+            if (item.type) input.type = item.type;
+            div.css({
+                width: "100%",
+                height: "40px",
+            })
+            input.css({
+                width: "95%",
+                height: "95%",
+                outline: "none",
+                borderRadius: "3px",
+                backgroundColor: "white",
+                border: "2px solid rgb(207, 207, 207)"
+            })
+            input.placeholder = item.placeholder ?? "";
+        }
+        if (item.item === "title") {
+            div.css({
+                fontSize: style.fontSize || "20px",
+                textAlign: style.textAlign || "center",
+                width: style.width || "100%",
+                fontWeight: "bold",
+            })
+            div.innerHTML = item.text || "";
+        }
+        if (item.item === "button") {
+            div.css({
+                flex: 1,
+                height: "60px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            })
+
+            let style = {};
+            if (item.type) style = this.buttonTypes(item.type,item.neonColor ?? "red");
+
+            let button = div.create("button");
+            button.css({
+                width: "90%",
+                height: "90%",
+                border: style.border || "none",
+                color: style.color || "black",
+                backgroundColor: style.backgroundColor || "white",
+                borderRadius: "5px",
+                fontSize: "17px",
+                boxShadow: style.boxShadow || "unset",
+            })
+            if (item.func) {
+                button.on("click touch",function() {
+                    item.func(Class.elems);
+                })
+            }
+            button.innerHTML = item.text || "";
+        }
+
+        if (item.close) {
+            let body = this.html.body;
+            div.on("click touch",function() {
+                body.remove();
+            })
+        }
+
+        if (item.iid) return {
+            iid: item.iid,
+            elem: div,
+        }
+        return false;
+    }
+    setBackground(func) {
+        let background = this.html.background;
+        let style;
+        if (this.settings.background.type === "opaque") style = this.settings.background.type_opaque.style;
+
+        setTimeout(function() {
+
+            background.css({
+                opacity: style.opacity,
+            })
+        },0);
+    }
+    setPrompt() {
+        let _prompt = this.html.prompt;
+
+        let maxHeight = "unset";
+        let padding = false;
+        if (this.settings.delivery === "bottom" && this.settings.delivery_bottom.slideIn) {
+            maxHeight = "100%";
+            padding = "15px";
+        }
+
+        setTimeout(function() {
+
+            _prompt.css({
+                opacity: 1,
+                maxHeight: maxHeight,
+            })
+            if (padding) {
+                _prompt.css({
+                    padding: padding,
+                })
+            }
+        },0);
+    }
+
+    buttonTypes(type,extra1) {
+        if (type == "neon") {
+            let color1 = _color(extra1).ogColor + (Math.round(0.7 * 255).toString(16).padStart(2, "0"));
+            let color2 = _color(extra1).ogColor + (Math.round(0.7 * 255).toString(16).padStart(2, "0.4"));
+
+            return {
+                backgroundColor: "#00000000",
+                color: "white",
+                border: "2px solid white",
+                boxShadow: `0 0 10px 1px ${color1}, 0 0 20px 1px ${color2}`,
+            }
+        }
+    }
+}
+
+
+let prompt_user_banned = new _prompt({
+    build: [
+        {item: "title",text: "Adding Songs Is Disabled."},
+        {item: "button",type: "neon",close: true, neonColor: "red",text: "Oof."}
+    ],
+    settings: {
+        delivery: "bottom",
+    }
+});
+
+let prompt_user_start_song = new _prompt({
+    build: [
+        {item: "title",text: "Your Songs Next!"},
+        [/*{item: "button",type: "neon", neonColor: "green", text: "Push Song Back.",close: true,func: puss_push_song_back},*/{item: "button",type: "neon",close: true, neonColor: "purple",text: "Start Song.",func: puss_start_song}]
+    ],
+    settings: {
+        delivery: "bottom",
+    }
+});
+function puss_push_song_back() {
+    socket.emit("pushSongBack",user.uid)
+}
+function puss_start_song() {
+    socket.emit("PromptOk",user.uid)
+}
+
+let prompt_admin_start_song = new _prompt({
+    build: [
+        {item: "title",text: "Start Song For User?"},
+        [{item: "button",type: "neon", neonColor: "blue", text: "No.",close: true},{item: "button",type: "neon",close: true, neonColor: "purple",text: "Start Song.",func: puss_start_song}]
+    ],
+    settings: {
+        delivery: "bottom",
+    }
+});
+
+
+let prompt_add_song = new _prompt({
+    build: [
+        {item: "title",text: "Add This Song?"},
+        {item: "custom", iid: "songDisplay",style:{marginBottom: "10px"}},
+        {item: "input", iid: "showname", placeholder: "Show Name..."},
+        [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon", iid:"afirm", neonColor: "purple",text: "Add To Queue!"}]
+    ],
+    settings: {
+        delivery: "bottom",
+    },
+    onBuild: function(elems,song) {
+        elems["showname"].$("<input").value = user.showName;
+        displaySongs(elems["songDisplay"],[song],"search",false,false);
+        elems["afirm"].on("click touch",function() {
+            let showName = elems["showname"].$("<input").value;
+            console.log(showName);
+            if (showName === "") {
+                elems["showname"].$("<input").style.border = "2px solid #ff5959";
+                return;
+            }
+
+            user.showName = showName;
+            if (user.showName !== ls.get("showName",false)) socket.emit("changedShowName",user.showName);
+            ls.save("showName",showName);
+
+            prompt_add_song.hide();
+
+            $(".displayDiv").style.opacity = 0;
+            $(".displayDiv").style.pointerEvents = "none";
+
+            addQueue({
+                song: song.song,
+                artist: song.artist,
+                singer: user.showName,
+                url: song.url,
+                singerID: user.uid,
+                videoId: song.videoId,
+                changingSong: data.changingSong,
+                channel: song.channel,
+                extension: song.extension,
+            })
+        })
+    }
+});
+
+let prompt_change_song = new _prompt({
+    build: [
+        {item: "title",text: "Change To This Song?"},
+        {item: "custom", iid: "songDisplay",style:{marginBottom: "10px"}},
+        [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon",close: true, iid:"afirm", neonColor: "purple",text: "Change Song!"}]
+    ],
+    settings: {
+        delivery: "bottom",
+    },
+    onBuild: function(elems,song) {
+        displaySongs(elems["songDisplay"],[song],"search",false,false);
+        elems["afirm"].on("click touch",function() {
+            $(".displayDiv").style.opacity = 0;
+            $(".displayDiv").style.pointerEvents = "none";
+            
+            addQueue({
+                song: song.song,
+                artist: song.artist,
+                singer: user.showName,
+                url: song.url,
+                singerID: user.uid,
+                videoId: song.videoId,
+                changingSong: data.changingSong,
+                channel: song.channel,
+                extension: song.extension,
+            })
+            
+            data.changingSong = false;
+            setScene("user");
+        })
+    }
+});
+
+
+
+let prompt_remove_song = new _prompt({
+    build: [
+        {item: "title",text: "Remove Song From Queue?"},
+        {item: "custom", iid: "songDisplay",style:{marginBottom: "10px"}},
+        [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon",close: true, neonColor: "red",text: "Delete IT!",func: () => {
+            closeQueueEditor();
+            socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
+        }}]
+    ],
+    settings: {
+        delivery: "bottom",
+    },
+    onBuild: (elems) => {
+        displaySongs(elems["songDisplay"],[data.queue[data.selectedSong]],"search",false,false);
+    }
+});
+
+let prompt_change_name = new _prompt({
+    build: [
+        {item: "title",text: "Change Your Show Name!"},
+        {item: "input", iid: "showname", placeholder: "Show Name..."},
+        [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon", neonColor: "purple",text: "Change Name!",func: function(elems) {
+            closeQueueEditor();
+            let name = elems["showname"].$("<input").value;
+            if (name === "") {
+                elems["showname"].$("<input").style.border = "2px solid #ff5959";
+                return;
+            }
+            
+            user.showName = name;
+            if (user.showName !== ls.get("showName",false)) socket.emit("changedShowName",user.showName);
+            ls.save("showName",name);
+
+            prompt_change_name.hide();
+            socket.emit("alterQueue","Change Name",data.queue[data.selectedSong].queueID,name);
+        }}]
+    ],
+    settings: {
+        delivery: "bottom",
+    },
+    onBuild: function(elems) {
+        elems["showname"].$("<input").value = data.queue[data.selectedSong].singer;
+        elems["showname"].$("<input").focus();
+    }
+});

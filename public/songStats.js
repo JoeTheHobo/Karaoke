@@ -272,7 +272,7 @@ let songStats = {
   },
   "F-p2BQ4H1nA": {
     "videoId": "F-p2BQ4H1nA",
-    "plays": 2,
+    "plays": 3,
     "url": "https://www.youtube.com/watch?v=F-p2BQ4H1nA",
     "channel": "Musisi Karaoke",
     "song": "Lose Yourself",
@@ -281,7 +281,7 @@ let songStats = {
   },
   "F0y7myKDKyA": {
     "videoId": "F0y7myKDKyA",
-    "plays": 2,
+    "plays": 4,
     "url": "https://www.youtube.com/watch?v=F0y7myKDKyA",
     "channel": "EasyKaraoke",
     "song": "Sing For The Moment",
@@ -353,7 +353,7 @@ let songStats = {
   },
   "gx6J54BIsn0": {
     "videoId": "gx6J54BIsn0",
-    "plays": 2,
+    "plays": 3,
     "url": "https://www.youtube.com/watch?v=gx6J54BIsn0",
     "channel": "Captain Awesome Karaoke",
     "song": "Lucky You",
@@ -380,7 +380,7 @@ let songStats = {
   },
   "Hqh5Kwf_YEg": {
     "videoId": "Hqh5Kwf_YEg",
-    "plays": 2,
+    "plays": 3,
     "url": "https://www.youtube.com/watch?v=Hqh5Kwf_YEg",
     "channel": "MrEntertainerKaraoke",
     "song": "You Probably Couldn't See The Lights But You Were Staring Straight At Me",
@@ -775,7 +775,7 @@ let songStats = {
     "extension": "Lyrics"
   },
   "-gs_SZM2lRk": {
-    "plays": 5,
+    "plays": 13,
     "song": "do re mi ",
     "artist": "blackbear",
     "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",

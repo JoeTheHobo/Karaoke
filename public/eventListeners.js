@@ -86,20 +86,13 @@ $("qpMoveBottom").on("click touch",function() {
 $("qpRemove").on("click touch",function() {
     this.classAdd("qpIconSelected");
     setTimeout(() => {
-        closeQueueEditor();
-        popup("Remove Song From Queue?",() => {
-            socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
-        },"Remove It!",true)
+        prompt_remove_song.prompt();
     },200);
 })
 $("qpChangeName").on("click touch",function() {
     this.classAdd("qpIconSelected");
     setTimeout(() => {
-        closeQueueEditor();
-        popup("Choose your name.",() => {
-            let name = $(".showNameInput").value;
-            socket.emit("alterQueue","Change Name",data.queue[data.selectedSong].queueID,name);
-        },"Change Name")
+        prompt_change_name.prompt();
     },200);
 })
 $("qpChangeSong").on("click",function() {
@@ -309,22 +302,6 @@ $(".singAlong").on("click touch",function() {
     searchSong(this.$P().$P().$P().$(".songTitle").value);
 })
 
-
-
-
-/////////////////////////
-//    Popup Options    //
-/////////////////////////
-$(".prompt_cancel").on("click touch",function() {
-    $(".promptQR").hide();
-})
-$(".promptOK").on("click touch",function() {
-    $(".promptQR").hide();
-    socket.emit("PromptOk",user.uid)
-})
-$(".popup_cancel").on("click",function() {
-    $(".popup").hide();
-})
 
 
 

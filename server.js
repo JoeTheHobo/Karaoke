@@ -195,10 +195,17 @@ io.on("connection", (socket) => {
     })
     socket.on("checkIfQR",(ssCode,uid) => {
       if (ssCode !== sessionCode) return;
+      if (!state.waitingOnQR) return;
       if (state.waitingOnQR.accepted) return;
-      if (state.waitingOnQR.id !== uid) return;
+      if (state.waitingOnQR.id === uid) {
+        socket.emit("promptQR");
+        return;
+      }
+      if (socket?.adminAccess?.accept_songs) {
+        socket.emit("promptQR",true);
 
-      io.emit("promptQR");
+      }
+
     })
     socket.on("clientFinishedVideo",() => {
       io.to("admin").emit("hideVideoPlayer");
@@ -272,9 +279,19 @@ io.on("connection", (socket) => {
     socket.on("searchSong",(query,extension) => {
       socket.emit("returnedSearchedSongs",searchLocalIndex(query,extension,global_songStats))
     })
+    socket.on("pushSongBack",(uid) => {
+      if (state.waitingOnQR.accepted) return;
+      if (state.waitingOnQR.id !== uid) return;
+
+      return; //Will Add Later
+      alterQueue("Move Down",state.waitingOnQR.videoInfo.queueID);
+      playSong();
+    })
     socket.on("PromptOk",(id) => {
       if (state.waitingOnQR.accepted) return;
       if ((state.waitingOnQR.id !== id && socket.adminAccess.accept_songs !== true)) return;
+      if (!settings.testing_mode) io.to("uid" + state.waitingOnQR.videoInfo.singerID).emit("saveToLocal",state.waitingOnQR.videoInfo);
+      io.to("admin").emit("closePrompts");
       playVideo();
       state.waitingOnQR.accepted = true;
     })
@@ -536,7 +553,6 @@ function playSong() {
 async function playVideo() {
   state.queue[0].status = "playing";
   io.emit("queueStateChange",state.queue[0].queueID,state.queue[0].status);
-  io.emit("hidePromptOK");
   const duration = await getVideoDuration(`./public/Song Downloads/${state.waitingOnQR.videoID}.mp4`);
   state.music = {
     startTime: Date.now() + 3000,
