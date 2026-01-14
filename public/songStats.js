@@ -281,7 +281,7 @@ let songStats = {
   },
   "F0y7myKDKyA": {
     "videoId": "F0y7myKDKyA",
-    "plays": 4,
+    "plays": 6,
     "url": "https://www.youtube.com/watch?v=F0y7myKDKyA",
     "channel": "EasyKaraoke",
     "song": "Sing For The Moment",
@@ -353,7 +353,7 @@ let songStats = {
   },
   "gx6J54BIsn0": {
     "videoId": "gx6J54BIsn0",
-    "plays": 3,
+    "plays": 4,
     "url": "https://www.youtube.com/watch?v=gx6J54BIsn0",
     "channel": "Captain Awesome Karaoke",
     "song": "Lucky You",
@@ -677,7 +677,7 @@ let songStats = {
   },
   "XtmJTgtCoP8": {
     "videoId": "XtmJTgtCoP8",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=XtmJTgtCoP8",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -775,7 +775,7 @@ let songStats = {
     "extension": "Lyrics"
   },
   "-gs_SZM2lRk": {
-    "plays": 13,
+    "plays": 18,
     "song": "do re mi ",
     "artist": "blackbear",
     "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",

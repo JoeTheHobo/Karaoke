@@ -225,6 +225,7 @@ function buildSearchIndex() {
   let settings = {
     keys: [{name: 'normalizedTitle', weight: 2},'channelName'],
     ignoreDiacritics: true,
+    threshold: 0.4,
 
   }
 
