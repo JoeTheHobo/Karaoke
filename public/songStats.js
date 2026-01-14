@@ -281,7 +281,7 @@ let songStats = {
   },
   "F0y7myKDKyA": {
     "videoId": "F0y7myKDKyA",
-    "plays": 1,
+    "plays": 2,
     "url": "https://www.youtube.com/watch?v=F0y7myKDKyA",
     "channel": "EasyKaraoke",
     "song": "Sing For The Moment",
@@ -353,7 +353,7 @@ let songStats = {
   },
   "gx6J54BIsn0": {
     "videoId": "gx6J54BIsn0",
-    "plays": 1,
+    "plays": 2,
     "url": "https://www.youtube.com/watch?v=gx6J54BIsn0",
     "channel": "Captain Awesome Karaoke",
     "song": "Lucky You",
@@ -880,6 +880,15 @@ let songStats = {
     "url": "https://www.youtube.com/watch?v=urqFk4H0Nts",
     "videoId": "urqFk4H0Nts",
     "channel": "MrEntertainerKaraoke",
+    "extension": "Karaoke"
+  },
+  "uUitc13wrEU": {
+    "plays": 1,
+    "song": "'Till I Collapse",
+    "artist": "Eminem",
+    "url": "https://www.youtube.com/watch?v=uUitc13wrEU",
+    "videoId": "uUitc13wrEU",
+    "channel": "EdKara",
     "extension": "Karaoke"
   }
 };

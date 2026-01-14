@@ -89,7 +89,6 @@ socket.on("updatedUsers",(users) => {
 
 
 socket.on("returnedSearchedSongs",(videos) => {
-
     const resultsDiv = $(".songResultsDiv");
     resultsDiv.html("");
 

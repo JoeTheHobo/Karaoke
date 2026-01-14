@@ -11,6 +11,7 @@ setSplash();
 
 
 async function searchSong(q,loseFocus = true) {
+    if (loseFocus) input_searching = false;
     if (loseFocus) $(".songTitle").simpleBlur();
     if (!q) return;
     const resultsDiv = $(".songResultsDiv");
@@ -23,14 +24,23 @@ async function searchSong(q,loseFocus = true) {
     socket.emit("searchSong",q,songSearchExtension);
     return;
 }
-
+function normalizeText(str) {
+  return str
+    .normalize("NFKD")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "") // zero-width chars
+    .replace(/\s+/g, " ")
+    .replace(/[\p{Emoji}\p{So}\p{Sk}\p{Sm}\p{Sc}]/gu, "")
+    .trim();
+}
 function fixTitle(title,format) {
   if (!title) return { song: "", artist: "" };
+  title = normalizeText(title);
+  title = title.replace(/karaoke/gi, "");
 
   let first = title.subset(0,format[1] + "\\before");
   let secondFull = title.subset(format[1] + "\\after",true);
   let second = "";
-  let bannedChars = ["[","(","|","-"];
+  let bannedChars = ["[","(","|","-","【"];
   buildingSecond: for (let i = 0; i < secondFull.length; i++) {
     let char = secondFull.charAt(i);
     if (bannedChars.includes(char)) {
@@ -39,6 +49,7 @@ function fixTitle(title,format) {
         second += char;
     }
   }
+
 
   if (format[0] == "a") return {
     song: second.trim(),
@@ -397,7 +408,7 @@ function displaySongs(div,list,type,showExtension = true) {
                 })
             }
         let section2 = container.create("div.section2");
-        let singerTitle;
+            let singerTitle;
             if (l.type === "queue") {
                 singerTitle = section2.create("div.s2Div>" + l.singer);
                 singerTitle.classAdd("s2TextCenter");
@@ -409,7 +420,8 @@ function displaySongs(div,list,type,showExtension = true) {
             if (type == "queue") songType = "";
 
             let songTitleRow = section2.create("div.s2DivRow");
-            let songTitle = songTitleRow.create("div.s2Div2>" + l.song);
+            let songTitle = songTitleRow.create("div.s2Div2");
+            songTitle.innerHTML = l.song;
             let singTypeDiv = songTitleRow.create("div.s2DivMini>" + songType);
             let artistTitle = section2.create("div.s2Div>" + l.artist);
             let channelTitle;
@@ -765,7 +777,8 @@ function promptQR() {
 
 function playVideo(fileName,handledByClient = false) {
     if (user.type !== "screen") return;
-    stopFireworks();
+    stopThemeEffects();
+    
     let videoEl = $(".video_" + using_screen_layout);
     videoEl.src = `/Song Downloads/${fileName}.mp4`;
     videoEl.show();
@@ -779,7 +792,7 @@ function playVideo(fileName,handledByClient = false) {
         videoEl.addEventListener("ended",() => {
             socket.emit("clientFinishedVideo")
             videoEl.hide();
-            startFireworks();
+            startThemeEffects();
         },{ once: true})
     }
 }
@@ -926,7 +939,7 @@ function updateAdminSettings(settings) {
         $("admin_input_testing").checked = settings.testing_mode;
         $("admin_input_adding_songs").checked = settings.block_all_songs;
         if (settings.turn_off_time)
-            $("admin_input_time").value = settings.turn_off_time.hour + ":" + settings.turn_off_time.minute;
+            $("admin_input_time").value = String(settings.turn_off_time.hour).padStart(2, "0") + ":" + String(settings.turn_off_time.minute).padStart(2, "0");
         else 
             $("admin_input_time").value = "";
 
@@ -959,7 +972,6 @@ function updateAdminSettings(settings) {
         
     }
 }
-
 
 async function setImages() {
     photos = await fetch("/imagelist").then(r => r.json());

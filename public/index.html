@@ -132,11 +132,11 @@
             </div>
             <div class="userStatSongs column_align_center">
                 <div class="groupChoices">
-                    <div class="userStatDiv" id="globalStat_popular"><div class="userStatTitle">Popular</div><img class="userStatImg global_invert" src="img/fire.png" alt=""></div>
-                    <div class="userStatDiv" id="globalStat_artists"><div class="userStatTitle">Artists</div><img class="userStatImg global_invert" src="img/dazzleIcons/user_search.svg" alt=""></div>
-                    <div class="userStatDiv" id="userStat_mostPlayed"><div class="userStatTitle">Your Most<br>Played</div><img class="userStatImg global_invert" src="img/dazzleIcons/most_played.svg" alt=""></div>
-                    <div class="userStatDiv" id="userStat_Favorites"><div class="userStatTitle">Favorites</div><img class="userStatImg global_invert" src="img/dazzleIcons/heart.svg" alt=""></div>
-                    <div class="userStatDiv" id="userStat_History"><div class="userStatTitle">History</div><img class="userStatImg global_invert" src="img/dazzleIcons/history.svg" alt=""></div>
+                    <div class="userStatDiv" id="globalStat_popular"><div class="userStatTitle">Popular</div><div class="userStatImgContainer"><img class="userStatImg img_main global_invert" src="img/fire.png" alt=""><img class="userStatImg img_glow global_invert" id="img_popular" src="img/fire.png" alt=""></div></div>
+                    <div class="userStatDiv" id="globalStat_artists"><div class="userStatTitle">Artists</div><div class="userStatImgContainer"><img class="userStatImg global_invert img_main" src="img/dazzleIcons/user_search.svg" alt=""><img class="userStatImg img_glow global_invert" id="img_artists" src="img/dazzleIcons/user_search.svg" alt=""></div></div>
+                    <div class="userStatDiv" id="userStat_mostPlayed"><div class="userStatTitle">Most Played</div><div class="userStatImgContainer"><img class="userStatImg img_main global_invert" src="img/dazzleIcons/most_played.svg" alt=""><img class="userStatImg img_glow global_invert" id="img_most_played" src="img/dazzleIcons/most_played.svg" alt=""></div></div>
+                    <div class="userStatDiv" id="userStat_Favorites"><div class="userStatTitle">Favorites</div><div class="userStatImgContainer"><img class="userStatImg img_main global_invert" src="img/dazzleIcons/heart.svg" alt=""><img class="userStatImg img_glow global_invert" id="img_favorites" src="img/dazzleIcons/heart.svg" alt=""></div></div>
+                    <div class="userStatDiv" id="userStat_History"><div class="userStatTitle">History</div><div class="userStatImgContainer"><img class="userStatImg img_main global_invert" src="img/dazzleIcons/history.svg" alt=""><img class="userStatImg img_glow global_invert" id="img_history" src="img/dazzleIcons/history.svg" alt=""></div></div>
                 </div>
             </div>
             <div class="songResultsDiv column_align_center"></div>
@@ -218,12 +218,6 @@
                     </div>
                     <div class="explanitoryText">Choose a time for the queue to auto shut down and prevent users from adding songs.</div>
                     
-                    <div class="adminSettingRow">
-                        <div class="adminLabel">Reset Cut Off Time</div>
-                        <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_turn_off_time">
-                    </div>
-                    <div class="explanitoryText">Click to turn off the cut off time</div>
-
                     <div class="adminSettingRow">
                         <div class="adminLabel">Testing Mode</div>
                         <input type="checkbox" class="adminInputAll admin_input_checkbox" id="admin_input_testing">
@@ -364,6 +358,8 @@
     <script src="library_simple_v16.js"></script>
     
     <script src="screen_effects/fireworks.js"></script>
+    <script src="screen_effects/snowflakes.js"></script>
+    <script src="screen_effects/hearts.js"></script>
 
     <script src="variables.js"></script>
     <script src="socketInit.js"></script>

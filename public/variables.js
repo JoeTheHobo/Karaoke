@@ -46,3 +46,4 @@ let global_users = [];
 let video_controller = "server";
 
 let using_screen_layout;
+let currentTheme = false;

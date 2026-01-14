@@ -15,7 +15,7 @@ themes["Valentines"] = {
             imgSrc: "valentines.png",
         },
         effects: {
-
+            hearts: true,
         }
     }
 }
@@ -91,6 +91,7 @@ themes["Winter"] = {
             imgSrc: "winter.png",
         },
         effects: {
+            snow: true,
         }
     }
 }
@@ -153,6 +154,7 @@ function isThemeActive(theme, now = new Date()) {
   );
 }
 function setTheme(theme) {
+    currentTheme = theme;
     if (user.type === "screen") {
         let screen = theme.screen;
 
@@ -162,7 +164,19 @@ function setTheme(theme) {
         if (screen.banner.imgSrc) $(".s2_art_display").$("<img").src = "banners/" + screen.banner.imgSrc;
 
         //Handle Effects
-        if (screen.effects.fireworks) startFireworks();
-    }
 
+        startThemeEffects();
+    }
+}
+
+
+function startThemeEffects() {
+    if (currentTheme?.screen?.effects?.fireworks) startFireworks();
+    if (currentTheme?.screen?.effects?.snow) startSnow();
+    if (currentTheme?.screen?.effects?.hearts) startHearts();
+}
+function stopThemeEffects() {
+    stopFireworks();
+    stopSnow();
+    stopHearts();
 }

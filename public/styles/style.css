@@ -4,7 +4,7 @@
 /*1011*/
 body,html {
     background-color: #dd77c4;
-    background-image: url("../img/background3.png");
+    background-image: url("../img/background3.jpg");
     background-size: cover; /* Scales the image to cover the element */
     width: 100%;
     height: 100%;
@@ -565,7 +565,7 @@ input, select {
     width: 100%;
     height: 100vh;
     background: rgb(143 221 142);
-    background-image: url("../img/background3.png");
+    background-image: url("../img/background3.jpg");
     overflow: hidden;
     position: absolute;
     left: 0;
@@ -659,6 +659,13 @@ input, select {
     overflow: hidden;
 
     box-shadow: var(--shadow-sm);
+
+    background: linear-gradient(to bottom, #403443, #28192b);
+}
+.userStatTitle {
+    font-size: 17px;
+    padding-top: 5px;
+    padding-left: 5px;
 }
 .userStatDiv::before {
   content: "";
@@ -669,6 +676,7 @@ input, select {
 
   pointer-events: none;
 }
+/*
 #globalStat_popular {
   background: linear-gradient(to bottom, #ffc470, #ffa852);
 }
@@ -688,12 +696,52 @@ input, select {
 #userStat_History {
   background: linear-gradient(to bottom, #89ed71, #70d364);
 }
-.userStatImg {
+  */
+  .userStatImgContainer {
     position: absolute;
     right: -10px;
     bottom: -10px;
     width: 70px;
-    aspect-ratio: 1/1;
+    height: 70px;
+
+  }
+.userStatImg {
+    width: 60px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+}
+.img_main {
+    z-index: 2;
+
+}
+.img_glow {
+    z-index: 1;
+    transform: scale(1.01) translate(-50%, -50%);
+}
+#img_popular {
+    filter: drop-shadow(0 0 10px rgba(255, 145, 0, 0.8));
+
+}
+#img_most_played {
+    filter: drop-shadow(0 0 10px rgba(162, 0, 255, 0.8));
+
+}
+#img_artists {
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
+
+}
+#img_favorites {
+    filter: drop-shadow(0 0 10px rgba(255, 0, 119, 0.8));
+
+}
+#img_history {
+    filter: drop-shadow(0 0 10px rgba(21, 255, 0, 0.8));
+
 }
 
 .historyMarker {
@@ -1581,4 +1629,29 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
 
 .changesong_toprow {
     margin-top: 50px;
+}
+
+
+.snowflake {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    color: white;
+    font-size: 12px;
+    opacity: 0;
+    transition:
+        transform linear,
+        opacity linear;
+    text-shadow: 0 0 6px rgba(255,255,255,0.8);
+}
+.valentine_heart {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    color: #ff4d6d;
+    text-shadow: 0 0 8px rgba(255, 77, 109, 0.6);
+    transition:
+        transform linear,
+        opacity linear;
 }

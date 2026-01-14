@@ -192,13 +192,24 @@ $("admin_input_queue_type").addEventListener("change",function() {
 $("admin_input_queue_distance").on("change",function() {
     socket.emit("updateAdminSettings","queue_distance",this.value)
 });
+$("admin_input_time").on("focus",function() {
+    if (this.value) return;
+
+    const now = new Date();
+    let hour = now.getHours();
+
+    // move to next hour
+    hour += 1;
+
+    // wrap around 24h
+    hour = hour % 24;
+
+    this.value = `${String(hour).padStart(2, "0")}:00`;
+
+})
 $("admin_input_time").on("change",function() {
     socket.emit("updateAdminSettings","cut_off_time",this.value)
 });
-$("admin_input_turn_off_time").on("click touch",function() {
-    this.checked = false;
-    socket.emit("updateAdminSettings","cut_off_time",false)
-})
 
 //Admin Pinpad
 $(".pinpad_option").on("touchstart",function() {
@@ -255,7 +266,7 @@ function startSearchTimer() {
 }
 $(".songTitle").on("keydown",function(e) {
     if (this.value !== "") {
-        searchEnd = Date.now() + 500;
+        searchEnd = Date.now() + 1000;
         input_searching = true;
         searchElem = this;
         startSearchTimer();

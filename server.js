@@ -312,7 +312,7 @@ io.on("connection", (socket) => {
         settings.max_distance = Number(value);
       }
       if (setting === "cut_off_time") {
-        if (value === false) settings.turn_off_time = false;
+        if (value === false || value == "") settings.turn_off_time = false;
         else settings.turn_off_time = getCutoffDate(value);
       }
 
@@ -769,24 +769,30 @@ function getCutoffDate(timeStr) {
     day
   };
 }
-function isPastCutoff(cutoffParts) {
-  const now = new Date();
-  const cutoff = new Date(cutoffParts.day);
-  cutoff.setHours(cutoffParts.hour, cutoffParts.minute, 0, 0);
-
-  return now >= cutoff;
-}
 function cutOffTimeChecker() {
 
+  let cutOffSpeed = 1000//1000*60*1;
+
   if (settings.turn_off_time) {
-    if (isPastCutoff(settings.turn_off_time)) {
+    const now = new Date();
+    const cutoff = new Date(settings.turn_off_time.day);
+    cutoff.setHours(settings.turn_off_time.hour, settings.turn_off_time.minute, 0, 0);
+
+    let isCutOff = now >= cutoff;
+    let dif = cutoff - now;
+
+    if (isCutOff) {
       settings.block_all_songs = true;
       settings.turn_off_time = false;
       io.emit("blockAllSongs",settings.block_all_songs);
       io.to("admin").emit("updateAdminSettings",settings);
+    } else if (dif < 1000*60*.25) {
+      cutOffSpeed = 5000;
+    } else if (dif < 1000*60*1.5) {
+      cutOffSpeed = 20000;
     }
   }
 
-  setTimeout(cutOffTimeChecker,1000*60*1); //Recheck every minute
+  setTimeout(cutOffTimeChecker,cutOffSpeed); //Recheck every minute
 }
 cutOffTimeChecker();
