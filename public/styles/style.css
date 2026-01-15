@@ -337,7 +337,7 @@ input, select {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 63px;
+    height: 73px;
     color: white;
 }
 .songListing_b {
@@ -421,17 +421,18 @@ input, select {
 }
 .s2DivRow {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     width: 100%;
     min-width: 0; /* THIS is the secret */
     white-space: nowrap;
     overflow: hidden; /* Hides overflowing text */
     text-overflow: clip;
     justify-content: start;
+    opacity: 0.8;
 }
 .s2DivMini {
     font-size: 11px;
-    color: #ffffff5d;
+    color: #ffffff;
     margin-left: 2px;
 }
 .s2Div2 {
@@ -1475,19 +1476,19 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
 }
 .seeVariations {
     width: 50%;
-    margin-left: 3px;
-    font-size: 13px;
-    text-align: center;
-    color: black;
-    background: rgb(255, 255, 255);
+    font-size: 11px;
+    color: white;
     border-radius: 3px;
+    text-decoration: underline;
 }
 
 .multi_visible .channel_title {
     color: #b8ffb8;
     opacity: 1 !important;
 }
-
+.channel_title {
+    font-size: 11px !important;
+}
 .spinner {
     margin-top: 20px;
     width: 30px;
@@ -1716,8 +1717,28 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     position: relative;
     display: flex;
     align-items: center;
+    padding-top:2px;
     
 }
 .songStar {
     height: 60%;
+}
+.twoStarHolder {
+    height: 60%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.twoStarHolder > * {
+    height: 100%;
+}
+.star_absolute {
+    position: absolute;
+    height: 100% !important;
+}
+.seperator {
+    transform: scale(2);
+    margin-left: 5px;
+    margin-right: 5px;
 }

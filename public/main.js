@@ -342,8 +342,6 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
             if (type == "queue" && using_screen_layout === "b") container = div.create("div.songListing_b");
             else container = div.create("div.songListing");
         }
-        
-        radio.listen(1).log(4,l)
 
         if (div.classList.contains("column1Fill")) container.classAdd("screenQueueObject");
         let section1 = container.create("div.section1");
@@ -391,65 +389,96 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
                 singerTitle.classAdd("s2TextCenter");
 
             }
-            let songType = l.extension;
-            if (!songType) songType = "";
-            if (!showExtension) songType = "";
-            if (type == "queue") songType = "";
 
-            let songTitleRow = section2.create("div.s2DivRow");
-            let songTitle = songTitleRow.create("div.s2Div2");
+            let songTitle = section2.create("div.s2Div2");
             songTitle.innerHTML = l.song;
-            if (type !== "queue" && songStats[l.videoId]?.reviews) {
-                let starHolder = songTitleRow.create("div.displayStarHolder"); 
-
-                let rating = songStats[l.videoId].reviews.avg();
-                let whole = Math.floor(rating);
-                let remainder = rating - whole;
-
-                for (let i = 0; i < whole; i++) {
-                    let star = starHolder.create("img.songStar");
-                    star.src = "img/dazzleIcons/star_filled.png";
-                }
-
-                if (remainder !== 0) {
-                    let star = starHolder.create("img.songStar");
-                    star.src = "img/dazzleIcons/star_filled.png";
-                    star.style.setProperty(
-                        "clip-path",
-                        `inset(0 ${remainder * 100}% 0 0)`
-                    );
-
-                }
-            }
-            let singTypeDiv = songTitleRow.create("div.s2DivMini>" + songType);
             let artistTitle = section2.create("div.s2Div>" + l.artist);
-            let channelTitle;
-            if (l.channel && l.type !== "queue") {
-                if (multipleSongs) {
-                    channelTitle = section2.create("div.s2DivRow");
-                    let channelName = channelTitle.create("div.as>" + l.channel);
 
-                    let seeVariations = channelTitle.create("div.seeVariations>See Variations");
+            let channelTitle;
+            if (l.type !== "queue") {
+                channelTitle = section2.create("div.s2Div>By " + l.channel);
+                channelTitle.classAdd("s2TextLight channel_title");
+            }
+
+            artistTitle.classAdd("s2TextLight");
+            songTitle.classAdd("s2TextBold");
+
+            if (l.type !== "queue") {
+                let statsRow = section2.create("div.s2DivRow");
+                //Reviews
+                if (type !== "queue" && songStats[l.videoId]?.reviews) {
+                    let starHolder = statsRow.create("div.displayStarHolder"); 
+
+                    let rating = songStats[l.videoId].reviews.avg();
+                    let whole = Math.floor(rating);
+                    let remainder = rating - whole;
+
+                    for (let i = 0; i < whole; i++) {
+                        let star = starHolder.create("img.songStar");
+                        star.classAdd("global_invert");
+                        star.src = "img/dazzleIcons/star_filled_black.png";
+                    }
+
+                    if (remainder !== 0) {
+                        let twoStarHolder = starHolder.create("div.twoStarHolder");
+
+                        let blankStar = twoStarHolder.create("img.songStar");
+                        blankStar.classAdd("global_invert");
+                        blankStar.classAdd("star_absolute");
+                        blankStar.src = "img/dazzleIcons/star.svg";
+
+                        let star = twoStarHolder.create("img.songStar");
+                        star.classAdd("global_invert");
+                        star.src = "img/dazzleIcons/star_filled_black.png";
+                        star.style.setProperty(
+                            "clip-path",
+                            `inset(0 ${remainder * 100}% 0 0)`
+                        );
+
+                    }
+
+                    for (let i = 0; i < 5 - Math.ceil(rating); i++) {
+                        let star = starHolder.create("img.songStar");
+                        star.classAdd("global_invert");
+                        star.src = "img/dazzleIcons/star.svg";
+                    } 
+
+                    statsRow.create("div.seperator>·");
+                }
+
+                //Version
+
+                let songType = l.extension + " Version";
+                if (!songType) songType = "";
+
+                let singTypeDiv = statsRow.create("div.s2DivMini>" + songType);
+
+
+                //Variations
+
+                if (multipleSongs) {
+                    statsRow.create("div.seperator>·");
+
+                    let versions = list[i].length + 1;
+                    let seeVariations = statsRow.create(`div.seeVariations>${versions} Versions ›`);
 
                     seeVariations.on("click touch",function() {
-                        if (this.innerHTML === "See Variations") {
+                        if (this.innerHTML === `${versions} Versions ›`) {
                             multiContainer.classAdd("multi_visible");
                             fullSongs.style.display = "flex";
-                            this.innerHTML = "Hide Variations";
+                            this.innerHTML = "Hide Versions >";
                         } else {
                             multiContainer.classRemove("multi_visible");
                             fullSongs.style.display = "none";
-                            this.innerHTML = "See Variations";
+                            this.innerHTML = `${versions} Versions ›`;
                         }
                     })
-                } else {
-                    channelTitle = section2.create("div.s2Div>" + l.channel);
+
+
                 }
 
-                channelTitle.classAdd("s2TextLight channel_title");
-                artistTitle.classAdd("s2TextLight");
-                songTitle.classAdd("s2TextBold");
             }
+
             if (l.type === "queue") {
                 artistTitle.classAdd("s2TextLight");
                 songTitle.classAdd("s2TextBold");
@@ -461,7 +490,7 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
             if (user.type !== "screen") {
                 iconHolder = section3.create("div.s3IconHolder");
                 let star = iconHolder.create("img.s3IconFavorite");
-                star.src = "img/dazzleIcons/heart.png"; 
+                star.src = "img/dazzleIcons/heart.png";
                 for (let i = 0; i < user.favorites.length; i++) {
                     if (user.favorites[i].videoId === l.videoId) star.src = "img/dazzleIcons/heart_filled.png";
                 }
