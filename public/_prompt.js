@@ -189,6 +189,21 @@ class _prompt {
             marginBottom: "7px",
         })
 
+        if (item.item == "img") {
+            let img = div.create("img");
+            if (item.src) img.src = item.src;
+
+            if (item.style) {
+                img.css(item.style);
+            }
+            if (item.className) img.className = item.className;
+
+            if (item.func) {
+                img.on("click touch",function() {
+                    item.func(Class.elems,img);
+                })
+            }
+        }
         if (item.item === "input") {
             let input = div.create("input");
             if (item.type) input.type = item.type;
@@ -473,3 +488,42 @@ let prompt_change_name = new _prompt({
         elems["showname"].$("<input").focus();
     }
 });
+
+
+let prompt_request_rating = new _prompt({
+    build: [
+        {item: "title",text: "How was this karaoke track?"},
+        [
+            {item: "img",src: "img/dazzleIcons/star.svg", func: prr_rating_click, className: "global_invert star_1", iid: "star_1", style: {width: "40px"}},
+            {item: "img",src: "img/dazzleIcons/star.svg", func: prr_rating_click, className: "global_invert star_2", iid: "star_2", style: {width: "40px"}},
+            {item: "img",src: "img/dazzleIcons/star.svg", func: prr_rating_click, className: "global_invert star_3", iid: "star_3", style: {width: "40px"}},
+            {item: "img",src: "img/dazzleIcons/star.svg", func: prr_rating_click, className: "global_invert star_4", iid: "star_4", style: {width: "40px"}},
+            {item: "img",src: "img/dazzleIcons/star.svg", func: prr_rating_click, className: "global_invert star_5", iid: "star_5", style: {width: "40px"}},
+        ],
+    ],
+    settings: {
+        delivery: "top",
+    },
+    onBuild: (elems) => {
+
+    }
+});
+function prr_rating_click(elems,elem) {
+    let rating = null;
+    if (elem.classList.contains("star_1")) rating = 1;
+    if (elem.classList.contains("star_2")) rating = 2;
+    if (elem.classList.contains("star_3")) rating = 3;
+    if (elem.classList.contains("star_4")) rating = 4;
+    if (elem.classList.contains("star_5")) rating = 5;
+
+    for (let i = 1; i < rating + 1; i++) {
+        $(".star_" + i).classRemove("global_invert")
+        $(".star_" + i).src = "img/dazzleIcons/star_filled.png";
+    }
+
+    socket.emit("song_rating",rating);
+
+    setTimeout(function() {
+        prompt_request_rating.hide();
+    },400)
+}
