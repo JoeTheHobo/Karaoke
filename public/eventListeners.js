@@ -421,3 +421,18 @@ $("start_session").on("click touch",function() {
 
     socket.emit("create_session",adminCode,supervisorCode);
 })
+
+$(".review_star").on("click touch",function() {
+    if (markedReview) return;
+    let rating = Number(this.id.charAt(12));
+
+    for (let i = 1; i < rating + 1; i++) {
+        $("review_star_" + i).classRemove("global_invert")
+        $("review_star_" + i).src = "img/dazzleIcons/star_filled.png";
+    }
+    markedReview = true;
+
+    setTimeout(function() {
+        socket.emit("user_rated_song",user.songToRate,rating);
+    },200);
+})

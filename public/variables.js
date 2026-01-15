@@ -30,6 +30,7 @@ let user = {
     code: ls.get("userCode",false),
     uid: false,
     banned: false,
+    songToRate: false,
 }
 let adminCode = ls.get("adminCode",[]);
 let lastScrollY = 0;
@@ -47,3 +48,4 @@ let video_controller = "server";
 
 let using_screen_layout;
 let currentTheme = false;
+let markedReview = false;

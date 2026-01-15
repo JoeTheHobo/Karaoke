@@ -1675,3 +1675,49 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
         transform linear,
         opacity linear;
 }
+
+
+.userReviews {
+    display: none;
+    width: 95%;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 15px;
+    color: white;
+    box-shadow: var(--shadow-sm);
+
+    background: linear-gradient(to bottom, #403443, #28192b);
+}
+.usersReviewTitle {
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    font-size: 16px;
+}
+.reviewSongContainer {
+
+}
+.stars_container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    height: 40px;
+    margin-top: 10px;
+}
+.stars_container > img {
+    height: 95%;
+}
+
+.displayStarHolder {
+    height: 17px;
+    align-self: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    
+}
+.songStar {
+    height: 60%;
+}

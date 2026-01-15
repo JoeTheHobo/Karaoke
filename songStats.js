@@ -26,6 +26,13 @@ function saveStats(jsonFile,stats) {
         console.error("Failed to save songStats.json:", err);
     }
 }
+function addReview(stats,videoInfo,review) {
+    if (!stats[videoInfo.videoId]) return;
+    if (!stats[videoInfo.videoId].reviews) {
+        stats[videoInfo.videoId].reviews = [];
+    }
+    stats[videoInfo.videoId].reviews.push(review);
+}
 // Increment play count for a song
 function addPlay(stats, videoInfo) {
     if (!stats[videoInfo.videoId]) {
@@ -65,5 +72,6 @@ module.exports = {
     loadStats,
     saveStats,
     addPlay,
-    sortStatsByPopular
+    sortStatsByPopular,
+    addReview
 };

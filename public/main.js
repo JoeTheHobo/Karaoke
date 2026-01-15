@@ -342,6 +342,8 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
             if (type == "queue" && using_screen_layout === "b") container = div.create("div.songListing_b");
             else container = div.create("div.songListing");
         }
+        
+        radio.listen(1).log(4,l)
 
         if (div.classList.contains("column1Fill")) container.classAdd("screenQueueObject");
         let section1 = container.create("div.section1");
@@ -397,6 +399,28 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
             let songTitleRow = section2.create("div.s2DivRow");
             let songTitle = songTitleRow.create("div.s2Div2");
             songTitle.innerHTML = l.song;
+            if (type !== "queue" && songStats[l.videoId]?.reviews) {
+                let starHolder = songTitleRow.create("div.displayStarHolder"); 
+
+                let rating = songStats[l.videoId].reviews.avg();
+                let whole = Math.floor(rating);
+                let remainder = rating - whole;
+
+                for (let i = 0; i < whole; i++) {
+                    let star = starHolder.create("img.songStar");
+                    star.src = "img/dazzleIcons/star_filled.png";
+                }
+
+                if (remainder !== 0) {
+                    let star = starHolder.create("img.songStar");
+                    star.src = "img/dazzleIcons/star_filled.png";
+                    star.style.setProperty(
+                        "clip-path",
+                        `inset(0 ${remainder * 100}% 0 0)`
+                    );
+
+                }
+            }
             let singTypeDiv = songTitleRow.create("div.s2DivMini>" + songType);
             let artistTitle = section2.create("div.s2Div>" + l.artist);
             let channelTitle;

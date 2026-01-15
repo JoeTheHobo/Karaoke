@@ -484,6 +484,9 @@ String.prototype.shuffle = function() {
 Array.prototype.avg = function() {
     return this.sum()/this.length;
 }
+Array.prototype.sum = function() {
+    return this.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+}
 
 /*
 LS Version 3

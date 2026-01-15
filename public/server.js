@@ -232,3 +232,19 @@ socket.on("setVolume",(volume) => {
 socket.on("blockAllSongs",(bool) => {
     settings.block_all_songs = bool;
 })
+
+socket.on("currentReview",(video) => {
+    if (!video) {
+        $(".userReviews").hide();
+        return;
+    }
+
+    user.songToRate = video;
+    $(".userReviews").show();
+    $(".review_star").classAdd("global_invert");
+    for (let i = 0; i < $(".review_star").length; i++) {
+        $(".review_star")[i].src = "img/dazzleIcons/star.svg";
+    }
+    markedReview = false;
+    displaySongs($(".reviewSongContainer"),[video],"search",false,false);
+})

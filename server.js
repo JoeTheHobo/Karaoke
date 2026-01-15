@@ -107,7 +107,7 @@ const io = new Server(server);
 app.use(express.static("public"));
 const axios = require("axios");
 
-const { loadStats, saveStats, addPlay, sortStatsByPopular } = require('./songStats');
+const { loadStats, saveStats, addPlay, sortStatsByPopular, addReview } = require('./songStats');
 const { searchYTChannel, buildSearchIndex, searchLocalIndex } = require("./searchAndSave.js")
 let global_songStats = loadStats("downloadedData.json");
 let global_popularSongs = sortStatsByPopular(global_songStats);
@@ -207,6 +207,16 @@ io.on("connection", (socket) => {
       }
 
     })
+    socket.on("user_rated_song",(video,rating) => {
+      for (let i = 0; i < state.users.length; i++) {
+        if (state.users[i].uid === socket.user.uid) {
+          addReview(global_songStats,state.users[i].reviews[0].video,rating);
+          saveStats("downloadedData.json",global_songStats);
+          state.users[i].reviews.shift();
+          handleReviews();
+        }
+      }
+    })
     socket.on("clientFinishedVideo",() => {
       io.to("admin").emit("hideVideoPlayer");
       if (socket.userType !== "screen") return;
@@ -258,7 +268,8 @@ io.on("connection", (socket) => {
           uid: uid,
           displayName: userShowName,
           banned: false,
-          songCount: 0.
+          songCount: 0,
+          reviews: [],
         }
         state.users.push(obj)
         socket.user = obj;
@@ -267,6 +278,8 @@ io.on("connection", (socket) => {
 
       socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50),settings.block_all_songs);
       io.to("admin").emit("updatedUsers",state.users);
+
+      handleReviews();
 
     }) 
     socket.on("screenJoined", () => {
@@ -579,6 +592,18 @@ function videoChecker() {
     if (now >= state.music.startTime + state.music.duration) {
       state.music.startTime = false;
       state.music.playing = false;
+      
+      for (let i = 0; i < state.users.length; i++) {
+        if (state.users[i].uid == state.queue[0].singerID) {
+          state.queue[0].playing = false;
+          state.users[i].reviews.push({
+            video: state.queue[0],
+            start: Date.now(),
+          })
+          handleReviews();
+        }
+      }
+
       io.to("music").emit("screenVideoUpdate",state.music);
       setTimeout(() => {
         state.queue.shift();
@@ -812,3 +837,26 @@ function cutOffTimeChecker() {
   setTimeout(cutOffTimeChecker,cutOffSpeed); //Recheck every minute
 }
 cutOffTimeChecker();
+
+
+function handleReviews() {
+  let now = Date.now();
+  for (let i = 0; i < state.users.length; i++) {
+    let user = state.users[i];
+
+    //Clear Old Reviews
+    for (let j = 0; j < user.reviews.length; j++) {
+      let review = user.reviews[j];
+      if ((now - review.start) >= (1000*60*15)) {
+        user.reviews.splice(j,1);
+        j--;
+        continue;
+      }
+    }
+
+    let review = user.reviews.length ? user.reviews[0].video : false;
+    io.to("uid" + user.uid).emit("currentReview",review);
+
+
+  }
+}
