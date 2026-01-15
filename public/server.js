@@ -232,6 +232,9 @@ socket.on("setVolume",(volume) => {
 socket.on("blockAllSongs",(bool) => {
     settings.block_all_songs = bool;
 })
+socket.on("vocalTrackToggle",(bool) => {
+    settings.allow_vocals = bool;
+})
 
 socket.on("currentReview",(video) => {
     if (!video) {
@@ -247,4 +250,7 @@ socket.on("currentReview",(video) => {
     }
     markedReview = false;
     displaySongs($(".reviewSongContainer"),[video],"search",false,false);
+})
+socket.on("vocalTracksBanned",() => {
+    prompt_banned_vocals.prompt();
 })

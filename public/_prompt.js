@@ -325,7 +325,15 @@ class _prompt {
     }
 }
 
-
+let prompt_banned_vocals = new _prompt({
+    build: [
+        {item: "title",text: "Vocal Tracks Have Been Disabled."},
+        {item: "button",type: "neon",close: true, neonColor: "red",text: "Oof."}
+    ],
+    settings: {
+        delivery: "top",
+    }
+})
 let prompt_user_banned = new _prompt({
     build: [
         {item: "title",text: "Adding Songs Is Disabled."},

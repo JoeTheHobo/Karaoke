@@ -284,7 +284,7 @@ let songStats = {
   },
   "F0y7myKDKyA": {
     "videoId": "F0y7myKDKyA",
-    "plays": 8,
+    "plays": 9,
     "url": "https://www.youtube.com/watch?v=F0y7myKDKyA",
     "channel": "EasyKaraoke",
     "song": "Sing For The Moment",
@@ -292,7 +292,8 @@ let songStats = {
     "extension": "Karaoke",
     "reviews": [
       2,
-      2
+      2,
+      3
     ]
   },
   "FbKx9g6oyvw": {
@@ -791,7 +792,7 @@ let songStats = {
     "extension": "Lyrics"
   },
   "-gs_SZM2lRk": {
-    "plays": 38,
+    "plays": 40,
     "song": "do re mi ",
     "artist": "blackbear",
     "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",
@@ -800,7 +801,8 @@ let songStats = {
     "extension": "Karaoke",
     "reviews": [
       4,
-      3
+      3,
+      4
     ]
   },
   "d-y2PfMoUec": {

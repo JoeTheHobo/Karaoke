@@ -173,6 +173,9 @@ $(".adminTimerScroll").on("touchend",function() {
 })
 
 //General Admin Settings
+$("admin_input_vocal_tracks").on("change",function() {
+    socket.emit("updateAdminSettings","vocal_tracks",this.checked)
+})
 $("admin_input_testing").on("click touch",function() {
     socket.emit("updateAdminSettings","testing_mode",this.checked)
 });
