@@ -31,6 +31,7 @@ adminRoles.push({
     },
     accept_songs: true,
     modify_queue: true,
+    allow_vocal_tracks: true,
   },
 })
 adminRoles.push({
@@ -45,7 +46,7 @@ adminRoles.push({
     },
     accept_songs: true,
     modify_queue: true,
-    
+    allow_vocal_tracks: true,
   },
 })
 adminRoles.push({
@@ -60,7 +61,7 @@ adminRoles.push({
     },
     accept_songs: true,
     modify_queue: true,
-    
+    allow_vocal_tracks: false,
   },
 })
 
@@ -73,6 +74,7 @@ let settings = {
   video_controller: "server",
   block_all_songs: false, //block users from adding songs to queue
   turn_off_time: false, //Set Time to Turn Off Songs
+  allow_vocals: false,
 }
 let state = {
   users: [],
@@ -345,6 +347,10 @@ io.on("connection", (socket) => {
         if (value === false || value == "") settings.turn_off_time = false;
         else settings.turn_off_time = getCutoffDate(value);
       }
+      if (setting == "vocal_tracks") {
+        settings.allow_vocals = value === true ? true : false;
+        io.emit("vocalTrackToggle",settings.allow_vocals)
+      }
 
       io.to("admin").emit("updateAdminSettings",settings)
     })
@@ -432,7 +438,10 @@ io.on("connection", (socket) => {
       if (settings.block_all_songs) return;
       if (!socket.user) return;
       if (socket.user.banned) return;
-
+      if (!settings.allow_vocals && obj.extension.toLowerCase() === "lyrics") {
+        socket.emit("vocalTracksBanned")
+        return;
+      };
       obj.status = "added";
         if (obj.changingSong !== false) {
           alterQueue("Change Song",obj.changingSong,obj);

@@ -292,7 +292,8 @@ let songStats = {
     "extension": "Karaoke",
     "reviews": [
       2,
-      2
+      2,
+      3
     ]
   },
   "FbKx9g6oyvw": {
@@ -791,7 +792,7 @@ let songStats = {
     "extension": "Lyrics"
   },
   "-gs_SZM2lRk": {
-    "plays": 39,
+    "plays": 40,
     "song": "do re mi ",
     "artist": "blackbear",
     "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",
@@ -800,7 +801,8 @@ let songStats = {
     "extension": "Karaoke",
     "reviews": [
       4,
-      3
+      3,
+      4
     ]
   },
   "d-y2PfMoUec": {

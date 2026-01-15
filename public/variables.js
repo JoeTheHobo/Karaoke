@@ -11,6 +11,7 @@ let settings = {
     volume: .75,
     testing_mode: false,
     block_all_songs: false,
+    allow_vocals: false,
 }
 let globalMute = false;
 let data = {

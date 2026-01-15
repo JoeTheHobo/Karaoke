@@ -315,6 +315,7 @@ input, select {
 }
 
 .songResultsDiv {
+    padding-top: 10px;
     width: 95%;
     flex: 1;
     overflow-y: scroll;
@@ -429,11 +430,11 @@ input, select {
     text-overflow: clip;
     justify-content: start;
     opacity: 0.8;
+    height: 14px;
 }
 .s2DivMini {
     font-size: 11px;
     color: #ffffff;
-    margin-left: 2px;
 }
 .s2Div2 {
     min-width: 0; /* THIS is the secret */
@@ -678,27 +679,7 @@ input, select {
 
   pointer-events: none;
 }
-/*
-#globalStat_popular {
-  background: linear-gradient(to bottom, #ffc470, #ffa852);
-}
-#globalStat_artists {
-  background: linear-gradient(
-    to bottom,
-    #ce84ff,
-    #ae33ff
-  );
-}
-#userStat_mostPlayed {
-  background: linear-gradient(to bottom, #9ea1fd, #893fff);
-}
-#userStat_Favorites {
-  background: linear-gradient(to bottom, #ff67a6, #f33da2);
-}
-#userStat_History {
-  background: linear-gradient(to bottom, #89ed71, #70d364);
-}
-  */
+
   .userStatImgContainer {
     position: absolute;
     right: -5px;
@@ -1488,7 +1469,6 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
 }
 .channel_title {
     font-size: 11px !important;
-    transform: translateY(2px);
 }
 .spinner {
     margin-top: 20px;
@@ -1681,7 +1661,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
 
 .userReviews {
     display: none;
-    width: 95%;
+    width: 97%;
     border-radius: 5px;
     box-sizing: border-box;
     padding: 15px;
@@ -1689,6 +1669,12 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     box-shadow: var(--shadow-sm);
 
     background: linear-gradient(to bottom, #403443, #28192b);
+
+    border: 2px solid white;
+    
+    box-shadow:/* h-shadow v-shadow blur spread color */
+    0 0 10px 1px rgba(255, 0, 0, 0.7),
+    0 0 20px 1px rgba(255, 51, 0, 0.4)
 }
 .usersReviewTitle {
     text-align: center;

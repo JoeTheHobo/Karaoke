@@ -17,7 +17,8 @@ async function searchSong(q,loseFocus = true) {
     const resultsDiv = $(".songResultsDiv");
     $(".songResultsGradient").css("opacity",1);
     $(".userStatSongs").hide();
-    $(".addSongTopRow").show("flex");
+    if (settings.allow_vocals || user.adminAccess?.allow_vocal_tracks)
+        $(".addSongTopRow").show("flex");
     resultsDiv.html("");
     $(".songResultsDiv").html("")
     $(".songResultsDiv").create("div.spinner");
@@ -396,7 +397,7 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
 
             let channelTitle;
             if (l.type !== "queue") {
-                channelTitle = section2.create("div.s2Div>By " + l.channel);
+                channelTitle = section2.create(`div.s2Div>${l.channel}`);
                 channelTitle.classAdd("s2TextLight channel_title");
             }
 
@@ -948,6 +949,7 @@ function updateAdminSettings(settings) {
         $("admin_input_queue_distance").value = settings.max_distance;
         $("admin_input_queue_type").value = settings.queue_type.format("A");
         $("admin_input_testing").checked = settings.testing_mode;
+        $("admin_input_vocal_tracks").checked = settings.allow_vocals;
         $("admin_input_adding_songs").checked = settings.block_all_songs;
         if (settings.turn_off_time)
             $("admin_input_time").value = String(settings.turn_off_time.hour).padStart(2, "0") + ":" + String(settings.turn_off_time.minute).padStart(2, "0");
