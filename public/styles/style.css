@@ -220,7 +220,7 @@ input, select {
     margin-left: 0px !important;
 }
 .inputSelected {
-    border: 2px solid rgb(255, 91, 255) !important;
+    border: 2px solid rgb(196, 47, 226) !important;
 }
 .songTitle {
     -webkit-appearance: none;  /* removes iOS default styles */
@@ -1620,8 +1620,7 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
 
 
 .hidden_menu {
-    filter: grayscale(100%);
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 .search_hidden_3 {

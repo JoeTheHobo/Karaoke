@@ -407,7 +407,7 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
             if (l.type !== "queue") {
                 let statsRow = section2.create("div.s2DivRow");
                 //Reviews
-                if (type !== "queue" && songStats[l.videoId]?.reviews) {
+                if (type !== "queue" && songStats[l.videoId]?.reviews?.length) {
                     let starHolder = statsRow.create("div.displayStarHolder"); 
 
                     let rating = songStats[l.videoId].reviews.avg();

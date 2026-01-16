@@ -535,3 +535,23 @@ function prr_rating_click(elems,elem) {
         prompt_request_rating.hide();
     },400)
 }
+
+
+let prompt_need_to_add_songs = new _prompt({
+    build: [
+        {item: "title",text: "Play a song to unlock this menu!"},
+        {item: "button",type: "neon",close: true, neonColor: "purple",text: "Lets go!"}
+    ],
+    settings: {
+        delivery: "top",
+    }
+});
+let prompt_need_to_like_songs = new _prompt({
+    build: [
+        {item: "title",text: "Favorite a song to unlock this menu!"},
+        {item: "button",type: "neon",close: true, neonColor: "purple",text: "Lets go!"}
+    ],
+    settings: {
+        delivery: "top",
+    }
+});
