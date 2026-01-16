@@ -110,14 +110,16 @@ app.use(express.static("public"));
 const axios = require("axios");
 
 const { loadStats, saveStats, addPlay, sortStatsByPopular, addReview } = require('./songStats');
-const { searchYTChannel, buildSearchIndex, searchLocalIndex } = require("./searchAndSave.js")
+const { searchYTChannel, buildSearchIndex, searchLocalIndex, dailyChecker } = require("./searchAndSave.js")
 let global_songStats = loadStats("downloadedData.json");
 let global_popularSongs = sortStatsByPopular(global_songStats);
 
 const { findAndDownloadImage } = require("./fixDownloads.js");
 const e = require("express");
 
-buildSearchIndex();
+let total_songs = 0;
+total_songs = buildSearchIndex();
+dailyChecker();
 
 app.get("/imagelist", (req, res) => {
   const dir = path.join(__dirname, "public/songPhotos");
@@ -232,7 +234,9 @@ io.on("connection", (socket) => {
     })
     socket.on("addAllowedChannel",(obj) => {
       if (socket.adminAccess?.tabs.add_channel !== true) return;
-      searchYTChannel(obj);
+      searchYTChannel(obj,() => {
+        buildSearchIndex();
+      });
     })
     socket.on("sendBanState",(user,banState) => {
       if (socket.adminAccess?.tabs.users !== true) return;
@@ -278,7 +282,7 @@ io.on("connection", (socket) => {
       }
       socket.join("uid" + socket.user.uid);
 
-      socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50),settings.block_all_songs);
+      socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50),settings.block_all_songs,total_songs);
       io.to("admin").emit("updatedUsers",state.users);
 
       handleReviews();

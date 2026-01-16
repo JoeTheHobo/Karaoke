@@ -4,7 +4,7 @@
     if different change users code.
 */
 
-socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs,block_all_songs) => {
+socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs,block_all_songs,total_songs) => {
     user.uid = serverUser.uid;
     user.code = serverUser.uid;
     user.banned = serverUser.banned;
@@ -20,6 +20,14 @@ socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs,block_al
     socket.emit("updateQueue");
 
     settings.block_all_songs = block_all_songs;
+
+    let num = "1";
+    for (let i = 0; i < String(total_songs).length - 1; i++) {
+        num += "0";
+    }
+    total_songs = Math.ceil(total_songs / Number(num))*Number(num);
+
+    $(".over_x_songs").innerHTML = "Over " + total_songs + " Songs!";
     
 })
 socket.on("global_popularSongs",(global_popularSongs) => {

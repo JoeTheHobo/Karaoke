@@ -19,7 +19,7 @@ let karaoke_fuse,lyric_fuse;
 
 let searchIndex = []; // merged in-memory index
 
-async function searchYTChannel(obj) {
+async function searchYTChannel(obj,func) {
   let channelUrl = obj.name;
   const channelId = await resolveChannelId(channelUrl);
   const filePath = path.join(CACHE_DIR, `${channelId}.json`);
@@ -48,6 +48,7 @@ async function searchYTChannel(obj) {
   console.log("Writing To File");
   fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
   console.log("Finished");
+  func();
   return { status: "created", channelId };
 }
 async function resolveChannelId(input) {
@@ -229,9 +230,116 @@ function buildSearchIndex() {
 
   }
 
+
   lyric_fuse = new Fuse(searchIndex.filter(v => v.type === "lyrics"), settings)
   karaoke_fuse = new Fuse(searchIndex.filter(v => v.type === "karaoke"),settings)
+  return findUniqueSongs(searchIndex.filter(v => v.type === "karaoke"));
 }
+
+function findUniqueSongs(list) {
+  let actualList = {};
+  console.log(list.length);
+
+  checkingList: for (let i = 0; i < list.length; i++) {
+    let l = list[i];
+
+    if (!l.title.includes(l.format[1])) continue;
+
+    let songSet = fixTitle(l.title,l.format);
+
+    if (actualList[songSet.artist]) {
+      for (let j = 0; j < actualList[songSet.artist].length; j++) {
+        if (actualList[songSet.artist][j] == songSet.song) continue checkingList;
+      }
+    }
+
+    if (!actualList[songSet.artist]) actualList[songSet.artist] = [];
+    actualList[songSet.artist].push(songSet.song);
+  }
+
+  let count = 0;
+  
+  Object.entries(actualList).forEach(([key, value]) => {
+    count += value.length;
+  });
+
+  return count;
+}
+
+function normalizeText(str) {
+  return str
+    .normalize("NFKD")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "") // zero-width chars
+    .replace(/\s+/g, " ")
+    .replace(/[\p{Emoji}\p{So}\p{Sk}\p{Sm}\p{Sc}]/gu, "")
+    .trim();
+}
+function fixTitle(title,format) {
+  if (!title) return { song: "", artist: "" };
+  title = normalizeText(title);
+  title = title.replace(/karaoke/gi, "");
+
+  let set = title.split(format[1]);
+  let first = set[0];
+  let secondFull = set[1];
+  if (secondFull === undefined) secondFull = "";
+  let second = "";
+  let bannedChars = ["[","(","|","-","【"];
+  buildingSecond: for (let i = 0; i < secondFull.length; i++) {
+    let char = secondFull.charAt(i);
+    if (bannedChars.includes(char)) {
+        break buildingSecond;
+    } else {
+        second += char;
+    }
+  }
+
+
+  if (format[0] == "a") return {
+    song: second.trim(),
+    artist: fixArtist(first.trim()),
+  }
+  
+  if (format[0] == "s") return {
+    song: first.trim(),
+    artist: fixArtist(second.trim()),
+  }
+}
+function fixArtist(artistString) {
+    if (!artistString || typeof artistString !== "string") return "";
+
+    let artists = [];
+    let feats = [];
+    let breaks = [" & ",", "," and ", " x "];
+    const featRegex = /\s+(?:ft\.?|feat\.?)\s+/i;
+
+    // 1️⃣ Split main vs feat FIRST
+    const parts = artistString.split(featRegex);
+    const mainPart = parts[0];
+    const featPart = parts[1];
+
+    // 2️⃣ Helper to split by breaks
+    const splitArtists = (str) =>
+        str
+            .split(new RegExp(`\\s*(?:${breaks.join("|")})\\s*`))
+            .map(a => a.trim())
+            .filter(Boolean);
+
+    artists = splitArtists(mainPart);
+
+    if (featPart) {
+        feats = splitArtists(featPart);
+    }
+
+    // 3️⃣ Rebuild string
+    let result = artists.join(", ");
+    if (feats.length) {
+        result += " Ft. " + feats.join(", ");
+    }
+
+    return result;
+}
+
 
 function searchLocalIndex(query, extension,global_songStats) {
   extension = extension.toLowerCase();
@@ -269,24 +377,33 @@ function normalize(str) {
 function dailyChecker() {
   const files = fs.readdirSync(CACHE_DIR);
   const now = Date.now();
-  const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
   for (const file of files) {
     const filePath = path.join(CACHE_DIR, file);
     const data = JSON.parse(fs.readFileSync(filePath));
+    const two_weeks = 1000 * 60 * 60 * 24 * 15;
+    const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
     const last = new Date(data.lastChecked).getTime();
-    if (now - last > ONE_MONTH) {
-      scheduleRefresh(data.channelId);
+    if (now - last > rnd(two_weeks,ONE_MONTH)) {
+      
+      console.log("Time To Check Channel");
     }
   }
 }
 
+function rnd(min, max) {
+  min = Math.ceil(min); // Ensure min is a whole number
+  max = Math.floor(max); // Ensure max is a whole number
+  // The formula for an inclusive range
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 module.exports = {
     searchYTChannel,
     buildSearchIndex,
-    searchLocalIndex
+    searchLocalIndex,
+    dailyChecker,
 }
 /*
 
