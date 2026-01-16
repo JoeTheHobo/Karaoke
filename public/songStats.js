@@ -74,7 +74,7 @@ let songStats = {
   },
   "5bzd2Pv01Rs": {
     "videoId": "5bzd2Pv01Rs",
-    "plays": 3,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=5bzd2Pv01Rs",
     "channel": "MrEntertainerKaraoke",
     "song": "Somebody Save Me",
@@ -276,29 +276,23 @@ let songStats = {
   },
   "F-p2BQ4H1nA": {
     "videoId": "F-p2BQ4H1nA",
-    "plays": 5,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=F-p2BQ4H1nA",
     "channel": "Musisi Karaoke",
     "song": "Lose Yourself",
     "artist": "Eminem ",
     "extension": "Karaoke",
-    "reviews": [
-      5
-    ]
+    "reviews": []
   },
   "F0y7myKDKyA": {
     "videoId": "F0y7myKDKyA",
-    "plays": 9,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=F0y7myKDKyA",
     "channel": "EasyKaraoke",
     "song": "Sing For The Moment",
     "artist": "Eminem ",
     "extension": "Karaoke",
-    "reviews": [
-      2,
-      2,
-      3
-    ]
+    "reviews": []
   },
   "FbKx9g6oyvw": {
     "videoId": "FbKx9g6oyvw",
@@ -365,15 +359,13 @@ let songStats = {
   },
   "gx6J54BIsn0": {
     "videoId": "gx6J54BIsn0",
-    "plays": 5,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=gx6J54BIsn0",
     "channel": "Captain Awesome Karaoke",
     "song": "Lucky You",
     "artist": "Eminem ft. Joyner Lucas ",
     "extension": "Karaoke",
-    "reviews": [
-      4
-    ]
+    "reviews": []
   },
   "H0JJoxdfnBY": {
     "videoId": "H0JJoxdfnBY",
@@ -395,15 +387,13 @@ let songStats = {
   },
   "Hqh5Kwf_YEg": {
     "videoId": "Hqh5Kwf_YEg",
-    "plays": 5,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=Hqh5Kwf_YEg",
     "channel": "MrEntertainerKaraoke",
     "song": "You Probably Couldn't See The Lights But You Were Staring Straight At Me",
     "artist": "Arctic Monkeys ",
     "extension": "Karaoke",
-    "reviews": [
-      4
-    ]
+    "reviews": []
   },
   "I93Xg1aZFEQ": {
     "videoId": "I93Xg1aZFEQ",
@@ -596,7 +586,7 @@ let songStats = {
   },
   "s7U6QFn9rZE": {
     "videoId": "s7U6QFn9rZE",
-    "plays": 1,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=s7U6QFn9rZE",
     "channel": "PARTY TYME KARAOKE CHANNEL",
     "song": "Babydoll ",
@@ -650,7 +640,7 @@ let songStats = {
   },
   "U9AV8FR4Ogk": {
     "videoId": "U9AV8FR4Ogk",
-    "plays": 1,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=U9AV8FR4Ogk",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -695,7 +685,7 @@ let songStats = {
   },
   "XtmJTgtCoP8": {
     "videoId": "XtmJTgtCoP8",
-    "plays": 1,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=XtmJTgtCoP8",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -704,15 +694,13 @@ let songStats = {
   },
   "xXbk3InFCxY": {
     "videoId": "xXbk3InFCxY",
-    "plays": 3,
+    "plays": 0,
     "url": "https://www.youtube.com/watch?v=xXbk3InFCxY",
     "channel": "Sing King",
     "extension": "Karaoke",
     "song": "Me, Myself & I ",
     "artist": "G-Eazy x Bebe Rexha",
-    "reviews": [
-      3
-    ]
+    "reviews": []
   },
   "y5p1hMXN5UI": {
     "videoId": "y5p1hMXN5UI",
@@ -796,20 +784,14 @@ let songStats = {
     "extension": "Lyrics"
   },
   "-gs_SZM2lRk": {
-    "plays": 42,
+    "plays": 0,
     "song": "do re mi ",
     "artist": "blackbear",
     "url": "https://www.youtube.com/watch?v=-gs_SZM2lRk",
     "videoId": "-gs_SZM2lRk",
     "channel": "Sing King",
     "extension": "Karaoke",
-    "reviews": [
-      4,
-      3,
-      4,
-      4,
-      5
-    ]
+    "reviews": []
   },
   "d-y2PfMoUec": {
     "plays": 0,
@@ -884,7 +866,7 @@ let songStats = {
     "extension": "Karaoke"
   },
   "jrf8b820dMM": {
-    "plays": 1,
+    "plays": 0,
     "song": "All Around Me ",
     "artist": "Flyleaf",
     "url": "https://www.youtube.com/watch?v=jrf8b820dMM",
@@ -893,7 +875,7 @@ let songStats = {
     "extension": "Karaoke"
   },
   "9DU90VBeF5c": {
-    "plays": 1,
+    "plays": 0,
     "song": "Opalite",
     "artist": "Taylor Swift",
     "url": "https://www.youtube.com/watch?v=9DU90VBeF5c",
@@ -902,7 +884,7 @@ let songStats = {
     "extension": "Karaoke"
   },
   "urqFk4H0Nts": {
-    "plays": 1,
+    "plays": 0,
     "song": "Zero",
     "artist": "Imagine Dragons",
     "url": "https://www.youtube.com/watch?v=urqFk4H0Nts",
@@ -911,7 +893,7 @@ let songStats = {
     "extension": "Karaoke"
   },
   "uUitc13wrEU": {
-    "plays": 1,
+    "plays": 0,
     "song": "'Till I Collapse",
     "artist": "Eminem",
     "url": "https://www.youtube.com/watch?v=uUitc13wrEU",

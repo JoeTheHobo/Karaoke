@@ -382,7 +382,7 @@ let prompt_add_song = new _prompt({
         delivery: "top",
     },
     onBuild: function(elems,song) {
-        elems["showname"].$("<input").value = user.showName;
+        elems["showname"].$("<input").value = user.showName || "";
         displaySongs(elems["songDisplay"],[song],"search",false,false);
         elems["afirm"].on("click touch",function() {
             let showName = elems["showname"].$("<input").value;
