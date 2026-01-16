@@ -490,6 +490,7 @@ io.on("connection", (socket) => {
 
         io.emit("updatedQueue",state.queue);
     })
+
   socket.on("disconnect", () => {
     console.log("Station disconnected:", socket.id);
   });
