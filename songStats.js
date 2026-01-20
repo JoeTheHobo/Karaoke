@@ -2,6 +2,7 @@
 const { channel } = require('diagnostics_channel');
 const fs = require('fs');
 const path = require('path');
+let changedBeingMade = [];
 
 function loadStats(jsonFile) {
     const STATS_PATH = path.join(__dirname, jsonFile);
@@ -22,6 +23,9 @@ function saveStats(jsonFile,stats) {
     const STATS_PATH = path.join(__dirname, jsonFile);
     try {
         fs.writeFileSync(STATS_PATH, JSON.stringify(stats, null, 2));
+        let ref = changedBeingMade;
+        changedBeingMade = [];
+        return ref;
     } catch (err) {
         console.error("Failed to save songStats.json:", err);
     }
@@ -32,6 +36,7 @@ function addReview(stats,videoInfo,review) {
         stats[videoInfo.videoId].reviews = [];
     }
     stats[videoInfo.videoId].reviews.push(review);
+    changedBeingMade.push([videoInfo.videoId,"reviews",review]);
 }
 // Increment play count for a song
 function addPlay(stats, videoInfo) {
@@ -47,31 +52,12 @@ function addPlay(stats, videoInfo) {
          };
     }
     stats[videoInfo.videoId].plays += 1;
-}
-function sortStatsByPopular(stats) {
-    // Convert object → array
-    const arr = Object.entries(stats).map(([videoId, data]) => ({
-        videoId,
-        count: data.plays,
-        song: data.song,
-        artist: data.artist,
-        url: data.url,
-        channel: data.channel,
-        type: "addable",
-        extension: data.extension,
-
-    })).filter(item => item.extension == "Karaoke");
-
-    // Sort by highest play count
-    arr.sort((a, b) => b.count - a.count);
-
-    return arr;
+    changedBeingMade.push([videoInfo.videoId,"plays",1]);
 }
 
 module.exports = {
     loadStats,
     saveStats,
     addPlay,
-    sortStatsByPopular,
     addReview
 };

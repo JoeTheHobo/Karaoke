@@ -4,7 +4,7 @@
     if different change users code.
 */
 
-socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs,block_all_songs,total_songs) => {
+socket.on("setSocket",(sscode,serverUser,videoStats,block_all_songs,total_songs,global_songStats) => {
     user.uid = serverUser.uid;
     user.code = serverUser.uid;
     user.banned = serverUser.banned;
@@ -12,7 +12,8 @@ socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs,block_al
     ls.save("sessionCode",sscode);
     ls.save("userCode",user.uid);
     data.videoInfo = videoStats;
-    data.popularSongs = global_popularSongs;
+    data.songStats = global_songStats;
+    data.popularSongs = sortStatsByPopular(data.songStats).slice(0,50);
 
     if (user.type !== "screen") {
         socket.emit("checkIfQR",sessionCode,user.uid);
@@ -29,9 +30,6 @@ socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs,block_al
 
     $(".over_x_songs").innerHTML = "Over " + total_songs + " Songs!";
     
-})
-socket.on("global_popularSongs",(global_popularSongs) => {
-    data.popularSongs = global_popularSongs;
 })
 socket.on("updatedQueue",(server_queue) => {
     if (!server_queue) server_queue = [];
@@ -111,7 +109,7 @@ socket.on("returnedSearchedSongs",(videos) => {
             url: v.url,
             videoId: v.videoId,
             extension: songSearchExtension,
-            plays: songStats[v.videoId]?.plays ?? 0,
+            plays: data.songStats[v.videoId]?.plays ?? 0,
         }
         
 
@@ -261,4 +259,24 @@ socket.on("currentReview",(video) => {
 })
 socket.on("vocalTracksBanned",() => {
     prompt_banned_vocals.prompt();
+})
+socket.on("changedStats",(changes) => {
+    for (let i = 0; i < changes.length; i++) {
+        let videoID = changes[i][0];
+        let type = changes[i][1];
+        let value = changes[i][2];
+
+        if (!data.songStats[videoID]) continue;
+
+        if (type === "reviews") {
+            if (!data.songStats[videoID].reviews) {
+                data.songStats[videoID].reviews = [];
+            }
+            data.songStats[videoID].reviews.push(value);
+        }
+        if (type === "plays") {
+            data.songStats[videoID].plays += value;
+        }
+    }
+    data.popularSongs = sortStatsByPopular(data.songStats).slice(0, 50);
 })

@@ -1,4 +1,4 @@
- /*
+/*
     Download:
     npm init -y
     npm install express socket.io
@@ -109,10 +109,9 @@ const io = new Server(server);
 app.use(express.static("public"));
 const axios = require("axios");
 
-const { loadStats, saveStats, addPlay, sortStatsByPopular, addReview } = require('./songStats');
+const { loadStats, saveStats, addPlay, addReview } = require('./songStats');
 const { searchYTChannel, buildSearchIndex, searchLocalIndex, dailyChecker } = require("./searchAndSave.js")
 let global_songStats = loadStats("downloadedData.json");
-let global_popularSongs = sortStatsByPopular(global_songStats);
 
 const { findAndDownloadImage } = require("./fixDownloads.js");
 const e = require("express");
@@ -215,7 +214,7 @@ io.on("connection", (socket) => {
       for (let i = 0; i < state.users.length; i++) {
         if (state.users[i].uid === socket.user.uid) {
           addReview(global_songStats,state.users[i].reviews[0].video,rating);
-          saveStats("downloadedData.json",global_songStats);
+          io.to("user").emit("changedStats",saveStats("downloadedData.json",global_songStats));
           state.users[i].reviews.shift();
           handleReviews();
         }
@@ -281,8 +280,9 @@ io.on("connection", (socket) => {
         socket.user = obj;
       }
       socket.join("uid" + socket.user.uid);
+      socket.join("user");
 
-      socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50),settings.block_all_songs,total_songs);
+      socket.emit("setSocket",sessionCode,socket.user,state.music,settings.block_all_songs,total_songs,global_songStats);
       io.to("admin").emit("updatedUsers",state.users);
 
       handleReviews();
@@ -435,9 +435,6 @@ io.on("connection", (socket) => {
       alterQueue(code,queueID,extra);
 
     })
-    socket.on("getAllVideoData",() => {
-      downloadSongStatsToJS();
-    })
     socket.on("addQueue",(obj) => {
       if (settings.block_all_songs) return;
       if (!socket.user) return;
@@ -504,18 +501,6 @@ function readySong(q) {
 server.listen(3000, () => {
   console.log("Kareoke server running on port 3000");
 });
-
-function downloadSongStatsToJS() {
-      //Create file if not already made in ./public named sontStats.js
-      //Edit file to be let offlineStats = global_songStats
-      const filePath = path.join(__dirname, 'public', 'songStats.js');
-      const fileContents =
-      `// AUTO-GENERATED FILE — DO NOT EDIT
-let songStats = ${JSON.stringify(global_songStats, null, 2)};
-      `;
-      fs.writeFileSync(filePath, fileContents, 'utf8');
-}
-downloadSongStatsToJS();
 
 let queueWorking = false;
 function queueHandler() {
@@ -593,8 +578,8 @@ async function playVideo() {
   io.emit("hideYourSongsNext");
   
   if (!settings.testing_mode) addPlay(global_songStats, state.waitingOnQR.videoInfo);
-  saveStats("downloadedData.json",global_songStats);
-  sortGlobalStats();
+  io.to("user").emit("changedStats",saveStats("downloadedData.json",global_songStats));
+
   if (settings.video_controller === "client"){
     io.emit("startSong_client",state.waitingOnQR.videoID);
     state.songPlaying = true;
@@ -765,12 +750,6 @@ function getVideoDuration(path) {
     });
 }
 
-function sortGlobalStats() {
-  global_popularSongs = sortStatsByPopular(global_songStats);
-  const topSongs = global_popularSongs.slice(0, 50);
-  io.emit("global_popularSongs", topSongs);
-}
-
 function joinSession(socket,ssid,isAdmin) {
   if (!sessions[ssid]) return;
   let session = sessions[ssid];
@@ -802,7 +781,8 @@ function joinSession(socket,ssid,isAdmin) {
     socket.user = obj;
   }
   socket.join("uid" + socket.user.uid);
-  socket.emit("setSocket",sessionCode,socket.user,state.music,global_popularSongs.slice(0,50));
+  socket.join("user");
+  socket.emit("setSocket",sessionCode,socket.user,state.music); //NEED TO FIX WHEN I DO SESSIONS AGAIN
   io.to(ssid).to("admin").emit("updatedUsers",state.users); 
 }
 function getCutoffDate(timeStr) {

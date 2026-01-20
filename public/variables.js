@@ -21,6 +21,7 @@ let data = {
     playingSong: false,
     changingSong: false,
     queue: [],
+    songStats: {},
 }
 let user = {
     type: undefined,
