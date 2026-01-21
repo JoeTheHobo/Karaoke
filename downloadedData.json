@@ -28,12 +28,15 @@
   },
   "3BDn16q_pvM": {
     "videoId": "3BDn16q_pvM",
-    "plays": 0,
+    "plays": 2,
     "url": "https://www.youtube.com/watch?v=3BDn16q_pvM",
     "channel": "KaraFun Karaoke",
     "song": "Ben",
     "artist": "Michael Jackson ",
-    "extension": "Karaoke"
+    "extension": "Karaoke",
+    "reviews": [
+      4
+    ]
   },
   "3Cz__Yiutq0": {
     "videoId": "3Cz__Yiutq0",
@@ -281,8 +284,7 @@
     "song": "Lose Yourself",
     "artist": "Eminem ",
     "extension": "Karaoke",
-    "reviews": [
-    ]
+    "reviews": []
   },
   "F0y7myKDKyA": {
     "videoId": "F0y7myKDKyA",
@@ -292,8 +294,7 @@
     "song": "Sing For The Moment",
     "artist": "Eminem ",
     "extension": "Karaoke",
-    "reviews": [
-    ]
+    "reviews": []
   },
   "FbKx9g6oyvw": {
     "videoId": "FbKx9g6oyvw",
@@ -366,8 +367,7 @@
     "song": "Lucky You",
     "artist": "Eminem ft. Joyner Lucas ",
     "extension": "Karaoke",
-    "reviews": [
-    ]
+    "reviews": []
   },
   "H0JJoxdfnBY": {
     "videoId": "H0JJoxdfnBY",
@@ -395,8 +395,7 @@
     "song": "You Probably Couldn't See The Lights But You Were Staring Straight At Me",
     "artist": "Arctic Monkeys ",
     "extension": "Karaoke",
-    "reviews": [
-    ]
+    "reviews": []
   },
   "I93Xg1aZFEQ": {
     "videoId": "I93Xg1aZFEQ",
@@ -703,8 +702,7 @@
     "extension": "Karaoke",
     "song": "Me, Myself & I ",
     "artist": "G-Eazy x Bebe Rexha",
-    "reviews": [
-    ]
+    "reviews": []
   },
   "y5p1hMXN5UI": {
     "videoId": "y5p1hMXN5UI",
@@ -795,8 +793,7 @@
     "videoId": "-gs_SZM2lRk",
     "channel": "Sing King",
     "extension": "Karaoke",
-    "reviews": [
-    ]
+    "reviews": []
   },
   "d-y2PfMoUec": {
     "plays": 0,
@@ -907,12 +904,16 @@
     "extension": "Karaoke"
   },
   "KlGUSUu8a-c": {
-    "plays": 1,
+    "plays": 3,
     "song": "KOD",
     "artist": "J Cole",
     "url": "https://www.youtube.com/watch?v=KlGUSUu8a-c",
     "videoId": "KlGUSUu8a-c",
     "channel": "KaraokeOnVEVO",
-    "extension": "Karaoke"
+    "extension": "Karaoke",
+    "reviews": [
+      2,
+      5
+    ]
   }
 }

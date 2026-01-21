@@ -125,8 +125,8 @@ function generateArtistsCatagory(parent) {
     let holder = parent.create("div.cator");
 
     let artists = [];
-    Object.keys(songStats).forEach((key) => {
-        let set = songStats[key];
+    Object.keys(data.songStats).forEach((key) => {
+        let set = data.songStats[key];
         let setArtists = set.artist.charAt(0) === '"' ? set.artist.subset(`"\\after`,`"\\before`) : set.artist;
 
         let splits = [" ft. "," &amp; "," ft "," x "];
@@ -407,10 +407,10 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
             if (l.type !== "queue") {
                 let statsRow = section2.create("div.s2DivRow");
                 //Reviews
-                if (type !== "queue" && songStats[l.videoId]?.reviews?.length) {
+                if (type !== "queue" && data.songStats[l.videoId]?.reviews?.length) {
                     let starHolder = statsRow.create("div.displayStarHolder"); 
 
-                    let rating = songStats[l.videoId].reviews.avg();
+                    let rating = data.songStats[l.videoId].reviews.avg();
                     let whole = Math.floor(rating);
                     let remainder = rating - whole;
 
@@ -1122,3 +1122,23 @@ function updateAdminUsers() {
     }
 }
 
+
+function sortStatsByPopular(stats) {
+    // Convert object → array
+    const arr = Object.entries(stats).map(([videoId, data]) => ({
+        videoId,
+        count: data.plays,
+        song: data.song,
+        artist: data.artist,
+        url: data.url,
+        channel: data.channel,
+        type: "addable",
+        extension: data.extension,
+
+    })).filter(item => item.extension == "Karaoke");
+
+    // Sort by highest play count
+    arr.sort((a, b) => b.count - a.count);
+
+    return arr;
+}
