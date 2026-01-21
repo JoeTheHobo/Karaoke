@@ -25,7 +25,7 @@ socket.on("setSocket",(sscode,serverUser,videoStats,global_popularSongs,block_al
     for (let i = 0; i < String(total_songs).length - 1; i++) {
         num += "0";
     }
-    total_songs = Math.ceil(total_songs / Number(num))*Number(num);
+    total_songs = Math.round(total_songs / Number(num))*Number(num);
 
     $(".over_x_songs").innerHTML = "Over " + total_songs + " Songs!";
     
