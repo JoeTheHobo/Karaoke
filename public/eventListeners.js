@@ -70,28 +70,28 @@ $("qpMoveTop").on("click",function() {
     this.classAdd("qpIconSelected");
     setTimeout(() => {
         closeQueueEditor();
-        socket.emit("alterQueue","Move Top",data.queue[data.selectedSong].queueID);
+        socket.emit("alterQueue","move_top",data.queue[data.selectedSong].queueID);
     },200);
 })
 $("qpMoveUp").on("click",function() {
     this.classAdd("qpIconSelected");
     setTimeout(() => {
         closeQueueEditor();
-        socket.emit("alterQueue","Move Up",data.queue[data.selectedSong].queueID);
+        socket.emit("alterQueue","move_up",data.queue[data.selectedSong].queueID);
     },200);
 })
 $("qpMoveDown").on("click",function() {
     this.classAdd("qpIconSelected");
     setTimeout(() => {
         closeQueueEditor();
-        socket.emit("alterQueue","Move Down",data.queue[data.selectedSong].queueID);
+        socket.emit("alterQueue","move_down",data.queue[data.selectedSong].queueID);
     },200);
 })
 $("qpMoveBottom").on("click touch",function() {
     this.classAdd("qpIconSelected");
     setTimeout(() => {
         closeQueueEditor();
-        socket.emit("alterQueue","Move Bottom",data.queue[data.selectedSong].queueID);
+        socket.emit("alterQueue","move_bottom",data.queue[data.selectedSong].queueID);
     },200);
 })
 $("qpRemove").on("click touch",function() {
@@ -145,31 +145,29 @@ $(".admin_exit").on("click touch",() => {
 $(".admin_signout").on("click touch",() => {
     user.adminAccess = null;
     ls.save("adminCode",[])
-    socket.emit("adminControls","Sign Out Of Admin");
+    socket.emit("adminControls","sign_out_of_admin");
     adminSlideOut();
 })
 
 
 // MUSIC CONTROL
 $("music_restart").on("click touch",() => {
-    socket.emit("adminControls","Restart Song");
+    socket.emit("adminControls","restart_song");
 })
 $("music_minus_10").on("click touch",() => {
-    socket.emit("adminControls","-10 Seconds");
+    socket.emit("adminControls","-10_seconds");
 })
 $("music_plus_10").on("click touch",() => {
-    socket.emit("adminControls","+10 Seconds");
+    socket.emit("adminControls","+10_seconds");
 })
 $("music_skip").on("click touch",() => {
-    socket.emit("adminControls","Skip Song");
+    socket.emit("adminControls","skip_song");
 })
 $("music_play").on("click touch",() => {
-    console.log("hit")
-
     if ($("music_play").src.includes("pause")) {
-        socket.emit("adminControls","Pause Song"); //Pause Song
+        socket.emit("adminControls","pause_song"); //Pause Song
     } else {
-        socket.emit("adminControls","Play Song"); //Pause Song
+        socket.emit("adminControls","play_song"); //Pause Song
     }
 })
 $(".adminTimerScroll").scrolling = false;
@@ -180,7 +178,7 @@ $(".adminTimerScroll").on("touchend",function() {
     this.scrolling = false;
     let difference = this.value - (Date.now() - data.videoInfo.startTime);
     data.videoInfo.startTime -= difference;
-    socket.emit("adminControls","setTime",this.value);
+    socket.emit("adminControls","set_time",this.value);
 })
 
 //General Admin Settings
@@ -388,11 +386,11 @@ function updateSlider(e) {
     const value = 1 - y / rect.height; // 0–1
     thumb.style.bottom = `${value * 100}%`;
 
-    socket.emit("adminControls","setVolume",value);
+    socket.emit("adminControls","set_volume",value);
 }
 $(".volumeIcon").on("click touch",function() {
-    if (settings.volume == 0) socket.emit("adminControls","setVolume",lastSliderPos);
-    else socket.emit("adminControls","setVolume",0);
+    if (settings.volume == 0) socket.emit("adminControls","set_volume",lastSliderPos);
+    else socket.emit("adminControls","set_volume",0);
 })
 function updateVolumeIcon(val) {
     val = val*100;

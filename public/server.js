@@ -52,7 +52,7 @@ socket.on("updatedQueue",(server_queue) => {
 
 socket.on("settingSong",(obj) => {
     if (user.type !== "screen") return;
-    setAppearingText(obj.song,"Sung by",obj.singer,"Singer use your phone to start song.");
+    setAppearingText(obj.song,"Sung by",obj.showName,"Singer use your phone to start song.");
 })
 
 socket.on("saveToLocal",(videoInfo) => {
@@ -190,12 +190,12 @@ socket.on("queueStateChange",(queueID,status) => {
 socket.on("updateBanState",(state) => {
     user.banned = state;
 })
-socket.on("startSong_client",(videoID) => {
+socket.on("startSong_client",(videoId) => {
     video_controller = "client";
     if (user.adminAccess?.tabs?.audioVisual)
         $(".adminMusic").show("flex");
     if (user.type !== "screen") return;
-    playVideo(videoID,true);
+    playVideo(videoId,true);
 })
 socket.on("hideVideoPlayer",() => {
     video_controller = "client";
@@ -257,20 +257,20 @@ socket.on("vocalTracksBanned",() => {
 })
 socket.on("changedStats",(changes) => {
     for (let i = 0; i < changes.length; i++) {
-        let videoID = changes[i][0];
+        let videoId = changes[i][0];
         let type = changes[i][1];
         let value = changes[i][2];
 
-        if (!data.songStats[videoID]) continue;
+        if (!data.songStats[videoId]) continue;
 
         if (type === "reviews") {
-            if (!data.songStats[videoID].reviews) {
-                data.songStats[videoID].reviews = [];
+            if (!data.songStats[videoId].reviews) {
+                data.songStats[videoId].reviews = [];
             }
-            data.songStats[videoID].reviews.push(value);
+            data.songStats[videoId].reviews.push(value);
         }
         if (type === "plays") {
-            data.songStats[videoID].plays += value;
+            data.songStats[videoId].plays += value;
         }
     }
     data.popularSongs = sortStatsByPopular(data.songStats);

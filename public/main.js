@@ -172,8 +172,6 @@ function generateArtistsCatagory(parent) {
             setSongDisplay(artist.artist,artist.songs,"search");
         })
     }
-
-
 }
 function cleanArt(artist) {
     artist = artist.replace(`from 'despicable me 4'`,"")
@@ -259,7 +257,7 @@ function setPlayingSong(l) {
             addSong.classAdd("global_invert");
         }
     let section2 = container.create("div.section2");
-        let singerTitle = section2.create("div.s2Div>" + l.singer);
+        let singerTitle = section2.create("div.s2Div>" + l.showName);
         singerTitle.classAdd("s2TextCenter");
         let songTitle = section2.create("div.s2Div>" + l.song);
         let artistTitle = section2.create("div.s2Div>" + l.artist);
@@ -386,7 +384,7 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
         let section2 = container.create("div.section2");
             let singerTitle;
             if (l.type === "queue") {
-                singerTitle = section2.create("div.s2Div>" + l.singer);
+                singerTitle = section2.create("div.s2Div>" + l.showName);
                 singerTitle.classAdd("s2TextCenter");
 
             }
@@ -527,7 +525,7 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
         if (isClipped(channelTitle)) {
             smoothAutoScroll(channelTitle);
         }
-        if ((l.singerID === user.uid && type == "queue") || user.type == "screen") {
+        if ((l.uid === user.uid && type == "queue") || user.type == "screen") {
             container.classAdd("usersSong")
         }
 
@@ -536,7 +534,7 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
                 if (navigator.vibrate) navigator.vibrate(30); // vibrate for 30ms
                 if (user.adminAccess?.modify_queue === true) $(".qpAdmin").show("flex");
                 else $(".qpAdmin").hide();
-                if (user.adminAccess?.modify_queue || l.singerID === user.uid) {
+                if (user.adminAccess?.modify_queue || l.uid === user.uid) {
                     container.css({
                         zIndex: 701,
                         position: "relative",
@@ -562,10 +560,10 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
         }
     }
 }
-function checkImageExists(videoID) {
+function checkImageExists(videoId) {
   return new Promise((resolve) => {
     const img = new Image();
-    img.src = `/songPhotos/${videoID}.jpg`;
+    img.src = `/songPhotos/${videoId}.jpg`;
     
     img.onload = () => resolve(img);  // image exists
     img.onerror = () => resolve(false); // image does not exist
@@ -1129,7 +1127,7 @@ function sortStatsByPopular(stats) {
         type: "addable",
         extension: data.extension,
 
-    })).filter(item => item.extension == "Karaoke");
+    })).filter(item => item.extension.toLowerCase() === "karaoke");
 
     // Sort by highest play count
     arr.sort((a, b) => b.count - a.count);

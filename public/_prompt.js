@@ -220,6 +220,19 @@ class _prompt {
                 border: "2px solid rgb(207, 207, 207)"
             })
             input.placeholder = item.placeholder ?? "";
+            if (item.onFocus) {
+                input.on("focus",function() {
+                    item.onFocus(input);
+                })
+            }
+            if (item.onBlur) {
+                input.on("blur",function() {
+                    item.onBlur(input);
+                })
+            }
+            if (item.css) {
+                input.css(item.css);
+            }
         }
         if (item.item === "title") {
             div.css({
@@ -375,7 +388,11 @@ let prompt_add_song = new _prompt({
     build: [
         {item: "title",text: "Add This Song?"},
         {item: "custom", iid: "songDisplay",style:{marginBottom: "10px"}},
-        {item: "input", iid: "showname", placeholder: "Show Name..."},
+        {item: "input", iid: "showname", css: {transition: "all .2s ease-in-out"}, placeholder: "Show Name...",onFocus: (input) => {
+            input.classAdd("inputSelected");
+        },onBlur: (input) => {
+            input.classRemove("inputSelected");
+        }},
         [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon", iid:"afirm", neonColor: "purple",text: "Add To Queue!"}]
     ],
     settings: {
@@ -404,9 +421,9 @@ let prompt_add_song = new _prompt({
             addQueue({
                 song: song.song,
                 artist: song.artist,
-                singer: user.showName,
+                showName: user.showName,
                 url: song.url,
-                singerID: user.uid,
+                uid: user.uid,
                 videoId: song.videoId,
                 changingSong: data.changingSong,
                 channel: song.channel,
@@ -434,9 +451,9 @@ let prompt_change_song = new _prompt({
             addQueue({
                 song: song.song,
                 artist: song.artist,
-                singer: user.showName,
+                showName: user.showName,
                 url: song.url,
-                singerID: user.uid,
+                uid: user.uid,
                 videoId: song.videoId,
                 changingSong: data.changingSong,
                 channel: song.channel,
@@ -457,7 +474,7 @@ let prompt_remove_song = new _prompt({
         {item: "custom", iid: "songDisplay",style:{marginBottom: "10px"}},
         [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon",close: true, neonColor: "red",text: "Delete IT!",func: () => {
             closeQueueEditor();
-            socket.emit("alterQueue","Remove",data.queue[data.selectedSong].queueID);
+            socket.emit("alterQueue","remove",data.queue[data.selectedSong].queueID);
         }}]
     ],
     settings: {
@@ -471,7 +488,11 @@ let prompt_remove_song = new _prompt({
 let prompt_change_name = new _prompt({
     build: [
         {item: "title",text: "Change Your Show Name!"},
-        {item: "input", iid: "showname", placeholder: "Show Name..."},
+        {item: "input", iid: "showname", placeholder: "Show Name...", css: {transition: "all .2s ease-in-out"},  onFocus: (input) => {
+            input.classAdd("inputSelected");
+        },onBlur: (input) => {
+            input.classRemove("inputSelected");
+        }},
         [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon", neonColor: "purple",text: "Change Name!",func: function(elems) {
             closeQueueEditor();
             let name = elems["showname"].$("<input").value;
@@ -485,14 +506,14 @@ let prompt_change_name = new _prompt({
             ls.save("showName",name);
 
             prompt_change_name.hide();
-            socket.emit("alterQueue","Change Name",data.queue[data.selectedSong].queueID,name);
+            socket.emit("alterQueue","change_name",data.queue[data.selectedSong].queueID,name);
         }}]
     ],
     settings: {
         delivery: "top",
     },
     onBuild: function(elems) {
-        elems["showname"].$("<input").value = data.queue[data.selectedSong].singer;
+        elems["showname"].$("<input").value = data.queue[data.selectedSong].showName;
         elems["showname"].$("<input").focus();
     }
 });

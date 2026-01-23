@@ -309,7 +309,7 @@ io.on("connection", (socket) => {
     socket.on("PromptOk",(id) => {
       if (state.waitingOnQR.accepted) return;
       if ((state.waitingOnQR.id !== id && socket.adminAccess.accept_songs !== true)) return;
-      if (!settings.testing_mode) io.to("uid" + state.waitingOnQR.videoInfo.singerID).emit("saveToLocal",state.waitingOnQR.videoInfo);
+      if (!settings.testing_mode) io.to("uid" + state.waitingOnQR.videoInfo.uid).emit("saveToLocal",state.waitingOnQR.videoInfo);
       io.to("admin").emit("closePrompts");
       playVideo();
       state.waitingOnQR.accepted = true;
@@ -334,33 +334,31 @@ io.on("connection", (socket) => {
     socket.on("updateAdminSettings",(setting,value) => {
       if (socket.adminAccess?.tabs.general_settings !== true) return;
       
-      if (setting === "testing_mode") {
-        settings.testing_mode = value === true ? true : false;
+      const adminSettingsHandler = {
+        testing_move: () => settings.testing_mode = value === true ? true : false,
+        adding_songs: () => {
+          settings.block_all_songs = value === true ? true : false;
+          io.emit("blockAllSongs",settings.block_all_songs)
+        },
+        queue_type: () => settings.queue_type = value.toLowerCase() === "auto" ? "auto" : "basic",
+        queue_distance: () => settings.max_distance = Number(value),
+        cut_off_time: () => {
+          if (value === false || value == "") settings.turn_off_time = false;
+          else settings.turn_off_time = getCutoffDate(value);
+        },
+        vocal_tracks: () => {
+          settings.allow_vocals = value === true ? true : false;
+          io.emit("vocalTrackToggle",settings.allow_vocals)
+        }
       }
-      if (setting === "adding_songs") {
-        settings.block_all_songs = value === true ? true : false;
-        io.emit("blockAllSongs",settings.block_all_songs)
-      }
-      if (setting === "queue_type") {
-        settings.queue_type = value.toLowerCase() === "auto" ? "auto" : "basic";
-      }
-      if (setting === "queue_distance") {
-        settings.max_distance = Number(value);
-      }
-      if (setting === "cut_off_time") {
-        if (value === false || value == "") settings.turn_off_time = false;
-        else settings.turn_off_time = getCutoffDate(value);
-      }
-      if (setting == "vocal_tracks") {
-        settings.allow_vocals = value === true ? true : false;
-        io.emit("vocalTrackToggle",settings.allow_vocals)
-      }
+
+      adminSettingsHandler[setting]?.();
 
       io.to("admin").emit("updateAdminSettings",settings)
     })
     socket.on("adminControls",(control,value) => {
 
-      if (control === "Sign Out Of Admin") {
+      if (control === "sign_out_of_admin") {
         socket.adminAccess = null;
         socket.leave("admin");
         socket.leave("music");
@@ -369,7 +367,7 @@ io.on("connection", (socket) => {
 
       if (socket.adminAccess?.tabs.audioVisual !== true) return;
 
-      if (control === "setVolume") {
+      if (control === "set_volume") {
         settings.volume = Number(value);
         if (settings.volume < 0) settings.volume = 0;
         if (settings.volume > 1) settings.volume = 1;
@@ -379,13 +377,13 @@ io.on("connection", (socket) => {
       }
 
       if (!state.music.startTime) return;
-      if (control == "setTime") {
+      if (control == "set_time") {
         if (settings.video_controller === "client") return;
         
         let difference = value - (Date.now() - state.music.startTime);
         state.music.startTime -= difference;
       }
-      if (control === "Pause Song") {
+      if (control === "pause_song") {
         console.log(settings.video_controller)
         if (settings.video_controller === "client") {
           io.to("screen").emit("musicControl","pause");
@@ -393,7 +391,7 @@ io.on("connection", (socket) => {
         state.music.pausedAt = Date.now() - state.music.startTime;
         state.music.playing = false;
       }
-      if (control === "Play Song") {
+      if (control === "play_song") {
         if (settings.video_controller === "client") {
           io.to("screen").emit("musicControl","play");
         }
@@ -401,19 +399,19 @@ io.on("connection", (socket) => {
         state.music.playing = true;
         state.music.pausedAt = null;
       }
-      if (control === "Restart Song") {
+      if (control === "restart_song") {
         if (settings.video_controller === "client") {
           io.to("screen").emit("musicControl","restart");
         }
         state.music.startTime = Date.now();
       }
-      if (control === "Skip Song") {
+      if (control === "skip_song") {
           if (settings.video_controller === "client") {
             io.to("screen").emit("musicControl","skip");
           }
           state.music.startTime -= state.music.duration;
       }
-      if (control === "-10 Seconds") {
+      if (control === "-10_seconds") {
         if (settings.video_controller === "client") {
           io.to("screen").emit("musicControl","minus_10");
         }
@@ -421,7 +419,7 @@ io.on("connection", (socket) => {
         if (state.music.startTime > Date.now()) state.music.startTime = Date.now();
           
       }
-      if (control === "+10 Seconds") {
+      if (control === "+10_seconds") {
         if (settings.video_controller === "client") {
           io.to("screen").emit("musicControl","plus_10");
         }
@@ -431,9 +429,15 @@ io.on("connection", (socket) => {
       io.to("music").emit("screenVideoUpdate",state.music);
     })
     socket.on("alterQueue",(code,queueID,extra) => {
-      //Potential security threat here, we should check to make sure you have access
-      alterQueue(code,queueID,extra);
+      let index = state.queue.findIndex(item => item.queueID === queueID);
+      if (index === -1) return;
 
+      const item = state.queue[index];
+
+      if (socket.uid !== item.uid && !socket.adminAccess.modify_queue) return;
+      if (!socket.adminAccess.modify_queue && !["move_down","move_bottom","remove","change_song","change_name"].includes(code)) return;
+
+      alterQueue(code,queueID,extra);
     })
     socket.on("addQueue",(obj) => {
       if (settings.block_all_songs) return;
@@ -445,7 +449,7 @@ io.on("connection", (socket) => {
       };
       obj.status = "added";
         if (obj.changingSong !== false) {
-          alterQueue("Change Song",obj.changingSong,obj);
+          alterQueue("change_song",obj.changingSong,obj);
           return;
         }
 
@@ -460,18 +464,18 @@ io.on("connection", (socket) => {
         let pastSingers = {};
         findingSpot: for (let i = 0; i < state.queue.length; i++) {
             let q = state.queue[i];
-            if (q.singerID === obj.singerID) {
+            if (q.uid === obj.uid) {
               pastSingers = {}; 
               continue;
             }
-            if (pastSingers[q.singerID]) {
-              if ( ( i - pastSingers[q.singerID].pos ) < settings.max_distance) {
+            if (pastSingers[q.uid]) {
+              if ( ( i - pastSingers[q.uid].pos ) < settings.max_distance) {
                 allowedInsert = i;
                 break findingSpot;
               }
-              pastSingers[q.singerID].pos = i;
+              pastSingers[q.uid].pos = i;
             } else {
-              pastSingers[q.singerID] = {
+              pastSingers[q.uid] = {
                 pos: i,
               };
             }
@@ -519,9 +523,9 @@ function playSong() {
   /* song = 
     song: set.song,
     artist: set.artist,
-    singer: account.user.name,
+    showName: account.user.name,
     url: v.url,
-    singerID: account.user.id,
+    uid: account.user.id,
     videoId: v.videoId,
     channel: v.channel,
   */
@@ -541,11 +545,11 @@ function playSong() {
   io.emit("updatedQueue",state.queue)
   io.emit("settingSong",song)
   state.waitingOnQR = {
-    id: song.singerID,
+    id: song.uid,
     time: Date.now(),
     accepted: false,
-    videoID: song.videoId,
-    singer: song.singer,
+    videoId: song.videoId,
+    showName: song.showName,
     videoInfo: song,
     channel: song.channel,
     extension: song.extension,
@@ -553,7 +557,7 @@ function playSong() {
   song.status = "qr";
   io.emit("queueStateChange",song.queueID,song.status);
   /*song.videoId,*/ 
-  io.emit("setUserPrompt", song.singerID);
+  io.emit("setUserPrompt", song.uid);
   setTimeout(function() {
     if (state.waitingOnQR.accepted) {
       return;
@@ -565,12 +569,11 @@ function playSong() {
 async function playVideo() {
   state.queue[0].status = "playing";
   io.emit("queueStateChange",state.queue[0].queueID,state.queue[0].status);
-  const duration = await getVideoDuration(`./public/Song Downloads/${state.waitingOnQR.videoID}.mp4`);
+  const duration = await getVideoDuration(`./public/Song Downloads/${state.waitingOnQR.videoId}.mp4`);
   state.music = {
     startTime: Date.now() + 3000,
     duration: duration * 1000,
-    videoId: state.waitingOnQR.videoID,
-    /*singer: state.waitingOnQR.singer,*///I think I can remove that no problem
+    videoId: state.waitingOnQR.videoId,
     playing: false,
     pausedAt: false,
   }
@@ -581,7 +584,7 @@ async function playVideo() {
   io.to("user").emit("changedStats",saveStats("downloadedData.json",global_songStats));
 
   if (settings.video_controller === "client"){
-    io.emit("startSong_client",state.waitingOnQR.videoID);
+    io.emit("startSong_client",state.waitingOnQR.videoId);
     state.songPlaying = true;
   } 
 }
@@ -593,7 +596,7 @@ function videoChecker() {
       state.music.playing = false;
       
       for (let i = 0; i < state.users.length; i++) {
-        if (state.users[i].uid == state.queue[0].singerID) {
+        if (state.users[i].uid == state.queue[0].uid) {
           state.queue[0].playing = false;
           state.users[i].reviews.push({
             video: state.queue[0],
@@ -706,38 +709,37 @@ function alterQueue(code,queueID,obj) {
 
   const item = state.queue[index];
 
-  if (code === "Change Name") {
-    state.queue[index].singer = obj;
-  }
-  if (code == "Move Top") {
-    state.queue.splice(index, 1);
-    state.queue.splice(1, 0, item);
-  }
-  if (code == "Move Up") {
-    if (index > 1) {
-        [state.queue[index - 1], state.queue[index]] = [state.queue[index], state.queue[index - 1]];
+  const alterQueueCodes = {
+    change_name: () => state.queue[index].showName = obj,
+    move_top: () => {
+      state.queue.splice(index, 1);
+      state.queue.splice(1, 0, item);
+    },
+    move_up: () => {
+      if (index > 1) {
+          [state.queue[index - 1], state.queue[index]] = [state.queue[index], state.queue[index - 1]];
+      }
+    },
+    move_down: () => {
+      if (index < state.queue.length - 1) {
+        [state.queue[index + 1], state.queue[index]] = [state.queue[index], state.queue[index + 1]];
+      }
+    },
+    move_bottom: () => {
+      state.queue.splice(index, 1);
+      state.queue.push(item);
+    },
+    remove: () => state.queue.splice(index, 1),
+    change_song: () => {
+      state.queue[index].song = obj.song;
+      state.queue[index].artist = obj.artist;
+      state.queue[index].url = obj.url;
+      state.queue[index].videoId = obj.videoId;
+      readySong(state.queue[index]);
     }
-  }
-  if (code == "Move Down") {
-    if (index < state.queue.length - 1) {
-      [state.queue[index + 1], state.queue[index]] = [state.queue[index], state.queue[index + 1]];
-    }
-  }
-  if (code == "Move Bottom") {
-    state.queue.splice(index, 1);
-    state.queue.push(item);
-  }
-  if (code == "Remove") {
-    state.queue.splice(index, 1);
-  }
-  if (code == "Change Song") {
-    state.queue[index].song = obj.song;
-    state.queue[index].artist = obj.artist;
-    state.queue[index].url = obj.url;
-    state.queue[index].videoId = obj.videoId;
-    readySong(state.queue[index]);
   }
 
+  alterQueueCodes[code]?.();
 
   io.emit("updatedQueue",state.queue);
 }
