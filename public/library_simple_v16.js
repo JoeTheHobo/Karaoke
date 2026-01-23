@@ -267,7 +267,64 @@ function isClass(obj) {
     return isCtorClass || isPrototypeCtorClass
   }
 
+function loop(obj,func,settings = {}) {
+    let time_start = Date.now();
+    let type = false;
+    if (Array.isArray(obj)) type = "Array";
+    if (typeof obj === "string") type = "String";
+    if (!isNaN(obj)) type = "Number";
+    if (obj !== null && typeof obj === "object" && !Array.isArray(obj)) type = "Object";
 
+    let count;
+    if (["Array","String"].includes(type)) count = obj.length;
+    if (["Number"].includes(type)) count = obj;
+
+    let iterations = 0;
+    let total_iterations;
+
+    if (["Array","String","Number"].includes(type)) {
+        let i = settings.reverse ? count-1 : 0;
+        total_iterations = count;
+
+        for (i; settings.reverse ? i > -1 : i < count; settings.reverse ? i-- : i++) {
+            iterations++;
+            let howToContinue;
+            if (type === "Array") {
+                howToContinue = func(obj[i],i);
+            }
+            if (type === "String") {
+                howToContinue = func(obj.charAt(i),i);
+            }
+            if (type === "Number") {
+                howToContinue = func(i);
+            }
+
+            if (howToContinue === false) {
+                break;
+            }
+            if (!isNaN(howToContinue)) {
+                i = howToContinue;
+            }
+        }
+    }
+    if (type === "Object") {
+        total_iterations = Object.keys(obj).length;
+        for (const [index, key] of Object.keys(obj).entries()) {
+            iterations++;
+            let howToContinue = func(key, index, obj[key]);
+            if (howToContinue === false) break;
+        }
+    }
+
+    let time_end = Date.now();
+
+    return {
+        performance: time_end - time_start,
+        iterations: iterations, 
+        total_iterations: total_iterations,
+        target: obj,
+    };
+}
 
 //////////////////
 //HOW TO USE RND//
