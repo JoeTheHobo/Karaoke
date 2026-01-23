@@ -13,7 +13,7 @@ socket.on("setSocket",(sscode,serverUser,videoStats,block_all_songs,total_songs,
     ls.save("userCode",user.uid);
     data.videoInfo = videoStats;
     data.songStats = global_songStats;
-    data.popularSongs = sortStatsByPopular(data.songStats).slice(0,50);
+    data.popularSongs = sortStatsByPopular(data.songStats);
 
     if (user.type !== "screen") {
         socket.emit("checkIfQR",sessionCode,user.uid);
@@ -180,11 +180,11 @@ socket.on("hideYourSongsNext",() => {
 
 socket.on("queueStateChange",(queueID,status) => {
     for (let i = 0; i < data.queue.length; i++) {
-        if (data.queue[i].queueID === queueID) {
-            data.queue[i].status = status;
-            updateQueue();
-            return;
-        }
+        if (data.queue[i].queueID !== queueID) continue;
+        
+        data.queue[i].status = status;
+        updateQueue();
+        return;
     }
 })
 socket.on("updateBanState",(state) => {
@@ -209,25 +209,20 @@ socket.on("musicControl",(setting) => {
     if (user.type !== "screen") return;
     let videoEl = $(".displayingVideo");
     if (!videoEl) return;
-    if (setting === "play") {
-        videoEl.play();
+    
+    const musicControlHandler = {
+        play: () => videoEl.play(),
+        pause: () => videoEl.pause(),
+        restart: () => videoEl.currentTime = 0,
+        skip: () => {
+            videoEl.currentTime = videoEl.duration - 0.5;
+            videoEl.play();
+        },
+        minus_10: () => videoEl.currentTime -= 10,
+        plus_10: () => videoEl.currentTime += 10,
     }
-    if (setting === "pause") {
-        videoEl.pause();
-    }
-    if (setting === "restart") {
-        videoEl.currentTime = 0;
-    }
-    if (setting === "skip") {
-        videoEl.currentTime = videoEl.duration - 0.5;
-        videoEl.play();
-    }
-    if (setting === "minus_10") {
-        videoEl.currentTime -= 10;
-    }
-    if (setting === "plus_10") {
-        videoEl.currentTime += 10;
-    }
+
+    musicControlHandler[setting]?.();
 })
 socket.on("setVolume",(volume) => {
     if (user.type !== "screen") return;
@@ -278,5 +273,5 @@ socket.on("changedStats",(changes) => {
             data.songStats[videoID].plays += value;
         }
     }
-    data.popularSongs = sortStatsByPopular(data.songStats).slice(0, 50);
+    data.popularSongs = sortStatsByPopular(data.songStats);
 })

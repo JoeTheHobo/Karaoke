@@ -1056,14 +1056,10 @@ $(".channel_submit").on("click touch",() => {
     if (divider === "") divider = " - ";
     let type = $(".channel_type").value;
 
-    let errors = false;
-
     if (name === "") {
-        errors = true;
         $(".channel_name").classAdd("channel_error")
+        return;
     }
-
-    if (errors) return;
 
     clearAddChannel();
 
@@ -1079,9 +1075,7 @@ $(".channel_submit").on("click touch",() => {
         type: type === "0" ? "karaoke" : "lyrics",
     }
 
-    socket.emit("addAllowedChannel",obj)
-
-
+    socket.emit("addAllowedChannel",obj);
 })
 
 
@@ -1140,5 +1134,5 @@ function sortStatsByPopular(stats) {
     // Sort by highest play count
     arr.sort((a, b) => b.count - a.count);
 
-    return arr;
+    return arr.slice(0, 50);
 }
