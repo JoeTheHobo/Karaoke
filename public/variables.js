@@ -4,9 +4,9 @@ let offlineMode = false;
 ls.setID("Karaokev5");
 let socket = null;
 let reconnectTimer = null;
-let sessionCode = ls.get("sessionCode",false);
+let sessionCode = false;
 let songSearchExtension = "Karaoke";
-let qrURL = "https://biostatical-verla-uninvestable.ngrok-free.dev/user";
+let qrURL = "https://prime.karaokewoods.com/";
 let settings = {
     volume: .75,
     testing_mode: false,

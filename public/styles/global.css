@@ -44,6 +44,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.button:hover {
+    border: 2px solid rgb(196, 47, 226) !important;
 }
 .absolute_centered {
     position: absolute;
@@ -59,7 +64,7 @@
 }
 
 .subtitle {
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 20px;
 }
 .input_number {
@@ -72,4 +77,20 @@
     font-weight: bold;
     border: 2px solid white;
 
+}
+
+.karaoke_input {
+    -webkit-appearance: none;  /* removes iOS default styles */
+    appearance: none;
+    line-height: normal;       /* stops weird vertical stretching */
+    padding: 1px;
+    height: 35px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    border: 2px solid white;
+    transition: all .2s ease-in-out;
+}
+.input_error {
+    border: 2px solid #ff5959 !important;
 }

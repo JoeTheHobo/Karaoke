@@ -4,19 +4,18 @@
     if different change users code.
 */
 
-socket.on("setSocket",(sscode,serverUser,videoStats,block_all_songs,total_songs,global_songStats) => {
+socket.on("setSocket",(serverUser,videoStats,block_all_songs,total_songs,global_songStats) => {
     user.uid = serverUser.uid;
     user.code = serverUser.uid;
     user.banned = serverUser.banned;
-    sessionCode = sscode;
-    ls.save("sessionCode",sscode);
     ls.save("userCode",user.uid);
     data.videoInfo = videoStats;
+
     data.songStats = global_songStats;
     data.popularSongs = sortStatsByPopular(data.songStats);
 
     if (user.type !== "screen") {
-        socket.emit("checkIfQR",sessionCode,user.uid);
+        socket.emit("checkIfQR",user.uid);
     }
     socket.emit("updateQueue");
 
@@ -66,9 +65,11 @@ socket.on("saveToLocal",(videoInfo) => {
 socket.on("closePrompts",() => {
     prompt_admin_start_song.hide();
 })
-socket.on("setUserPrompt", (userID) => {
+socket.on("setUserPrompt", (uid) => {
+    console.log(user.uid,uid)
     if (user.type === "screen") return;
-    if (user.uid === userID) {
+    if (user.uid === uid) {
+        console.log(4);
         prompt_user_start_song.prompt();
         return;
     }
@@ -274,4 +275,17 @@ socket.on("changedStats",(changes) => {
         }
     }
     data.popularSongs = sortStatsByPopular(data.songStats);
+})
+socket.on("photo_finished",() => {
+    updateQueue();  
+})
+socket.on("goToLayoutSelection",() => {
+    setScene("screenSelection")
+})
+
+socket.on("sessionCode",(ssid) => {
+    sessionCode = ssid;
+})
+socket.on("setSceneUser",()=> {
+    setScene("user");
 })

@@ -65,27 +65,6 @@ adminRoles.push({
   },
 })
 
-let sessionCode = Math.floor(Math.random() * 99999);
-let settings = {
-  testing_mode: false,
-  max_distance: 4,
-  queue_type: "auto", //basic or auto
-  volume: .75,
-  video_controller: "server",
-  block_all_songs: false, //block users from adding songs to queue
-  turn_off_time: false, //Set Time to Turn Off Songs
-  allow_vocals: false,
-}
-let state = {
-  users: [],
-  queue: [],
-  music: {
-    
-  },
-  waitingOnQR: false,
-  songPlaying: false,
-}
-
 const path = require("path");
 
 const fs = require("fs");
@@ -126,9 +105,17 @@ app.get("/imagelist", (req, res) => {
   res.json(files);
 });
 
-// Serve index.html for any route
+
+app.use(express.static("public", {
+  maxAge: 0,
+  etag: false
+}));
+
 app.get(/.*/, (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.set({
+    "Cache-Control": "no-store"
+  });
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // Handle connections
@@ -143,9 +130,10 @@ io.on("connection", (socket) => {
       if (typeof supervisorCode !== "number") return;
       if (supervisorCode < 1000 || supervisorCode > 9999) return; 
 
-      let sessionCode = Math.floor(Math.random() * 999999);
+      let sessionCode = rnd(100000,999999);
 
       sessions[sessionCode] = {
+        latestActivity: Date.now(),
         codes: {
           admin: adminCode,
           supervisor: supervisorCode,
@@ -157,7 +145,12 @@ io.on("connection", (socket) => {
           queue_type: "auto", //basic or auto
           volume: .75,
           video_controller: "server",
+          block_all_songs: false, //block users from adding songs to queue
+          turn_off_time: false, //Set Time to Turn Off Songs
+          allow_vocals: false,
+          
         },
+        queueWorking: false,
         state: {
           users: [],
           queue: [],
@@ -166,61 +159,146 @@ io.on("connection", (socket) => {
           },
           waitingOnQR: false,
           songPlaying: false,
-        }
+        },
       }
 
-      joinSession(socket,sessionCode,true);
+
+      sessions[sessionCode].cutOffTimeChecker = function() {
+        let cutOffSpeed = 1000//1000*60*1;
+
+        if (sessions[sessionCode].settings.turn_off_time) {
+          const now = new Date();
+          const cutoff = new Date(sessions[sessionCode].settings.turn_off_time.day);
+          cutoff.setHours(sessions[sessionCode].settings.turn_off_time.hour, sessions[sessionCode].settings.turn_off_time.minute, 0, 0);
+
+          let isCutOff = now >= cutoff;
+          let dif = cutoff - now;
+
+          if (isCutOff) {
+            sessions[sessionCode].settings.block_all_songs = true;
+            sessions[sessionCode].settings.turn_off_time = false;
+            io.to(sessionCode).emit("blockAllSongs",sessions[sessionCode].settings.block_all_songs);
+            io.to(sessionCode).to("admin").emit("updateAdminSettings",sessions[sessionCode].settings);
+          } else if (dif < 1000*60*.25) {
+            cutOffSpeed = 5000;
+          } else if (dif < 1000*60*1.5) {
+            cutOffSpeed = 20000;
+          }
+        }
+
+        setTimeout(function() {
+          if (!sessions[sessionCode]) return;
+          sessions[sessionCode].cutOffTimeChecker();
+        },cutOffSpeed); //Recheck every minute
+      }
+      sessions[sessionCode].cutOffTimeChecker();
+      
+      sessions[sessionCode].videoChecker = function() {
+        if (sessions[sessionCode].state.music.playing) {
+          let now = Date.now();
+          if (now >= sessions[sessionCode].state.music.startTime + sessions[sessionCode].state.music.duration) {
+            sessions[sessionCode].state.music.startTime = false;
+            sessions[sessionCode].state.music.playing = false;
+            
+            for (let i = 0; i < sessions[sessionCode].state.users.length; i++) {
+              if (sessions[sessionCode].state.users[i].uid == sessions[sessionCode].state.queue[0].uid) {
+                sessions[sessionCode].state.queue[0].playing = false;
+                sessions[sessionCode].state.users[i].reviews.push({
+                  video: sessions[sessionCode].state.queue[0],
+                  start: Date.now(),
+                })
+                handleReviews(sessionCode);
+              }
+            }
+
+            io.to(sessionCode).to("music").emit("screenVideoUpdate",sessions[sessionCode].state.music);
+            setTimeout(() => {
+              sessions[sessionCode].state.queue.shift();
+              playSong(sessionCode);
+            },3000);
+          }
+        } else {
+          if (sessions[sessionCode].state.music.startTime && !sessions[sessionCode].state.music.pausedAt) {
+            let now = Date.now();
+            if (now >= sessions[sessionCode].state.music.startTime) {
+              sessions[sessionCode].state.music.playing = true;
+              io.to(sessionCode).to("music").emit("screenVideoUpdate",sessions[sessionCode].state.music);
+            }
+          }
+        }
+        setTimeout(() => {
+          if (!sessions[sessionCode]) return;
+          sessions[sessionCode].videoChecker();
+        },200);
+      }
+
+      sessions[sessionCode].videoChecker();
+
+      socket.emit("sessionCode",sessionCode)
+      socket.emit("goToLayoutSelection");
     })
     socket.on("checkAdminCode",(code,goToAdmin = false) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
+
       if (socket.userType !== "user") return;
 
       for (let i = 0; i < adminRoles.length; i++) {
-        if (adminRoles[i].code === code) {
-          socket.adminAccess = adminRoles[i].access;
-          socket.join("admin");
-          socket.emit("allowAdmin",settings,goToAdmin,adminRoles[i]);
+        let passed = false;
+        if (adminRoles[i].title === "Creator" && adminRoles[i].code === code) passed = true;
+        else {
+          if (Number(session.codes[adminRoles[i].title.toLowerCase()]) === Number(code)) passed = true;
+        }
+        if (!passed) continue;
 
-          if (socket.adminAccess.tabs.users) {
-            socket.emit("updatedUsers",state.users);
-          }
-          if (socket.adminAccess.tabs.audioVisual) {
-            socket.join("music")
-            if (settings.video_controller === "client") {
-              if (state.songPlaying) {
-                socket.emit("showVideoPlayer");
-              } else {
-                socket.emit("hideVideoPlayer");
-              }
+        socket.adminAccess = adminRoles[i].access;
+        socket.join("admin");
+        socket.emit("allowAdmin",session.settings,goToAdmin,adminRoles[i]);
+
+        if (socket.adminAccess.tabs.users) {
+          socket.emit("updatedUsers",session.state.users);
+        }
+        if (socket.adminAccess.tabs.audioVisual) {
+          socket.join("music")
+          if (session.settings.video_controller === "client") {
+            if (session.state.songPlaying) {
+              socket.emit("showVideoPlayer");
+            } else {
+              socket.emit("hideVideoPlayer");
             }
           }
         }
       }
     })
-    socket.on("checkIfQR",(ssCode,uid) => {
-      if (ssCode !== sessionCode) return;
-      if (!state.waitingOnQR) return;
-      if (state.waitingOnQR.accepted) return;
-      if (state.waitingOnQR.id === uid) {
+    socket.on("checkIfQR",(uid) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
+      
+      if (!session.state.waitingOnQR) return;
+      if (session.state.waitingOnQR.accepted) return;
+      if (session.state.waitingOnQR.id === uid) {
         socket.emit("promptQR");
         return;
       }
       if (socket?.adminAccess?.accept_songs) {
         socket.emit("promptQR",true);
-
       }
-
     })
     socket.on("user_rated_song",(video,rating) => {
-      for (let i = 0; i < state.users.length; i++) {
-        if (state.users[i].uid === socket.user.uid) {
-          addReview(global_songStats,state.users[i].reviews[0].video,rating);
+      let session = sessions[socket.ssid];
+      if (!session) return;
+
+      for (let i = 0; i < session.state.users.length; i++) {
+        if (session.state.users[i].uid === socket.user.uid) {
+          addReview(global_songStats,session.state.users[i].reviews[0].video,rating);
           io.to("user").emit("changedStats",saveStats("downloadedData.json",global_songStats));
-          state.users[i].reviews.shift();
-          handleReviews();
+          session.state.users[i].reviews.shift();
+          handleReviews(socket.ssid);
         }
       }
     })
     socket.on("clientFinishedVideo",() => {
+      //Depricated
       io.to("admin").emit("hideVideoPlayer");
       if (socket.userType !== "screen") return;
       
@@ -238,26 +316,34 @@ io.on("connection", (socket) => {
       });
     })
     socket.on("sendBanState",(user,banState) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
+
       if (socket.adminAccess?.tabs.users !== true) return;
 
-      for (let i = 0; i < state.users.length; i++) {
-        if (state.users[i].uid === user.uid) {
-          state.users[i].banned = banState;
+      for (let i = 0; i < session.state.users.length; i++) {
+        if (session.state.users[i].uid === user.uid) {
+          session.state.users[i].banned = banState;
           
-          io.to("uid" + state.users[i].uid).emit("updateBanState",banState);
-          io.to("admin").emit("updatedUsers",state.users);
+          io.to("uid" + session.state.users[i].uid).emit("updateBanState",banState);
+          io.to(socket.ssid).to("admin").emit("updatedUsers",session.state.users);
           return;
         }
       }
     })
     socket.on("changedShowName",(userShowName) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
       if (!socket.user) return;
 
-      socket.user.displayName = userShowName;
+      socket.user.showName = userShowName;
 
-      io.to("admin").emit("updatedUsers",state.users);
+      io.to(socket.ssid).to("admin").emit("updatedUsers",session.state.users);
     })
-    socket.on("userJoined", (ssCode,uCode,userShowName) => {
+    socket.on("userJoined", (ssid,uid,userShowName) => {
+      joinSession(socket,ssid,"user",uid,userShowName,true);
+      /*
+
       socket.userType = "user";
       let foundUser = false;
       for (let i = 0; i < state.users.length; i++) {
@@ -271,7 +357,7 @@ io.on("connection", (socket) => {
         let uid = Math.floor(Math.random() * 99999);
         let obj = {
           uid: uid,
-          displayName: userShowName,
+          showName: userShowName,
           banned: false,
           songCount: 0,
           reviews: [],
@@ -286,14 +372,11 @@ io.on("connection", (socket) => {
       io.to("admin").emit("updatedUsers",state.users);
 
       handleReviews();
-
+*/
     }) 
-    socket.on("screenJoined", () => {
-      socket.userType = "screen";
-      socket.join("screen");
-      socket.join("music");
-      socket.emit("setSocket",sessionCode,false,state.music);
-      socket.emit("updateAdminSettings",settings);
+    socket.on("screenJoined", (ssid) => {
+      console.log("Yass")
+      joinSession(socket,ssid,"screen");
     })
     socket.on("searchSong",(query,extension) => {
       socket.emit("returnedSearchedSongs",searchLocalIndex(query,extension,global_songStats))
@@ -303,21 +386,26 @@ io.on("connection", (socket) => {
       if (state.waitingOnQR.id !== uid) return;
 
       return; //Will Add Later
-      alterQueue("Move Down",state.waitingOnQR.videoInfo.queueID);
+      alterQueue("move_down",state.waitingOnQR.videoInfo.queueID);
       playSong();
     })
     socket.on("PromptOk",(id) => {
-      if (state.waitingOnQR.accepted) return;
-      if ((state.waitingOnQR.id !== id && socket.adminAccess.accept_songs !== true)) return;
-      if (!settings.testing_mode) io.to("uid" + state.waitingOnQR.videoInfo.uid).emit("saveToLocal",state.waitingOnQR.videoInfo);
-      io.to("admin").emit("closePrompts");
-      playVideo();
-      state.waitingOnQR.accepted = true;
+      let session = sessions[socket.ssid];
+      if (!session) return;
+
+      if (session.state.waitingOnQR.accepted) return;
+      if ((session.state.waitingOnQR.id !== id && socket.adminAccess.accept_songs !== true)) return;
+      if (!session.settings.testing_mode) io.to("uid" + session.state.waitingOnQR.videoInfo.uid).emit("saveToLocal",session.state.waitingOnQR.videoInfo);
+      io.to(socket.ssid).to("admin").emit("closePrompts");
+      playVideo(socket.ssid);
+      session.state.waitingOnQR.accepted = true;
     })
     socket.on("request_qr", async (url) => {
+      if (!socket.ssid) return;
+
       try {
         // Generate QR *in memory*
-        const pngBuffer = await QRCode.toBuffer(url);
+        const pngBuffer = await QRCode.toBuffer(url + socket.ssid + "_user");
 
         // Send the QR image as base64 (or raw buffer)
         socket.emit("qr_result", {
@@ -329,34 +417,42 @@ io.on("connection", (socket) => {
       }
     });
     socket.on("updateQueue",function() {
-        io.emit("updatedQueue",state.queue);
+      let session = sessions[socket.ssid];
+      if (!session) return;
+
+      io.to(socket.ssid).emit("updatedQueue",session.state.queue);
     })
     socket.on("updateAdminSettings",(setting,value) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
+
       if (socket.adminAccess?.tabs.general_settings !== true) return;
       
       const adminSettingsHandler = {
-        testing_move: () => settings.testing_mode = value === true ? true : false,
+        testing_move: () => session.settings.testing_mode = value === true ? true : false,
         adding_songs: () => {
-          settings.block_all_songs = value === true ? true : false;
-          io.emit("blockAllSongs",settings.block_all_songs)
+          session.settings.block_all_songs = value === true ? true : false;
+          io.to(socket.ssid).emit("blockAllSongs",session.settings.block_all_songs)
         },
-        queue_type: () => settings.queue_type = value.toLowerCase() === "auto" ? "auto" : "basic",
-        queue_distance: () => settings.max_distance = Number(value),
+        queue_type: () => session.settings.queue_type = value.toLowerCase() === "auto" ? "auto" : "basic",
+        queue_distance: () => session.settings.max_distance = Number(value),
         cut_off_time: () => {
-          if (value === false || value == "") settings.turn_off_time = false;
-          else settings.turn_off_time = getCutoffDate(value);
+          if (value === false || value == "") session.settings.turn_off_time = false;
+          else session.settings.turn_off_time = getCutoffDate(value);
         },
         vocal_tracks: () => {
-          settings.allow_vocals = value === true ? true : false;
-          io.emit("vocalTrackToggle",settings.allow_vocals)
+          session.settings.allow_vocals = value === true ? true : false;
+          io.to(socket.ssid).emit("vocalTrackToggle",session.settings.allow_vocals)
         }
       }
 
       adminSettingsHandler[setting]?.();
 
-      io.to("admin").emit("updateAdminSettings",settings)
+      io.to(socket.ssid).to("admin").emit("updateAdminSettings",session.settings)
     })
     socket.on("adminControls",(control,value) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
 
       if (control === "sign_out_of_admin") {
         socket.adminAccess = null;
@@ -368,102 +464,107 @@ io.on("connection", (socket) => {
       if (socket.adminAccess?.tabs.audioVisual !== true) return;
 
       if (control === "set_volume") {
-        settings.volume = Number(value);
-        if (settings.volume < 0) settings.volume = 0;
-        if (settings.volume > 1) settings.volume = 1;
-        io.to("music").emit("updateAdminSettings",settings)
-        if (settings.video_controller == "client") io.to("screen").emit("setVolume",settings.volume)
+        session.settings.volume = Number(value);
+        if (session.settings.volume < 0) session.settings.volume = 0;
+        if (session.settings.volume > 1) session.settings.volume = 1;
+        io.to(socket.ssid).to("music").emit("updateAdminSettings",session.settings)
+        if (session.settings.video_controller == "client") io.to(socket.ssid).to("screen").emit("setVolume",session.settings.volume)
         return;
       }
 
-      if (!state.music.startTime) return;
+      if (!session.state.music.startTime) return;
       if (control == "set_time") {
-        if (settings.video_controller === "client") return;
+        if (session.settings.video_controller === "client") return;
         
-        let difference = value - (Date.now() - state.music.startTime);
-        state.music.startTime -= difference;
+        let difference = value - (Date.now() - session.state.music.startTime);
+        session.state.music.startTime -= difference;
       }
       if (control === "pause_song") {
-        console.log(settings.video_controller)
-        if (settings.video_controller === "client") {
-          io.to("screen").emit("musicControl","pause");
+        if (session.settings.video_controller === "client") {
+          io.to(socket.ssid).to("screen").emit("musicControl","pause");
         }
-        state.music.pausedAt = Date.now() - state.music.startTime;
-        state.music.playing = false;
+        session.state.music.pausedAt = Date.now() - session.state.music.startTime;
+        session.state.music.playing = false;
       }
       if (control === "play_song") {
-        if (settings.video_controller === "client") {
-          io.to("screen").emit("musicControl","play");
+        if (session.settings.video_controller === "client") {
+          io.to(socket.ssid).to("screen").emit("musicControl","play");
         }
-        state.music.startTime = Date.now() - state.music.pausedAt;
-        state.music.playing = true;
-        state.music.pausedAt = null;
+        session.state.music.startTime = Date.now() - session.state.music.pausedAt;
+        session.state.music.playing = true;
+        session.state.music.pausedAt = null;
       }
       if (control === "restart_song") {
-        if (settings.video_controller === "client") {
-          io.to("screen").emit("musicControl","restart");
+        if (session.settings.video_controller === "client") {
+          io.to(socket.ssid).to("screen").emit("musicControl","restart");
         }
-        state.music.startTime = Date.now();
+        session.state.music.startTime = Date.now();
       }
       if (control === "skip_song") {
-          if (settings.video_controller === "client") {
-            io.to("screen").emit("musicControl","skip");
+          if (session.settings.video_controller === "client") {
+            io.to(socket.ssid).to("screen").emit("musicControl","skip");
           }
-          state.music.startTime -= state.music.duration;
+          session.state.music.startTime -= session.state.music.duration;
       }
       if (control === "-10_seconds") {
-        if (settings.video_controller === "client") {
-          io.to("screen").emit("musicControl","minus_10");
+        if (session.settings.video_controller === "client") {
+          io.to(socket.ssid).to("screen").emit("musicControl","minus_10");
         }
-        state.music.startTime += (10*1000);
-        if (state.music.startTime > Date.now()) state.music.startTime = Date.now();
+        session.state.music.startTime += (10*1000);
+        if (session.state.music.startTime > Date.now()) session.state.music.startTime = Date.now();
           
       }
       if (control === "+10_seconds") {
-        if (settings.video_controller === "client") {
-          io.to("screen").emit("musicControl","plus_10");
+        if (session.settings.video_controller === "client") {
+          io.to(socket.ssid).to("screen").emit("musicControl","plus_10");
         }
-          state.music.startTime -= (10*1000);
+          session.state.music.startTime -= (10*1000);
       }
 
-      io.to("music").emit("screenVideoUpdate",state.music);
+      io.to(socket.ssid).to("music").emit("screenVideoUpdate",state.music);
     })
     socket.on("alterQueue",(code,queueID,extra) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
+
       let index = state.queue.findIndex(item => item.queueID === queueID);
       if (index === -1) return;
 
-      const item = state.queue[index];
+      const item = session.state.queue[index];
 
       if (socket.uid !== item.uid && !socket.adminAccess.modify_queue) return;
       if (!socket.adminAccess.modify_queue && !["move_down","move_bottom","remove","change_song","change_name"].includes(code)) return;
 
-      alterQueue(code,queueID,extra);
+      alterQueue(code,queueID,extra,ssid);
     })
     socket.on("addQueue",(obj) => {
-      if (settings.block_all_songs) return;
+      let session = sessions[socket.ssid];
+      if (!session) return;
+
+      if (session.settings.block_all_songs) return;
       if (!socket.user) return;
       if (socket.user.banned) return;
-      if (!settings.allow_vocals && obj.extension.toLowerCase() === "lyrics") {
+      if (!session.settings.allow_vocals && obj.extension.toLowerCase() === "lyrics") {
         socket.emit("vocalTracksBanned")
         return;
       };
       obj.status = "added";
         if (obj.changingSong !== false) {
-          alterQueue("change_song",obj.changingSong,obj);
+          alterQueue("change_song",obj.changingSong,obj,socket.ssid);
           return;
         }
 
-        if (settings.queue_type.toLowerCase() === "basic") {
-          state.queue.push(obj);
-          readySong(state.queue[state.queue.length-1]);
-          io.emit("updatedQueue",state.queue);
+        if (session.settings.queue_type.toLowerCase() === "basic") {
+          session.state.queue.push(obj);
+          readySong(session.state.queue[session.state.queue.length-1]);
+          io.to(socket.ssid).emit("updatedQueue",session.state.queue);
           return;
         }
 
         let allowedInsert = undefined;
         let pastSingers = {};
-        findingSpot: for (let i = 0; i < state.queue.length; i++) {
-            let q = state.queue[i];
+        findingSpot: for (let i = 0; i < session.state.queue.length; i++) {
+            let q = session.state.queue[i];
             if (q.uid === obj.uid) {
               pastSingers = {}; 
               continue;
@@ -482,44 +583,59 @@ io.on("connection", (socket) => {
         }
 
         if (allowedInsert) {
-            state.queue.splice(allowedInsert,0,obj);
-            readySong(state.queue[allowedInsert]);
+            session.state.queue.splice(allowedInsert,0,obj);
+            readySong(session.state.queue[allowedInsert],socket.ssid);
         } else {
-            state.queue.push(obj);
-            readySong(state.queue[state.queue.length-1]);
+            session.state.queue.push(obj);
+            readySong(session.state.queue[session.state.queue.length-1],socket.ssid);
         }
 
-        io.emit("updatedQueue",state.queue);
+        io.to(socket.ssid).emit("updatedQueue",session.state.queue);
     })
 
   socket.on("disconnect", () => {
     console.log("Station disconnected:", socket.id);
   });
 });
-function readySong(q) {
+function readySong(q,ssid) {
   if (!q.queueID) q.queueID = simple.rnd(9999999);
   q.status = downloadVideo(q.videoId);
-  queueHandler();
+  
+  let hasPhoto = checkIfSongHasPhoto(q.videoId)
+  if (!hasPhoto) {
+    findAndDownloadImage(q).then((videoId) => {
+      io.to(ssid).emit("photo_finished",videoId);
+    });
+  }
+
+  console.log(-2,ssid);
+  queueHandler(ssid);
 }
 
 server.listen(3000, () => {
   console.log("Kareoke server running on port 3000");
 });
 
-let queueWorking = false;
-function queueHandler() {
-  if (queueWorking) return;
-  queueWorking = true;
+function queueHandler(ssid) {
+  let session = sessions[ssid];
+  if (!session) return;
 
-  playSong();
+  if (session.queueWorking) return;
+  session.queueWorking = true;
+
+  playSong(ssid);
 }
-function playSong() {
-  if (!state.queue.length) {
+function playSong(ssid) {
+  let session = sessions[ssid];
+  if (!session) return;
+
+  if (!session.state.queue.length) {
     console.log("No songs in queue");
-    queueWorking = false;
-    io.emit("updatedQueue",state.queue)
+    session.queueWorking = false;
+    io.to(ssid).emit("updatedQueue",session.state.queue)
     return;
   }
+  console.log(1)
   /* song = 
     song: set.song,
     artist: set.artist,
@@ -530,21 +646,26 @@ function playSong() {
     channel: v.channel,
   */
 
-  let songIsReady = checkSongReadiness(state.queue[0]);
+  let songIsReady = checkSongReadiness(session.state.queue[0],ssid);
   if (!songIsReady) {
-    if (!state.queue[0].statedNotReady) {
-      state.queue[0].statedNotReady = true;
+    if (!session.state.queue[0].statedNotReady) {
+      session.state.queue[0].statedNotReady = true;
     } 
-    setTimeout(playSong,2000);
+    setTimeout(() => {
+      playSong(ssid);
+    },2000);
     return;
   }
 
-  let song = state.queue[0];
-  state.queue[0].playing = true;
+  console.log(2)
 
-  io.emit("updatedQueue",state.queue)
-  io.emit("settingSong",song)
-  state.waitingOnQR = {
+  let song = session.state.queue[0];
+  session.state.queue[0].playing = true;
+
+  io.to(ssid).emit("updatedQueue",session.state.queue)
+  io.to(ssid).emit("settingSong",song)
+
+  session.state.waitingOnQR = {
     id: song.uid,
     time: Date.now(),
     accepted: false,
@@ -555,85 +676,56 @@ function playSong() {
     extension: song.extension,
   }
   song.status = "qr";
-  io.emit("queueStateChange",song.queueID,song.status);
+  io.to(ssid).emit("queueStateChange",song.queueID,song.status);
   /*song.videoId,*/ 
-  io.emit("setUserPrompt", song.uid);
+  io.to(ssid).emit("setUserPrompt", song.uid);
   setTimeout(function() {
-    if (state.waitingOnQR.accepted) {
+    if (session.state.waitingOnQR.accepted) {
       return;
     }
-    state.waitingOnQR.accepted = true;
-    playVideo();
+    session.state.waitingOnQR.accepted = true;
+    playVideo(ssid);
   },30000);
 }
-async function playVideo() {
-  state.queue[0].status = "playing";
-  io.emit("queueStateChange",state.queue[0].queueID,state.queue[0].status);
-  const duration = await getVideoDuration(`./public/Song Downloads/${state.waitingOnQR.videoId}.mp4`);
-  state.music = {
+async function playVideo(ssid) {
+  let session = sessions[ssid];
+  if (!session) return;
+  
+  session.state.queue[0].status = "playing";
+  io.to(ssid).emit("queueStateChange",session.state.queue[0].queueID,session.state.queue[0].status);
+  const duration = await getVideoDuration(`./public/Song Downloads/${session.state.waitingOnQR.videoId}.mp4`);
+  session.state.music = {
     startTime: Date.now() + 3000,
     duration: duration * 1000,
-    videoId: state.waitingOnQR.videoId,
+    videoId: session.state.waitingOnQR.videoId,
     playing: false,
     pausedAt: false,
   }
-  io.to("music").emit("screenVideoUpdate",state.music);
-  io.emit("hideYourSongsNext");
+  io.to(ssid).to("music").emit("screenVideoUpdate",session.state.music);
+  io.to(ssid).emit("hideYourSongsNext");
   
-  if (!settings.testing_mode) addPlay(global_songStats, state.waitingOnQR.videoInfo);
-  io.to("user").emit("changedStats",saveStats("downloadedData.json",global_songStats));
+  if (!session.settings.testing_mode) addPlay(global_songStats, session.state.waitingOnQR.videoInfo);
+  io.to(ssid).to("user").emit("changedStats",saveStats("downloadedData.json",global_songStats));
 
-  if (settings.video_controller === "client"){
-    io.emit("startSong_client",state.waitingOnQR.videoId);
-    state.songPlaying = true;
+  if (session.settings.video_controller === "client"){
+    io.to(ssid).emit("startSong_client",session.state.waitingOnQR.videoId);
+    session.state.songPlaying = true;
   } 
 }
-function videoChecker() {
-  if (state.music.playing) {
-    let now = Date.now();
-    if (now >= state.music.startTime + state.music.duration) {
-      state.music.startTime = false;
-      state.music.playing = false;
-      
-      for (let i = 0; i < state.users.length; i++) {
-        if (state.users[i].uid == state.queue[0].uid) {
-          state.queue[0].playing = false;
-          state.users[i].reviews.push({
-            video: state.queue[0],
-            start: Date.now(),
-          })
-          handleReviews();
-        }
-      }
+function checkSongReadiness(q,ssid) {
+  let session = sessions[ssid];
+  if (!session) return;
 
-      io.to("music").emit("screenVideoUpdate",state.music);
-      setTimeout(() => {
-        state.queue.shift();
-        playSong();
-      },3000);
-    }
-  } else {
-    if (state.music.startTime && !state.music.pausedAt) {
-      let now = Date.now();
-      if (now >= state.music.startTime) {
-        state.music.playing = true;
-        io.to("music").emit("screenVideoUpdate",state.music);
-
-      }
-    }
-  }
-  setTimeout(videoChecker,200);
-}
-if (settings.video_controller === "server") videoChecker();
-function checkSongReadiness(q) {
   let downloaded =  checkIfSongIsDownloaded(q.videoId);
   let hasPhoto = checkIfSongHasPhoto(q.videoId)
   if (!hasPhoto) {
-    findAndDownloadImage(q);
+    findAndDownloadImage(q).then((videoId) => {
+      io.to(ssid).emit("photo_finished",videoId);
+    });
   }
   if (!downloaded) return false;
   q.status = "downloaded";
-  io.emit("queueStateChange",q.queueID,q.status);
+  io.to(ssid).emit("queueStateChange",q.queueID,q.status);
 
   return true;
 }
@@ -703,45 +795,48 @@ function downloadFinished() {
     downloaderWorking = false;
   }
 }
-function alterQueue(code,queueID,obj) {
-  let index = state.queue.findIndex(item => item.queueID === queueID);
+function alterQueue(code,queueID,obj,ssid) {
+  let session = sessions[ssid];
+  if (!session) return;
+
+  let index = session.state.queue.findIndex(item => item.queueID === queueID);
   if (index === -1) return; // not found
 
-  const item = state.queue[index];
+  const item = session.state.queue[index];
 
   const alterQueueCodes = {
-    change_name: () => state.queue[index].showName = obj,
+    change_name: () => session.state.queue[index].showName = obj,
     move_top: () => {
-      state.queue.splice(index, 1);
-      state.queue.splice(1, 0, item);
+      session.state.queue.splice(index, 1);
+      session.state.queue.splice(1, 0, item);
     },
     move_up: () => {
       if (index > 1) {
-          [state.queue[index - 1], state.queue[index]] = [state.queue[index], state.queue[index - 1]];
+          [session.state.queue[index - 1], session.state.queue[index]] = [session.state.queue[index], session.state.queue[index - 1]];
       }
     },
     move_down: () => {
-      if (index < state.queue.length - 1) {
-        [state.queue[index + 1], state.queue[index]] = [state.queue[index], state.queue[index + 1]];
+      if (index < session.state.queue.length - 1) {
+        [session.state.queue[index + 1], session.state.queue[index]] = [session.state.queue[index], session.state.queue[index + 1]];
       }
     },
     move_bottom: () => {
-      state.queue.splice(index, 1);
-      state.queue.push(item);
+      session.state.queue.splice(index, 1);
+      session.state.queue.push(item);
     },
-    remove: () => state.queue.splice(index, 1),
+    remove: () => session.state.queue.splice(index, 1),
     change_song: () => {
-      state.queue[index].song = obj.song;
-      state.queue[index].artist = obj.artist;
-      state.queue[index].url = obj.url;
-      state.queue[index].videoId = obj.videoId;
-      readySong(state.queue[index]);
+      session.state.queue[index].song = obj.song;
+      session.state.queue[index].artist = obj.artist;
+      session.state.queue[index].url = obj.url;
+      session.state.queue[index].videoId = obj.videoId;
+      readySong(session.state.queue[index]);
     }
   }
 
   alterQueueCodes[code]?.();
 
-  io.emit("updatedQueue",state.queue);
+  io.to(ssid).emit("updatedQueue",session.state.queue);
 }
 function getVideoDuration(path) {
     return new Promise((resolve, reject) => {
@@ -752,40 +847,55 @@ function getVideoDuration(path) {
     });
 }
 
-function joinSession(socket,ssid,isAdmin) {
+function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
   if (!sessions[ssid]) return;
   let session = sessions[ssid];
   if (socket.ssid) {
     socket.leave(socket.ssid);
   }
+  socket.ssid = ssid;
   socket.join(ssid);
+  console.log(ssid);
 
-  socket.userType = "user";
+  socket.userType = userType;
 
-  
-
-  let foundUser = false;
-  for (let i = 0; i < session.state.users.length; i++) {
-    let user = session.state.users[i];
-    if (user.uid === uCode) foundUser = user; 
+  if (userType === "screen") {
+    socket.join("screen");
+    socket.join("music");
+    socket.emit("setSocket",false,session.state.music,session.settings.block_all_songs,total_songs,global_songStats);
+    socket.emit("updateAdminSettings",session.settings);
   }
-  if (foundUser && ssCode === sessionCode) {
-    socket.user = foundUser;
-  } else {
-    let uid = Math.floor(Math.random() * 99999);
-    let obj = {
-      uid: uid,
-      displayName: userShowName,
-      banned: false,
-      songCount: 0.
+  if (userType === "user") {
+    let foundUser = false;
+    for (let i = 0; i < session.state.users.length; i++) {
+      let user = session.state.users[i];
+      if (user.uid === uid) foundUser = user; 
     }
-    state.users.push(obj)
-    socket.user = obj;
+    if (foundUser) {
+      socket.user = foundUser;
+    } else {
+      let obj = {
+        uid: uid,
+        showName: showName,
+        banned: false,
+        songCount: 0,
+        reviews: [],
+      }
+      session.state.users.push(obj)
+      socket.user = obj;
+    }
+    socket.join("uid" + socket.user.uid);
+    socket.join("user");
+
+    socket.emit("setSocket",socket.user,session.state.music,session.settings.block_all_songs,total_songs,global_songStats);
+    io.to(ssid).to("admin").emit("updatedUsers",session.state.users);
+
+    handleReviews(ssid);
+
+    if (setSceneHome) {
+      socket.emit("setSceneUser")
+    }
   }
-  socket.join("uid" + socket.user.uid);
-  socket.join("user");
-  socket.emit("setSocket",sessionCode,socket.user,state.music); //NEED TO FIX WHEN I DO SESSIONS AGAIN
-  io.to(ssid).to("admin").emit("updatedUsers",state.users); 
 }
 function getCutoffDate(timeStr) {
   const now = new Date();
@@ -806,39 +916,15 @@ function getCutoffDate(timeStr) {
     day
   };
 }
-function cutOffTimeChecker() {
-
-  let cutOffSpeed = 1000//1000*60*1;
-
-  if (settings.turn_off_time) {
-    const now = new Date();
-    const cutoff = new Date(settings.turn_off_time.day);
-    cutoff.setHours(settings.turn_off_time.hour, settings.turn_off_time.minute, 0, 0);
-
-    let isCutOff = now >= cutoff;
-    let dif = cutoff - now;
-
-    if (isCutOff) {
-      settings.block_all_songs = true;
-      settings.turn_off_time = false;
-      io.emit("blockAllSongs",settings.block_all_songs);
-      io.to("admin").emit("updateAdminSettings",settings);
-    } else if (dif < 1000*60*.25) {
-      cutOffSpeed = 5000;
-    } else if (dif < 1000*60*1.5) {
-      cutOffSpeed = 20000;
-    }
-  }
-
-  setTimeout(cutOffTimeChecker,cutOffSpeed); //Recheck every minute
-}
-cutOffTimeChecker();
 
 
-function handleReviews() {
+function handleReviews(ssid) {
+  let session = sessions[ssid];
+  if (!session) return;
+
   let now = Date.now();
-  for (let i = 0; i < state.users.length; i++) {
-    let user = state.users[i];
+  for (let i = 0; i < session.state.users.length; i++) {
+    let user = session.state.users[i];
 
     //Clear Old Reviews
     for (let j = 0; j < user.reviews.length; j++) {
@@ -853,6 +939,13 @@ function handleReviews() {
     let review = user.reviews.length ? user.reviews[0].video : false;
     io.to("uid" + user.uid).emit("currentReview",review);
 
-
   }
+}
+
+
+function rnd(min, max) {
+  min = Math.ceil(min); // Ensure min is a whole number
+  max = Math.floor(max); // Ensure max is a whole number
+  // The formula for an inclusive range
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

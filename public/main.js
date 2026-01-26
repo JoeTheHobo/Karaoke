@@ -1106,7 +1106,7 @@ function updateAdminUsers() {
         let row = container.create("div.users_row");
         if (i % 2 === 0) row.classAdd("users_row_gray");
         row.create("div.users_id>" + user.uid);
-        row.create("div.users_name>" + user.displayName);
+        row.create("div.users_name>" + user.showName);
         row.create("div.users_songs>" + user.songCount);
         row.create("div.users_banned").create("input.users_checkbox").input_type("checkbox").input_checked(user.banned).on("click",function() {
             socket.emit("sendBanState",user,this.checked);
@@ -1116,6 +1116,7 @@ function updateAdminUsers() {
 
 
 function sortStatsByPopular(stats) {
+    if (user.type !== "user") return;
     // Convert object → array
     const arr = Object.entries(stats).map(([videoId, data]) => ({
         videoId,

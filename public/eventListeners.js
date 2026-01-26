@@ -352,10 +352,10 @@ $(".scren_finish")[1].on("click",() => {
     setScene("screen_2");
     using_screen_layout = "b";
     user.type = "screen";
-    socket.emit("request_qr",qrURL);
-    socket.emit("screenJoined",sessionCode,user.code);
-
-
+    socket.emit("screenJoined",sessionCode);
+    setTimeout(function() {
+        socket.emit("request_qr",qrURL);
+    },1000);
 });
 
 
@@ -413,7 +413,21 @@ function updateVolumeIcon(val) {
 
 
 
+$("join_session").on("click",() => {
+    let number = $("session_id_input").value;
+    let err = false;
+    if (number.length < 6 || number.length > 6) err = true;
+    if (number === "") err = true;
 
+    if (err) {
+        $("session_id_input").classAdd("input_error");
+        return;
+    }
+
+    $("session_id_input").classRemove("input_error");
+
+    socket.emit("screen_join_session",number);
+});
 $("create_session").on("click touch",function() {
     setScene("create_session")
     $("admin_code").value = rnd(1000,9999);

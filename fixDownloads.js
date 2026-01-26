@@ -24,33 +24,39 @@ async function findAndDownloadImage(obj) {
 
     if (photoURL !== "") {
         //Download photo with name of videoID
-        downloadImage(photoURL,obj.videoId);
+        return await downloadImage(photoURL,obj.videoId);
     }
 
 }
-function downloadImage(url, videoID) {
-  const folder = path.join(__dirname, "public/songPhotos");
-  if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true });
+function downloadImage(url, videoId) {
+  return new Promise((resolve, reject) => {
+    const folder = path.join(__dirname, "public/songPhotos");
+    if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true });
 
-  const filePath = path.join(folder, `${videoID}.jpg`);
+    const filePath = path.join(folder, `${videoId}.jpg`);
 
-  // If file already exists, skip
-  if (fs.existsSync(filePath)) {
-    console.log(`File already exists: ${filePath}`);
-    return;
-  }
+    // If file already exists, skip
+    if (fs.existsSync(filePath)) {
+      console.log(`File already exists: ${filePath}`);
+      resolve(videoId);
+      return;
+    }
 
-  const file = fs.createWriteStream(filePath);
+    const file = fs.createWriteStream(filePath);
 
-  https.get(url, (res) => {
-    res.pipe(file);
-    file.on("finish", () => {
-      file.close();
+    https.get(url, (res) => {
+      res.pipe(file);
+
+      file.on("finish", () => {
+        file.close(() => {
+          resolve(videoId)
+        });
+      });
+    }).on("error", (err) => {
+      fs.unlinkSync(filePath); // delete partial file
+      reject(err);
     });
-  }).on("error", (err) => {
-    fs.unlinkSync(filePath); // delete partial file
-    console.error("Download failed:", err.message);
-  });
+  })
 }
 async function fetchImage(query) {
   const json = await getJson({

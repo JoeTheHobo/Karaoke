@@ -34,24 +34,28 @@ function initSocket() {
 
     socket.on("connect",() => {
 
-        const path = window.location.pathname;
-        if (path === "/user") {
-            setScene("user");
-            user.type = "user";
-            socket.emit("userJoined",sessionCode,user.code,user.showName);
-        } else if (path === "/" || path === "/screen") {
+        let path = window.location.pathname;
+
+        if (path === "/") {
             user.type = "screen";
-            setScene("screenSelection")
-        } else {
-            //Redirect to User
-            setScene("user");
+            setScene("sessions")
+        }
+
+
+        path = path.subset(1,true);
+        path = path.split("_");
+
+        sessionCode = Number(path[0]);
+        if (path.includes("user")) {
             user.type = "user";
             socket.emit("userJoined",sessionCode,user.code,user.showName);
+            //setScene("user");
+
         }
         
         checkThemes();
         
-        if (adminCode.length === 4) {
+        if (adminCode.length === 4 && user.type === "user") {
             socket.emit("checkAdminCode",adminCode.join(""))
         }
 

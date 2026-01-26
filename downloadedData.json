@@ -380,7 +380,7 @@
   },
   "HAYuls3af5s": {
     "videoId": "HAYuls3af5s",
-    "plays": 0,
+    "plays": 1,
     "url": "https://www.youtube.com/watch?v=HAYuls3af5s",
     "channel": "Sing King",
     "extension": "Karaoke",
@@ -904,7 +904,7 @@
     "extension": "Karaoke"
   },
   "KlGUSUu8a-c": {
-    "plays": 3,
+    "plays": 12,
     "song": "KOD",
     "artist": "J Cole",
     "url": "https://www.youtube.com/watch?v=KlGUSUu8a-c",
@@ -915,5 +915,14 @@
       2,
       5
     ]
+  },
+  "rPZ-0nkBomY": {
+    "plays": 1,
+    "song": "Crossfire",
+    "artist": "Brandon Flowers",
+    "url": "https://www.youtube.com/watch?v=rPZ-0nkBomY",
+    "videoId": "rPZ-0nkBomY",
+    "channel": "KaraokeOnVEVO",
+    "extension": "Karaoke"
   }
 }
