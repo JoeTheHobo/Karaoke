@@ -1,7 +1,7 @@
 {
   "channelId": "UCw6nfprTl26FG_TFThaqHmw",
   "channelUrl": "https://www.youtube.com/@lolpuppies5575",
-  "lastChecked": "2026-01-06T18:52:34.613Z",
+  "lastChecked": "2026-01-27T18:59:32.891Z",
   "format": [
     "s",
     " - ",
@@ -9,6 +9,69 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "x2mNxZ4XBZo",
+      "title": "Grenadine by The Unlikely Candidates - Karaoke Version",
+      "publishedAt": "2026-01-24T06:31:47.000Z",
+      "channelId": "UCw6nfprTl26FG_TFThaqHmw",
+      "normalizedTitle": "grenadine by the unlikely candidates karaoke version",
+      "channelName": "lol puppies",
+      "url": "https://www.youtube.com/watch?v=x2mNxZ4XBZo"
+    },
+    {
+      "videoId": "j9Ly2q2kgpI",
+      "title": "Rule #34 by Fish in a Birdcage - Karaoke version",
+      "publishedAt": "2026-01-24T04:58:54.000Z",
+      "channelId": "UCw6nfprTl26FG_TFThaqHmw",
+      "normalizedTitle": "rule 34 by fish in a birdcage karaoke version",
+      "channelName": "lol puppies",
+      "url": "https://www.youtube.com/watch?v=j9Ly2q2kgpI"
+    },
+    {
+      "videoId": "AQZZs5I2bGY",
+      "title": "Carousel by Unlikely Candidates - Karaoke version",
+      "publishedAt": "2026-01-24T03:31:34.000Z",
+      "channelId": "UCw6nfprTl26FG_TFThaqHmw",
+      "normalizedTitle": "carousel by unlikely candidates karaoke version",
+      "channelName": "lol puppies",
+      "url": "https://www.youtube.com/watch?v=AQZZs5I2bGY"
+    },
+    {
+      "videoId": "Ez3YsfxiiUo",
+      "title": "Deja Vu (Your Love) by Glass Animals - Karaoke Version",
+      "publishedAt": "2026-01-22T05:20:02.000Z",
+      "channelId": "UCw6nfprTl26FG_TFThaqHmw",
+      "normalizedTitle": "deja vu your love by glass animals karaoke version",
+      "channelName": "lol puppies",
+      "url": "https://www.youtube.com/watch?v=Ez3YsfxiiUo"
+    },
+    {
+      "videoId": "DHvIZwlemeQ",
+      "title": "Flip by Glass Animals - Karaoke Version",
+      "publishedAt": "2026-01-21T05:12:56.000Z",
+      "channelId": "UCw6nfprTl26FG_TFThaqHmw",
+      "normalizedTitle": "flip by glass animals karaoke version",
+      "channelName": "lol puppies",
+      "url": "https://www.youtube.com/watch?v=DHvIZwlemeQ"
+    },
+    {
+      "videoId": "Lg097-rXyfc",
+      "title": "JDNT by Glass Animals - Karaoke Version",
+      "publishedAt": "2026-01-11T01:30:27.000Z",
+      "channelId": "UCw6nfprTl26FG_TFThaqHmw",
+      "normalizedTitle": "jdnt by glass animals karaoke version",
+      "channelName": "lol puppies",
+      "url": "https://www.youtube.com/watch?v=Lg097-rXyfc"
+    },
+    {
+      "videoId": "8h8b8pubNWs",
+      "title": "Toes by Glass Animals - Karaoke Version",
+      "publishedAt": "2026-01-11T01:03:28.000Z",
+      "channelId": "UCw6nfprTl26FG_TFThaqHmw",
+      "normalizedTitle": "toes by glass animals karaoke version",
+      "channelName": "lol puppies",
+      "url": "https://www.youtube.com/watch?v=8h8b8pubNWs"
+    },
     {
       "videoId": "OISN20gphCc",
       "title": "Life Itself - Glass Animals - Karaoke version",
@@ -489,5 +552,6 @@
       "channelName": "lol puppies",
       "url": "https://www.youtube.com/watch?v=IrIne9Lg7bI"
     }
-  ]
+  ],
+  "nextCheckAt": 1771073103654
 }

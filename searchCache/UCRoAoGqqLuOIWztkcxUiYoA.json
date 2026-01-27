@@ -1,7 +1,7 @@
 {
   "channelId": "UCRoAoGqqLuOIWztkcxUiYoA",
   "channelUrl": "https://www.youtube.com/@mibalmzkaraoke",
-  "lastChecked": "2026-01-06T18:14:09.139Z",
+  "lastChecked": "2026-01-27T18:59:28.412Z",
   "format": [
     "s",
     " - ",
@@ -9,6 +9,42 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "2G7uZEQE22c",
+      "title": "Ale - The Bloomfields | Karaoke Version with Lyrics (Instrumental)",
+      "publishedAt": "2026-01-22T08:11:48.000Z",
+      "channelId": "UCRoAoGqqLuOIWztkcxUiYoA",
+      "normalizedTitle": "ale the bloomfields karaoke version with lyrics instrumental",
+      "channelName": "Mi Balmz Karaoke Tracks",
+      "url": "https://www.youtube.com/watch?v=2G7uZEQE22c"
+    },
+    {
+      "videoId": "5F1KrxtiDvY",
+      "title": "Tahanan - El Manu | Karaoke Version with Lyrics (Instrumental)",
+      "publishedAt": "2026-01-14T08:00:28.000Z",
+      "channelId": "UCRoAoGqqLuOIWztkcxUiYoA",
+      "normalizedTitle": "tahanan el manu karaoke version with lyrics instrumental",
+      "channelName": "Mi Balmz Karaoke Tracks",
+      "url": "https://www.youtube.com/watch?v=5F1KrxtiDvY"
+    },
+    {
+      "videoId": "5KnoLFSq2_s",
+      "title": "Bruno Mars - I Just Might | Karaoke Version with Lyrics (Instrumental)",
+      "publishedAt": "2026-01-11T07:12:59.000Z",
+      "channelId": "UCRoAoGqqLuOIWztkcxUiYoA",
+      "normalizedTitle": "bruno mars i just might karaoke version with lyrics instrumental",
+      "channelName": "Mi Balmz Karaoke Tracks",
+      "url": "https://www.youtube.com/watch?v=5KnoLFSq2_s"
+    },
+    {
+      "videoId": "rB5bLWmNw-0",
+      "title": "Kalapastangan - fitterkarma | Karaoke Version with Lyrics (Instrumental)",
+      "publishedAt": "2026-01-09T08:59:22.000Z",
+      "channelId": "UCRoAoGqqLuOIWztkcxUiYoA",
+      "normalizedTitle": "kalapastangan fitterkarma karaoke version with lyrics instrumental",
+      "channelName": "Mi Balmz Karaoke Tracks",
+      "url": "https://www.youtube.com/watch?v=rB5bLWmNw-0"
+    },
     {
       "videoId": "3PuPl-lgCcc",
       "title": "Maui Wowie - Kid Cudi | Karaoke Version with Lyrics (Instrumental)",
@@ -5569,5 +5605,6 @@
       "channelName": "Mi Balmz Karaoke Tracks",
       "url": "https://www.youtube.com/watch?v=cTSdw7pUpHU"
     }
-  ]
+  ],
+  "nextCheckAt": 1771967452395
 }

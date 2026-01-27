@@ -1,7 +1,7 @@
 {
   "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
   "channelUrl": "https://www.youtube.com/@GoldCoastMusic",
-  "lastChecked": "2026-01-06T19:05:46.473Z",
+  "lastChecked": "2026-01-27T18:59:13.946Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,141 @@
   ],
   "type": "lyrics",
   "videos": [
+    {
+      "videoId": "0e8XDcm_Prc",
+      "title": "Caleb Hearn - IS THERE A WORLD? (Lyrics)",
+      "publishedAt": "2026-01-27T17:41:17.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "caleb hearn is there a world lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=0e8XDcm_Prc"
+    },
+    {
+      "videoId": "9e08xBomnWM",
+      "title": "The Beaches - I Ran (So Far Away) (Lyrics)",
+      "publishedAt": "2026-01-25T08:49:43.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "the beaches i ran so far away lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=9e08xBomnWM"
+    },
+    {
+      "videoId": "C0cxOeKhOW8",
+      "title": "Thomas Day -  lost myself 4 u (Lyrics)",
+      "publishedAt": "2026-01-24T03:57:26.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "thomas day lost myself 4 u lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=C0cxOeKhOW8"
+    },
+    {
+      "videoId": "5zhtRCXFvFw",
+      "title": "Holly Humberstone - To Love Somebody (Lyrics)",
+      "publishedAt": "2026-01-23T07:47:18.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "holly humberstone to love somebody lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=5zhtRCXFvFw"
+    },
+    {
+      "videoId": "-q_F4LM9dWw",
+      "title": "Sofia Camara - Parking Lot (Lyrics)",
+      "publishedAt": "2026-01-21T09:04:00.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "sofia camara parking lot lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=-q_F4LM9dWw"
+    },
+    {
+      "videoId": "NAhLR2yVSdk",
+      "title": "Ashley Kutcher - Hard Pill (Lyrics)",
+      "publishedAt": "2026-01-20T05:53:39.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "ashley kutcher hard pill lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=NAhLR2yVSdk"
+    },
+    {
+      "videoId": "-8iozFC_dt4",
+      "title": "Quinn XCII - Close Calls (Lyrics)",
+      "publishedAt": "2026-01-17T07:37:16.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "quinn xcii close calls lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=-8iozFC_dt4"
+    },
+    {
+      "videoId": "RYhddHoWQMg",
+      "title": "AViVA - COMATOSE (Lyrics)",
+      "publishedAt": "2026-01-16T06:12:42.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "aviva comatose lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=RYhddHoWQMg"
+    },
+    {
+      "videoId": "t98izfBpSWw",
+      "title": "Cowboy Junkies - Sweet Jane (Lyrics)",
+      "publishedAt": "2026-01-15T08:50:17.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "cowboy junkies sweet jane lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=t98izfBpSWw"
+    },
+    {
+      "videoId": "_56qLsD7EPQ",
+      "title": "Nicky Youre, dazy - Sunroof (Lyrics)",
+      "publishedAt": "2026-01-14T08:49:26.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "nicky youre dazy sunroof lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=_56qLsD7EPQ"
+    },
+    {
+      "videoId": "zFATeY5YPsE",
+      "title": "Jack Gray - Bluffin' (Lyrics)",
+      "publishedAt": "2026-01-13T06:10:15.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "jack gray bluffin lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=zFATeY5YPsE"
+    },
+    {
+      "videoId": "MtYsPjWHN08",
+      "title": "220 KID - Hold On For Heaven (Lyrics)",
+      "publishedAt": "2026-01-10T06:14:42.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "220 kid hold on for heaven lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=MtYsPjWHN08"
+    },
+    {
+      "videoId": "ifOj8Udaafc",
+      "title": "One Hope - icarus (Lyrics)",
+      "publishedAt": "2026-01-09T08:53:59.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "one hope icarus lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=ifOj8Udaafc"
+    },
+    {
+      "videoId": "qbub-F4QzVM",
+      "title": "Dean Lewis - To Have You Today (Lyrics)",
+      "publishedAt": "2026-01-08T08:15:12.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "dean lewis to have you today lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=qbub-F4QzVM"
+    },
+    {
+      "videoId": "sI_INe4Spjk",
+      "title": "5 Seconds of Summer - Boyband (Lyrics)",
+      "publishedAt": "2026-01-07T07:50:39.000Z",
+      "channelId": "UC0aXGG4J16PmxgZo10Nzk6A",
+      "normalizedTitle": "5 seconds of summer boyband lyrics",
+      "channelName": "Gold Coast Music",
+      "url": "https://www.youtube.com/watch?v=sI_INe4Spjk"
+    },
     {
       "videoId": "LYOTpbXYv2o",
       "title": "Jordan Suaste & JESSIA - body (Lyrics)",
@@ -15513,5 +15648,6 @@
       "channelName": "Gold Coast Music",
       "url": "https://www.youtube.com/watch?v=Udlzml1L5OM"
     }
-  ]
+  ],
+  "nextCheckAt": 1771768337562
 }

@@ -1,7 +1,7 @@
 {
   "channelId": "UCTFFPzHv1VZiVww1siqJi9Q",
   "channelUrl": "https://www.youtube.com/@PopularMusicNetwork",
-  "lastChecked": "2026-01-06T18:56:00.375Z",
+  "lastChecked": "2026-01-27T18:59:32.160Z",
   "format": [
     "a",
     " - ",
@@ -9177,5 +9177,6 @@
       "channelName": "Popular Music",
       "url": "https://www.youtube.com/watch?v=VsVNlIV5k7k"
     }
-  ]
+  ],
+  "nextCheckAt": 1771317493255
 }

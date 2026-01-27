@@ -1,7 +1,7 @@
 {
   "channelId": "UCp1yyhrJWXTKL3lk135wVKA",
   "channelUrl": "https://www.youtube.com/@SingTuneKaraoke",
-  "lastChecked": "2026-01-06T18:09:52.406Z",
+  "lastChecked": "2026-01-27T18:59:24.680Z",
   "format": [
     "a",
     ": ",
@@ -217,5 +217,6 @@
       "channelName": "Sing Tune Karaoke",
       "url": "https://www.youtube.com/watch?v=-9rUOmRe5cs"
     }
-  ]
+  ],
+  "nextCheckAt": 1771517444330
 }

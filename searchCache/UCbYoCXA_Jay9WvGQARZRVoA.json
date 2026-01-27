@@ -1,7 +1,7 @@
 {
   "channelId": "UCbYoCXA_Jay9WvGQARZRVoA",
   "channelUrl": "https://www.youtube.com/@LuetyaKaraoke",
-  "lastChecked": "2026-01-06T18:44:26.487Z",
+  "lastChecked": "2026-01-27T18:59:18.896Z",
   "format": [
     "s",
     " - ",
@@ -9,6 +9,51 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "RZEzHQ6hHig",
+      "title": "The Morning - Dhruv (Karaoke)",
+      "publishedAt": "2026-01-25T21:24:46.000Z",
+      "channelId": "UCbYoCXA_Jay9WvGQARZRVoA",
+      "normalizedTitle": "the morning dhruv karaoke",
+      "channelName": "Luetya",
+      "url": "https://www.youtube.com/watch?v=RZEzHQ6hHig"
+    },
+    {
+      "videoId": "egQoYPUhtyk",
+      "title": "Judgment Day - Beth Crowley (Karaoke)",
+      "publishedAt": "2026-01-24T00:35:20.000Z",
+      "channelId": "UCbYoCXA_Jay9WvGQARZRVoA",
+      "normalizedTitle": "judgment day beth crowley karaoke",
+      "channelName": "Luetya",
+      "url": "https://www.youtube.com/watch?v=egQoYPUhtyk"
+    },
+    {
+      "videoId": "Aa5tQGfUqSI",
+      "title": "Excelsis - Ghost (Karaoke)",
+      "publishedAt": "2026-01-16T00:49:10.000Z",
+      "channelId": "UCbYoCXA_Jay9WvGQARZRVoA",
+      "normalizedTitle": "excelsis ghost karaoke",
+      "channelName": "Luetya",
+      "url": "https://www.youtube.com/watch?v=Aa5tQGfUqSI"
+    },
+    {
+      "videoId": "R1i4fksRZzA",
+      "title": "Love is a Good Thing - Sheryl Crow (Karaoke)",
+      "publishedAt": "2026-01-13T00:29:49.000Z",
+      "channelId": "UCbYoCXA_Jay9WvGQARZRVoA",
+      "normalizedTitle": "love is a good thing sheryl crow karaoke",
+      "channelName": "Luetya",
+      "url": "https://www.youtube.com/watch?v=R1i4fksRZzA"
+    },
+    {
+      "videoId": "acaLrDHBRGc",
+      "title": "Before It Breaks - Brandi Carlile (Karaoke)",
+      "publishedAt": "2026-01-10T03:07:31.000Z",
+      "channelId": "UCbYoCXA_Jay9WvGQARZRVoA",
+      "normalizedTitle": "before it breaks brandi carlile karaoke",
+      "channelName": "Luetya",
+      "url": "https://www.youtube.com/watch?v=acaLrDHBRGc"
+    },
     {
       "videoId": "UHigpbCYePo",
       "title": "Entertain You - Within Temptation (Karaoke)",
@@ -3129,5 +3174,6 @@
       "channelName": "Luetya",
       "url": "https://www.youtube.com/watch?v=B08CWz9HwjY"
     }
-  ]
+  ],
+  "nextCheckAt": 1771421176158
 }

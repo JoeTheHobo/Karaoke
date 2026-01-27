@@ -1800,3 +1800,49 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     align-items: center;
     justify-content: center;
 }
+
+
+.newReleaseContainer {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    width: 95%;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 10px;
+}
+.newReleaseTitle {
+    color: white;
+    width: 100%;
+    text-align: left;
+    font-weight: bold;
+    font-size: 21px;
+}
+.newReleases {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+.newReleaseGroup {
+  min-width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+.newRelease_track {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 35px;
+}
+.newRelease_track > .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: gray;
+  opacity: 0.5;
+}
+.newRelease_track > .dot.active {
+  background: white;
+  opacity: 1;
+}

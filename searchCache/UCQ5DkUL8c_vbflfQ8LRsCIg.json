@@ -1,7 +1,7 @@
 {
   "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
   "channelUrl": "https://www.youtube.com/@rapcitylife",
-  "lastChecked": "2026-01-06T18:55:10.168Z",
+  "lastChecked": "2026-01-27T18:59:25.759Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,78 @@
   ],
   "type": "lyrics",
   "videos": [
+    {
+      "videoId": "SdhQzUvL3G0",
+      "title": "A$AP ROCKY - STOLE YA FLOW (Lyrics)",
+      "publishedAt": "2026-01-27T17:36:59.000Z",
+      "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
+      "normalizedTitle": "aap rocky stole ya flow lyrics",
+      "channelName": "Rap City",
+      "url": "https://www.youtube.com/watch?v=SdhQzUvL3G0"
+    },
+    {
+      "videoId": "Ok_VS-BohqU",
+      "title": "Outkast - GhettoMusick (Lyrics)",
+      "publishedAt": "2026-01-26T22:50:07.000Z",
+      "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
+      "normalizedTitle": "outkast ghettomusick lyrics",
+      "channelName": "Rap City",
+      "url": "https://www.youtube.com/watch?v=Ok_VS-BohqU"
+    },
+    {
+      "videoId": "DiFiZOO2NVU",
+      "title": "The Kid LAROI - JULY (Lyrics)",
+      "publishedAt": "2026-01-17T17:41:42.000Z",
+      "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
+      "normalizedTitle": "the kid laroi july lyrics",
+      "channelName": "Rap City",
+      "url": "https://www.youtube.com/watch?v=DiFiZOO2NVU"
+    },
+    {
+      "videoId": "yNl4zEYMZY8",
+      "title": "The Kid LAROI - ME + YOU (Lyrics)",
+      "publishedAt": "2026-01-15T17:52:00.000Z",
+      "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
+      "normalizedTitle": "the kid laroi me you lyrics",
+      "channelName": "Rap City",
+      "url": "https://www.youtube.com/watch?v=yNl4zEYMZY8"
+    },
+    {
+      "videoId": "f2v0FlMmV7g",
+      "title": "Ciara - 1, 2 Step (Lyrics) ft. Missy Elliott",
+      "publishedAt": "2026-01-14T21:19:09.000Z",
+      "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
+      "normalizedTitle": "ciara 1 2 step lyrics ft missy elliott",
+      "channelName": "Rap City",
+      "url": "https://www.youtube.com/watch?v=f2v0FlMmV7g"
+    },
+    {
+      "videoId": "b5MLY9vVanY",
+      "title": "The Kid LAROI - RATHER BE (Lyrics) ft. Lithe",
+      "publishedAt": "2026-01-13T18:25:12.000Z",
+      "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
+      "normalizedTitle": "the kid laroi rather be lyrics ft lithe",
+      "channelName": "Rap City",
+      "url": "https://www.youtube.com/watch?v=b5MLY9vVanY"
+    },
+    {
+      "videoId": "qUqr0MejmyE",
+      "title": "bbno$ - diamonds are forever (Lyrics)",
+      "publishedAt": "2026-01-09T18:18:33.000Z",
+      "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
+      "normalizedTitle": "bbno diamonds are forever lyrics",
+      "channelName": "Rap City",
+      "url": "https://www.youtube.com/watch?v=qUqr0MejmyE"
+    },
+    {
+      "videoId": "YD2m0UQQPVM",
+      "title": "The Kid LAROI - BACK WHEN YOU WERE MINE (Lyrics)",
+      "publishedAt": "2026-01-07T18:37:37.000Z",
+      "channelId": "UCQ5DkUL8c_vbflfQ8LRsCIg",
+      "normalizedTitle": "the kid laroi back when you were mine lyrics",
+      "channelName": "Rap City",
+      "url": "https://www.youtube.com/watch?v=YD2m0UQQPVM"
+    },
     {
       "videoId": "ZZoPMG85f54",
       "title": "A$AP Rocky - Punk Rocky (Lyrics)",
@@ -30041,5 +30113,6 @@
       "channelName": "Rap City",
       "url": "https://www.youtube.com/watch?v=mq_DlAo5koA"
     }
-  ]
+  ],
+  "nextCheckAt": 1770921608672
 }

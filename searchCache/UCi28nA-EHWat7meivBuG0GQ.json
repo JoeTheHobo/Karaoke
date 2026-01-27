@@ -1,7 +1,7 @@
 {
   "channelId": "UCi28nA-EHWat7meivBuG0GQ",
   "channelUrl": "https://www.youtube.com/@gotyouontape",
-  "lastChecked": "2026-01-06T18:38:11.518Z",
+  "lastChecked": "2026-01-27T18:59:22.074Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,15 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "SSCHxzw2kSE",
+      "title": "Not for Radio - Back To You (Karaoke)",
+      "publishedAt": "2026-01-11T21:11:34.000Z",
+      "channelId": "UCi28nA-EHWat7meivBuG0GQ",
+      "normalizedTitle": "not for radio back to you karaoke",
+      "channelName": "Peter B",
+      "url": "https://www.youtube.com/watch?v=SSCHxzw2kSE"
+    },
     {
       "videoId": "_WhyOpglhu0",
       "title": "Not for Radio - Magnet (Karaoke)",
@@ -521,5 +530,6 @@
       "channelName": "Peter B",
       "url": "https://www.youtube.com/watch?v=FmB8v9Vhc1E"
     }
-  ]
+  ],
+  "nextCheckAt": 1771610946503
 }

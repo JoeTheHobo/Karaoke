@@ -1,7 +1,7 @@
 {
   "channelId": "UCLYRNIeTQNmx1E9jVAFxSlA",
   "channelUrl": "https://www.youtube.com/@songjam",
-  "lastChecked": "2026-01-06T18:52:21.533Z",
+  "lastChecked": "2026-01-27T18:59:23.382Z",
   "format": [
     "a",
     " - ",
@@ -8473,5 +8473,6 @@
       "channelName": "Songjam: Official Karaoke",
       "url": "https://www.youtube.com/watch?v=aIpbroz-9CE"
     }
-  ]
+  ],
+  "nextCheckAt": 1772071913681
 }

@@ -1,7 +1,7 @@
 {
   "channelId": "UCutZyApGOjqhOS-pp7yAj4Q",
   "channelUrl": "https://www.youtube.com/@AtomicKaraoke",
-  "lastChecked": "2026-01-06T18:41:23.743Z",
+  "lastChecked": "2026-01-27T18:59:32.727Z",
   "format": [
     "s",
     " - ",
@@ -9,6 +9,60 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "hXHSpZMKoGI",
+      "title": "GISINGIN ANG PUSO - Liezel Garcia (HD Karaoke)",
+      "publishedAt": "2026-01-24T00:01:00.000Z",
+      "channelId": "UCutZyApGOjqhOS-pp7yAj4Q",
+      "normalizedTitle": "gisingin ang puso liezel garcia hd karaoke",
+      "channelName": "Atomic Karaoke...",
+      "url": "https://www.youtube.com/watch?v=hXHSpZMKoGI"
+    },
+    {
+      "videoId": "cqj7ofZkiyY",
+      "title": "FAME - Irene Cara (HD Karaoke)",
+      "publishedAt": "2026-01-21T00:00:49.000Z",
+      "channelId": "UCutZyApGOjqhOS-pp7yAj4Q",
+      "normalizedTitle": "fame irene cara hd karaoke",
+      "channelName": "Atomic Karaoke...",
+      "url": "https://www.youtube.com/watch?v=cqj7ofZkiyY"
+    },
+    {
+      "videoId": "sH2Gu_FRp-I",
+      "title": "BUMALIK KA NA SA'KIN - Silent Sanctuary (HD Karaoke)",
+      "publishedAt": "2026-01-17T00:01:07.000Z",
+      "channelId": "UCutZyApGOjqhOS-pp7yAj4Q",
+      "normalizedTitle": "bumalik ka na sakin silent sanctuary hd karaoke",
+      "channelName": "Atomic Karaoke...",
+      "url": "https://www.youtube.com/watch?v=sH2Gu_FRp-I"
+    },
+    {
+      "videoId": "BZCbx_xRAdQ",
+      "title": "HAPLOS - Shamrock (HD Karaoke)",
+      "publishedAt": "2026-01-14T00:00:24.000Z",
+      "channelId": "UCutZyApGOjqhOS-pp7yAj4Q",
+      "normalizedTitle": "haplos shamrock hd karaoke",
+      "channelName": "Atomic Karaoke...",
+      "url": "https://www.youtube.com/watch?v=BZCbx_xRAdQ"
+    },
+    {
+      "videoId": "r4g2xFYK97s",
+      "title": "IMMORTALITY - Celine Dion feat. Bee Gees (HD Karaoke)",
+      "publishedAt": "2026-01-10T00:01:15.000Z",
+      "channelId": "UCutZyApGOjqhOS-pp7yAj4Q",
+      "normalizedTitle": "immortality celine dion feat bee gees hd karaoke",
+      "channelName": "Atomic Karaoke...",
+      "url": "https://www.youtube.com/watch?v=r4g2xFYK97s"
+    },
+    {
+      "videoId": "cZXqLb-fz94",
+      "title": "TRUE - Spandau Ballet (HD Karaoke)",
+      "publishedAt": "2026-01-07T00:01:00.000Z",
+      "channelId": "UCutZyApGOjqhOS-pp7yAj4Q",
+      "normalizedTitle": "true spandau ballet hd karaoke",
+      "channelName": "Atomic Karaoke...",
+      "url": "https://www.youtube.com/watch?v=cZXqLb-fz94"
+    },
     {
       "videoId": "AStSPaBi9BI",
       "title": "OB LA DI, OB LA DA - The Beatles (HD Karaoke)",
@@ -7649,5 +7703,6 @@
       "channelName": "Atomic Karaoke...",
       "url": "https://www.youtube.com/watch?v=LLeRvcagCZk"
     }
-  ]
+  ],
+  "nextCheckAt": 1771042094500
 }

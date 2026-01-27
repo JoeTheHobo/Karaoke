@@ -4,13 +4,15 @@
     if different change users code.
 */
 
-socket.on("setSocket",(serverUser,videoStats,block_all_songs,total_songs,global_songStats) => {
+socket.on("setSocket",(serverUser,videoStats,block_all_songs,total_songs,global_songStats,newReleases) => {
     user.banned = serverUser.banned;
     ls.save("userCode",user.uid);
     data.videoInfo = videoStats;
 
     data.songStats = global_songStats;
     data.popularSongs = sortStatsByPopular(data.songStats);
+    data.newReleases = newReleases;
+    updateNewReleases();
 
     if (user.type !== "screen") {
         socket.emit("checkIfQR",user.uid);

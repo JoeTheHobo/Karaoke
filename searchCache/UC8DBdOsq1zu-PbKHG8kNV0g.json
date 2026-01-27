@@ -1,7 +1,7 @@
 {
   "channelId": "UC8DBdOsq1zu-PbKHG8kNV0g",
   "channelUrl": "https://www.youtube.com/@PillowMusic",
-  "lastChecked": "2026-01-06T18:55:40.854Z",
+  "lastChecked": "2026-01-27T18:59:15.142Z",
   "format": [
     "s",
     " - ",
@@ -9,6 +9,24 @@
   ],
   "type": "lyrics",
   "videos": [
+    {
+      "videoId": "gOOl1hfwjOk",
+      "title": "Soda Pop - Saja Boys (KPOP Demon Hunters) (Lyrics) 🎵",
+      "publishedAt": "2026-01-22T00:21:31.000Z",
+      "channelId": "UC8DBdOsq1zu-PbKHG8kNV0g",
+      "normalizedTitle": "soda pop saja boys kpop demon hunters lyrics",
+      "channelName": "Pillow",
+      "url": "https://www.youtube.com/watch?v=gOOl1hfwjOk"
+    },
+    {
+      "videoId": "ZVITcfDNle8",
+      "title": "Die With A Smile - Lady Gaga, Bruno Mars (Lyrics) 🎵",
+      "publishedAt": "2026-01-12T12:38:54.000Z",
+      "channelId": "UC8DBdOsq1zu-PbKHG8kNV0g",
+      "normalizedTitle": "die with a smile lady gaga bruno mars lyrics",
+      "channelName": "Pillow",
+      "url": "https://www.youtube.com/watch?v=ZVITcfDNle8"
+    },
     {
       "videoId": "HOk5lJ-mZ8k",
       "title": "Gabriela - KATSEYE (Lyrics) 🎵",
@@ -21601,5 +21619,6 @@
       "channelName": "Pillow",
       "url": "https://www.youtube.com/watch?v=h9wnvOCzIa0"
     }
-  ]
+  ],
+  "nextCheckAt": 1771405196566
 }

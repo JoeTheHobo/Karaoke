@@ -1,7 +1,7 @@
 {
   "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
   "channelUrl": "https://www.youtube.com/@vibemusic.",
-  "lastChecked": "2026-01-06T18:54:38.539Z",
+  "lastChecked": "2026-01-27T18:59:21.874Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,231 @@
   ],
   "type": "lyrics",
   "videos": [
+    {
+      "videoId": "eQsduSNnZzs",
+      "title": "A$AP Rocky - PLAYA (Lyrics)",
+      "publishedAt": "2026-01-27T03:16:00.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "aap rocky playa lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=eQsduSNnZzs"
+    },
+    {
+      "videoId": "MRms9R36Xd0",
+      "title": "Childish Gambino - LES",
+      "publishedAt": "2026-01-26T21:54:55.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "childish gambino les",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=MRms9R36Xd0"
+    },
+    {
+      "videoId": "jSpazjVFm6k",
+      "title": "Lil Uzi Vert - What You Saying (Lyrics)",
+      "publishedAt": "2026-01-26T18:24:51.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "lil uzi vert what you saying lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=jSpazjVFm6k"
+    },
+    {
+      "videoId": "NF2IB6Vkphs",
+      "title": "Disco Lines, Tinashe - No Broke Boys (Lyrics)",
+      "publishedAt": "2026-01-25T01:24:22.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "disco lines tinashe no broke boys lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=NF2IB6Vkphs"
+    },
+    {
+      "videoId": "d-LwcvzEVqY",
+      "title": "Mary J. Blige - Family Affair (Lyrics)",
+      "publishedAt": "2026-01-24T03:58:50.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "mary j blige family affair lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=d-LwcvzEVqY"
+    },
+    {
+      "videoId": "JlChEGTExuQ",
+      "title": "Yebba - Far Away ft. A$AP Rocky",
+      "publishedAt": "2026-01-23T09:49:57.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "yebba far away ft aap rocky",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=JlChEGTExuQ"
+    },
+    {
+      "videoId": "69gfkOqk7SE",
+      "title": "Leona Lewis - Better in Time (Lyrics)",
+      "publishedAt": "2026-01-22T04:45:59.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "leona lewis better in time lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=69gfkOqk7SE"
+    },
+    {
+      "videoId": "iKY4FXUTtfw",
+      "title": "Guy Sebastian - Who's That Girl (Lyrics) ft. Eve",
+      "publishedAt": "2026-01-21T00:51:08.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "guy sebastian whos that girl lyrics ft eve",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=iKY4FXUTtfw"
+    },
+    {
+      "videoId": "OLQhKo_qAU0",
+      "title": "SIENNA SPIRO - You Stole The Show (Lyrics)",
+      "publishedAt": "2026-01-19T02:39:05.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "sienna spiro you stole the show lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=OLQhKo_qAU0"
+    },
+    {
+      "videoId": "kIhwAGZlork",
+      "title": "Pitbull - Damn I Love Miami (Lyrics) ft. Lil Jon",
+      "publishedAt": "2026-01-17T16:40:54.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "pitbull damn i love miami lyrics ft lil jon",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=kIhwAGZlork"
+    },
+    {
+      "videoId": "E_Qfi2VLxJw",
+      "title": "Cowboy Junkies - Sweet Jane (Lyrics)",
+      "publishedAt": "2026-01-16T01:51:01.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "cowboy junkies sweet jane lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=E_Qfi2VLxJw"
+    },
+    {
+      "videoId": "yAD1Lo9GwFU",
+      "title": "The Kid LAROI - RATHER BE (Lyrics) ft. Lithe",
+      "publishedAt": "2026-01-15T00:30:02.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "the kid laroi rather be lyrics ft lithe",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=yAD1Lo9GwFU"
+    },
+    {
+      "videoId": "4KuPwA1EMVY",
+      "title": "Ice Spice - Big Guy",
+      "publishedAt": "2026-01-14T20:39:22.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "ice spice big guy",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=4KuPwA1EMVY"
+    },
+    {
+      "videoId": "45BrR7XDgpE",
+      "title": "DENNIS, Beéle, L7NNON - Loco Contigo (Letra/Lyrics)",
+      "publishedAt": "2026-01-13T23:39:39.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "dennis bele l7nnon loco contigo letralyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=45BrR7XDgpE"
+    },
+    {
+      "videoId": "hCkvO56wS2M",
+      "title": "Alice in Chains - Nutshell",
+      "publishedAt": "2026-01-13T21:19:52.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "alice in chains nutshell",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=hCkvO56wS2M"
+    },
+    {
+      "videoId": "MrfLkpEkld4",
+      "title": "Blessd - YOGURCITO (Letra/Lyrics)",
+      "publishedAt": "2026-01-13T00:40:18.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "blessd yogurcito letralyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=MrfLkpEkld4"
+    },
+    {
+      "videoId": "CRqYpHPyNUM",
+      "title": "A$AP Rocky - Helicopter$ (Lyrics)",
+      "publishedAt": "2026-01-12T20:17:16.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "aap rocky helicopter lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=CRqYpHPyNUM"
+    },
+    {
+      "videoId": "m_5tnZ-w83c",
+      "title": "PEDRO SAMPAIO, MC Meno K, Melody - JETSKI (Letra/Lyrics)",
+      "publishedAt": "2026-01-11T17:05:06.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "pedro sampaio mc meno k melody jetski letralyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=m_5tnZ-w83c"
+    },
+    {
+      "videoId": "BxEjLoJ_pS4",
+      "title": "Djo - Basic Being Basic (Lyrics)",
+      "publishedAt": "2026-01-11T03:19:07.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "djo basic being basic lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=BxEjLoJ_pS4"
+    },
+    {
+      "videoId": "c6zn5zGkbIQ",
+      "title": "Kali Uchis - Muévelo (Letra/Lyrics)",
+      "publishedAt": "2026-01-10T22:53:48.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "kali uchis muvelo letralyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=c6zn5zGkbIQ"
+    },
+    {
+      "videoId": "M7ICfYfumDo",
+      "title": "Bruno Mars - I Just Might (Lyrics)",
+      "publishedAt": "2026-01-09T17:00:01.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "bruno mars i just might lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=M7ICfYfumDo"
+    },
+    {
+      "videoId": "K4kQMB_C4G4",
+      "title": "Luke Combs - Sleepless In A Hotel Room (Lyrics)",
+      "publishedAt": "2026-01-08T21:17:22.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "luke combs sleepless in a hotel room lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=K4kQMB_C4G4"
+    },
+    {
+      "videoId": "-dR9kl_j0A4",
+      "title": "Junior H, Gael Valenzuela - MI GATA (Letra/Lyrics)",
+      "publishedAt": "2026-01-07T22:42:37.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "junior h gael valenzuela mi gata letralyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=-dR9kl_j0A4"
+    },
+    {
+      "videoId": "VB4tG1Eh9WY",
+      "title": "JVKE - her (Lyrics) ft. Annika Wells & Kaden Hawke",
+      "publishedAt": "2026-01-07T20:36:37.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "jvke her lyrics ft annika wells and kaden hawke",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=VB4tG1Eh9WY"
+    },
+    {
+      "videoId": "Bp83XXJiNaM",
+      "title": "SIENNA SPIRO - Die On This Hill (Lyrics)",
+      "publishedAt": "2026-01-06T20:17:00.000Z",
+      "channelId": "UChO8h2G8UjOVc081rgYU8XQ",
+      "normalizedTitle": "sienna spiro die on this hill lyrics",
+      "channelName": "Vibe Music",
+      "url": "https://www.youtube.com/watch?v=Bp83XXJiNaM"
+    },
     {
       "videoId": "1xTcT26hmOA",
       "title": "A$AP Rocky - Punk Rocky (Lyrics)",
@@ -16865,5 +17090,6 @@
       "channelName": "Vibe Music",
       "url": "https://www.youtube.com/watch?v=zJMKJQud04E"
     }
-  ]
+  ],
+  "nextCheckAt": 1771038937824
 }

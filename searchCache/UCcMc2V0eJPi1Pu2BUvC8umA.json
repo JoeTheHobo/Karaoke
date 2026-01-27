@@ -1,7 +1,7 @@
 {
   "channelId": "UCcMc2V0eJPi1Pu2BUvC8umA",
   "channelUrl": "https://www.youtube.com/@JustSingItph",
-  "lastChecked": "2026-01-06T18:28:53.403Z",
+  "lastChecked": "2026-01-27T18:59:19.756Z",
   "format": [
     "s",
     " - ",
@@ -9,6 +9,42 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "tO5CzmzrpS4",
+      "title": "SPANISH EYES - Engelbert Humperdinck (KARAOKE VERSION)",
+      "publishedAt": "2026-01-20T08:55:03.000Z",
+      "channelId": "UCcMc2V0eJPi1Pu2BUvC8umA",
+      "normalizedTitle": "spanish eyes engelbert humperdinck karaoke version",
+      "channelName": "Just Sing It",
+      "url": "https://www.youtube.com/watch?v=tO5CzmzrpS4"
+    },
+    {
+      "videoId": "hCltyM8KITQ",
+      "title": "A MAN WIHTOUT LOVE - Engelbert Humperdinck (KARAOKE VERSION)",
+      "publishedAt": "2026-01-17T18:52:51.000Z",
+      "channelId": "UCcMc2V0eJPi1Pu2BUvC8umA",
+      "normalizedTitle": "a man wihtout love engelbert humperdinck karaoke version",
+      "channelName": "Just Sing It",
+      "url": "https://www.youtube.com/watch?v=hCltyM8KITQ"
+    },
+    {
+      "videoId": "N4U8IKi2H6Y",
+      "title": "HETO AKO -  Michael Laygo (KARAOKE VERSION)",
+      "publishedAt": "2026-01-13T12:19:02.000Z",
+      "channelId": "UCcMc2V0eJPi1Pu2BUvC8umA",
+      "normalizedTitle": "heto ako michael laygo karaoke version",
+      "channelName": "Just Sing It",
+      "url": "https://www.youtube.com/watch?v=N4U8IKi2H6Y"
+    },
+    {
+      "videoId": "QqyxbBqWG6I",
+      "title": "YAKAP - Zack Tabudlo (KARAOKE VERSION)",
+      "publishedAt": "2026-01-07T17:21:06.000Z",
+      "channelId": "UCcMc2V0eJPi1Pu2BUvC8umA",
+      "normalizedTitle": "yakap zack tabudlo karaoke version",
+      "channelName": "Just Sing It",
+      "url": "https://www.youtube.com/watch?v=QqyxbBqWG6I"
+    },
     {
       "videoId": "Otq9MnmFzxk",
       "title": "PANGARAP NA BITUIN - Sharon Cuneta (KARAOKE VERSION)",
@@ -3705,5 +3741,6 @@
       "channelName": "Just Sing It",
       "url": "https://www.youtube.com/watch?v=hD7GTSOj7Gg"
     }
-  ]
+  ],
+  "nextCheckAt": 1771724565156
 }

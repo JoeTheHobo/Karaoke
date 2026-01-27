@@ -1,7 +1,7 @@
 {
   "channelId": "UCQHthJbbEt6osR39NsST13g",
   "channelUrl": "https://www.youtube.com/@KaraokeOnVEVO",
-  "lastChecked": "2026-01-06T18:35:28.671Z",
+  "lastChecked": "2026-01-27T18:59:26.385Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,87 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "uuHP2xfR64g",
+      "title": "Alan Jackson - Where I Come From (Karaoke)",
+      "publishedAt": "2026-01-21T01:01:14.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "alan jackson where i come from karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=uuHP2xfR64g"
+    },
+    {
+      "videoId": "oaBW7YG4hgg",
+      "title": "Audrey Williams, Hank Williams - Dear Brother (Karaoke)",
+      "publishedAt": "2026-01-21T01:01:09.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "audrey williams hank williams dear brother karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=oaBW7YG4hgg"
+    },
+    {
+      "videoId": "c4BLBE03idM",
+      "title": "Alabama - Fallin' Again (Karaoke)",
+      "publishedAt": "2026-01-21T01:00:52.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "alabama fallin again karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=c4BLBE03idM"
+    },
+    {
+      "videoId": "Zv2W0LQPIfQ",
+      "title": "Alicia Keys - Karma (Karaoke)",
+      "publishedAt": "2026-01-21T01:00:47.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "alicia keys karma karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=Zv2W0LQPIfQ"
+    },
+    {
+      "videoId": "IDVhGiHYraE",
+      "title": "The Sound Of Music - Do-Re-Mi (Karaoke)",
+      "publishedAt": "2026-01-21T01:00:30.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "the sound of music doremi karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=IDVhGiHYraE"
+    },
+    {
+      "videoId": "DXPLYe2Ah94",
+      "title": "Ashanti - Happy (Karaoke)",
+      "publishedAt": "2026-01-21T01:00:29.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "ashanti happy karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=DXPLYe2Ah94"
+    },
+    {
+      "videoId": "Qc_22VC-Xaw",
+      "title": "Alan Jackson, George Strait - Designated Drinker (Karaoke)",
+      "publishedAt": "2026-01-21T01:00:29.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "alan jackson george strait designated drinker karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=Qc_22VC-Xaw"
+    },
+    {
+      "videoId": "GVkoP3H8P8I",
+      "title": "Alicia Keys - A Woman's Worth (Karaoke)",
+      "publishedAt": "2026-01-21T01:00:18.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "alicia keys a womans worth karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=GVkoP3H8P8I"
+    },
+    {
+      "videoId": "1oRv2znB_qs",
+      "title": "Alabama - Keepin' Up (Karaoke)",
+      "publishedAt": "2026-01-21T01:00:02.000Z",
+      "channelId": "UCQHthJbbEt6osR39NsST13g",
+      "normalizedTitle": "alabama keepin up karaoke",
+      "channelName": "KaraokeOnVEVO",
+      "url": "https://www.youtube.com/watch?v=1oRv2znB_qs"
+    },
     {
       "videoId": "h0opTN6vq94",
       "title": "The Clark Family Experience - Going Away (Karaoke)",
@@ -137081,5 +137162,6 @@
       "channelName": "KaraokeOnVEVO",
       "url": "https://www.youtube.com/watch?v=peqWvX06Ufo"
     }
-  ]
+  ],
+  "nextCheckAt": 1771908502894
 }

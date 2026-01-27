@@ -314,7 +314,7 @@ function displaySongs(div,list,type,showExtension = true,clickable = true) {
         
         songCheck(l);
 
-        if (using_screen_layout === "a" && i > 4) continue;
+        if (user.type == "screen" && using_screen_layout === "a" && i > 4) continue;
         if (type === "history") {
             let date = new _time(new Date(l.date)).format("mm/dd/yy");
             if (currentDate !== date) {
@@ -1182,4 +1182,124 @@ function addServerLog(log) {
     date.innerHTML = time;
 
     let message = div.create("div.log_message>" + log.message);
+}
+
+function cleanVideos(videos) {
+    let list = [];
+    videos.forEach(v => {
+        let set = fixTitle(v.title,v.format);
+
+        let obj = {
+            song: set.song,
+            artist: set.artist,
+            channel: v.channelName,
+            type: "addable",
+            url: v.url,
+            videoId: v.videoId,
+            extension: v.extension,
+            plays: data.songStats[v.videoId]?.plays ?? 0,
+        }
+        
+
+        for (let i = 0; i < list.length; i++) {
+            let l = list[i];
+            if (l.length) l = l[0];
+            if (l.artist.toLowerCase() === set.artist.toLowerCase() &&
+                l.song.toLowerCase() === set.song.toLowerCase()) {
+                    if (list[i].length) list[i].push(obj);
+                    else list[i] = [list[i],obj];
+                    return;
+                }
+        }
+
+        list.push(obj)
+    });
+
+    return list;
+}
+
+
+
+function updateNewReleases() {
+    let container = $(".newReleases");
+    container.html("");
+    let nr_dotsContainer = $(".newRelease_track");
+    nr_dotsContainer.html("");
+
+    let videos = data.newReleases.videos.filter(item => item.extension.toLowerCase() === "karaoke");
+    videos = cleanVideos(videos).shuffle();
+
+    let group;
+    let vids = [];
+    let maxIndex = 0;
+    for (let i = 0; i < videos.length; i++) {
+        if (i % 3 === 0) {
+            if (group) {
+                nr_dotsContainer.create("div.dot");
+                displaySongs(group,vids,"search");
+                vids = [];
+                maxIndex++;
+            }
+
+
+            group = container.create("div.newReleaseGroup");
+        }
+
+        vids.push(videos[i]);
+    }
+
+    const track = $(".newReleases");
+    const slides = $(".newReleaseGroup");
+    const dots = document.querySelectorAll(".dot");
+
+    let index = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    function updateDots() {
+        dots.forEach(d => d.classList.remove("active"));
+        dots[index].classList.add("active");
+    }
+
+    /* ---- slide movement ---- */
+    function goToSlide(i) {
+        index = Math.max(0, Math.min(slides.length - 1, i));
+        track.style.transform = `translateX(-${index * 100}%)`;
+        updateDots();
+    }
+    goToSlide(0)
+
+    /* ---- touch + mouse swipe ---- */
+    track.addEventListener("touchstart", e => {
+        isDragging = true;
+        const touch = e.touches[0]; 
+        startX = touch.clientX;
+        track.style.transition = "none";
+    });
+
+    track.addEventListener("touchmove", e => {
+        if (!isDragging) return;
+        const touch = e.touches[0]; 
+        currentX = touch.clientX - startX;
+        track.style.transform = `translateX(${currentX - index * track.offsetWidth}px)`;
+    });
+
+    track.addEventListener("touchend", endDrag);
+
+    function endDrag() {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        track.style.transition = "transform 0.3s ease";
+
+        if (currentX < -50) index++;
+        if (currentX > 50) index--;
+
+        if (index < 0) index = maxIndex-1;
+        if (index > maxIndex-1) index = 0;
+
+        goToSlide(index);
+        currentX = 0;
+    }
 }

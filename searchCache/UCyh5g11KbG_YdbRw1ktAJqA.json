@@ -1,7 +1,7 @@
 {
   "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
   "channelUrl": "https://www.youtube.com/@LostPanda",
-  "lastChecked": "2026-01-06T18:56:41.021Z",
+  "lastChecked": "2026-01-27T18:59:35.482Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,222 @@
   ],
   "type": "lyrics",
   "videos": [
+    {
+      "videoId": "j-471Wc9yZo",
+      "title": "Joji - Last Of A Dying Breed (Lyrics)",
+      "publishedAt": "2026-01-27T15:41:27.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "joji last of a dying breed lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=j-471Wc9yZo"
+    },
+    {
+      "videoId": "0-r31vIsu_A",
+      "title": "Joan Jett & The Blackhearts - I Love Rock 'N' Roll (Lyrics)",
+      "publishedAt": "2026-01-26T17:25:04.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "joan jett and the blackhearts i love rock n roll lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=0-r31vIsu_A"
+    },
+    {
+      "videoId": "SpnYMwT80_o",
+      "title": "Lil Uzi Vert - What You Saying (Lyrics)",
+      "publishedAt": "2026-01-25T13:54:12.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "lil uzi vert what you saying lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=SpnYMwT80_o"
+    },
+    {
+      "videoId": "W7ImguobEKI",
+      "title": "DJ Snake, Justin Bieber - Let Me Love You (Lyrics)",
+      "publishedAt": "2026-01-24T19:20:18.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "dj snake justin bieber let me love you lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=W7ImguobEKI"
+    },
+    {
+      "videoId": "c-3cNYUOv6M",
+      "title": "Sienna Spiro - Die On This Hill (Lyrics)",
+      "publishedAt": "2026-01-23T18:43:18.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "sienna spiro die on this hill lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=c-3cNYUOv6M"
+    },
+    {
+      "videoId": "MI6V7ZqoASM",
+      "title": "Ariana Grande - 7 Rings (Lyrics)",
+      "publishedAt": "2026-01-22T14:17:05.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "ariana grande 7 rings lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=MI6V7ZqoASM"
+    },
+    {
+      "videoId": "jS5KXfEoxw8",
+      "title": "Ariana Grande - Twilight Zone (Lyrics)",
+      "publishedAt": "2026-01-21T18:48:04.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "ariana grande twilight zone lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=jS5KXfEoxw8"
+    },
+    {
+      "videoId": "WPcLdafH80I",
+      "title": "Sean Kingston, Justin Bieber - Eenie Meenie (Lyrics)",
+      "publishedAt": "2026-01-20T17:27:33.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "sean kingston justin bieber eenie meenie lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=WPcLdafH80I"
+    },
+    {
+      "videoId": "CFyGD4fOqQs",
+      "title": "Jennifer Lopez, Pitbull - Dance Again (Lyrics)",
+      "publishedAt": "2026-01-19T21:42:09.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "jennifer lopez pitbull dance again lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=CFyGD4fOqQs"
+    },
+    {
+      "videoId": "JAgQJhxXCFc",
+      "title": "Sam Smith - I'm Not The Only One (Lyrics)",
+      "publishedAt": "2026-01-19T05:00:32.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "sam smith im not the only one lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=JAgQJhxXCFc"
+    },
+    {
+      "videoId": "sOQM3V70bnU",
+      "title": "Sam Smith - Stay With Me (Lyrics)",
+      "publishedAt": "2026-01-18T16:42:38.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "sam smith stay with me lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=sOQM3V70bnU"
+    },
+    {
+      "videoId": "Lx1kh0mOmkw",
+      "title": "Sabrina Carpenter - Nonsense (Lyrics)",
+      "publishedAt": "2026-01-17T20:24:06.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "sabrina carpenter nonsense lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=Lx1kh0mOmkw"
+    },
+    {
+      "videoId": "rpdOq9NS3Ko",
+      "title": "The Script - Superheroes (Lyrics)",
+      "publishedAt": "2026-01-16T19:30:57.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "the script superheroes lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=rpdOq9NS3Ko"
+    },
+    {
+      "videoId": "J-gtqWB0_RI",
+      "title": "Chris Brown - Under The Influence (Lyrics)",
+      "publishedAt": "2026-01-15T17:38:43.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "chris brown under the influence lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=J-gtqWB0_RI"
+    },
+    {
+      "videoId": "3On964D_1H0",
+      "title": "Katy Perry - Hot N Cold (Lyrics)",
+      "publishedAt": "2026-01-14T00:00:08.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "katy perry hot n cold lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=3On964D_1H0"
+    },
+    {
+      "videoId": "X82dw7h0i14",
+      "title": "Justin Bieber - Baby (Lyrics)",
+      "publishedAt": "2026-01-12T17:15:32.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "justin bieber baby lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=X82dw7h0i14"
+    },
+    {
+      "videoId": "Q5QB2yPLMKw",
+      "title": "Journey - Seperate Ways (Worlds Apart) (Lyrics)",
+      "publishedAt": "2026-01-11T14:01:20.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "journey seperate ways worlds apart lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=Q5QB2yPLMKw"
+    },
+    {
+      "videoId": "fT17dDGYNlI",
+      "title": "Journey - Faithfully (Lyrics)",
+      "publishedAt": "2026-01-10T19:20:40.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "journey faithfully lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=fT17dDGYNlI"
+    },
+    {
+      "videoId": "MMNruNl6zLI",
+      "title": "Bruno Mars - I Just Might (Lyrics)",
+      "publishedAt": "2026-01-09T19:25:58.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "bruno mars i just might lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=MMNruNl6zLI"
+    },
+    {
+      "videoId": "XVVQ1ORx16A",
+      "title": "The Kid Laroi - Me + You (Lyrics)",
+      "publishedAt": "2026-01-09T05:01:14.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "the kid laroi me you lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=XVVQ1ORx16A"
+    },
+    {
+      "videoId": "4DYKrLI6Rlg",
+      "title": "Luke Combs - Sleepless In A Hotel Room (Lyrics)",
+      "publishedAt": "2026-01-08T17:06:43.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "luke combs sleepless in a hotel room lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=4DYKrLI6Rlg"
+    },
+    {
+      "videoId": "iJTbUNfSJWo",
+      "title": "Stromae - Papaoutai (Lyrics)",
+      "publishedAt": "2026-01-07T21:55:58.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "stromae papaoutai lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=iJTbUNfSJWo"
+    },
+    {
+      "videoId": "aFHVZtXiEnA",
+      "title": "A$AP Rocky - Punk Rocky (Lyrics)",
+      "publishedAt": "2026-01-06T20:05:35.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "aap rocky punk rocky lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=aFHVZtXiEnA"
+    },
+    {
+      "videoId": "irv4SGSjzIU",
+      "title": "Katy Perry - Roar (Lyrics)",
+      "publishedAt": "2026-01-06T19:21:23.000Z",
+      "channelId": "UCyh5g11KbG_YdbRw1ktAJqA",
+      "normalizedTitle": "katy perry roar lyrics",
+      "channelName": "Lost Panda",
+      "url": "https://www.youtube.com/watch?v=irv4SGSjzIU"
+    },
     {
       "videoId": "sOkrtWCKJNU",
       "title": "Prince - Purple Rain (Lyrics)",
@@ -13089,5 +13305,6 @@
       "channelName": "Lost Panda",
       "url": "https://www.youtube.com/watch?v=LpOsdjQEtkg"
     }
-  ]
+  ],
+  "nextCheckAt": 1772042201234
 }

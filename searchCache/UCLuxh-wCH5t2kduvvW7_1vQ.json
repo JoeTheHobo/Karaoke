@@ -1,7 +1,7 @@
 {
   "channelId": "UCLuxh-wCH5t2kduvvW7_1vQ",
   "channelUrl": "https://www.youtube.com/@BlurryFox",
-  "lastChecked": "2026-01-06T18:36:11.937Z",
+  "lastChecked": "2026-01-27T18:59:23.187Z",
   "format": [
     "a",
     " - ",
@@ -1457,5 +1457,6 @@
       "channelName": "BlurryFox",
       "url": "https://www.youtube.com/watch?v=HMlgynmHWBI"
     }
-  ]
+  ],
+  "nextCheckAt": 1772129531989
 }

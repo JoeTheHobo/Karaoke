@@ -95,7 +95,7 @@ app.use(express.static("public"));
 const axios = require("axios");
 
 const { loadStats, saveStats, addPlay, addReview } = require('./songStats');
-const { searchYTChannel, buildSearchIndex, searchLocalIndex, dailyChecker } = require("./searchAndSave.js")
+const { searchYTChannel, buildSearchIndex, searchLocalIndex, dailyChecker,loadNewReleases } = require("./searchAndSave.js")
 let global_songStats = loadStats("downloadedData.json");
 
 const { findAndDownloadImage } = require("./fixDownloads.js");
@@ -104,6 +104,10 @@ const e = require("express");
 let total_songs = 0;
 total_songs = buildSearchIndex();
 dailyChecker();
+let newReleases = [];
+setTimeout(function() {
+  newReleases = loadNewReleases();
+},5000)
 
 app.get("/imagelist", (req, res) => {
   const dir = path.join(__dirname, "public/songPhotos");
@@ -905,7 +909,7 @@ function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
     socket.join("uid" + socket.user.uid);
     socket.join("user");
 
-    socket.emit("setSocket",socket.user,session.state.music,session.settings.block_all_songs,total_songs,global_songStats);
+    socket.emit("setSocket",socket.user,session.state.music,session.settings.block_all_songs,total_songs,global_songStats,newReleases);
     io.to(ssid).to("admin_users").emit("updatedUsers",session.state.users);
 
     handleReviews(ssid);

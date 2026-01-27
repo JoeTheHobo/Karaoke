@@ -13,6 +13,7 @@ const path = require("path");
 const axios = require("axios");
 
 const CACHE_DIR = path.join(__dirname, "searchCache");
+const NEW_RELEASES_PATH = path.join(CACHE_DIR, "newreleases.json");
 
 const Fuse = require("fuse.js");
 let karaoke_fuse,lyric_fuse;
@@ -34,7 +35,7 @@ async function searchYTChannel(obj,func) {
   const uploadsPlaylistId = await getUploadsPlaylistId(channelId);
   
   console.log("Gathering Videos")
-  const videos = await crawlUploadsPlaylist(uploadsPlaylistId);
+  const videos = await crawlUploadsSince(uploadsPlaylistId);
 
   const payload = {
     channelId,
@@ -154,13 +155,12 @@ async function getUploadsPlaylistId(channelId) {
 
   return uploadsId;
 }
-async function crawlUploadsPlaylist(uploadsPlaylistId) {
+async function crawlUploadsSince(uploadsPlaylistId,sinceDate) {
   const apiKey = "AIzaSyD_4wsox7STzRLzqJhctwuCKAHqddDc-uQ";
 
   let videos = [];
   let nextPageToken = null;
 
-  let check = 1;
   do {
     const res = await axios.get(
       "https://www.googleapis.com/youtube/v3/playlistItems",
@@ -174,8 +174,6 @@ async function crawlUploadsPlaylist(uploadsPlaylistId) {
         },
       }
     );
-    console.log("Video check",check)
-    check++;
 
     const items = res.data.items || [];
 
@@ -183,11 +181,18 @@ async function crawlUploadsPlaylist(uploadsPlaylistId) {
       // Sometimes YouTube leaves dead entries — skip them
       if (!item.snippet?.resourceId?.videoId) continue;
 
+      const publishedAt = new Date(item.snippet.publishedAt);
+
+      if (publishedAt <= sinceDate) {
+        return videos;
+      }
+
       const title = item.snippet.title;
 
       videos.push({
         videoId: item.snippet.resourceId.videoId,
         title,
+        publishedAt: publishedAt,
         channelId: item.snippet.channelId,
         normalizedTitle: normalize(title),
         channelName: item.snippet.channelTitle,
@@ -374,22 +379,120 @@ function normalize(str) {
     .trim();
 }
 
-function dailyChecker() {
+const two_weeks = 1000 * 60 * 60 * 24 * 15;
+const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
+
+async function dailyChecker() {
   const files = fs.readdirSync(CACHE_DIR);
   const now = Date.now();
+  let updatingChannels = 0;
 
   for (const file of files) {
-    const filePath = path.join(CACHE_DIR, file);
-    const data = JSON.parse(fs.readFileSync(filePath));
-    const two_weeks = 1000 * 60 * 60 * 24 * 15;
-    const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
+    if (file === "newreleases.json") continue;
 
-    const last = new Date(data.lastChecked).getTime();
-    if (now - last > rnd(two_weeks,ONE_MONTH)) {
-      
-      console.log("Time To Check Channel");
+    const filePath = path.join(CACHE_DIR, file);
+    const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    let extension = data.type;
+    let format = data.format;
+
+    if (!data.nextCheckAt) {
+      updatingChannels++;
+      await runCheckAndSchedule(data,filePath,now,extension,format);
+      continue;
+    }
+
+    if (now >= data.nextCheckAt) {
+      updatingChannels++;
+      await runCheckAndSchedule(data,filePath,now,extension,format);
     }
   }
+
+  pruneNewReleases(30);
+  console.log("Updated",updatingChannels,"Channels");
+}
+async function runCheckAndSchedule(data,filePath,now,extension,format) {
+  try {
+    const newVideos = await updateChannel(filePath);
+    addNewReleases(newVideos,extension,format);
+
+    const freshData = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    freshData.nextCheckAt = now + rnd(two_weeks,ONE_MONTH);
+    fs.writeFileSync(filePath, JSON.stringify(freshData, null, 2));
+  } catch (err) {
+    console.error("Check failed for", data.channelId, err.message);
+    data.nextCheckAt = now + 1000 * 60 * 60 * 24; // 1 day
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2))
+  }
+}
+async function updateChannel(filePath) {
+  const channelData = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+  const lastChecked = new Date(channelData.lastChecked);
+  const uploadsPlaylistId = await getUploadsPlaylistId(channelData.channelId);
+
+  const newVideos = await crawlUploadsSince(
+    uploadsPlaylistId,
+    lastChecked
+  );
+
+  if (!newVideos.length) {
+    channelData.lastChecked = new Date().toISOString();
+    fs.writeFileSync(filePath, JSON.stringify(channelData, null, 2));
+    return [];
+  }
+
+  // Prepend newest
+  channelData.videos.unshift(...newVideos);
+  channelData.lastChecked = new Date().toISOString();
+
+  fs.writeFileSync(filePath, JSON.stringify(channelData, null, 2));
+
+  return newVideos;
+
+}
+
+function loadNewReleases() {
+  if (!fs.existsSync(NEW_RELEASES_PATH)) {
+    return { lastPruned: null, videos: [] };
+  }
+  return JSON.parse(fs.readFileSync(NEW_RELEASES_PATH, "utf8"));
+}
+
+function saveNewReleases(data) {
+  fs.writeFileSync(
+    NEW_RELEASES_PATH,
+    JSON.stringify(data, null, 2)
+  );
+}
+
+function addNewReleases(videos,extension,format) {
+  if (!videos.length) return;
+
+  const data = loadNewReleases();
+  const existingIds = new Set(data.videos.map(v => v.videoId));
+
+  for (const v of videos) {
+    if (existingIds.has(v.videoId)) continue;
+    
+    data.videos.unshift({
+      ...v,
+      extension,
+      format
+    });
+  }
+
+  saveNewReleases(data);
+}
+function pruneNewReleases(days = 30) {
+  const data = loadNewReleases();
+  const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+
+  data.videos = data.videos.filter(v => {
+    return new Date(v.publishedAt).getTime() >= cutoff;
+  });
+
+  data.lastPruned = new Date().toISOString();
+  saveNewReleases(data);
 }
 
 function rnd(min, max) {
@@ -404,6 +507,7 @@ module.exports = {
     buildSearchIndex,
     searchLocalIndex,
     dailyChecker,
+    loadNewReleases
 }
 /*
 

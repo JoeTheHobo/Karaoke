@@ -1,7 +1,7 @@
 {
   "channelId": "UCPbkDdCGwte85WKRqXKM0gQ",
   "channelUrl": "https://www.youtube.com/@StarKaraokeVEVO",
-  "lastChecked": "2026-01-06T18:51:54.324Z",
+  "lastChecked": "2026-01-27T18:59:24.928Z",
   "format": [
     "a",
     " - ",
@@ -649,5 +649,6 @@
       "channelName": "StarKaraokeVEVO",
       "url": "https://www.youtube.com/watch?v=3DayxmUjc6I"
     }
-  ]
+  ],
+  "nextCheckAt": 1771846597396
 }

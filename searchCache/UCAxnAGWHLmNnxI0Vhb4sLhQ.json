@@ -1,7 +1,7 @@
 {
   "channelId": "UCAxnAGWHLmNnxI0Vhb4sLhQ",
   "channelUrl": "https://www.youtube.com/@CaptainAwesomeKaraoke",
-  "lastChecked": "2026-01-06T18:11:46.300Z",
+  "lastChecked": "2026-01-27T18:59:17.137Z",
   "format": [
     "s",
     " - ",
@@ -841,5 +841,6 @@
       "channelName": "Captain Awesome Karaoke",
       "url": "https://www.youtube.com/watch?v=-HGCDZQ2yZI"
     }
-  ]
+  ],
+  "nextCheckAt": 1771917508055
 }

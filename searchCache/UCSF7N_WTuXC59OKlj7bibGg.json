@@ -1,7 +1,7 @@
 {
   "channelId": "UCSF7N_WTuXC59OKlj7bibGg",
   "channelUrl": "https://www.youtube.com/@CoreKaraoke",
-  "lastChecked": "2026-01-06T18:40:18.099Z",
+  "lastChecked": "2026-01-27T18:59:31.961Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,15 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "HNl1zjgZ7Zs",
+      "title": "Fit For An Autopsy - It Comes For You [Karaoke Instrumental]",
+      "publishedAt": "2026-01-07T07:18:57.000Z",
+      "channelId": "UCSF7N_WTuXC59OKlj7bibGg",
+      "normalizedTitle": "fit for an autopsy it comes for you karaoke instrumental",
+      "channelName": "Core Karaoke",
+      "url": "https://www.youtube.com/watch?v=HNl1zjgZ7Zs"
+    },
     {
       "videoId": "l0Q7mL1fqco",
       "title": "Volumes - Bottom Dollar [Karaoke Instrumental]",
@@ -8441,5 +8450,6 @@
       "channelName": "Core Karaoke",
       "url": "https://www.youtube.com/watch?v=0pZZuDvEtL0"
     }
-  ]
+  ],
+  "nextCheckAt": 1772093078886
 }

@@ -1,7 +1,7 @@
 {
   "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
   "channelUrl": "https://www.youtube.com/@MrEntertainerKaraokeChannel",
-  "lastChecked": "2026-01-06T18:13:51.463Z",
+  "lastChecked": "2026-01-27T18:59:16.353Z",
   "format": [
     "s",
     " - ",
@@ -9,6 +9,42 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "6BSv513q68g",
+      "title": "Bruno Mars – I Just Might | Karaoke Preview (Shorts)",
+      "publishedAt": "2026-01-19T16:17:08.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bruno mars i just might karaoke preview shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=6BSv513q68g"
+    },
+    {
+      "videoId": "DCvfa-vb7bc",
+      "title": "Bruno Mars - I Just Might | Karaoke Version with Lyrics & Backing Vocals | Mr Entertainer Karaoke",
+      "publishedAt": "2026-01-19T15:56:33.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bruno mars i just might karaoke version with lyrics and backing vocals mr entertainer karaoke",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=DCvfa-vb7bc"
+    },
+    {
+      "videoId": "qHNZDLXyWDw",
+      "title": "Bruno Mars - Just Might - Karaoke Version with Lyrics | VOCAL GUIDE",
+      "publishedAt": "2026-01-19T15:52:48.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bruno mars just might karaoke version with lyrics vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=qHNZDLXyWDw"
+    },
+    {
+      "videoId": "lSMJJeBzWQQ",
+      "title": "Bruno Mars - I Just Might | Karaoke Version with Lyrics | Instrumental (No Backing Vocals)",
+      "publishedAt": "2026-01-19T15:48:37.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bruno mars i just might karaoke version with lyrics instrumental no backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=lSMJJeBzWQQ"
+    },
     {
       "videoId": "k2EfO-doPvs",
       "title": "Desire (Official FIFA World Cup 2026 Anthem) 🎤⚽ Karaoke Preview",
@@ -83961,5 +83997,6 @@
       "channelName": "MrEntertainerKaraoke",
       "url": "https://www.youtube.com/watch?v=AEw1pBC1nVY"
     }
-  ]
+  ],
+  "nextCheckAt": 1771665516471
 }

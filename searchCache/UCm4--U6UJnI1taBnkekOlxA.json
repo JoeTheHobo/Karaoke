@@ -1,7 +1,7 @@
 {
   "channelId": "UCm4--U6UJnI1taBnkekOlxA",
   "channelUrl": "https://www.youtube.com/@heycassiopeia",
-  "lastChecked": "2026-01-06T19:04:50.768Z",
+  "lastChecked": "2026-01-27T18:59:24.052Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,96 @@
   ],
   "type": "lyrics",
   "videos": [
+    {
+      "videoId": "su-NdJgFcWQ",
+      "title": "Forever Your Girl - Paula Abdul (Lyrics)",
+      "publishedAt": "2026-01-26T17:35:00.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "forever your girl paula abdul lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=su-NdJgFcWQ"
+    },
+    {
+      "videoId": "r7awZV-z6qQ",
+      "title": "Maroon 5 - Let me apologize (Wait) (Lyrics)",
+      "publishedAt": "2026-01-25T00:35:04.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "maroon 5 let me apologize wait lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=r7awZV-z6qQ"
+    },
+    {
+      "videoId": "3igX-ZKcqAA",
+      "title": "Jelly Roll - I'm Good (Lyrics)",
+      "publishedAt": "2026-01-23T09:00:47.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "jelly roll im good lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=3igX-ZKcqAA"
+    },
+    {
+      "videoId": "4OloobI4wm8",
+      "title": "My Moon My Man - Feist (Lyrics)",
+      "publishedAt": "2026-01-21T17:35:00.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "my moon my man feist lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=4OloobI4wm8"
+    },
+    {
+      "videoId": "EiffHi1kFBY",
+      "title": "SIENNA SPIRO - I'll take my pride (Die On This Hill) (Lyrics)",
+      "publishedAt": "2026-01-20T00:35:00.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "sienna spiro ill take my pride die on this hill lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=EiffHi1kFBY"
+    },
+    {
+      "videoId": "FWHyoDxnHuo",
+      "title": "You - Don Toliver (Lyrics) ft. Travis Scott",
+      "publishedAt": "2026-01-17T18:35:00.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "you don toliver lyrics ft travis scott",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=FWHyoDxnHuo"
+    },
+    {
+      "videoId": "z_V5_NcpTzI",
+      "title": "Hilary Duff - Roommates (Lyrics)",
+      "publishedAt": "2026-01-16T08:56:15.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "hilary duff roommates lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=z_V5_NcpTzI"
+    },
+    {
+      "videoId": "5ChNRbZEjxw",
+      "title": "THANKFUL - Forrest Frank (Lyrics)",
+      "publishedAt": "2026-01-14T13:35:01.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "thankful forrest frank lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=5ChNRbZEjxw"
+    },
+    {
+      "videoId": "zbae70Y351U",
+      "title": "Thinking 'bout You - Stella Lefty (Lyrics)",
+      "publishedAt": "2026-01-11T17:47:00.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "thinking bout you stella lefty lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=zbae70Y351U"
+    },
+    {
+      "videoId": "4Ep2-3J0KJc",
+      "title": "Zoe Wees - I don't wanna lose control (Control) (Lyrics)",
+      "publishedAt": "2026-01-09T17:35:01.000Z",
+      "channelId": "UCm4--U6UJnI1taBnkekOlxA",
+      "normalizedTitle": "zoe wees i dont wanna lose control control lyrics",
+      "channelName": "Cassiopeia",
+      "url": "https://www.youtube.com/watch?v=4Ep2-3J0KJc"
+    },
     {
       "videoId": "80YvMK2Dx2o",
       "title": "I Think We're Alone Now - Tiffany (Lyrics)",
@@ -10345,5 +10435,6 @@
       "channelName": "Cassiopeia",
       "url": "https://www.youtube.com/watch?v=Vf7dJJiXFtk"
     }
-  ]
+  ],
+  "nextCheckAt": 1771135024389
 }
