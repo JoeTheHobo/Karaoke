@@ -23,7 +23,6 @@ adminRoles.push({
   title: "Creator",
   code: "5646",
   access: {
-    title: "Creator",
     tabs: {
       audioVisual: true,
       general_settings: true,
@@ -40,7 +39,6 @@ adminRoles.push({
 adminRoles.push({
   title: "Admin",
   access: {
-    title: "Admin",
     tabs: {
       audioVisual: true,
       general_settings: true,
@@ -57,7 +55,6 @@ adminRoles.push({
 adminRoles.push({
   title: "Supervisor",
   access: {
-    title: "Supervisor",
     tabs: {
       audioVisual: true,
       general_settings: false,
@@ -260,7 +257,7 @@ io.on("connection", (socket) => {
         socket.adminAccess = adminRoles[i].access;
 
 
-        session.state.users[socket.uid].adminAccess = socket.adminAccess;
+        session.state.users[socket.uid].adminTitle = adminRoles[i].title;
 
         socket.join("admin");
         socket.join("role_"+ adminRoles[i].title.toLowerCase());
@@ -473,6 +470,7 @@ io.on("connection", (socket) => {
       if (!session) return;
 
       if (control === "sign_out_of_admin") {
+        session.state.users[socket.uid].adminTitle = null;
         socket.adminAccess = null;
         socket.leave("admin");
         socket.leave("music");
@@ -898,7 +896,7 @@ function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
         banned: false,
         songCount: 0,
         reviews: [],
-        adminAccess: null,
+        adminTitle: null,
       }
       log(`SSID ${ssid}: New User "${showName}" (UID ${uid}) Joined. ${Object.keys(session.state.users).length} Total Users In Session.`)
     }

@@ -1137,10 +1137,9 @@ function updateAdminUsers() {
             socket.emit("sendBanState",person,this.checked);
         })
 
-        console.log(person)
-        if (person.adminAccess?.title === "Creator") html_name.style.background = "gold";
-        if (person.adminAccess?.title === "Admin") html_name.style.background = "green";
-        if (person.adminAccess?.title === "Supervisor") html_name.style.background = "lightgreen";
+        if (person.adminTitle === "Creator") html_name.style.background = "gold";
+        if (person.adminTitle === "Admin") html_name.style.background = "green";
+        if (person.adminTitle === "Supervisor") html_name.style.background = "lightgreen";
         if (key === user.uid) html_name.style.background = "purple";
 
         i++;
