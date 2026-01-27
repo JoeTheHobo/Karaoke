@@ -1221,6 +1221,7 @@ function cleanVideos(videos) {
 
 
 function updateNewReleases() {
+    if (user.type !== "user") return;
     let container = $(".newReleases");
     container.html("");
     let nr_dotsContainer = $(".newRelease_track");
