@@ -790,6 +790,10 @@ function playVideo(fileName,handledByClient = false) {
     stopThemeEffects();
     
     let videoEl = $(".video_" + using_screen_layout);
+    if (!videoEl) {
+        console.warn("Couldn't find .video_" + using_screen_layout);
+        return;
+    }
     videoEl.src = `/Song Downloads/${fileName}.mp4`;
     videoEl.show();
     videoEl.muted = true;
@@ -840,6 +844,10 @@ function videoChecker() {
         return;
     }
     let videoEl = $(".video_" + using_screen_layout);
+    if (!videoEl) {
+        requestAnimationFrame(videoChecker);
+        return;
+    }
     videoEl.volume = globalMute ? 0 : settings.volume;
 
 
@@ -884,7 +892,7 @@ function videoChecker() {
             syncLocked = false;
             videoEl.pause();
             videoEl.hide();
-            startFireworks();
+            startThemeEffects();
         }
     }
 
@@ -980,7 +988,14 @@ function updateAdminSettings(settings) {
 
     } else {
         $(".admin_tab_users").hide();
-        
+    }
+
+    
+    if (user.adminAccess.tabs.logs) {
+        $(".admin_tab_logs").show("flex");
+
+    } else {
+        $(".admin_tab_logs").hide();
     }
 }
 
@@ -1134,4 +1149,20 @@ function sortStatsByPopular(stats) {
     arr.sort((a, b) => b.count - a.count);
 
     return arr.slice(0, 50);
+}
+function setServerLogs(logs) {
+    let holder = $(".serverLogs");
+    holder.innerHTML = "";
+
+    for (let i = 0; i < logs.length; i++) {
+        addServerLog(logs[i])
+    }
+}
+function addServerLog(log) {
+    let div = $(".serverLogs").create("div.log_line");
+    let date = div.create("div.log_date");
+    let time = new _time(new Date(log.time)).format("dd/mm HH:MM")
+    date.innerHTML = time;
+
+    let message = div.create("div.log_message>" + log.message);
 }

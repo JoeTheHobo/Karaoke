@@ -30,8 +30,7 @@ socket.on("setSocket",(serverUser,videoStats,block_all_songs,total_songs,global_
     $(".over_x_songs").innerHTML = "Over " + total_songs + " Songs!";
     
 })
-socket.on("updatedQueue",(server_queue) => {
-    if (!server_queue) server_queue = [];
+socket.on("updatedQueue",(server_queue = []) => {
     data.queue = server_queue;
     updateQueue();
 
@@ -288,4 +287,10 @@ socket.on("sessionCode",(ssid) => {
 })
 socket.on("setSceneUser",()=> {
     setScene("user");
+})
+socket.on("server_logs",(server_logs) => {
+    setServerLogs(server_logs);
+})
+socket.on("added_log",(log) => {
+    addServerLog(log);
 })

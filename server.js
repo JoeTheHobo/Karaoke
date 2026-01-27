@@ -28,6 +28,7 @@ adminRoles.push({
       general_settings: true,
       add_channel: true,
       users: true,
+      logs: true,
     },
     accept_songs: true,
     modify_queue: true,
@@ -42,7 +43,8 @@ adminRoles.push({
       audioVisual: true,
       general_settings: true,
       add_channel: false,
-      users: false,
+      users: true,
+      logs: false,
     },
     accept_songs: true,
     modify_queue: true,
@@ -58,12 +60,15 @@ adminRoles.push({
       general_settings: false,
       add_channel: false,
       users: false,
+      logs: false,
     },
     accept_songs: true,
     modify_queue: true,
     allow_vocal_tracks: false,
   },
 })
+
+let server_logs = [];
 
 const path = require("path");
 
@@ -130,14 +135,14 @@ io.on("connection", (socket) => {
       if (typeof supervisorCode !== "number") return;
       if (supervisorCode < 1000 || supervisorCode > 9999) return; 
 
-      let sessionCode = rnd(100000,999999);
+      let ssid = rnd(100000,999999);
 
-      sessions[sessionCode] = {
+      sessions[ssid] = {
         latestActivity: Date.now(),
         codes: {
           admin: adminCode,
           supervisor: supervisorCode,
-          session: sessionCode,
+          session: ssid,
         },
         settings: {
           testing_mode: false,
@@ -162,23 +167,26 @@ io.on("connection", (socket) => {
         },
       }
 
+      log(`Created Session "${ssid}". Admin Code: ${adminCode}. Supervisor Code: ${supervisorCode}`);
+      log(`Total Sessions: ${Object.keys(sessions).length}`)
 
-      sessions[sessionCode].cutOffTimeChecker = function() {
+
+      sessions[ssid].cutOffTimeChecker = function() {
         let cutOffSpeed = 1000//1000*60*1;
 
-        if (sessions[sessionCode].settings.turn_off_time) {
+        if (sessions[ssid].settings.turn_off_time) {
           const now = new Date();
-          const cutoff = new Date(sessions[sessionCode].settings.turn_off_time.day);
-          cutoff.setHours(sessions[sessionCode].settings.turn_off_time.hour, sessions[sessionCode].settings.turn_off_time.minute, 0, 0);
+          const cutoff = new Date(sessions[ssid].settings.turn_off_time.day);
+          cutoff.setHours(sessions[ssid].settings.turn_off_time.hour, sessions[ssid].settings.turn_off_time.minute, 0, 0);
 
           let isCutOff = now >= cutoff;
           let dif = cutoff - now;
 
           if (isCutOff) {
-            sessions[sessionCode].settings.block_all_songs = true;
-            sessions[sessionCode].settings.turn_off_time = false;
-            io.to(sessionCode).emit("blockAllSongs",sessions[sessionCode].settings.block_all_songs);
-            io.to(sessionCode).to("admin").emit("updateAdminSettings",sessions[sessionCode].settings);
+            sessions[ssid].settings.block_all_songs = true;
+            sessions[ssid].settings.turn_off_time = false;
+            io.to(ssid).emit("blockAllSongs",sessions[ssid].settings.block_all_songs);
+            io.to(ssid).to("admin").emit("updateAdminSettings",sessions[ssid].settings);
           } else if (dif < 1000*60*.25) {
             cutOffSpeed = 5000;
           } else if (dif < 1000*60*1.5) {
@@ -187,54 +195,54 @@ io.on("connection", (socket) => {
         }
 
         setTimeout(function() {
-          if (!sessions[sessionCode]) return;
-          sessions[sessionCode].cutOffTimeChecker();
+          if (!sessions[ssid]) return;
+          sessions[ssid].cutOffTimeChecker();
         },cutOffSpeed); //Recheck every minute
       }
-      sessions[sessionCode].cutOffTimeChecker();
+      sessions[ssid].cutOffTimeChecker();
       
-      sessions[sessionCode].videoChecker = function() {
-        if (sessions[sessionCode].state.music.playing) {
+      sessions[ssid].videoChecker = function() {
+        if (sessions[ssid].state.music.playing) {
           let now = Date.now();
-          if (now >= sessions[sessionCode].state.music.startTime + sessions[sessionCode].state.music.duration) {
-            sessions[sessionCode].state.music.startTime = false;
-            sessions[sessionCode].state.music.playing = false;
+          if (now >= sessions[ssid].state.music.startTime + sessions[ssid].state.music.duration) {
+            sessions[ssid].state.music.startTime = false;
+            sessions[ssid].state.music.playing = false;
             
-            for (let i = 0; i < sessions[sessionCode].state.users.length; i++) {
-              if (sessions[sessionCode].state.users[i].uid == sessions[sessionCode].state.queue[0].uid) {
-                sessions[sessionCode].state.queue[0].playing = false;
-                sessions[sessionCode].state.users[i].reviews.push({
-                  video: sessions[sessionCode].state.queue[0],
+            for (let i = 0; i < sessions[ssid].state.users.length; i++) {
+              if (sessions[ssid].state.users[i].uid == sessions[ssid].state.queue[0].uid) {
+                sessions[ssid].state.queue[0].playing = false;
+                sessions[ssid].state.users[i].reviews.push({
+                  video: sessions[ssid].state.queue[0],
                   start: Date.now(),
                 })
-                handleReviews(sessionCode);
+                handleReviews(ssid);
               }
             }
 
-            io.to(sessionCode).to("music").emit("screenVideoUpdate",sessions[sessionCode].state.music);
+            io.to(ssid).to("music").emit("screenVideoUpdate",sessions[ssid].state.music);
             setTimeout(() => {
-              sessions[sessionCode].state.queue.shift();
-              playSong(sessionCode);
+              sessions[ssid].state.queue.shift();
+              playSong(ssid);
             },3000);
           }
         } else {
-          if (sessions[sessionCode].state.music.startTime && !sessions[sessionCode].state.music.pausedAt) {
+          if (sessions[ssid].state.music.startTime && !sessions[ssid].state.music.pausedAt) {
             let now = Date.now();
-            if (now >= sessions[sessionCode].state.music.startTime) {
-              sessions[sessionCode].state.music.playing = true;
-              io.to(sessionCode).to("music").emit("screenVideoUpdate",sessions[sessionCode].state.music);
+            if (now >= sessions[ssid].state.music.startTime) {
+              sessions[ssid].state.music.playing = true;
+              io.to(ssid).to("music").emit("screenVideoUpdate",sessions[ssid].state.music);
             }
           }
         }
         setTimeout(() => {
-          if (!sessions[sessionCode]) return;
-          sessions[sessionCode].videoChecker();
+          if (!sessions[ssid]) return;
+          sessions[ssid].videoChecker();
         },200);
       }
 
-      sessions[sessionCode].videoChecker();
+      sessions[ssid].videoChecker();
 
-      socket.emit("sessionCode",sessionCode)
+      socket.emit("sessionCode",ssid)
       socket.emit("goToLayoutSelection");
     })
     socket.on("checkAdminCode",(code,goToAdmin = false) => {
@@ -254,6 +262,12 @@ io.on("connection", (socket) => {
         socket.adminAccess = adminRoles[i].access;
         socket.join("admin");
         socket.emit("allowAdmin",session.settings,goToAdmin,adminRoles[i]);
+
+        if (socket.adminAccess.tabs.logs) {
+          socket.join("logs");
+          socket.emit("server_logs",server_logs);
+        }
+
 
         if (socket.adminAccess.tabs.users) {
           socket.emit("updatedUsers",session.state.users);
@@ -375,7 +389,6 @@ io.on("connection", (socket) => {
 */
     }) 
     socket.on("screenJoined", (ssid) => {
-      console.log("Yass")
       joinSession(socket,ssid,"screen");
     })
     socket.on("searchSong",(query,extension) => {
@@ -521,7 +534,7 @@ io.on("connection", (socket) => {
           session.state.music.startTime -= (10*1000);
       }
 
-      io.to(socket.ssid).to("music").emit("screenVideoUpdate",state.music);
+      io.to(socket.ssid).to("music").emit("screenVideoUpdate",session.state.music);
     })
     socket.on("alterQueue",(code,queueID,extra) => {
       let session = sessions[socket.ssid];
@@ -570,7 +583,7 @@ io.on("connection", (socket) => {
               continue;
             }
             if (pastSingers[q.uid]) {
-              if ( ( i - pastSingers[q.uid].pos ) < settings.max_distance) {
+              if ( ( i - pastSingers[q.uid].pos ) < session.settings.max_distance) {
                 allowedInsert = i;
                 break findingSpot;
               }
@@ -589,6 +602,7 @@ io.on("connection", (socket) => {
             session.state.queue.push(obj);
             readySong(session.state.queue[session.state.queue.length-1],socket.ssid);
         }
+
 
         io.to(socket.ssid).emit("updatedQueue",session.state.queue);
     })
@@ -635,7 +649,6 @@ function playSong(ssid) {
     io.to(ssid).emit("updatedQueue",session.state.queue)
     return;
   }
-  console.log(1)
   /* song = 
     song: set.song,
     artist: set.artist,
@@ -656,8 +669,6 @@ function playSong(ssid) {
     },2000);
     return;
   }
-
-  console.log(2)
 
   let song = session.state.queue[0];
   session.state.queue[0].playing = true;
@@ -691,6 +702,7 @@ async function playVideo(ssid) {
   let session = sessions[ssid];
   if (!session) return;
   
+  session.latestActivity = Date.now();
   session.state.queue[0].status = "playing";
   io.to(ssid).emit("queueStateChange",session.state.queue[0].queueID,session.state.queue[0].status);
   const duration = await getVideoDuration(`./public/Song Downloads/${session.state.waitingOnQR.videoId}.mp4`);
@@ -855,15 +867,17 @@ function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
   }
   socket.ssid = ssid;
   socket.join(ssid);
-  console.log(ssid);
 
   socket.userType = userType;
+
+  console.log(ssid)
 
   if (userType === "screen") {
     socket.join("screen");
     socket.join("music");
     socket.emit("setSocket",false,session.state.music,session.settings.block_all_songs,total_songs,global_songStats);
     socket.emit("updateAdminSettings",session.settings);
+    log(`SSID ${ssid}: New Screen Joined.`)
   }
   if (userType === "user") {
     let foundUser = false;
@@ -883,6 +897,7 @@ function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
       }
       session.state.users.push(obj)
       socket.user = obj;
+      log(`SSID ${ssid}: New User "${showName}" (UID ${uid}) Joined. ${session.state.users.length} Total Users In Session.`)
     }
     socket.join("uid" + socket.user.uid);
     socket.join("user");
@@ -948,4 +963,48 @@ function rnd(min, max) {
   max = Math.floor(max); // Ensure max is a whole number
   // The formula for an inclusive range
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function checkDeadSessions() {
+
+  const now = Date.now();
+
+  Object.keys(sessions).forEach((ssid) => {
+    const session = sessions[ssid];
+
+    if (!session.latestActivity) {
+      closeSession(ssid);
+      return;
+    }
+
+    let difference = now - session.latestActivity; 
+
+    if (difference < (1000*60*60*24)) return;
+
+    closeSession(ssid);
+  })
+
+  setTimeout(checkDeadSessions,1000*60*60*3);
+}
+checkDeadSessions();
+function closeSession(ssid) {
+  if (!sessions[ssid]) return;
+
+  log(`Closing Session "${ssid}"`);
+  log(`Total Sessions: ${Object.keys(sessions).length}`)
+
+  io.to(ssid).emit("closing_session");
+
+  delete sessions[ssid];
+}
+
+function log(message) {
+  let log = {
+    time: Date.now(),
+    message: message
+  }
+
+  server_logs.push(log)
+
+  io.to("logs").emit("added_log",log);
 }

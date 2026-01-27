@@ -341,7 +341,7 @@ $(".scren_finish")[0].on("click",() => {
     setScene("screen");
     user.type = "screen";
     socket.emit("request_qr",qrURL);
-    socket.emit("screenJoined",sessionCode,user.code);
+    socket.emit("screenJoined",sessionCode);
 })
 
 $(".scren_finish")[1].on("click",() => {
@@ -426,7 +426,8 @@ $("join_session").on("click",() => {
 
     $("session_id_input").classRemove("input_error");
 
-    socket.emit("screen_join_session",number);
+    socket.emit("screenJoined",number);
+    setScene("screenSelection")
 });
 $("create_session").on("click touch",function() {
     setScene("create_session")
