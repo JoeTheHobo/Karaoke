@@ -1832,13 +1832,11 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
 .newRelease_track {
   display: flex;
   justify-content: center;
-  gap: 8px;
   margin-top: 35px;
 }
 .newRelease_track > .dot {
-  width: 8px;
+  flex: 1;
   height: 8px;
-  border-radius: 50%;
   background: gray;
   opacity: 0.5;
 }
