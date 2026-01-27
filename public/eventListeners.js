@@ -366,27 +366,34 @@ let lastSliderPos = settings.volume;
 
 const slider = $("micSlider");
 const thumb = slider.$(".thumb");
+let sliderRect = null;
+let sliderDragging = false;
 
 slider.on("pointerdown", e => {
   slider.setPointerCapture(e.pointerId);
+  sliderRect = slider.getBoundingClientRect();
   updateSlider(e);
+  sliderDragging = true;
 });
 
 slider.on("pointermove", e => {
   if (slider.hasPointerCapture(e.pointerId)) updateSlider(e);
 });
+slider.on("pointerup", e => {
+    sliderDragging = false;
+});
 
 function setSlider(val) {
+    if (sliderDragging) return;
     thumb.style.bottom = `${val * 100}%`;
     updateVolumeIcon(val);
     if (val !== 0) lastSliderPos = val;
 }
 function updateSlider(e) {
-    const rect = slider.getBoundingClientRect();
-    let y = e.clientY - rect.top;
-    y = Math.max(0, Math.min(rect.height, y));
+    let y = e.clientY - sliderRect.top;
+    y = Math.max(0, Math.min(sliderRect.height, y));
 
-    const value = 1 - y / rect.height; // 0–1
+    const value = 1 - y / sliderRect.height; // 0–1
     thumb.style.bottom = `${value * 100}%`;
 
     socket.emit("adminControls","set_volume",value);
@@ -476,4 +483,8 @@ $("admin_admin_code").on("click touch",() => {
 
 $("admin_supervisor_code").on("click touch",() => {
     prompt_change_supervisor_code.prompt();
+})
+
+$(".qrCodeImg").on("click",() => {
+  window.open(qrURL + sessionCode + "_user", '_blank').focus();
 })

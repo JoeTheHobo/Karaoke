@@ -23,6 +23,7 @@ adminRoles.push({
   title: "Creator",
   code: "5646",
   access: {
+    title: "Creator",
     tabs: {
       audioVisual: true,
       general_settings: true,
@@ -39,6 +40,7 @@ adminRoles.push({
 adminRoles.push({
   title: "Admin",
   access: {
+    title: "Admin",
     tabs: {
       audioVisual: true,
       general_settings: true,
@@ -55,6 +57,7 @@ adminRoles.push({
 adminRoles.push({
   title: "Supervisor",
   access: {
+    title: "Supervisor",
     tabs: {
       audioVisual: true,
       general_settings: false,
@@ -276,7 +279,10 @@ io.on("connection", (socket) => {
           socket.leave("adminCodeAccess");
         }
         if (socket.adminAccess.tabs.users) {
+          socket.join("admin_users");
           socket.emit("updatedUsers",session.state.users);
+        } else {
+          socket.leave("admin_users");
         }
         if (socket.adminAccess.tabs.audioVisual) {
           socket.join("music")
@@ -289,6 +295,8 @@ io.on("connection", (socket) => {
           }
         }
       }
+      
+      io.to(socket.ssid).to("admin_users").emit("updatedUsers",session.state.users);
     })
     socket.on("checkIfQR",(uid) => {
       let session = sessions[socket.ssid];
@@ -371,7 +379,7 @@ io.on("connection", (socket) => {
       
       session.state.users[user.uid].banned = banState;
       io.to("uid" + user.uid).emit("updateBanState",banState);
-      io.to(socket.ssid).to("admin").emit("updatedUsers",session.state.users);
+      io.to(socket.ssid).to("admin_users").emit("updatedUsers",session.state.users);
     })
     socket.on("changedShowName",(userShowName) => {
       let session = sessions[socket.ssid];
@@ -380,7 +388,7 @@ io.on("connection", (socket) => {
 
       socket.user.showName = userShowName;
 
-      io.to(socket.ssid).to("admin").emit("updatedUsers",session.state.users);
+      io.to(socket.ssid).to("admin_users").emit("updatedUsers",session.state.users);
     })
     socket.on("userJoined", (ssid,uid,userShowName) => {
       joinSession(socket,ssid,"user",uid,userShowName,true);
@@ -468,6 +476,11 @@ io.on("connection", (socket) => {
         socket.adminAccess = null;
         socket.leave("admin");
         socket.leave("music");
+        socket.leave("admin_users");
+        socket.leave("adminCodeAccess");
+        socket.leave("role_admin");
+        socket.leave("role_supervisor");
+        io.to(socket.ssid).to("admin_users").emit("updatedUsers",session.state.users);
         return;
       }
 
@@ -887,7 +900,7 @@ function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
         reviews: [],
         adminAccess: null,
       }
-      log(`SSID ${ssid}: New User "${showName}" (UID ${uid}) Joined. ${session.state.users.length} Total Users In Session.`)
+      log(`SSID ${ssid}: New User "${showName}" (UID ${uid}) Joined. ${Object.keys(session.state.users).length} Total Users In Session.`)
     }
     socket.uid = uid;
     socket.user = session.state.users[uid];
@@ -895,7 +908,7 @@ function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
     socket.join("user");
 
     socket.emit("setSocket",socket.user,session.state.music,session.settings.block_all_songs,total_songs,global_songStats);
-    io.to(ssid).to("admin").emit("updatedUsers",session.state.users);
+    io.to(ssid).to("admin_users").emit("updatedUsers",session.state.users);
 
     handleReviews(ssid);
 

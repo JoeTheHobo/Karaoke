@@ -1122,17 +1122,29 @@ function updateAdminUsers() {
     row.create("div.users_name>Display Name")
     row.create("div.users_songs>Songs")
     row.create("div.users_banned>Banned")
-    for (let i = 0; i < global_users.length; i++) {
-        let user = global_users[i];
+    
+    let i = 0;
+    Object.keys(global_users).forEach(key => {
+        let person = global_users[key];
+
         let row = container.create("div.users_row");
         if (i % 2 === 0) row.classAdd("users_row_gray");
-        row.create("div.users_id>" + user.uid);
-        row.create("div.users_name>" + user.showName);
-        row.create("div.users_songs>" + user.songCount);
-        row.create("div.users_banned").create("input.users_checkbox").input_type("checkbox").input_checked(user.banned).on("click",function() {
-            socket.emit("sendBanState",user,this.checked);
+        row.create("div.users_id>" + person.uid.subset(0,5));
+        let name = person.showName === false ? "No Name" : person.showName;
+        let html_name = row.create("div.users_name>" + name);
+        row.create("div.users_songs>" + person.songCount);
+        row.create("div.users_banned").create("input.users_checkbox").input_type("checkbox").input_checked(person.banned).on("click",function() {
+            socket.emit("sendBanState",person,this.checked);
         })
-    }
+
+        console.log(person)
+        if (person.adminAccess?.title === "Creator") html_name.style.background = "gold";
+        if (person.adminAccess?.title === "Admin") html_name.style.background = "green";
+        if (person.adminAccess?.title === "Supervisor") html_name.style.background = "lightgreen";
+        if (key === user.uid) html_name.style.background = "purple";
+
+        i++;
+    })
 }
 
 
