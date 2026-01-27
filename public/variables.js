@@ -29,11 +29,11 @@ let user = {
     favorites: ls.get("favorites",[]),
     showName: ls.get("showName",false),
     adminAccess: null,
-    code: ls.get("userCode",false),
-    uid: false,
+    uid: ls.get("uid",generateUID()),
     banned: false,
     songToRate: false,
 }
+ls.save("uid",user.uid);
 let adminCode = ls.get("adminCode",[]);
 let lastScrollY = 0;
 let videoObj = {
@@ -51,3 +51,14 @@ let video_controller = "server";
 let using_screen_layout;
 let currentTheme = false;
 let markedReview = false;
+
+
+
+function generateUID() {
+    let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let uid = "";
+    for (let i = 0; i < 15; i++) {
+        uid += chars.rnd();
+    }
+    return uid;
+}

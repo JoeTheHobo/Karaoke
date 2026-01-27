@@ -5,8 +5,6 @@
 */
 
 socket.on("setSocket",(serverUser,videoStats,block_all_songs,total_songs,global_songStats) => {
-    user.uid = serverUser.uid;
-    user.code = serverUser.uid;
     user.banned = serverUser.banned;
     ls.save("userCode",user.uid);
     data.videoInfo = videoStats;
@@ -293,4 +291,15 @@ socket.on("server_logs",(server_logs) => {
 })
 socket.on("added_log",(log) => {
     addServerLog(log);
+})
+socket.on("adminCodes",(ssid,adminCode,supervisorCode) => {
+    $("admin_ssid_code").html(ssid);
+    $("admin_admin_code").html(adminCode);
+    $("admin_supervisor_code").html(supervisorCode);
+})
+socket.on("updatedAdminCode",(code) => {
+    $("admin_admin_code").html(code);
+})
+socket.on("updatedSupervisorCode",(code) => {
+    $("admin_supervisor_code").html(code);
 })

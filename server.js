@@ -29,6 +29,7 @@ adminRoles.push({
       add_channel: true,
       users: true,
       logs: true,
+      codes: true,
     },
     accept_songs: true,
     modify_queue: true,
@@ -37,7 +38,6 @@ adminRoles.push({
 })
 adminRoles.push({
   title: "Admin",
-  code: "7423",
   access: {
     tabs: {
       audioVisual: true,
@@ -45,6 +45,7 @@ adminRoles.push({
       add_channel: false,
       users: true,
       logs: false,
+      codes: true,
     },
     accept_songs: true,
     modify_queue: true,
@@ -53,7 +54,6 @@ adminRoles.push({
 })
 adminRoles.push({
   title: "Supervisor",
-  code: "1234",
   access: {
     tabs: {
       audioVisual: true,
@@ -61,6 +61,7 @@ adminRoles.push({
       add_channel: false,
       users: false,
       logs: false,
+      codes: false,
     },
     accept_songs: true,
     modify_queue: true,
@@ -157,11 +158,9 @@ io.on("connection", (socket) => {
         },
         queueWorking: false,
         state: {
-          users: [],
+          users: {},
           queue: [],
-          music: {
-            
-          },
+          music: {},
           waitingOnQR: false,
           songPlaying: false,
         },
@@ -208,16 +207,12 @@ io.on("connection", (socket) => {
             sessions[ssid].state.music.startTime = false;
             sessions[ssid].state.music.playing = false;
             
-            for (let i = 0; i < sessions[ssid].state.users.length; i++) {
-              if (sessions[ssid].state.users[i].uid == sessions[ssid].state.queue[0].uid) {
-                sessions[ssid].state.queue[0].playing = false;
-                sessions[ssid].state.users[i].reviews.push({
+            sessions[ssid].state.queue[0].playing = false;
+            sessions[ssid].state.users[sessions[ssid].state.queue[0].uid].reviews.push({
                   video: sessions[ssid].state.queue[0],
                   start: Date.now(),
-                })
-                handleReviews(ssid);
-              }
-            }
+            })
+            handleReviews(ssid);
 
             io.to(ssid).to("music").emit("screenVideoUpdate",sessions[ssid].state.music);
             setTimeout(() => {
@@ -260,7 +255,12 @@ io.on("connection", (socket) => {
         if (!passed) continue;
 
         socket.adminAccess = adminRoles[i].access;
+
+
+        session.state.users[socket.uid].adminAccess = socket.adminAccess;
+
         socket.join("admin");
+        socket.join("role_"+ adminRoles[i].title.toLowerCase());
         socket.emit("allowAdmin",session.settings,goToAdmin,adminRoles[i]);
 
         if (socket.adminAccess.tabs.logs) {
@@ -269,6 +269,12 @@ io.on("connection", (socket) => {
         }
 
 
+        if (socket.adminAccess.tabs.codes) {
+          socket.join("adminCodeAccess");
+          socket.emit("adminCodes",socket.ssid,session.codes.admin,session.codes.supervisor)
+        } else {
+          socket.leave("adminCodeAccess");
+        }
         if (socket.adminAccess.tabs.users) {
           socket.emit("updatedUsers",session.state.users);
         }
@@ -302,14 +308,10 @@ io.on("connection", (socket) => {
       let session = sessions[socket.ssid];
       if (!session) return;
 
-      for (let i = 0; i < session.state.users.length; i++) {
-        if (session.state.users[i].uid === socket.user.uid) {
-          addReview(global_songStats,session.state.users[i].reviews[0].video,rating);
-          io.to("user").emit("changedStats",saveStats("downloadedData.json",global_songStats));
-          session.state.users[i].reviews.shift();
-          handleReviews(socket.ssid);
-        }
-      }
+      addReview(global_songStats,session.state.users[socket.uid].reviews[0].video,rating);
+      io.to("user").emit("changedStats",saveStats("downloadedData.json",global_songStats));
+      session.state.users[socket.uid].reviews.shift();
+      handleReviews(socket.ssid);
     })
     socket.on("clientFinishedVideo",() => {
       //Depricated
@@ -329,21 +331,47 @@ io.on("connection", (socket) => {
         buildSearchIndex();
       });
     })
+    
+    socket.on("change_admin_code",(code) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
+      if (socket.adminAccess?.tabs.codes !== true) return;
+
+      if (isNaN(code)) return;
+      if (code < 1000 || code > 9999) return;
+      if (code === Number(adminRoles[0].code)) return;
+      if (code === session.codes.admin) return;
+      if (code === session.codes.supervisor) return;
+
+      session.codes.admin = code;
+      io.to("role_admin").emit("quitAdmin");
+      io.to(socket.ssid).to("adminCodeAccess").emit("updatedAdminCode",code);
+    })
+    socket.on("change_supervisor_code",(code) => {
+      let session = sessions[socket.ssid];
+      if (!session) return;
+      if (socket.adminAccess?.tabs.codes !== true) return;
+
+      if (isNaN(code)) return;
+      if (code < 1000 || code > 9999) return;
+      if (code === Number(adminRoles[0].code)) return;
+      if (code === session.codes.admin) return;
+      if (code === session.codes.supervisor) return;
+
+      session.codes.supervisor = code;
+      io.to("role_supervisor").emit("quitAdmin");
+      io.to(socket.ssid).to("adminCodeAccess").emit("updatedSupervisorCode",code);
+    })
     socket.on("sendBanState",(user,banState) => {
       let session = sessions[socket.ssid];
       if (!session) return;
 
       if (socket.adminAccess?.tabs.users !== true) return;
 
-      for (let i = 0; i < session.state.users.length; i++) {
-        if (session.state.users[i].uid === user.uid) {
-          session.state.users[i].banned = banState;
-          
-          io.to("uid" + session.state.users[i].uid).emit("updateBanState",banState);
-          io.to(socket.ssid).to("admin").emit("updatedUsers",session.state.users);
-          return;
-        }
-      }
+      
+      session.state.users[user.uid].banned = banState;
+      io.to("uid" + user.uid).emit("updateBanState",banState);
+      io.to(socket.ssid).to("admin").emit("updatedUsers",session.state.users);
     })
     socket.on("changedShowName",(userShowName) => {
       let session = sessions[socket.ssid];
@@ -356,37 +384,6 @@ io.on("connection", (socket) => {
     })
     socket.on("userJoined", (ssid,uid,userShowName) => {
       joinSession(socket,ssid,"user",uid,userShowName,true);
-      /*
-
-      socket.userType = "user";
-      let foundUser = false;
-      for (let i = 0; i < state.users.length; i++) {
-        let user = state.users[i];
-        if (user.uid === uCode) foundUser = user; 
-      }
-      if (foundUser && ssCode === sessionCode) {
-        socket.user = foundUser;
-      } else {
-        console.log("New User Created")
-        let uid = Math.floor(Math.random() * 99999);
-        let obj = {
-          uid: uid,
-          showName: userShowName,
-          banned: false,
-          songCount: 0,
-          reviews: [],
-        }
-        state.users.push(obj)
-        socket.user = obj;
-      }
-      socket.join("uid" + socket.user.uid);
-      socket.join("user");
-
-      socket.emit("setSocket",sessionCode,socket.user,state.music,settings.block_all_songs,total_songs,global_songStats);
-      io.to("admin").emit("updatedUsers",state.users);
-
-      handleReviews();
-*/
     }) 
     socket.on("screenJoined", (ssid) => {
       joinSession(socket,ssid,"screen");
@@ -870,7 +867,7 @@ function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
 
   socket.userType = userType;
 
-  console.log(ssid)
+  console.log("SSID",ssid)
 
   if (userType === "screen") {
     socket.join("screen");
@@ -880,25 +877,20 @@ function joinSession(socket,ssid,userType,uid,showName,setSceneHome = false) {
     log(`SSID ${ssid}: New Screen Joined.`)
   }
   if (userType === "user") {
-    let foundUser = false;
-    for (let i = 0; i < session.state.users.length; i++) {
-      let user = session.state.users[i];
-      if (user.uid === uid) foundUser = user; 
-    }
-    if (foundUser) {
-      socket.user = foundUser;
-    } else {
-      let obj = {
+    console.log("UID",uid);
+    if (!session.state.users[uid]) {
+      session.state.users[uid] = {
         uid: uid,
         showName: showName,
         banned: false,
         songCount: 0,
         reviews: [],
+        adminAccess: null,
       }
-      session.state.users.push(obj)
-      socket.user = obj;
       log(`SSID ${ssid}: New User "${showName}" (UID ${uid}) Joined. ${session.state.users.length} Total Users In Session.`)
     }
+    socket.uid = uid;
+    socket.user = session.state.users[uid];
     socket.join("uid" + socket.user.uid);
     socket.join("user");
 
@@ -938,8 +930,9 @@ function handleReviews(ssid) {
   if (!session) return;
 
   let now = Date.now();
-  for (let i = 0; i < session.state.users.length; i++) {
-    let user = session.state.users[i];
+  
+  Object.keys(session.state.users).forEach(key => {
+    let user = session.state.users[key];
 
     //Clear Old Reviews
     for (let j = 0; j < user.reviews.length; j++) {
@@ -953,8 +946,7 @@ function handleReviews(ssid) {
 
     let review = user.reviews.length ? user.reviews[0].video : false;
     io.to("uid" + user.uid).emit("currentReview",review);
-
-  }
+  })
 }
 
 

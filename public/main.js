@@ -949,6 +949,12 @@ function updateAdminSettings(settings) {
         $(".admin_tab_audioVisual").hide();
     }
 
+    if (user.adminAccess.tabs.codes) {
+        $(".admin_tab_general_settings").show("flex");
+    } else {
+        $(".admin_tab_general_settings").hide();
+    }
+
     if (user.adminAccess.tabs.general_settings) {
         $(".admin_tab_general_settings").show("flex");
 

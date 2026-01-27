@@ -143,11 +143,14 @@ $(".admin_exit").on("click touch",() => {
     clearAddChannel();
 })
 $(".admin_signout").on("click touch",() => {
+    quitAdmin();
+})
+function quitAdmin() {
     user.adminAccess = null;
     ls.save("adminCode",[])
     socket.emit("adminControls","sign_out_of_admin");
     adminSlideOut();
-})
+}
 
 
 // MUSIC CONTROL
@@ -465,4 +468,12 @@ $(".review_star").on("click touch",function() {
     setTimeout(function() {
         socket.emit("user_rated_song",user.songToRate,rating);
     },200);
+})
+
+$("admin_admin_code").on("click touch",() => {
+    prompt_change_admin_code.prompt();
+})
+
+$("admin_supervisor_code").on("click touch",() => {
+    prompt_change_supervisor_code.prompt();
 })

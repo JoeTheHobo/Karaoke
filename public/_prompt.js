@@ -234,6 +234,16 @@ class _prompt {
                 input.css(item.css);
             }
         }
+        if (item.item === "warning") {
+            div.css({
+                fontSize: style.fontSize || "14px",
+                textAlign: style.textAlign || "center",
+                width: style.width || "100%",
+                fontWeight: "bold",
+                color: "red",
+            })
+            div.innerHTML = item.text || "";
+        }
         if (item.item === "title") {
             div.css({
                 fontSize: style.fontSize || "20px",
@@ -466,7 +476,61 @@ let prompt_change_song = new _prompt({
     }
 });
 
+let prompt_change_admin_code = new _prompt({
+    build: [
+        {item: "title",text: "Update Admin Code"},
+        {item: "input", type: "number", iid: "code", css: {transition: "all .2s ease-in-out"}, onFocus: (input) => {
+            input.classAdd("inputSelected");
+        },onBlur: (input) => {
+            input.classRemove("inputSelected");
+        }},
+        {item: "warning",text: "This will remove admin access to all users."},
+        [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon", neonColor: "purple",text: "Change Code",func: function(elems) {
+            let code = Number(elems["code"].$("<input").value);
+            if (code < 1000 || code > 9999) {
+                elems["code"].$("<input").style.border = "2px solid #ff5959";
+                return;
+            }
 
+            socket.emit("change_admin_code",code);
+            prompt_change_admin_code.hide();
+        }}]
+    ],
+    settings: {
+        delivery: "top",
+    },
+    onBuild: (elems) => {
+        elems["code"].$("<input").value = Number($("admin_admin_code").innerHTML);
+    }
+})
+
+let prompt_change_supervisor_code = new _prompt({
+    build: [
+        {item: "title",text: "Update Supervisor Code"},
+        {item: "input", type: "number", iid: "code", css: {transition: "all .2s ease-in-out"}, onFocus: (input) => {
+            input.classAdd("inputSelected");
+        },onBlur: (input) => {
+            input.classRemove("inputSelected");
+        }},
+        {item: "warning",text: "This will remove supervisor access to all users."},
+        [{item: "button",type: "neon", neonColor: "gray", text: "Cancel",close: true},{item: "button",type: "neon", neonColor: "purple",text: "Change Code",func: function(elems) {
+            let code = Number(elems["code"].$("<input").value);
+            if (code < 1000 || code > 9999) {
+                elems["code"].$("<input").style.border = "2px solid #ff5959";
+                return;
+            }
+
+            socket.emit("change_supervisor_code",code);
+            prompt_change_supervisor_code.hide();
+        }}]
+    ],
+    settings: {
+        delivery: "top",
+    },
+    onBuild: (elems) => {
+        elems["code"].$("<input").value = Number($("admin_supervisor_code").innerHTML);
+    }
+})
 
 let prompt_remove_song = new _prompt({
     build: [

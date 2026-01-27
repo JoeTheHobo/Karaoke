@@ -48,7 +48,7 @@ function initSocket() {
         sessionCode = Number(path[0]);
         if (path.includes("user")) {
             user.type = "user";
-            socket.emit("userJoined",sessionCode,user.code,user.showName);
+            socket.emit("userJoined",sessionCode,user.uid,user.showName);
             //setScene("user");
 
         }
@@ -111,3 +111,7 @@ function setScene(scene) {
 
     if (scene === "adminSignin") resetAdminPinPad();
 }
+
+socket.on("quitAdmin",() => {
+    quitAdmin();
+})

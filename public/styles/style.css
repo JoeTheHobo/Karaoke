@@ -1786,3 +1786,17 @@ box-shadow: inset 0px 0px 1px 2px rgba(255,255,255,0.80);
     justify-content: center;
     flex-direction: column;
 }
+
+.codesTab {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.admin_input_button {
+    background: white;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
