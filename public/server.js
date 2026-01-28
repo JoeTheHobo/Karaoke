@@ -65,7 +65,6 @@ socket.on("closePrompts",() => {
     prompt_admin_start_song.hide();
 })
 socket.on("setUserPrompt", (uid) => {
-    console.log(user.uid,uid)
     if (user.type === "screen") return;
     if (user.uid === uid) {
         console.log(4);

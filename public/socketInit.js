@@ -38,6 +38,9 @@ function initSocket() {
 
         if (path === "/") {
             user.type = "screen";
+            if (sessionCode) {
+                path[0] = sessionCode;
+            }
             setScene("sessions")
         }
 
