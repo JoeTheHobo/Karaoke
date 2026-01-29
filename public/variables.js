@@ -3,6 +3,7 @@ let offlineMode = false;
 
 ls.setID("Karaokev5");
 let socket = null;
+let karaokeName = ["Last Call","Karaoke"];
 let reconnectTimer = null;
 let sessionCode = false;
 let songSearchExtension = "Karaoke";

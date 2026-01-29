@@ -1304,3 +1304,10 @@ function updateNewReleases() {
         currentX = 0;
     }
 }
+
+function setName() {
+    $(".logoBrownText").html(karaokeName[0]);
+    $(".logoRedText").html(karaokeName[1]);
+    $(".html_title").html(`${karaokeName[0]} ${karaokeName[1]}`)
+}
+setName();
