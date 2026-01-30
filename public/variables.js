@@ -3,7 +3,7 @@ let offlineMode = false;
 
 ls.setID("Karaokev5");
 let socket = null;
-let karaokeName = ["Last Call","Karaoke"];
+let karaokeName = ["Neon","Karaoke"];
 let reconnectTimer = null;
 let sessionCode = false;
 let songSearchExtension = "Karaoke";
@@ -55,6 +55,7 @@ let currentTheme = false;
 let markedReview = false;
 
 
+//Functions for variables.js
 
 function generateUID() {
     let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -64,3 +65,10 @@ function generateUID() {
     }
     return uid;
 }
+
+function setName() {
+    $(".logoBrownText").html(karaokeName[0]);
+    $(".logoRedText").html(karaokeName[1]);
+    $(".html_title").html(`${karaokeName[0]} ${karaokeName[1]}`)
+}
+setName();

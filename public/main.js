@@ -14,14 +14,11 @@ async function searchSong(q,loseFocus = true) {
     if (loseFocus) input_searching = false;
     if (loseFocus) $(".songTitle").simpleBlur();
     if (!q) return;
-    const resultsDiv = $(".songResultsDiv");
     $(".songResultsGradient").css("opacity",1);
     $(".userStatSongs").hide();
     if (settings.allow_vocals || user.adminAccess?.allow_vocal_tracks)
         $(".addSongTopRow").show("flex");
-    resultsDiv.html("");
-    $(".songResultsDiv").html("")
-    $(".songResultsDiv").create("div.spinner");
+    $(".songResultsDiv").html("").create("div.spinner");
     socket.emit("searchSong",q,songSearchExtension);
     return;
 }
@@ -34,32 +31,25 @@ function normalizeText(str) {
     .trim();
 }
 function fixTitle(title,format) {
-  if (!title) return { song: "", artist: "" };
+  if (!title || !format) return { song: "", artist: "" };
   title = normalizeText(title);
   title = title.replace(/karaoke/gi, "");
 
-  let first = title.subset(0,format[1] + "\\before");
-  let secondFull = title.subset(format[1] + "\\after",true);
+  let set = title.split(format[1]);
+
   let second = "";
   let bannedChars = ["[","(","|","-","【"];
-  buildingSecond: for (let i = 0; i < secondFull.length; i++) {
-    let char = secondFull.charAt(i);
-    if (bannedChars.includes(char)) {
-        break buildingSecond;
-    } else {
+  for (let i = 0; i < set[1].length; i++) {
+    let char = set[1].charAt(i);
+    if (bannedChars.includes(char))
+        break;
+    else
         second += char;
-    }
   }
 
-
-  if (format[0] == "a") return {
-    song: second.trim(),
-    artist: fixArtist(first.trim()),
-  }
-  
-  if (format[0] == "s") return {
-    song: first.trim(),
-    artist: fixArtist(second.trim()),
+  return {
+    song: format[0] === "a" ? second.trim() : set[0].trim(),
+    artist: format[0] === "a" ? fixArtist(set[0].trim()) : fixArtist(second.trim()),
   }
 }
 function fixArtist(artistString) {
@@ -105,9 +95,7 @@ function clearSearch(hideAll = true) {
     if (hideAll) $(".findSongButton").classAdd("search_hidden_3");
     if (hideAll) $(".inputSearchContainer").classRemove("inputFullBar");
     if (hideAll) $(".songTitle").simpleBlur();
-
     if (hideAll) $(".songResultsGradient").css("opacity",0)
-    
     if (hideAll) $(".userStatSongs").show("flex");
 
     $("globalStat_artists").hide(); //Temporary hide, if wanted for future
@@ -759,13 +747,6 @@ function smoothAutoScroll(div, speed = 60, pause = 1000) {
     setTimeout(scrollForward, pause);
 }
 
-
-
-
-function promptQR() {
- $(".promptQR").show("flex");   
-}
-
 function playVideo(fileName,handledByClient = false) {
     if (user.type !== "screen") return;
     stopThemeEffects();
@@ -912,86 +893,6 @@ function devis(element) {
     return element;
 }
 
-function adminSlideIn() {
-    $(".admin_slide").style.transform = "none";
-    $(".user_activity").classAdd("slideLeft");
-}
-function adminSlideOut() {
-    $(".admin_slide").style.transform = "translateX(100%)";
-    $(".user_activity").classRemove("slideLeft");
-}
-
-
-
-function clearAddChannel() {
-    $(".channel_name").value = "";
-    $(".channel_first").value = "0";
-    $(".channel_divider").value = "";
-    $(".channel_second").value = "1";
-    $(".channel_type").value = "0";
-    if ($(".channel_error")) $(".channel_error").classRemove("channel_error");
-
-}
-clearAddChannel();
-$(".channel_first").on("change",function() {
-    if (this.value === "0")
-        $(".channel_second").value = "1";
-    else
-        $(".channel_second").value = "0";
-})
-$(".channel_second").on("change",function() {
-    if (this.value === "0")
-        $(".channel_first").value = "1";
-    else
-        $(".channel_first").value = "0";
-})
-$(".channel_submit").on("click touch",() => {
-    let name = $(".channel_name").value;
-    let first = $(".channel_first").value;
-    let divider = $(".channel_divider").value;
-    if (divider === "") divider = " - ";
-    let type = $(".channel_type").value;
-
-    if (name === "") {
-        $(".channel_name").classAdd("channel_error")
-        return;
-    }
-
-    clearAddChannel();
-
-    let format = [
-        first === "0" ? "a" : "s",
-        divider,
-        first === "0" ? "s" : "a",
-    ];
-
-    let obj = {
-        name: name,
-        format: format,
-        type: type === "0" ? "karaoke" : "lyrics",
-    }
-
-    socket.emit("addAllowedChannel",obj);
-})
-
-
-$(".openCloseGroup").on("click touch",function() {
-    let id = this.id.subset("_\\after",true);
-    openSettingsMenu(id);
-})
-function openSettingsMenu(menu) {
-    $(".openCloseGroup").classRemove("openClose_open");
-    $(".adminGroup").css("maxHeight","0px");
-    $("control_" + menu).classAdd("openClose_open")
-    setTimeout(() => $(menu).css("maxHeight","999px"),0);
-    
-}
-setTimeout(function() {
-    openSettingsMenu("av");
-},1000)
-
-
-
 function sortStatsByPopular(stats) {
     if (user.type !== "user") return;
     // Convert object → array
@@ -1011,22 +912,6 @@ function sortStatsByPopular(stats) {
     arr.sort((a, b) => b.count - a.count);
 
     return arr.slice(0, 50);
-}
-function setServerLogs(logs) {
-    let holder = $(".serverLogs");
-    holder.innerHTML = "";
-
-    for (let i = 0; i < logs.length; i++) {
-        addServerLog(logs[i])
-    }
-}
-function addServerLog(log) {
-    let div = $(".serverLogs").create("div.log_line");
-    let date = div.create("div.log_date");
-    let time = new _time(new Date(log.time)).format("dd/mm HH:MM")
-    date.innerHTML = time;
-
-    let message = div.create("div.log_message>" + log.message);
 }
 
 function cleanVideos(videos) {
@@ -1149,10 +1034,3 @@ function updateNewReleases() {
         currentX = 0;
     }
 }
-
-function setName() {
-    $(".logoBrownText").html(karaokeName[0]);
-    $(".logoRedText").html(karaokeName[1]);
-    $(".html_title").html(`${karaokeName[0]} ${karaokeName[1]}`)
-}
-setName();

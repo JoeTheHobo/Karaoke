@@ -154,3 +154,99 @@ function updateAdminSettings(settings) {
         $(".admin_tab_logs").hide();
     }
 }
+
+
+function adminSlideIn() {
+    $(".admin_slide").style.transform = "none";
+    $(".user_activity").classAdd("slideLeft");
+}
+function adminSlideOut() {
+    $(".admin_slide").style.transform = "translateX(100%)";
+    $(".user_activity").classRemove("slideLeft");
+}
+
+
+
+function clearAddChannel() {
+    $(".channel_name").value = "";
+    $(".channel_first").value = "0";
+    $(".channel_divider").value = "";
+    $(".channel_second").value = "1";
+    $(".channel_type").value = "0";
+    if ($(".channel_error")) $(".channel_error").classRemove("channel_error");
+}
+clearAddChannel();
+$(".channel_first").on("change",function() {
+    if (this.value === "0")
+        $(".channel_second").value = "1";
+    else
+        $(".channel_second").value = "0";
+})
+$(".channel_second").on("change",function() {
+    if (this.value === "0")
+        $(".channel_first").value = "1";
+    else
+        $(".channel_first").value = "0";
+})
+$(".channel_submit").on("click touch",() => {
+    let name = $(".channel_name").value;
+    let first = $(".channel_first").value;
+    let divider = $(".channel_divider").value;
+    if (divider === "") divider = " - ";
+    let type = $(".channel_type").value;
+
+    if (name === "") {
+        $(".channel_name").classAdd("channel_error")
+        return;
+    }
+
+    clearAddChannel();
+
+    let format = [
+        first === "0" ? "a" : "s",
+        divider,
+        first === "0" ? "s" : "a",
+    ];
+
+    let obj = {
+        name: name,
+        format: format,
+        type: type === "0" ? "karaoke" : "lyrics",
+    }
+
+    socket.emit("addAllowedChannel",obj);
+})
+
+
+$(".openCloseGroup").on("click touch",function() {
+    let id = this.id.subset("_\\after",true);
+    openSettingsMenu(id);
+})
+function openSettingsMenu(menu) {
+    $(".openCloseGroup").classRemove("openClose_open");
+    $(".adminGroup").css("maxHeight","0px");
+    $("control_" + menu).classAdd("openClose_open")
+    setTimeout(() => $(menu).css("maxHeight","999px"),0);
+    
+}
+setTimeout(function() {
+    openSettingsMenu("av");
+},1000)
+
+
+function setServerLogs(logs) {
+    let holder = $(".serverLogs");
+    holder.innerHTML = "";
+
+    for (let i = 0; i < logs.length; i++) {
+        addServerLog(logs[i])
+    }
+}
+function addServerLog(log) {
+    let div = $(".serverLogs").create("div.log_line");
+    let date = div.create("div.log_date");
+    let time = new _time(new Date(log.time)).format("dd/mm HH:MM")
+    date.innerHTML = time;
+
+    let message = div.create("div.log_message>" + log.message);
+}

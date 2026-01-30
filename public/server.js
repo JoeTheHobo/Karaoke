@@ -262,15 +262,12 @@ socket.on("changedStats",(changes) => {
 
         if (!data.songStats[videoId]) continue;
 
-        if (type === "reviews") {
-            if (!data.songStats[videoId].reviews) {
-                data.songStats[videoId].reviews = [];
-            }
-            data.songStats[videoId].reviews.push(value);
+        const handleType = {
+            reviews: () => (data.songStats[videoId].reviews ??= []).push(value),
+            plays: () => data.songStats[videoId].plays += value,
         }
-        if (type === "plays") {
-            data.songStats[videoId].plays += value;
-        }
+
+        handleType[type]?.();
     }
     data.popularSongs = sortStatsByPopular(data.songStats);
 })

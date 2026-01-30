@@ -140,7 +140,7 @@ io.on("connection", (socket) => {
       if (typeof supervisorCode !== "number") return;
       if (supervisorCode < 1000 || supervisorCode > 9999) return; 
 
-      let ssid = rnd(100000,999999);
+      let ssid = simple.rnd(100000,999999);
 
       sessions[ssid] = {
         latestActivity: Date.now(),
@@ -247,8 +247,8 @@ io.on("connection", (socket) => {
     socket.on("checkAdminCode",(code,goToAdmin = false) => {
       let session = sessions[socket.ssid];
       if (!session) return;
-
       if (socket.userType !== "user") return;
+
 
       for (let i = 0; i < adminRoles.length; i++) {
         let passed = false;
@@ -965,16 +965,16 @@ function handleReviews(ssid) {
 }
 
 
-function rnd(min, max) {
-  min = Math.ceil(min); // Ensure min is a whole number
-  max = Math.floor(max); // Ensure max is a whole number
-  // The formula for an inclusive range
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+const ms = {
+  minute: 1000*60,
+  hour: 1000*60*60,
+  day: 1000*60*60*24,
 }
 
 function checkDeadSessions() {
 
   const now = Date.now();
+  log(`Checking For Dead Sessions...`);
 
   Object.keys(sessions).forEach((ssid) => {
     const session = sessions[ssid];
@@ -986,20 +986,20 @@ function checkDeadSessions() {
 
     let difference = now - session.latestActivity; 
 
-    if (difference < (1000*60*60*24)) return;
+    if (difference < (ms.day)) return;
 
     closeSession(ssid);
   })
 
-  setTimeout(checkDeadSessions,1000*60*60*3);
+  log(`Total Sessions: ${Object.keys(sessions).length}`)
+
+  setTimeout(checkDeadSessions,ms.hour * 3);
 }
 checkDeadSessions();
 function closeSession(ssid) {
   if (!sessions[ssid]) return;
 
   log(`Closing Session "${ssid}"`);
-  log(`Total Sessions: ${Object.keys(sessions).length}`)
-
   io.to(ssid).emit("closing_session");
 
   delete sessions[ssid];
