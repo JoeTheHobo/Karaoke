@@ -1,7 +1,7 @@
 {
   "channelId": "UCkXE7x417ME2iudNECaLUFA",
   "channelUrl": "https://www.youtube.com/@ObsKureKaraoke",
-  "lastChecked": "2026-01-27T18:59:23.042Z",
+  "lastChecked": "2026-10-09T22:20:01.623Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,87 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "4XUby-FW5jU",
+      "title": "Everclear - Father of Mine - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-09-17T01:06:05.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "everclear father of mine karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=4XUby-FW5jU"
+    },
+    {
+      "videoId": "58B1fODoq8w",
+      "title": "Journey - Separate Ways (Worlds Apart) - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-09-15T04:00:00.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "journey separate ways worlds apart karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=58B1fODoq8w"
+    },
+    {
+      "videoId": "5Mp1qam5ezg",
+      "title": "Ben Folds - Still Fighting It - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-09-12T14:52:01.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "ben folds still fighting it karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=5Mp1qam5ezg"
+    },
+    {
+      "videoId": "XLmEgciOvnk",
+      "title": "Harry Chapin - Cat's In The Cradle - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-09-12T03:01:13.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "harry chapin cats in the cradle karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=XLmEgciOvnk"
+    },
+    {
+      "videoId": "Y4mZ4cT7Pos",
+      "title": "The Stone Roses - Tears - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-09-06T03:32:44.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "the stone roses tears karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=Y4mZ4cT7Pos"
+    },
+    {
+      "videoId": "FMSgbRczMMg",
+      "title": "Weezer - We Might as Well Be Strangers (ft. Wednesday) - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-08-31T15:00:06.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "weezer we might as well be strangers ft wednesday karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=FMSgbRczMMg"
+    },
+    {
+      "videoId": "ZDa00TaH8pw",
+      "title": "OneRepublic - Kids - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-06-15T17:33:20.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "onerepublic kids karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=ZDa00TaH8pw"
+    },
+    {
+      "videoId": "7BcF-x9PJEs",
+      "title": "Ween - Tried And True - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-05-22T13:11:10.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "ween tried and true karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=7BcF-x9PJEs"
+    },
+    {
+      "videoId": "Ork44JtD6bY",
+      "title": "Elliott Smith - Heatmiser - Plainclothes Man - Karaoke Instrumental Lyrics - ObsKure",
+      "publishedAt": "2026-05-22T04:58:33.000Z",
+      "channelId": "UCkXE7x417ME2iudNECaLUFA",
+      "normalizedTitle": "elliott smith heatmiser plainclothes man karaoke instrumental lyrics obskure",
+      "channelName": "ObsKure Karaoke",
+      "url": "https://www.youtube.com/watch?v=Ork44JtD6bY"
+    },
     {
       "videoId": "mfvscGkyVh8",
       "title": "Pedro The Lion - Bad Diary Days (live) - Karaoke Instrumental Lyrics - ObsKure",
@@ -16218,5 +16299,5 @@
       "url": "https://www.youtube.com/watch?v=PVNLEfks-jE"
     }
   ],
-  "nextCheckAt": 1771571175204
+  "nextCheckAt": 1793971225955
 }

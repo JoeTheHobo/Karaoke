@@ -1,7 +1,7 @@
 {
   "channelId": "UCi28nA-EHWat7meivBuG0GQ",
   "channelUrl": "https://www.youtube.com/@gotyouontape",
-  "lastChecked": "2026-01-27T18:59:22.074Z",
+  "lastChecked": "2026-10-09T22:20:00.169Z",
   "format": [
     "a",
     " - ",
@@ -9,6 +9,60 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "b-f5zRYRwzg",
+      "title": "Not for Radio - Puddles (Live @ Koningin Elisabethzaal, Antwerp, Belgium) 19-04-2026",
+      "publishedAt": "2026-04-20T20:06:41.000Z",
+      "channelId": "UCi28nA-EHWat7meivBuG0GQ",
+      "normalizedTitle": "not for radio puddles live koningin elisabethzaal antwerp belgium 19042026",
+      "channelName": "Peter B",
+      "url": "https://www.youtube.com/watch?v=b-f5zRYRwzg"
+    },
+    {
+      "videoId": "ze3__vVH0ug",
+      "title": "Not for Radio - Living Room (Live @ Koningin Elisabethzaal, Antwerp, Belgium) 19-04-2026",
+      "publishedAt": "2026-04-20T19:39:21.000Z",
+      "channelId": "UCi28nA-EHWat7meivBuG0GQ",
+      "normalizedTitle": "not for radio living room live koningin elisabethzaal antwerp belgium 19042026",
+      "channelName": "Peter B",
+      "url": "https://www.youtube.com/watch?v=ze3__vVH0ug"
+    },
+    {
+      "videoId": "I0Jh-PEJcKA",
+      "title": "Not for Radio - Swan (Live @ Koningin Elisabethzaal, Antwerp, Belgium) 19-04-2026",
+      "publishedAt": "2026-04-20T19:20:04.000Z",
+      "channelId": "UCi28nA-EHWat7meivBuG0GQ",
+      "normalizedTitle": "not for radio swan live koningin elisabethzaal antwerp belgium 19042026",
+      "channelName": "Peter B",
+      "url": "https://www.youtube.com/watch?v=I0Jh-PEJcKA"
+    },
+    {
+      "videoId": "Ejn3TnHUhRQ",
+      "title": "Not for Radio - Ache (Karaoke)",
+      "publishedAt": "2026-04-20T14:41:26.000Z",
+      "channelId": "UCi28nA-EHWat7meivBuG0GQ",
+      "normalizedTitle": "not for radio ache karaoke",
+      "channelName": "Peter B",
+      "url": "https://www.youtube.com/watch?v=Ejn3TnHUhRQ"
+    },
+    {
+      "videoId": "dp44exGGBU8",
+      "title": "Not for Radio - Kitten (Karaoke)",
+      "publishedAt": "2026-04-18T09:24:26.000Z",
+      "channelId": "UCi28nA-EHWat7meivBuG0GQ",
+      "normalizedTitle": "not for radio kitten karaoke",
+      "channelName": "Peter B",
+      "url": "https://www.youtube.com/watch?v=dp44exGGBU8"
+    },
+    {
+      "videoId": "wzJspcz7QLQ",
+      "title": "Not for Radio - Living Room (Karaoke)",
+      "publishedAt": "2026-04-17T10:17:14.000Z",
+      "channelId": "UCi28nA-EHWat7meivBuG0GQ",
+      "normalizedTitle": "not for radio living room karaoke",
+      "channelName": "Peter B",
+      "url": "https://www.youtube.com/watch?v=wzJspcz7QLQ"
+    },
     {
       "videoId": "SSCHxzw2kSE",
       "title": "Not for Radio - Back To You (Karaoke)",
@@ -531,5 +585,5 @@
       "url": "https://www.youtube.com/watch?v=FmB8v9Vhc1E"
     }
   ],
-  "nextCheckAt": 1771610946503
+  "nextCheckAt": 1794111908352
 }

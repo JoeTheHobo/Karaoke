@@ -1,7 +1,7 @@
 {
   "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
   "channelUrl": "https://www.youtube.com/@MrEntertainerKaraokeChannel",
-  "lastChecked": "2026-01-27T18:59:16.353Z",
+  "lastChecked": "2026-10-09T22:19:31.412Z",
   "format": [
     "s",
     " - ",
@@ -9,6 +9,807 @@
   ],
   "type": "karaoke",
   "videos": [
+    {
+      "videoId": "pjbWXI051g4",
+      "title": "Patient Zero Karaoke 🎤🔊 Taylor Swift #shorts #karaoke",
+      "publishedAt": "2026-10-09T12:16:30.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "patient zero karaoke taylor swift shorts karaoke",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=pjbWXI051g4"
+    },
+    {
+      "videoId": "uCZ1EzufxaA",
+      "title": "Taylor Swift - Patient Zero (Karaoke Version)",
+      "publishedAt": "2026-10-09T12:11:12.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "taylor swift patient zero karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=uCZ1EzufxaA"
+    },
+    {
+      "videoId": "dEIhrB_5Z2A",
+      "title": "Babylon Karaoke 🎤🔊 Taylor Swift #shorts #karaoke",
+      "publishedAt": "2026-10-07T13:31:24.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "babylon karaoke taylor swift shorts karaoke",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=dEIhrB_5Z2A"
+    },
+    {
+      "videoId": "QnbeI0lIffA",
+      "title": "Taylor Swift - Babylon (Karaoke Version)",
+      "publishedAt": "2026-10-07T13:25:30.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "taylor swift babylon karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=QnbeI0lIffA"
+    },
+    {
+      "videoId": "j0o6nCURTkU",
+      "title": "Nicole Kidman Karaoke 🎤🔊 Adela #shorts #karaokepreview",
+      "publishedAt": "2026-10-06T14:58:59.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "nicole kidman karaoke adela shorts karaokepreview",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=j0o6nCURTkU"
+    },
+    {
+      "videoId": "BFtU2l56ydw",
+      "title": "Adela - Nicole Kidman (Karaoke Version)",
+      "publishedAt": "2026-10-06T14:43:44.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "adela nicole kidman karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=BFtU2l56ydw"
+    },
+    {
+      "videoId": "gO3cSk_-0Q0",
+      "title": "Loser Karaoke 🎤🔊 Tame Impala #shorts #karaokepreview",
+      "publishedAt": "2026-09-18T09:10:04.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "loser karaoke tame impala shorts karaokepreview",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=gO3cSk_-0Q0"
+    },
+    {
+      "videoId": "m8ETRJfEcMg",
+      "title": "Tame Impala - Loser (Karaoke Version)",
+      "publishedAt": "2026-09-18T09:08:07.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "tame impala loser karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=m8ETRJfEcMg"
+    },
+    {
+      "videoId": "ajbSYOhJxWs",
+      "title": "Choosin' Texas Karaoke 🎤🔊 Ella Langley #shorts #karaoke",
+      "publishedAt": "2026-09-08T08:21:32.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "choosin texas karaoke ella langley shorts karaoke",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=ajbSYOhJxWs"
+    },
+    {
+      "videoId": "Jm5dTFM80yQ",
+      "title": "Ella Langley - Choosin' Texas (Karaoke Version)",
+      "publishedAt": "2026-09-08T08:19:59.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "ella langley choosin texas karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Jm5dTFM80yQ"
+    },
+    {
+      "videoId": "g9zQQW_t5ao",
+      "title": "Dai Dai Karaoke 🎤🔊 Shakira & Burna Boy #shorts #karaoke",
+      "publishedAt": "2026-09-01T11:43:50.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "dai dai karaoke shakira and burna boy shorts karaoke",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=g9zQQW_t5ao"
+    },
+    {
+      "videoId": "Hlm8N--JH9c",
+      "title": "Shakira & Burna Boy - Dai Dai (Karaoke Version)",
+      "publishedAt": "2026-09-01T11:42:27.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "shakira and burna boy dai dai karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Hlm8N--JH9c"
+    },
+    {
+      "videoId": "I_qKdQftnMU",
+      "title": "Great Expectation Karaoke 🎤🔊 Sienna Spiro #shorts",
+      "publishedAt": "2026-08-28T11:02:48.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "great expectation karaoke sienna spiro shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=I_qKdQftnMU"
+    },
+    {
+      "videoId": "9fcTuZZto10",
+      "title": "Sienna Spiro - Great Expectation (Karaoke Version)",
+      "publishedAt": "2026-08-28T11:01:26.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sienna spiro great expectation karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=9fcTuZZto10"
+    },
+    {
+      "videoId": "Zk3UQjQZqUw",
+      "title": "Stella Lefty - Boston (Karaoke Version)",
+      "publishedAt": "2026-08-26T07:51:49.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "stella lefty boston karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Zk3UQjQZqUw"
+    },
+    {
+      "videoId": "Lqwqr6rnpvQ",
+      "title": "Love Sensation Karaoke 🎤🔊 Madonna & Kylie Minogue #shorts #karaoke",
+      "publishedAt": "2026-08-17T14:43:53.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "love sensation karaoke madonna and kylie minogue shorts karaoke",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Lqwqr6rnpvQ"
+    },
+    {
+      "videoId": "dm-EecoXRQg",
+      "title": "Madonna & Kylie Minogue - Love Sensation (Karaoke Version)",
+      "publishedAt": "2026-08-17T14:26:00.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "madonna and kylie minogue love sensation karaoke version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=dm-EecoXRQg"
+    },
+    {
+      "videoId": "xDVtYcpQHyo",
+      "title": "Sing Talk To You by ANOTR ft 54 Ultra! 🎤🔊 Talk To You Karaoke #shorts",
+      "publishedAt": "2026-08-14T07:49:55.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing talk to you by anotr ft 54 ultra talk to you karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=xDVtYcpQHyo"
+    },
+    {
+      "videoId": "Fa8MmpJs3Z0",
+      "title": "ANOTR ft 54 Ultra – Talk To You | Karaoke Version with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-08-14T07:48:20.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "anotr ft 54 ultra talk to you karaoke version with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Fa8MmpJs3Z0"
+    },
+    {
+      "videoId": "PvsENbX__k0",
+      "title": "ANOTR ft 54 Ultra – Talk To You | Karaoke Version with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-08-14T07:46:38.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "anotr ft 54 ultra talk to you karaoke version with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=PvsENbX__k0"
+    },
+    {
+      "videoId": "_5A0h7gV8hQ",
+      "title": "Sing Dance No More by Harry Styles! 🎤🕺 Dance No More Karaoke #shorts  #karaoke #mrentertainerkaraoke",
+      "publishedAt": "2026-08-10T10:58:40.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing dance no more by harry styles dance no more karaoke shorts karaoke mrentertainerkaraoke",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=_5A0h7gV8hQ"
+    },
+    {
+      "videoId": "z5lZK8Q-NOE",
+      "title": "Harry Styles – Dance No More | Karaoke Version with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-08-10T10:56:02.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "harry styles dance no more karaoke version with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=z5lZK8Q-NOE"
+    },
+    {
+      "videoId": "ZtiN0JjlUZM",
+      "title": "Harry Styles – Dance No More | Karaoke Version with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-08-10T10:53:51.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "harry styles dance no more karaoke version with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=ZtiN0JjlUZM"
+    },
+    {
+      "videoId": "DxqwbNtUefk",
+      "title": "Sing Stupid Song by Olivia Rodrigo! 🎤🎵 Stupid Song Karaoke #shorts",
+      "publishedAt": "2026-07-21T11:26:14.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing stupid song by olivia rodrigo stupid song karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=DxqwbNtUefk"
+    },
+    {
+      "videoId": "RfQQTxEoKFM",
+      "title": "Olivia Rodrigo – Stupid Song | Karaoke Version with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-07-21T11:24:57.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "olivia rodrigo stupid song karaoke version with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=RfQQTxEoKFM"
+    },
+    {
+      "videoId": "F3I9BBeVAkQ",
+      "title": "Olivia Rodrigo – Stupid Song | Karaoke Version with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-07-21T11:21:44.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "olivia rodrigo stupid song karaoke version with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=F3I9BBeVAkQ"
+    },
+    {
+      "videoId": "vUabjCrFYF4",
+      "title": "Sing Hate That I Made You Love Me by Ariana Grande! 🎤💔 Ariana Grande Karaoke #shorts",
+      "publishedAt": "2026-07-14T08:57:09.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing hate that i made you love me by ariana grande ariana grande karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=vUabjCrFYF4"
+    },
+    {
+      "videoId": "_9QJxjjNKKQ",
+      "title": "Ariana Grande – Hate That I Made You Love Me | Karaoke Version with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-07-14T08:54:19.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "ariana grande hate that i made you love me karaoke version with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=_9QJxjjNKKQ"
+    },
+    {
+      "videoId": "JHLhTPViPNM",
+      "title": "Ariana Grande – Hate That I Made You Love Me | Karaoke Version with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-07-14T08:52:36.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "ariana grande hate that i made you love me karaoke version with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=JHLhTPViPNM"
+    },
+    {
+      "videoId": "d27_iMvx6uU",
+      "title": "Sing I Knew It, I Knew You by Taylor Swift! 🎤🧸 Toy Story 5 Karaoke #shorts",
+      "publishedAt": "2026-07-08T11:52:11.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing i knew it i knew you by taylor swift toy story 5 karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=d27_iMvx6uU"
+    },
+    {
+      "videoId": "51iGLkhniKs",
+      "title": "Taylor Swift – I Knew It, I Knew You | Karaoke Version with Lyrics | Backing Vocals | Toy Story 5",
+      "publishedAt": "2026-07-08T11:50:01.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "taylor swift i knew it i knew you karaoke version with lyrics backing vocals toy story 5",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=51iGLkhniKs"
+    },
+    {
+      "videoId": "AJ2eDzvIjh0",
+      "title": "Taylor Swift – I Knew It, I Knew You | Karaoke Version with Lyrics | Vocal Guide | Toy Story 5",
+      "publishedAt": "2026-07-08T11:47:13.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "taylor swift i knew it i knew you karaoke version with lyrics vocal guide toy story 5",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=AJ2eDzvIjh0"
+    },
+    {
+      "videoId": "_DaI5dIMLMw",
+      "title": "Sing The Cure by Olivia Rodrigo! 🎤💊 The Cure Karaoke #shorts",
+      "publishedAt": "2026-06-11T16:32:39.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing the cure by olivia rodrigo the cure karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=_DaI5dIMLMw"
+    },
+    {
+      "videoId": "a-QeY023V-I",
+      "title": "Olivia Rodrigo – The Cure | Karaoke Version with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-06-11T16:29:04.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "olivia rodrigo the cure karaoke version with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=a-QeY023V-I"
+    },
+    {
+      "videoId": "rEciU4GuB9I",
+      "title": "Olivia Rodrigo – The Cure | Karaoke Version with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-06-11T16:26:22.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "olivia rodrigo the cure karaoke version with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=rEciU4GuB9I"
+    },
+    {
+      "videoId": "Ofj_P9vaUL4",
+      "title": "Sing Homewrecker by Sombr! 🎤🖤 Homewrecker Karaoke #shorts",
+      "publishedAt": "2026-05-29T15:51:32.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing homewrecker by sombr homewrecker karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Ofj_P9vaUL4"
+    },
+    {
+      "videoId": "ZFfF0lQ0dmg",
+      "title": "Sombr – Homewrecker | Karaoke Version with Lyrics",
+      "publishedAt": "2026-05-29T15:49:37.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sombr homewrecker karaoke version with lyrics",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=ZFfF0lQ0dmg"
+    },
+    {
+      "videoId": "KdT7tOXlR5A",
+      "title": "Sing Janice STFU by Drake! 🎤🔥 Janice STFU Karaoke #shorts",
+      "publishedAt": "2026-05-29T15:42:30.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing janice stfu by drake janice stfu karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=KdT7tOXlR5A"
+    },
+    {
+      "videoId": "JAMrUq0U-eI",
+      "title": "Drake – Janice STFU | Karaoke Version with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-05-29T15:21:35.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "drake janice stfu karaoke version with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=JAMrUq0U-eI"
+    },
+    {
+      "videoId": "1QfxVetdWHQ",
+      "title": "Drake – Janice STFU | Karaoke Version with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-05-29T15:12:12.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "drake janice stfu karaoke version with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=1QfxVetdWHQ"
+    },
+    {
+      "videoId": "xEnMp4X5ZjA",
+      "title": "Hand luggage. Check. Sunscreen. Check. Karaoke Machine. Check",
+      "publishedAt": "2026-05-28T15:11:07.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "hand luggage check sunscreen check karaoke machine check",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=xEnMp4X5ZjA"
+    },
+    {
+      "videoId": "eC1KJQbLqV0",
+      "title": "Sing MIDNIGHT SUN from Zara Larsson! ☀️🎤 Midnight Sun Karaoke #shorts",
+      "publishedAt": "2026-05-22T09:20:04.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing midnight sun from zara larsson midnight sun karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=eC1KJQbLqV0"
+    },
+    {
+      "videoId": "deardBkVMRY",
+      "title": "Sing GO from Chemical Brothers! ⚡🎤 Go Karaoke #shorts",
+      "publishedAt": "2026-05-22T09:18:41.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing go from chemical brothers go karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=deardBkVMRY"
+    },
+    {
+      "videoId": "hPl8bm0mhsw",
+      "title": "Zara Larsson – Midnight Sun | Karaoke Version with Lyrics | With Backing Vocals | BEST QUALITY",
+      "publishedAt": "2026-05-22T09:14:18.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "zara larsson midnight sun karaoke version with lyrics with backing vocals best quality",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=hPl8bm0mhsw"
+    },
+    {
+      "videoId": "fV-qLebMiYA",
+      "title": "Zara Larsson – Midnight Sun | Karaoke Version with Lyrics | Vocal Guide Version",
+      "publishedAt": "2026-05-22T09:11:47.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "zara larsson midnight sun karaoke version with lyrics vocal guide version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=fV-qLebMiYA"
+    },
+    {
+      "videoId": "KqfpLu7OIo4",
+      "title": "Chemical Brothers – Go | Karaoke Version with Lyrics | With Backing Vocals | BEST QUALITY",
+      "publishedAt": "2026-05-22T09:08:00.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "chemical brothers go karaoke version with lyrics with backing vocals best quality",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=KqfpLu7OIo4"
+    },
+    {
+      "videoId": "7VnV4QYAeE0",
+      "title": "Chemical Brothers – Go | Karaoke with Lyrics | Vocal Guide Version",
+      "publishedAt": "2026-05-22T09:05:38.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "chemical brothers go karaoke with lyrics vocal guide version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=7VnV4QYAeE0"
+    },
+    {
+      "videoId": "ZSpPDwBE-ts",
+      "title": "Sing DROP DEAD from Olivia Rodrigo! 🎤💜 Drop Dead Karaoke #shorts",
+      "publishedAt": "2026-05-12T14:58:01.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing drop dead from olivia rodrigo drop dead karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=ZSpPDwBE-ts"
+    },
+    {
+      "videoId": "ozb3uxPRcBw",
+      "title": "Olivia Rodrigo – Drop Dead | Karaoke Version with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-05-12T14:54:26.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "olivia rodrigo drop dead karaoke version with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=ozb3uxPRcBw"
+    },
+    {
+      "videoId": "eN04jhP5afY",
+      "title": "Olivia Rodrigo – Drop Dead | Karaoke with Lyrics | Vocal Guide Cover Version",
+      "publishedAt": "2026-05-12T14:52:28.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "olivia rodrigo drop dead karaoke with lyrics vocal guide cover version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=eN04jhP5afY"
+    },
+    {
+      "videoId": "TFrtoqqlcBY",
+      "title": "Sing SWIM from BTS! 🎤✨ Swim Karaoke Preview #shorts",
+      "publishedAt": "2026-05-11T08:44:06.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing swim from bts swim karaoke preview shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=TFrtoqqlcBY"
+    },
+    {
+      "videoId": "JZATYzra13M",
+      "title": "BTS – Swim | Karaoke Version with Lyrics | Includes Backing Vocals",
+      "publishedAt": "2026-05-11T08:42:19.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bts swim karaoke version with lyrics includes backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=JZATYzra13M"
+    },
+    {
+      "videoId": "ZmJNvqbsUxU",
+      "title": "BTS – Swim | Karaoke with Lyrics | Vocal Guide Cover Version",
+      "publishedAt": "2026-05-11T08:40:07.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bts swim karaoke with lyrics vocal guide cover version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=ZmJNvqbsUxU"
+    },
+    {
+      "videoId": "vERk8ir5WYE",
+      "title": "Sing DRACULA from Tame Impala! 🩸🎤 Dracula Karaoke #shorts",
+      "publishedAt": "2026-04-22T10:37:15.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing dracula from tame impala dracula karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=vERk8ir5WYE"
+    },
+    {
+      "videoId": "IHITX1PPo6c",
+      "title": "Dracula – Tame Impala | Karaoke Version with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-04-22T10:34:56.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "dracula tame impala karaoke version with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=IHITX1PPo6c"
+    },
+    {
+      "videoId": "chzKtmj0ZsY",
+      "title": "Dracula – Tame Impala | Karaoke with Lyrics | Full Vocal Guide Version",
+      "publishedAt": "2026-04-22T10:31:42.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "dracula tame impala karaoke with lyrics full vocal guide version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=chzKtmj0ZsY"
+    },
+    {
+      "videoId": "P2n8oFVTpoE",
+      "title": "Sing AMERICAN GIRLS from Harry Styles! 🇺🇸🎤 American Girls Karaoke #shorts",
+      "publishedAt": "2026-04-17T09:48:49.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing american girls from harry styles american girls karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=P2n8oFVTpoE"
+    },
+    {
+      "videoId": "hk4agOW0TH0",
+      "title": "Harry Styles – American Girls | Karaoke with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-04-17T09:41:47.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "harry styles american girls karaoke with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=hk4agOW0TH0"
+    },
+    {
+      "videoId": "OnMP12zFKhk",
+      "title": "Harry Styles – American Girls | Vocal Guide with Lyrics | Full Cover Version",
+      "publishedAt": "2026-04-17T09:39:43.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "harry styles american girls vocal guide with lyrics full cover version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=OnMP12zFKhk"
+    },
+    {
+      "videoId": "QvF2vqizTZI",
+      "title": "Sing EINS, ZWEI, DREI from Look Mum No Computer! 🎤 Eurovision 2026 Karaoke #shorts",
+      "publishedAt": "2026-03-25T15:27:34.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing eins zwei drei from look mum no computer eurovision 2026 karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=QvF2vqizTZI"
+    },
+    {
+      "videoId": "EjTiL18Qu9o",
+      "title": "Look Mum No Computer - Eins, Zwei, Drei (Eurovision 2026) | Karaoke with Lyrics | Backing Vocals",
+      "publishedAt": "2026-03-25T15:21:10.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "look mum no computer eins zwei drei eurovision 2026 karaoke with lyrics backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=EjTiL18Qu9o"
+    },
+    {
+      "videoId": "-kOr_PXU3GU",
+      "title": "Look Mum No Computer - Eins, Zwei, Drei (Eurovision 2026) | Vocal Guide with Lyrics | Guide Vocal",
+      "publishedAt": "2026-03-25T15:19:09.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "look mum no computer eins zwei drei eurovision 2026 vocal guide with lyrics guide vocal",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=-kOr_PXU3GU"
+    },
+    {
+      "videoId": "IJLyVrJhWhU",
+      "title": "Look Mum No Computer - Eins, Zwei, Drei (Eurovision) | Instrumental Karaoke with Lyrics | No Vocals",
+      "publishedAt": "2026-03-25T15:17:01.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "look mum no computer eins zwei drei eurovision instrumental karaoke with lyrics no vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=IJLyVrJhWhU"
+    },
+    {
+      "videoId": "E23ecgDKr0s",
+      "title": "Sing iloveitiloveitiloveit by Bella Kay! 🎤✨ Bella Kay Karaoke #shorts",
+      "publishedAt": "2026-03-24T13:42:10.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing iloveitiloveitiloveit by bella kay bella kay karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=E23ecgDKr0s"
+    },
+    {
+      "videoId": "Ni_cgr0wETM",
+      "title": "Bella Kay – iloveitiloveitiloveit | Karaoke with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-03-24T13:39:52.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bella kay iloveitiloveitiloveit karaoke with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Ni_cgr0wETM"
+    },
+    {
+      "videoId": "KqcDyVMrHZk",
+      "title": "Bella Kay – iloveitiloveitiloveit | Karaoke with Lyrics | Vocal Guide Cover Version",
+      "publishedAt": "2026-03-24T13:37:23.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bella kay iloveitiloveitiloveit karaoke with lyrics vocal guide cover version",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=KqcDyVMrHZk"
+    },
+    {
+      "videoId": "uhBmE3EsZF8",
+      "title": "Bella Kay – iloveitiloveitiloveit | Instrumental Karaoke with Lyrics | No Vocals",
+      "publishedAt": "2026-03-24T13:34:50.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "bella kay iloveitiloveitiloveit instrumental karaoke with lyrics no vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=uhBmE3EsZF8"
+    },
+    {
+      "videoId": "q3W0TUvoZNw",
+      "title": "Sing FEVER DREAM from Alex Warren! ☁️🎤 Fever Dream Karaoke #shorts",
+      "publishedAt": "2026-03-16T10:58:09.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing fever dream from alex warren fever dream karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=q3W0TUvoZNw"
+    },
+    {
+      "videoId": "810jRp3L0ro",
+      "title": "Alex Warren – Fever Dream | Karaoke with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-03-16T10:29:30.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "alex warren fever dream karaoke with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=810jRp3L0ro"
+    },
+    {
+      "videoId": "qTGTFSNNXqk",
+      "title": "Alex Warren – Fever Dream | Karaoke with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-03-16T10:26:31.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "alex warren fever dream karaoke with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=qTGTFSNNXqk"
+    },
+    {
+      "videoId": "yeR-8j580H8",
+      "title": "Alex Warren – Fever Dream | Karaoke with Lyrics | Instrumental Only (No Vocals)",
+      "publishedAt": "2026-03-16T10:24:22.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "alex warren fever dream karaoke with lyrics instrumental only no vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=yeR-8j580H8"
+    },
+    {
+      "videoId": "SqvKMKraBu4",
+      "title": "Sing REIN ME IN from Olivia Dean & Sam Fender! 🎸🎤 Rein Me In Karaoke #shorts",
+      "publishedAt": "2026-02-27T10:45:30.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing rein me in from olivia dean and sam fender rein me in karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=SqvKMKraBu4"
+    },
+    {
+      "videoId": "dBPQeIMoxKM",
+      "title": "Olivia Dean & Sam Fender – Rein Me In | Karaoke with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-02-27T10:42:32.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "olivia dean and sam fender rein me in karaoke with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=dBPQeIMoxKM"
+    },
+    {
+      "videoId": "Xe2rbNmxeb0",
+      "title": "Olivia Dean & Sam Fender – Rein Me In | Karaoke with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-02-27T10:39:29.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "olivia dean and sam fender rein me in karaoke with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Xe2rbNmxeb0"
+    },
+    {
+      "videoId": "lLbJcRiwY_4",
+      "title": "Sing THE GREAT DIVIDE by Noah Kahan! 🌲🎤 The Great Divide Karaoke #shorts",
+      "publishedAt": "2026-02-20T12:22:19.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing the great divide by noah kahan the great divide karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=lLbJcRiwY_4"
+    },
+    {
+      "videoId": "Fb1bWxYNOWY",
+      "title": "Noah Kahan – The Great Divide | Karaoke with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-02-20T12:18:39.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "noah kahan the great divide karaoke with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Fb1bWxYNOWY"
+    },
+    {
+      "videoId": "q3hc_17sSF4",
+      "title": "Noah Kahan – The Great Divide | Karaoke with Lyrics | Instrumental Only (No Vocals)",
+      "publishedAt": "2026-02-20T12:17:00.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "noah kahan the great divide karaoke with lyrics instrumental only no vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=q3hc_17sSF4"
+    },
+    {
+      "videoId": "Z5wGuf09b-8",
+      "title": "Noah Kahan – The Great Divide | Karaoke with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-02-20T12:16:23.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "noah kahan the great divide karaoke with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=Z5wGuf09b-8"
+    },
+    {
+      "videoId": "2CNFuzAw-js",
+      "title": "Internet Girl (KATSEYE) 🎤 Karaoke Preview | Full Version Link 👇",
+      "publishedAt": "2026-02-13T09:44:36.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "internet girl katseye karaoke preview full version link",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=2CNFuzAw-js"
+    },
+    {
+      "videoId": "nLq-DLUhRnc",
+      "title": "KATSEYE - Internet Girl | Karaoke with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-02-13T09:41:06.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "katseye internet girl karaoke with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=nLq-DLUhRnc"
+    },
+    {
+      "videoId": "w1VqLHmOrGc",
+      "title": "KATSEYE - Internet Girl | Karaoke Version with Lyrics | VOCAL GUIDE",
+      "publishedAt": "2026-02-13T09:38:37.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "katseye internet girl karaoke version with lyrics vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=w1VqLHmOrGc"
+    },
+    {
+      "videoId": "UEw_-_OmEsM",
+      "title": "KATSEYE - Internet Girl | Karaoke with Lyrics | Instrumental (No Backing Vocals)",
+      "publishedAt": "2026-02-13T09:35:44.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "katseye internet girl karaoke with lyrics instrumental no backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=UEw_-_OmEsM"
+    },
+    {
+      "videoId": "VV-PJwOGX6k",
+      "title": "Harry Styles - Aperture (Karaoke Preview) 🎤",
+      "publishedAt": "2026-02-03T09:54:29.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "harry styles aperture karaoke preview",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=VV-PJwOGX6k"
+    },
+    {
+      "videoId": "iOghguzrhuM",
+      "title": "Harry Styles – Aperture | Karaoke with Lyrics | With Backing Vocals",
+      "publishedAt": "2026-02-03T09:51:27.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "harry styles aperture karaoke with lyrics with backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=iOghguzrhuM"
+    },
+    {
+      "videoId": "0GyZ66vBILg",
+      "title": "Harry Styles - Aperture | Karaoke with Lyrics & Guide Vocals",
+      "publishedAt": "2026-02-03T09:48:45.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "harry styles aperture karaoke with lyrics and guide vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=0GyZ66vBILg"
+    },
+    {
+      "videoId": "xSsSK1KGhKI",
+      "title": "Harry Styles - Aperture | Karaoke with Lyrics | Instrumental (No Backing Vocals)",
+      "publishedAt": "2026-02-03T09:45:29.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "harry styles aperture karaoke with lyrics instrumental no backing vocals",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=xSsSK1KGhKI"
+    },
+    {
+      "videoId": "VfzvERAN7VM",
+      "title": "Sing RAINDANCE from Dave feat. TEMS! 🌧️🎤 Raindance Karaoke #shorts",
+      "publishedAt": "2026-01-28T09:08:53.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "sing raindance from dave feat tems raindance karaoke shorts",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=VfzvERAN7VM"
+    },
+    {
+      "videoId": "ctgrnfL-c38",
+      "title": "Dave ft Tems – Raindance | Karaoke with Lyrics | MrEntertainerKaraoke",
+      "publishedAt": "2026-01-28T08:20:49.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "dave ft tems raindance karaoke with lyrics mrentertainerkaraoke",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=ctgrnfL-c38"
+    },
+    {
+      "videoId": "LqeY-oIlil4",
+      "title": "Dave ft Tems – Raindance | Karaoke with Lyrics | With Vocal Guide",
+      "publishedAt": "2026-01-28T08:17:52.000Z",
+      "channelId": "UC8saA2uSz4hIUAo31Y5cM2w",
+      "normalizedTitle": "dave ft tems raindance karaoke with lyrics with vocal guide",
+      "channelName": "MrEntertainerKaraoke",
+      "url": "https://www.youtube.com/watch?v=LqeY-oIlil4"
+    },
     {
       "videoId": "6BSv513q68g",
       "title": "Bruno Mars – I Just Might | Karaoke Preview (Shorts)",
@@ -83998,5 +84799,5 @@
       "url": "https://www.youtube.com/watch?v=AEw1pBC1nVY"
     }
   ],
-  "nextCheckAt": 1771665516471
+  "nextCheckAt": 1792890788955
 }

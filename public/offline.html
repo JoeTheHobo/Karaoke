@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Karoke</title>
+    <link rel="stylesheet" href="offline.css">
+</head>
+<body>
+    <input class="getDownloadedJSON" type="file">
+    <div class="body">
+        <div class="videoManagement">
+            <div class="videoContainer"></div>
+            <div class="videoControls">
+                <div class="now_playing">No Song Started...</div>
+                <div class="music_controls">
+                    <div class="music_control_div" id="music_control_back">
+                        <img class="music_control_img" src="img/dazzleIcons/refresh.svg" alt="">
+                    </div>
+                    <div class="music_control_div" id="music_control_playpause">
+                        <img class="music_control_img" src="img/dazzleIcons/sparkles.svg" alt="">
+                    </div>
+                    <div class="music_control_div" id="music_control_forward">
+                        <img class="music_control_img img_flip" src="img/dazzleIcons/refresh.svg" alt="">
+                    </div>
+                    <div class="music_control_div" id="music_control_skip">
+                        <img class="music_control_img" src="img/dazzleIcons/song_skip.svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="queueBar">
+            <div class="queueTitleBar">Queue</div>
+            <div class="queueList"></div>
+            <div class="queueOptions">
+                <div class="queueOption" id="qo_add_song">Add Song</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="popup_addSong">
+        <div class="close_popup popup_addSong_accept">Accept</div>
+        <div class="popup_addSong_remove">Remove</div>
+        <div class="popup_title">Add Song Popup</div>
+        <div class="addSong_body">
+            <div class="addSong_userControl">
+                <div class="popup_title">Select Users</div>
+                <div class="users_list"></div>
+                <div class="user_content">
+                    <div class="user_check">New</div>
+                    <div class="user_name">
+                        <input class="user_input" placeholder="User name here.">
+                    </div>
+                    <div class="user_controls">
+                        <div class="create_user_button">Create</div>
+                    </div>
+                </div>
+            </div>
+            <div class="addSong_songControl">
+                <div class="popup_title">Select Song</div>
+                <div class="addSong_control_search"><input class="addSong_control_input" type="text" placeholder="Song Name..."></div>
+                <div class="selected_song_div">
+                    <div>Selected Track:</div>
+                    <div class="selected_song">No song selected.</div>
+                </div>
+                <div class="addSong_song_results"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="library_simple_v16.js"></script>
+    <script src="offline.js"></script>
+</body>
+</html>

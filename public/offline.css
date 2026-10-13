@@ -1,0 +1,338 @@
+body,html {
+    width: 100%;
+    height: 100%;   
+    overflow: hidden;
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+}
+.body {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+}
+
+.videoManagement {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+.videoContainer {
+    width: 100%;
+    height: 80%;
+    background: #111;    
+    border-bottom: 2px solid black;
+}
+.videoControls {
+    width: 100%;
+    flex: 1;
+    background: #111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.now_playing {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+.music_control_div {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.music_controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.music_control_img {
+    width: 90%;
+    filter: invert();
+}
+.music_control_img:hover {
+    filter: invert(1) sepia(1) saturate(10000%) hue-rotate(240deg) brightness(.8);
+
+}
+.img_flip {
+    transform: scaleX(-1);
+}
+
+.queueBar {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #373737;
+    border-left: 3px solid black;
+}
+.queueTitleBar {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: #1c1c1c;
+    font-size: 22px;
+    font-weight: bold;
+}
+.queueList {
+    flex: 1;
+    width: 100%;
+}
+.queueOptions {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    color: white;
+    
+    background: #1c1c1c;
+    justify-content: space-evenly;
+}
+.queueOption {
+    width: max-content;
+    height: 18px;
+    border: 2px solid white;
+    border-radius: 3px;
+    padding: 2px;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+}
+.queueOption:hover {
+    border: 2px solid rgb(197, 21, 197);
+    color: rgb(197, 21, 197);
+}
+
+
+
+.popup {
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: max-content;
+    height: max-content;
+    background: #373737;
+    width: 50%;
+    height: 50%;
+    border-radius: 5px;
+    color: white;
+    display: none;
+    flex-direction: column;
+    user-select: none;
+}
+.popup_title {
+    height: 25px;
+    width: 100%;
+    text-align: center;
+    background: #1c1c1c;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.addSong_body {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    align-items: center; 
+}
+.addSong_userControl,.addSong_songControl {
+    width: 50%;
+    height: 100%;
+    border: 1px solid rgb(72, 72, 72);
+}
+.addSong_userControl {
+
+}
+
+.user_content {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 2px solid #444444;
+}
+.user_check {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.user_name {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    
+}
+.user_input {
+    width: 80%;
+    height: 90%;
+    border: 2px solid white;
+    border-radius: 3px;
+    background: none;
+    color: white;
+    outline: none;
+    transition: all .2s ease-in-out;
+}
+.user_input:focus,.user_input:hover {
+    border: 2px solid rgb(197, 21, 197);
+    color: rgb(197, 21, 197);
+}
+.user_controls {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create_user_button {
+    border: 2px solid white;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.create_user_button:hover {
+    border: 2px solid rgb(197, 21, 197);
+    color: rgb(197, 21, 197);
+
+}
+.error {
+    border: 2px solid red;
+    color: red;
+}
+
+.addSong_control_search {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.addSong_control_input {
+    width: 80%;
+    height: 60%;
+    border: 2px solid white;
+    border-radius: 3px;
+    background: none;
+    color: white;
+    outline: none;
+    transition: all .2s ease-in-out;
+}
+.addSong_control_input:hover,.addSong_control_input:focus {
+    border: 2px solid rgb(197, 21, 197);
+    color: rgb(197, 21, 197);
+}
+
+.getDownloadedJSON {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 1000;
+}
+
+.songChoice {
+    width: 100%;
+    min-height: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 2px solid #444444;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.songChoice:hover {
+    color: rgb(197, 21, 197);
+}
+.selected_song_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #555;
+}
+
+.popup_addSong_remove {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 2px;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.popup_addSong_remove:hover {
+    color: red;
+}
+.close_popup {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 2px;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.close_popup:hover {
+    color: rgb(197, 21, 197);
+
+}
+
+.queueListing {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.queueListingName {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 20px;
+    background: rgb(249, 249, 249);
+    color: black;
+
+}
+.queueListingUsers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 20px; 
+    background: rgb(177, 177, 177);
+    color: black;
+    
+}
+
+.dragging {
+    opacity: 0.4;
+}
